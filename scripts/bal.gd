@@ -1,11 +1,13 @@
 class_name Ball extends CharacterBody2D
 
-var gravity : float = 65
+var gravity : float = 70
 var last_hit : int = -1
+@onready var sprite = $Sprite2D
 
 func _physics_process(delta : float) -> void:
 	if last_hit != -1: velocity.y += gravity * delta
 	var raw_vel = velocity
+	sprite.rotation += velocity.length() * delta * 0.1
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collision : KinematicCollision2D = get_slide_collision(i)

@@ -37,25 +37,43 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.1.0	/v6.1.0/
 !_TAG_ROLE_DESCRIPTION!GDScript!class	extended	/used as a base class for extending/
-BASE_GRAVITY	scripts/player.gd	/^const BASE_GRAVITY : float = 900.0$/;"	C	typeref:typename:float
+AIR	scripts/player.gd	/^	AIR,$/;"	e	enum:State	file:
+BASE_GRAVITY	scripts/player.gd	/^const BASE_GRAVITY : float = 700.0$/;"	C	typeref:typename:float
 Ball	scripts/bal.gd	/^class_name Ball extends CharacterBody2D$/;"	c
-JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -300.0$/;"	C	typeref:typename:float
+IDLE	scripts/player.gd	/^	IDLE,$/;"	e	enum:State	file:
+JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -200.0$/;"	C	typeref:typename:float
+KICK	scripts/player.gd	/^	KICK$/;"	e	enum:State	file:
 Player	scripts/player.gd	/^class_name Player extends CharacterBody2D$/;"	c
-SPEED	scripts/player.gd	/^const SPEED : float = 150.0$/;"	C	typeref:typename:float
+RUN	scripts/player.gd	/^	RUN,$/;"	e	enum:State	file:
+SPEED	scripts/player.gd	/^const SPEED : float = 100.0$/;"	C	typeref:typename:float
+State	scripts/player.gd	/^enum State {$/;"	g
+_on_body_entered	scripts/ball_hitter.gd	/^func _on_body_entered(body:Node2D) -> void:$/;"	m	typeref:typename:void
 _physics_process	scripts/bal.gd	/^func _physics_process(delta : float) -> void:$/;"	m	typeref:typename:void
 _physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void:$/;"	m	typeref:typename:void
 _process	scripts/world.gd	/^func _process(delta: float) -> void:$/;"	m	typeref:typename:void
 _ready	scripts/player.gd	/^func _ready():$/;"	m
 _ready	scripts/world.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
+anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
+check_for_jump	scripts/player.gd	/^func check_for_jump():$/;"	m
+check_for_kick	scripts/player.gd	/^func check_for_kick():$/;"	m
 dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref:typename:float	annotations:export
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
-gravity	scripts/bal.gd	/^var gravity : float = 65$/;"	v	typeref:typename:float
+enter_state	scripts/player.gd	/^func enter_state():$/;"	m
+exit_state	scripts/player.gd	/^func exit_state():$/;"	m
+freeze_frame	scripts/ball_hitter.gd	/^func freeze_frame(time : float):$/;"	m
+gravity	scripts/bal.gd	/^var gravity : float = 70$/;"	v	typeref:typename:float
 gravity	scripts/player.gd	/^var gravity : float = BASE_GRAVITY$/;"	v	typeref:typename:float
 j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:typename:bool
 jump_buffer_timer	scripts/player.gd	/^var jump_buffer_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
 jump_buffered	scripts/player.gd	/^var jump_buffered : bool = false$/;"	v	typeref:typename:bool
 last_hit	scripts/bal.gd	/^var last_hit : int = -1$/;"	v	typeref:typename:int
+move	scripts/player.gd	/^func move():$/;"	m
 ns3247706c0101	icon.svg	/^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="128" height="128"><rect width="124" height="1/;"	n	uri:http://www.w3.org/2000/svg
 player_index	scripts/player.gd	/^@export var player_index : int = 0$/;"	v	typeref:typename:int	annotations:export
 punt	scripts/bal.gd	/^func punt(pos): ## pass in the global position of the punter$/;"	m
+set_state	scripts/player.gd	/^func set_state(new_state : State):$/;"	m
+sprite	scripts/bal.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
+sprite	scripts/player.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
+state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
+update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m
