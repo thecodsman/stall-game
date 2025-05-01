@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://brh0j5uih2n1d"]
+
+[ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sryrx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
+radius = 3.0
+
+[node name="player" type="CharacterBody2D"]
+modulate = Color(0.314256, 0.582248, 1, 1)
+collision_layer = 2
+collision_mask = 5
+platform_on_leave = 2
+platform_floor_layers = 4294967291
+script = ExtResource("1_7defb")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(6, 6)
+mesh = SubResource("BoxMesh_sryrx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7defb")

@@ -1,3 +1,334 @@
-[gd_scene format=3 uid="uid://dk63esv5x4rpx"]
+[gd_scene load_steps=5 format=3 uid="uid://dk63esv5x4rpx"]
+
+[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/world.gd" id="1_c7htk"]
+[ext_resource type="PackedScene" uid="uid://cqvo366wtlbkf" path="res://stuff/static_body_2d.tscn" id="1_nain1"]
+[ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/player.tscn" id="2_m138w"]
+[ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="4_wp1yw"]
 
 [node name="world" type="Node2D"]
+script = ExtResource("1_c7htk")
+
+[node name="Node" type="Node2D" parent="."]
+position = Vector2(-15, 0)
+
+[node name="StaticBody2D" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(4, 109)
+
+[node name="StaticBody2D2" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(12, 109)
+
+[node name="StaticBody2D3" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(20, 109)
+
+[node name="StaticBody2D4" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(28, 109)
+
+[node name="StaticBody2D5" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(36, 109)
+
+[node name="StaticBody2D6" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(44, 109)
+
+[node name="StaticBody2D7" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(52, 109)
+
+[node name="StaticBody2D8" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(60, 109)
+
+[node name="StaticBody2D9" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(68, 109)
+
+[node name="StaticBody2D10" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(76, 109)
+
+[node name="StaticBody2D11" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(84, 109)
+
+[node name="StaticBody2D12" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(92, 109)
+
+[node name="StaticBody2D13" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(100, 109)
+
+[node name="StaticBody2D14" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(108, 109)
+
+[node name="StaticBody2D15" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(116, 109)
+
+[node name="StaticBody2D16" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(124, 109)
+
+[node name="StaticBody2D17" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(132, 109)
+
+[node name="StaticBody2D18" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(140, 109)
+
+[node name="StaticBody2D19" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(148, 109)
+
+[node name="StaticBody2D20" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(156, 109)
+
+[node name="StaticBody2D21" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(164, 109)
+
+[node name="StaticBody2D22" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(172, 109)
+
+[node name="StaticBody2D23" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(180, 109)
+
+[node name="StaticBody2D24" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(188, 109)
+
+[node name="StaticBody2D25" parent="Node" instance=ExtResource("1_nain1")]
+position = Vector2(196, 109)
+
+[node name="Node2" type="Node2D" parent="."]
+position = Vector2(104, -15)
+rotation = 1.5708
+
+[node name="StaticBody2D" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(4, 109)
+
+[node name="StaticBody2D2" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(12, 109)
+
+[node name="StaticBody2D3" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(20, 109)
+
+[node name="StaticBody2D4" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(28, 109)
+
+[node name="StaticBody2D5" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(36, 109)
+
+[node name="StaticBody2D6" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(44, 109)
+
+[node name="StaticBody2D7" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(52, 109)
+
+[node name="StaticBody2D8" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(60, 109)
+
+[node name="StaticBody2D9" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(68, 109)
+
+[node name="StaticBody2D10" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(76, 109)
+
+[node name="StaticBody2D11" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(84, 109)
+
+[node name="StaticBody2D12" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(92, 109)
+
+[node name="StaticBody2D13" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(100, 109)
+
+[node name="StaticBody2D14" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(108, 109)
+
+[node name="StaticBody2D15" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(116, 109)
+
+[node name="StaticBody2D16" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(124, 109)
+
+[node name="StaticBody2D17" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(132, 109)
+
+[node name="StaticBody2D18" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(140, 109)
+
+[node name="StaticBody2D19" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(148, 109)
+
+[node name="StaticBody2D20" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(156, 109)
+
+[node name="StaticBody2D21" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(164, 109)
+
+[node name="StaticBody2D22" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(172, 109)
+
+[node name="StaticBody2D23" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(180, 109)
+
+[node name="StaticBody2D24" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(188, 109)
+
+[node name="StaticBody2D25" parent="Node2" instance=ExtResource("1_nain1")]
+position = Vector2(196, 109)
+
+[node name="Node3" type="Node2D" parent="."]
+position = Vector2(284, -17)
+rotation = 1.5708
+
+[node name="StaticBody2D" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(4, 109)
+
+[node name="StaticBody2D2" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(12, 109)
+
+[node name="StaticBody2D3" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(20, 109)
+
+[node name="StaticBody2D4" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(28, 109)
+
+[node name="StaticBody2D5" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(36, 109)
+
+[node name="StaticBody2D6" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(44, 109)
+
+[node name="StaticBody2D7" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(52, 109)
+
+[node name="StaticBody2D8" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(60, 109)
+
+[node name="StaticBody2D9" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(68, 109)
+
+[node name="StaticBody2D10" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(76, 109)
+
+[node name="StaticBody2D11" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(84, 109)
+
+[node name="StaticBody2D12" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(92, 109)
+
+[node name="StaticBody2D13" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(100, 109)
+
+[node name="StaticBody2D14" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(108, 109)
+
+[node name="StaticBody2D15" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(116, 109)
+
+[node name="StaticBody2D16" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(124, 109)
+
+[node name="StaticBody2D17" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(132, 109)
+
+[node name="StaticBody2D18" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(140, 109)
+
+[node name="StaticBody2D19" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(148, 109)
+
+[node name="StaticBody2D20" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(156, 109)
+
+[node name="StaticBody2D21" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(164, 109)
+
+[node name="StaticBody2D22" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(172, 109)
+
+[node name="StaticBody2D23" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(180, 109)
+
+[node name="StaticBody2D24" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(188, 109)
+
+[node name="StaticBody2D25" parent="Node3" instance=ExtResource("1_nain1")]
+position = Vector2(196, 109)
+
+[node name="Node4" type="Node2D" parent="."]
+position = Vector2(-17, -114)
+
+[node name="StaticBody2D" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(4, 109)
+
+[node name="StaticBody2D2" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(12, 109)
+
+[node name="StaticBody2D3" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(20, 109)
+
+[node name="StaticBody2D4" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(28, 109)
+
+[node name="StaticBody2D5" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(36, 109)
+
+[node name="StaticBody2D6" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(44, 109)
+
+[node name="StaticBody2D7" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(52, 109)
+
+[node name="StaticBody2D8" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(60, 109)
+
+[node name="StaticBody2D9" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(68, 109)
+
+[node name="StaticBody2D10" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(76, 109)
+
+[node name="StaticBody2D11" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(84, 109)
+
+[node name="StaticBody2D12" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(92, 109)
+
+[node name="StaticBody2D13" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(100, 109)
+
+[node name="StaticBody2D14" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(108, 109)
+
+[node name="StaticBody2D15" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(116, 109)
+
+[node name="StaticBody2D16" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(124, 109)
+
+[node name="StaticBody2D17" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(132, 109)
+
+[node name="StaticBody2D18" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(140, 109)
+
+[node name="StaticBody2D19" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(148, 109)
+
+[node name="StaticBody2D20" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(156, 109)
+
+[node name="StaticBody2D21" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(164, 109)
+
+[node name="StaticBody2D22" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(172, 109)
+
+[node name="StaticBody2D23" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(180, 109)
+
+[node name="StaticBody2D24" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(188, 109)
+
+[node name="StaticBody2D25" parent="Node4" instance=ExtResource("1_nain1")]
+position = Vector2(196, 109)
+
+[node name="player" parent="." instance=ExtResource("2_m138w")]
+position = Vector2(76, 89)
+
+[node name="player2" parent="." instance=ExtResource("2_m138w")]
+modulate = Color(0, 0.836014, 0.525887, 1)
+position = Vector2(122, 79)
+player_index = 1
+
+[node name="bal" parent="." instance=ExtResource("4_wp1yw")]
+position = Vector2(75, 61)

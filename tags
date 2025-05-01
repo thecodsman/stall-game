@@ -8,9 +8,17 @@
 !_TAG_FIELD_DESCRIPTION	name	/tag name/
 !_TAG_FIELD_DESCRIPTION	pattern	/pattern/
 !_TAG_FIELD_DESCRIPTION	typeref	/Type and name of a variable or typedef/
+!_TAG_FIELD_DESCRIPTION!GDScript	annotations	/annotations on functions and variables/
 !_TAG_FIELD_DESCRIPTION!XML	uri	/uri associated with name prefix/
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_KIND_DESCRIPTION!GDScript	C,const	/constants/
+!_TAG_KIND_DESCRIPTION!GDScript	c,class	/classes/
+!_TAG_KIND_DESCRIPTION!GDScript	e,enumerator	/enumerated values/
+!_TAG_KIND_DESCRIPTION!GDScript	g,enum	/enumeration names/
+!_TAG_KIND_DESCRIPTION!GDScript	m,method	/methods/
+!_TAG_KIND_DESCRIPTION!GDScript	s,signal	/signals/
+!_TAG_KIND_DESCRIPTION!GDScript	v,variable	/variables/
 !_TAG_KIND_DESCRIPTION!SVG	d,def	/ids in defs tags/
 !_TAG_KIND_DESCRIPTION!XML	i,id	/id attributes/
 !_TAG_KIND_DESCRIPTION!XML	n,nsprefix	/namespace prefixes/
@@ -19,6 +27,7 @@
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_OUTPUT_VERSION	0.0	/current.age/
+!_TAG_PARSER_VERSION!GDScript	0.0	/current.age/
 !_TAG_PARSER_VERSION!SVG	0.0	/current.age/
 !_TAG_PARSER_VERSION!XML	0.0	/current.age/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
@@ -27,4 +36,26 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.1.0	/v6.1.0/
+!_TAG_ROLE_DESCRIPTION!GDScript!class	extended	/used as a base class for extending/
+BASE_GRAVITY	scripts/player.gd	/^const BASE_GRAVITY : float = 900.0$/;"	C	typeref:typename:float
+Ball	scripts/bal.gd	/^class_name Ball extends CharacterBody2D$/;"	c
+JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -300.0$/;"	C	typeref:typename:float
+Player	scripts/player.gd	/^class_name Player extends CharacterBody2D$/;"	c
+SPEED	scripts/player.gd	/^const SPEED : float = 150.0$/;"	C	typeref:typename:float
+_physics_process	scripts/bal.gd	/^func _physics_process(delta : float) -> void:$/;"	m	typeref:typename:void
+_physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void:$/;"	m	typeref:typename:void
+_process	scripts/world.gd	/^func _process(delta: float) -> void:$/;"	m	typeref:typename:void
+_ready	scripts/player.gd	/^func _ready():$/;"	m
+_ready	scripts/world.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
+can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
+dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref:typename:float	annotations:export
+direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
+gravity	scripts/bal.gd	/^var gravity : float = 65$/;"	v	typeref:typename:float
+gravity	scripts/player.gd	/^var gravity : float = BASE_GRAVITY$/;"	v	typeref:typename:float
+j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:typename:bool
+jump_buffer_timer	scripts/player.gd	/^var jump_buffer_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
+jump_buffered	scripts/player.gd	/^var jump_buffered : bool = false$/;"	v	typeref:typename:bool
+last_hit	scripts/bal.gd	/^var last_hit : int = -1$/;"	v	typeref:typename:int
 ns3247706c0101	icon.svg	/^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="128" height="128"><rect width="124" height="1/;"	n	uri:http://www.w3.org/2000/svg
+player_index	scripts/player.gd	/^@export var player_index : int = 0$/;"	v	typeref:typename:int	annotations:export
+punt	scripts/bal.gd	/^func punt(pos): ## pass in the global position of the punter$/;"	m

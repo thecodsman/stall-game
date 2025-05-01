@@ -6,6 +6,7 @@
 size = Vector2(8, 8)
 
 [node name="StaticBody2D" type="StaticBody2D"]
+collision_mask = 0
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 scale = Vector2(8, 8)
