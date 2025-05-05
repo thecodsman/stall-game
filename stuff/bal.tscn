@@ -24,7 +24,11 @@ slide_on_ceiling = false
 platform_on_leave = 2
 script = ExtResource("1_68n8j")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="rotate_node" type="Node2D" parent="."]
+
+[node name="scale_node" type="Node2D" parent="rotate_node"]
+
+[node name="Sprite2D" type="Sprite2D" parent="rotate_node/scale_node"]
 material = SubResource("ShaderMaterial_nd7ro")
 position = Vector2(0, 7.15256e-07)
 texture = ExtResource("2_nvnwp")

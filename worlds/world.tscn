@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://dk63esv5x4rpx"]
+[gd_scene load_steps=15 format=4 uid="uid://dk63esv5x4rpx"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/world.gd" id="1_c7htk"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_5rksg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="5_12do3"]
 [ext_resource type="Texture2D" uid="uid://cq0f3ehh6hg1k" path="res://sprites/wall.png" id="5_aprxe"]
 [ext_resource type="Shader" uid="uid://cgup3bf7pnqnh" path="res://shaders/shadow.gdshader" id="6_3euow"]
+[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="8_5rksg"]
 
 [sub_resource type="Gradient" id="Gradient_aprxe"]
 colors = PackedColorArray(0, 0, 0, 1, 0.108721, 0.108721, 0.108721, 1)
@@ -78,7 +79,10 @@ scale = Vector2(4.08393, 3.43716)
 color = Color(0.160784, 0.682353, 1, 1)
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_kbcbp")
@@ -103,3 +107,7 @@ position = Vector2(49, 79)
 material = SubResource("ShaderMaterial_aprxe")
 tile_map_data = PackedByteArray("AAD/////AAAAAAAAAAAAAP//AAAAAAAAAAABAP//AAAAAAAAAAACAP//AAAAAAAAAAADAP//AAAAAAAAAAAEAP//AAAAAAAAAAAFAP//AAAAAAAAAAAGAP//AAAAAAAAAAAHAP//AAAAAAAAAAAIAP//AAAAAAAAAAAJAP//AAAAAAAAAAAKAP//AAAAAAAAAAALAP//AAAAAAAAAAAMAP//AAAAAAAAAAAMAAAAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAMAAwAAAAAAAAAAAALAAwAAAAAAAAAAAAKAAwAAAAAAAAAAAAJAAwAAAAAAAAAAAAIAAwAAAAAAAAAAAAHAAwAAAAAAAAAAAAGAAwAAAAAAAAAAAAFAAwAAAAAAAAAAAAEAAwAAAAAAAAAAAADAAwAAAAAAAAAAAACAAwAAAAAAAAAAAABAAwAAAAAAAAAAAAAAAwAAAAAAAAAAAD//wwAAAAAAAAAAAD//wkAAAAAAAAAAAAAAAkAAAAAAAAAAAALAAkAAAAAAAAAAAAKAAkAAAAAAAAAAAD//wsAAAAAAAAAAAD//woAAAAAAAAAAAD//wgAAAAAAAAAAAD//wcAAAAAAAAAAAD//wYAAAAAAAAAAAD//wUAAAAAAAAAAAD//wQAAAAAAAAAAAD//wMAAAAAAAAAAAD//wIAAAAAAAAAAAD//wEAAAAAAAAAAAD//wAAAAAAAAAAAAABAAkAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_aprxe")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(48, 48)
+script = ExtResource("8_5rksg")

@@ -51,12 +51,15 @@ State	scripts/player.gd	/^enum State {$/;"	g
 WALL	scripts/player.gd	/^	WALL,$/;"	e	enum:State	file:
 _on_body_entered	scripts/ball_hitter.gd	/^func _on_body_entered(body:Node2D) -> void:$/;"	m	typeref:typename:void
 _physics_process	scripts/bal.gd	/^func _physics_process(delta : float) -> void:$/;"	m	typeref:typename:void
+_physics_process	scripts/camera.gd	/^func _physics_process(delta : float):$/;"	m
 _physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void:$/;"	m	typeref:typename:void
 _process	scripts/world.gd	/^func _process(delta: float) -> void:$/;"	m	typeref:typename:void
+_ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
 _ready	scripts/world.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
+camera	scripts/globals.gd	/^var camera : Camera2D$/;"	v	typeref:typename:Camera2D
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
 check_for_dash	scripts/player.gd	/^func check_for_dash():$/;"	m
 check_for_jump	scripts/player.gd	/^func check_for_jump():$/;"	m
@@ -68,23 +71,28 @@ dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
 enter_state	scripts/player.gd	/^func enter_state():$/;"	m
 exit_state	scripts/player.gd	/^func exit_state():$/;"	m
-freeze_frame	scripts/ball_hitter.gd	/^func freeze_frame(time : float):$/;"	m
+freeze_frame	scripts/globals.gd	/^func freeze_frame(time : float):$/;"	m
 gravity	scripts/bal.gd	/^var gravity : float = 70$/;"	v	typeref:typename:float
 gravity	scripts/player.gd	/^var gravity : float = BASE_GRAVITY$/;"	v	typeref:typename:float
 j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:typename:bool
+juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_buffer_timer	scripts/player.gd	/^var jump_buffer_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
 jump_buffered	scripts/player.gd	/^var jump_buffered : bool = false$/;"	v	typeref:typename:bool
 last_hit	scripts/bal.gd	/^var last_hit : int = -1$/;"	v	typeref:typename:int
 move	scripts/player.gd	/^func move(delta : float, accel : float = 20):$/;"	m
 ns3247706c0101	icon.svg	/^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="128" height="128"><rect width="124" height="1/;"	n	uri:http://www.w3.org/2000/svg
-physics_process	scripts/camera.gd	/^func physics_process(delta : float):$/;"	m
 player_index	scripts/player.gd	/^@export var player_index : int = 0$/;"	v	typeref:typename:int	annotations:export
+prev_scale	scripts/bal.gd	/^var prev_scale : Vector2 = Vector2(1,1)$/;"	v	typeref:typename:Vector2
+prev_vel	scripts/bal.gd	/^var prev_vel : Vector2 = Vector2.ZERO$/;"	v	typeref:typename:Vector2
 punt	scripts/bal.gd	/^func punt(pos): ## pass in the global position of the punter$/;"	m
-screen_shake	scripts/camera.gd	/^func screen_shake(frames : int, intensity : float):$/;"	m
+rotate_node	scripts/bal.gd	/^@onready var rotate_node = $rotate_node$/;"	v	annotations:onready
+scale_node	scripts/bal.gd	/^@onready var scale_node = $rotate_node\/scale_node$/;"	v	annotations:onready
+screen_shake	scripts/camera.gd	/^func screen_shake(frames : int, intensity : float, frequency : int = 1):$/;"	m
 set_state	scripts/player.gd	/^func set_state(new_state : State):$/;"	m
+shakef	scripts/camera.gd	/^var shakef : int = 1 ## shake every X amount of frames$/;"	v	typeref:typename:int
 shakei	scripts/camera.gd	/^var shakei : float = 0$/;"	v	typeref:typename:float
 shaket	scripts/camera.gd	/^var shaket : int = 0$/;"	v	typeref:typename:int
-sprite	scripts/bal.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
+sprite	scripts/bal.gd	/^@onready var sprite = $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready
 sprite	scripts/player.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
 state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
 update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m
