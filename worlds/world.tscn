@@ -1,364 +1,105 @@
-[gd_scene load_steps=6 format=3 uid="uid://dk63esv5x4rpx"]
+[gd_scene load_steps=14 format=4 uid="uid://dk63esv5x4rpx"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/world.gd" id="1_c7htk"]
-[ext_resource type="PackedScene" uid="uid://cqvo366wtlbkf" path="res://stuff/static_body_2d.tscn" id="1_nain1"]
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_5rksg"]
 [ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/player.tscn" id="2_m138w"]
 [ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="4_wp1yw"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="5_12do3"]
+[ext_resource type="Texture2D" uid="uid://cq0f3ehh6hg1k" path="res://sprites/wall.png" id="5_aprxe"]
+[ext_resource type="Shader" uid="uid://cgup3bf7pnqnh" path="res://shaders/shadow.gdshader" id="6_3euow"]
+
+[sub_resource type="Gradient" id="Gradient_aprxe"]
+colors = PackedColorArray(0, 0, 0, 1, 0.108721, 0.108721, 0.108721, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5rksg"]
+gradient = SubResource("Gradient_aprxe")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbcbp"]
+shader = ExtResource("2_5rksg")
+shader_parameter/snes_transparency = true
+shader_parameter/gba_transparency = false
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = false
+shader_parameter/sprite_scroll_direction = Vector2(0, 0)
+shader_parameter/sprite_scroll_speed = 0.01
+shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
+shader_parameter/gba_transparency_scroll_speed = 0.01
+shader_parameter/gba_transparency_value = 0.5
+shader_parameter/horizontal_wave_amplitude = 1.21
+shader_parameter/horizontal_wave_frequency = 0.705
+shader_parameter/horizontal_wave_speed = 1.0
+shader_parameter/vertical_wave_amplitude = -0.37
+shader_parameter/vertical_wave_frequency = 4.72
+shader_parameter/vertical_wave_speed = 1.0
+shader_parameter/horizontal_deform_amplitude = 2.51
+shader_parameter/horizontal_deform_frequency = 0.7
+shader_parameter/horizontal_deform_speed = 0.5
+shader_parameter/vertical_deform_amplitude = 1.62
+shader_parameter/vertical_deform_frequency = 0.54
+shader_parameter/vertical_deform_speed = 0.1
+shader_parameter/width = 96.0
+shader_parameter/height = 96.0
+shader_parameter/palette_cycling_speed = 0.02
+shader_parameter/palette = SubResource("GradientTexture1D_5rksg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aprxe"]
+shader = ExtResource("6_3euow")
+shader_parameter/debug = false
+shader_parameter/border_scale = 1.0
+shader_parameter/shadow_offset = Vector2(-1, -1)
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/blur_amount = 0.0
+shader_parameter/shadow_scale = 1.0
+shader_parameter/disable_rotating = false
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3euow"]
+texture = ExtResource("5_aprxe")
+texture_region_size = Vector2i(8, 8)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(4, -4, 4, 4, -4, 4, -4, -4)
+
+[sub_resource type="TileSet" id="TileSet_aprxe"]
+tile_size = Vector2i(8, 8)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_3euow")
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_c7htk")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color(0.521141, 0.521141, 0.521141, 1)
-offset_left = -15.0
-offset_top = -82.0
-offset_right = 254.0
-offset_bottom = 124.0
-rotation = 0.317381
-texture = ExtResource("5_12do3")
-stretch_mode = 1
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+z_index = -1
+offset_left = -27.0
+offset_top = -23.0
+offset_right = 13.0
+offset_bottom = 17.0
+scale = Vector2(4.08393, 3.43716)
+color = Color(0.160784, 0.682353, 1, 1)
 metadata/_edit_lock_ = true
 
-[node name="Node" type="Node2D" parent="."]
-position = Vector2(-18, -10)
-
-[node name="StaticBody2D" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(4, 109)
-
-[node name="StaticBody2D2" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(12, 109)
-
-[node name="StaticBody2D3" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(20, 109)
-
-[node name="StaticBody2D4" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(28, 109)
-
-[node name="StaticBody2D5" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(36, 109)
-
-[node name="StaticBody2D6" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(44, 109)
-
-[node name="StaticBody2D7" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(52, 109)
-
-[node name="StaticBody2D8" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(60, 109)
-
-[node name="StaticBody2D9" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(68, 109)
-
-[node name="StaticBody2D10" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(76, 109)
-
-[node name="StaticBody2D11" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(84, 109)
-
-[node name="StaticBody2D12" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(92, 109)
-
-[node name="StaticBody2D13" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(100, 109)
-
-[node name="StaticBody2D14" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(108, 109)
-
-[node name="StaticBody2D15" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(116, 109)
-
-[node name="StaticBody2D16" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(124, 109)
-
-[node name="StaticBody2D17" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(132, 109)
-
-[node name="StaticBody2D18" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(140, 109)
-
-[node name="StaticBody2D19" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(148, 109)
-
-[node name="StaticBody2D20" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(156, 109)
-
-[node name="StaticBody2D21" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(164, 109)
-
-[node name="StaticBody2D22" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(172, 109)
-
-[node name="StaticBody2D23" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(180, 109)
-
-[node name="StaticBody2D24" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(188, 109)
-
-[node name="StaticBody2D25" parent="Node" instance=ExtResource("1_nain1")]
-position = Vector2(196, 109)
-
-[node name="Node2" type="Node2D" parent="."]
-position = Vector2(104, -14)
-rotation = 1.5708
-
-[node name="StaticBody2D" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(4, 109)
-
-[node name="StaticBody2D2" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(12, 109)
-
-[node name="StaticBody2D3" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(20, 109)
-
-[node name="StaticBody2D4" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(28, 109)
-
-[node name="StaticBody2D5" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(36, 109)
-
-[node name="StaticBody2D6" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(44, 109)
-
-[node name="StaticBody2D7" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(52, 109)
-
-[node name="StaticBody2D8" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(60, 109)
-
-[node name="StaticBody2D9" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(68, 109)
-
-[node name="StaticBody2D10" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(76, 109)
-
-[node name="StaticBody2D11" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(84, 109)
-
-[node name="StaticBody2D12" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(92, 109)
-
-[node name="StaticBody2D13" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(100, 109)
-
-[node name="StaticBody2D14" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(108, 109)
-
-[node name="StaticBody2D15" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(116, 109)
-
-[node name="StaticBody2D16" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(124, 109)
-
-[node name="StaticBody2D17" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(132, 109)
-
-[node name="StaticBody2D18" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(140, 109)
-
-[node name="StaticBody2D19" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(148, 109)
-
-[node name="StaticBody2D20" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(156, 109)
-
-[node name="StaticBody2D21" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(164, 109)
-
-[node name="StaticBody2D22" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(172, 109)
-
-[node name="StaticBody2D23" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(180, 109)
-
-[node name="StaticBody2D24" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(188, 109)
-
-[node name="StaticBody2D25" parent="Node2" instance=ExtResource("1_nain1")]
-position = Vector2(196, 109)
-
-[node name="Node3" type="Node2D" parent="."]
-position = Vector2(210, -18)
-rotation = 1.5708
-
-[node name="StaticBody2D" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(4, 109)
-
-[node name="StaticBody2D2" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(12, 109)
-
-[node name="StaticBody2D3" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(20, 109)
-
-[node name="StaticBody2D4" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(28, 109)
-
-[node name="StaticBody2D5" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(36, 109)
-
-[node name="StaticBody2D6" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(44, 109)
-
-[node name="StaticBody2D7" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(52, 109)
-
-[node name="StaticBody2D8" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(60, 109)
-
-[node name="StaticBody2D9" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(68, 109)
-
-[node name="StaticBody2D10" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(76, 109)
-
-[node name="StaticBody2D11" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(84, 109)
-
-[node name="StaticBody2D12" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(92, 109)
-
-[node name="StaticBody2D13" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(100, 109)
-
-[node name="StaticBody2D14" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(108, 109)
-
-[node name="StaticBody2D15" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(116, 109)
-
-[node name="StaticBody2D16" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(124, 109)
-
-[node name="StaticBody2D17" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(132, 109)
-
-[node name="StaticBody2D18" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(140, 109)
-
-[node name="StaticBody2D19" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(148, 109)
-
-[node name="StaticBody2D20" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(156, 109)
-
-[node name="StaticBody2D21" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(164, 109)
-
-[node name="StaticBody2D22" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(172, 109)
-
-[node name="StaticBody2D23" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(180, 109)
-
-[node name="StaticBody2D24" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(188, 109)
-
-[node name="StaticBody2D25" parent="Node3" instance=ExtResource("1_nain1")]
-position = Vector2(196, 109)
-
-[node name="Node4" type="Node2D" parent="."]
-position = Vector2(-25, -117)
-
-[node name="StaticBody2D" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(4, 109)
-
-[node name="StaticBody2D2" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(12, 109)
-
-[node name="StaticBody2D3" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(20, 109)
-
-[node name="StaticBody2D4" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(28, 109)
-
-[node name="StaticBody2D5" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(36, 109)
-
-[node name="StaticBody2D6" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(44, 109)
-
-[node name="StaticBody2D7" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(52, 109)
-
-[node name="StaticBody2D8" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(60, 109)
-
-[node name="StaticBody2D9" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(68, 109)
-
-[node name="StaticBody2D10" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(76, 109)
-
-[node name="StaticBody2D11" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(84, 109)
-
-[node name="StaticBody2D12" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(92, 109)
-
-[node name="StaticBody2D13" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(100, 109)
-
-[node name="StaticBody2D14" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(108, 109)
-
-[node name="StaticBody2D15" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(116, 109)
-
-[node name="StaticBody2D16" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(124, 109)
-
-[node name="StaticBody2D17" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(132, 109)
-
-[node name="StaticBody2D18" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(140, 109)
-
-[node name="StaticBody2D19" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(148, 109)
-
-[node name="StaticBody2D20" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(156, 109)
-
-[node name="StaticBody2D21" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(164, 109)
-
-[node name="StaticBody2D22" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(172, 109)
-
-[node name="StaticBody2D23" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(180, 109)
-
-[node name="StaticBody2D24" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(188, 109)
-
-[node name="StaticBody2D25" parent="Node4" instance=ExtResource("1_nain1")]
-position = Vector2(196, 109)
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+texture_repeat = 3
+material = SubResource("ShaderMaterial_kbcbp")
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("5_12do3")
+metadata/_edit_lock_ = true
 
 [node name="player" parent="." instance=ExtResource("2_m138w")]
-position = Vector2(10, 82)
+modulate = Color(1, 0.299732, 0.239697, 1)
+position = Vector2(10, 86)
 
 [node name="player2" parent="." instance=ExtResource("2_m138w")]
-modulate = Color(0.20033, 0.20033, 0.20033, 1)
-position = Vector2(87, 79)
+modulate = Color(0.989391, 0.596636, 7.70092e-07, 1)
+position = Vector2(86, 86)
 player_index = 1
 
 [node name="bal" parent="." instance=ExtResource("4_wp1yw")]
 position = Vector2(49, 79)
 
-[node name="StaticBody2D" parent="." instance=ExtResource("1_nain1")]
-position = Vector2(3, 71)
-
-[node name="StaticBody2D2" parent="." instance=ExtResource("1_nain1")]
-position = Vector2(11, 71)
-
-[node name="StaticBody2D3" parent="." instance=ExtResource("1_nain1")]
-position = Vector2(11, 52)
-
-[node name="StaticBody2D4" parent="." instance=ExtResource("1_nain1")]
-position = Vector2(93, 71)
-
-[node name="StaticBody2D5" parent="." instance=ExtResource("1_nain1")]
-position = Vector2(85, 71)
-
-[node name="StaticBody2D6" parent="." instance=ExtResource("1_nain1")]
-position = Vector2(85, 52)
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+material = SubResource("ShaderMaterial_aprxe")
+tile_map_data = PackedByteArray("AAD/////AAAAAAAAAAAAAP//AAAAAAAAAAABAP//AAAAAAAAAAACAP//AAAAAAAAAAADAP//AAAAAAAAAAAEAP//AAAAAAAAAAAFAP//AAAAAAAAAAAGAP//AAAAAAAAAAAHAP//AAAAAAAAAAAIAP//AAAAAAAAAAAJAP//AAAAAAAAAAAKAP//AAAAAAAAAAALAP//AAAAAAAAAAAMAP//AAAAAAAAAAAMAAAAAAAAAAAAAAAMAAEAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAAMAAwAAAAAAAAAAAALAAwAAAAAAAAAAAAKAAwAAAAAAAAAAAAJAAwAAAAAAAAAAAAIAAwAAAAAAAAAAAAHAAwAAAAAAAAAAAAGAAwAAAAAAAAAAAAFAAwAAAAAAAAAAAAEAAwAAAAAAAAAAAADAAwAAAAAAAAAAAACAAwAAAAAAAAAAAABAAwAAAAAAAAAAAAAAAwAAAAAAAAAAAD//wwAAAAAAAAAAAD//wkAAAAAAAAAAAAAAAkAAAAAAAAAAAALAAkAAAAAAAAAAAAKAAkAAAAAAAAAAAD//wsAAAAAAAAAAAD//woAAAAAAAAAAAD//wgAAAAAAAAAAAD//wcAAAAAAAAAAAD//wYAAAAAAAAAAAD//wUAAAAAAAAAAAD//wQAAAAAAAAAAAD//wMAAAAAAAAAAAD//wIAAAAAAAAAAAD//wEAAAAAAAAAAAD//wAAAAAAAAAAAAABAAkAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_aprxe")
