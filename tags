@@ -41,29 +41,41 @@ AIR	scripts/player.gd	/^	AIR,$/;"	e	enum:State	file:
 BASE_GRAVITY	scripts/player.gd	/^const BASE_GRAVITY : float = 700.0$/;"	C	typeref:typename:float
 Ball	scripts/bal.gd	/^class_name Ball extends CharacterBody2D$/;"	c
 DASH	scripts/player.gd	/^	DASH$/;"	e	enum:State	file:
+FRICTION	scripts/player.gd	/^const FRICTION : float = 20$/;"	C	typeref:typename:float
+FULL	scripts/player.gd	/^	FULL,$/;"	e	enum:JumpType	file:
 IDLE	scripts/player.gd	/^	IDLE,$/;"	e	enum:State	file:
+JUMP	scripts/player.gd	/^	JUMP,$/;"	e	enum:State	file:
 JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -200.0$/;"	C	typeref:typename:float
+JumpType	scripts/player.gd	/^enum JumpType {$/;"	g
 KICK	scripts/player.gd	/^	KICK,$/;"	e	enum:State	file:
 Player	scripts/player.gd	/^class_name Player extends CharacterBody2D$/;"	c
 RUN	scripts/player.gd	/^	RUN,$/;"	e	enum:State	file:
+SHORT	scripts/player.gd	/^	SHORT,$/;"	e	enum:JumpType	file:
 SPEED	scripts/player.gd	/^const SPEED : float = 100.0$/;"	C	typeref:typename:float
 State	scripts/player.gd	/^enum State {$/;"	g
+WALL	scripts/player.gd	/^	WALL$/;"	e	enum:JumpType	file:
 WALL	scripts/player.gd	/^	WALL,$/;"	e	enum:State	file:
-_on_body_entered	scripts/ball_hitter.gd	/^func _on_body_entered(body:Node2D) -> void:$/;"	m	typeref:typename:void
+_on_body_entered	scripts/ball_hitter.gd	/^func _on_body_entered(ball:Ball) -> void:$/;"	m	typeref:typename:void
+_on_body_entered	scripts/bonk_box.gd	/^func _on_body_entered(ball:Ball) -> void:$/;"	m	typeref:typename:void
 _physics_process	scripts/bal.gd	/^func _physics_process(delta : float) -> void:$/;"	m	typeref:typename:void
 _physics_process	scripts/camera.gd	/^func _physics_process(delta : float):$/;"	m
 _physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void:$/;"	m	typeref:typename:void
 _process	scripts/world.gd	/^func _process(delta: float) -> void:$/;"	m	typeref:typename:void
+_ready	scripts/bonk_box.gd	/^func _ready():$/;"	m
 _ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
 _ready	scripts/world.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
+bonk	scripts/bonk_box.gd	/^func bonk(pos) -> Vector2: ## pass in the global position of the bonked$/;"	m	typeref:typename:Vector2
+bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	annotations:onready
 camera	scripts/globals.gd	/^var camera : Camera2D$/;"	v	typeref:typename:Camera2D
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
 check_for_dash	scripts/player.gd	/^func check_for_dash():$/;"	m
 check_for_jump	scripts/player.gd	/^func check_for_jump():$/;"	m
 check_for_kick	scripts/player.gd	/^func check_for_kick():$/;"	m
+check_for_wall_jump	scripts/player.gd	/^func check_for_wall_jump():$/;"	m
+colliding_prev_frame	scripts/bal.gd	/^var colliding_prev_frame : bool = false$/;"	v	typeref:typename:bool
 dash_pressed_prev_frame	scripts/player.gd	/^var dash_pressed_prev_frame : bool = false$/;"	v	typeref:typename:bool
 dash_speed	scripts/player.gd	/^var dash_speed : float = 200.0$/;"	v	typeref:typename:float
 dashes	scripts/player.gd	/^var dashes : int = 1$/;"	v	typeref:typename:int
@@ -71,16 +83,18 @@ dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
 enter_state	scripts/player.gd	/^func enter_state():$/;"	m
 exit_state	scripts/player.gd	/^func exit_state():$/;"	m
-freeze_frame	scripts/globals.gd	/^func freeze_frame(time : float):$/;"	m
+freeze_frame	scripts/globals.gd	/^func freeze_frame(time : float, time_scale : float = 0.1):$/;"	m
 gravity	scripts/bal.gd	/^var gravity : float = 70$/;"	v	typeref:typename:float
 gravity	scripts/player.gd	/^var gravity : float = BASE_GRAVITY$/;"	v	typeref:typename:float
 j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:typename:bool
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_buffer_timer	scripts/player.gd	/^var jump_buffer_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
 jump_buffered	scripts/player.gd	/^var jump_buffered : bool = false$/;"	v	typeref:typename:bool
+jump_type	scripts/player.gd	/^var jump_type : JumpType$/;"	v	typeref:typename:JumpType
 last_hit	scripts/bal.gd	/^var last_hit : int = -1$/;"	v	typeref:typename:int
 move	scripts/player.gd	/^func move(delta : float, accel : float = 20):$/;"	m
 ns3247706c0101	icon.svg	/^<svg xmlns="http:\/\/www.w3.org\/2000\/svg" width="128" height="128"><rect width="124" height="1/;"	n	uri:http://www.w3.org/2000/svg
+player_index	scripts/bonk_box.gd	/^var player_index : int = -1$/;"	v	typeref:typename:int
 player_index	scripts/player.gd	/^@export var player_index : int = 0$/;"	v	typeref:typename:int	annotations:export
 prev_scale	scripts/bal.gd	/^var prev_scale : Vector2 = Vector2(1,1)$/;"	v	typeref:typename:Vector2
 prev_vel	scripts/bal.gd	/^var prev_vel : Vector2 = Vector2.ZERO$/;"	v	typeref:typename:Vector2
@@ -92,7 +106,9 @@ set_state	scripts/player.gd	/^func set_state(new_state : State):$/;"	m
 shakef	scripts/camera.gd	/^var shakef : int = 1 ## shake every X amount of frames$/;"	v	typeref:typename:int
 shakei	scripts/camera.gd	/^var shakei : float = 0$/;"	v	typeref:typename:float
 shaket	scripts/camera.gd	/^var shaket : int = 0$/;"	v	typeref:typename:int
+spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite = $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready
 sprite	scripts/player.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
 state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
 update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m
+wall_jump_dir	scripts/player.gd	/^var wall_jump_dir : float = 0$/;"	v	typeref:typename:float

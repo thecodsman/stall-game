@@ -5,20 +5,30 @@ class_name Player extends CharacterBody2D
 const SPEED : float = 100.0
 const JUMP_VELOCITY : float = -200.0
 const BASE_GRAVITY : float = 700.0
+const FRICTION : float = 20
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var can_jump : bool = false
 var j_prev_frame : bool = false
 var jump_buffered : bool = false
 var jump_buffer_timer : Timer = Timer.new()
+enum JumpType {
+	FULL,
+	SHORT,
+	WALL
+	}
+var jump_type : JumpType
+var wall_jump_dir : float = 0
 var dash_speed : float = 200.0
 var dashes : int = 1
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
+@onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
 
 enum State {
 	IDLE,
 	RUN,
+	JUMP,
 	AIR,
 	KICK,
 	WALL,
@@ -37,17 +47,8 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
-	if jump_buffered && can_jump:
-		if is_on_floor(): velocity.y = JUMP_VELOCITY
-		elif is_on_wall_only(): 
-			velocity.y = JUMP_VELOCITY
-			velocity.x = JUMP_VELOCITY * -get_slide_collision(0).get_normal().x
-		can_jump = false
-		anim.play("jump")
-		set_state(State.AIR)
-		jump_buffered = false
-		jump_buffer_timer.stop()
-
+	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_Y):
+		global_position = Vector2(48,48)
 	update_state(delta)
 	move_and_slide()
 
@@ -70,14 +71,30 @@ func enter_state():
 			var dir = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y))
 			velocity = dir * dash_speed
 			await get_tree().create_timer(0.1).timeout
-			set_state(State.IDLE)
+			set_state(State.AIR)
+		State.JUMP:
+			anim.play("jump")
+			await anim.animation_finished
+			if not Input.is_joy_button_pressed(player_index, JOY_BUTTON_A): return
+			velocity.y = JUMP_VELOCITY
+			anim.play("rise")
+			set_state(State.AIR)
 		State.AIR:
+			#await get_tree().create_timer(0.1).timeout
 			can_jump = false
+		State.KICK:
+			anim.play("kick_charge")
+			bonk_box_collider.disabled = true
+			await anim.animation_finished
+			var tween = create_tween()
+			tween.tween_property(self, "velocity", Vector2.ZERO, 0.2)
+			#velocity *= 0
 		State.WALL:
 			can_jump = true
 			dashes = 1
 			velocity.y = clampf(velocity.y, -5,5)
-			gravity = BASE_GRAVITY*0.25
+			gravity = BASE_GRAVITY*0.1
+			jump_type = JumpType.WALL
 
 
 func update_state(delta : float):
@@ -89,81 +106,126 @@ func update_state(delta : float):
 			check_for_kick()
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
-			if not is_on_floor(): set_state(State.AIR)
+			if direction: set_state(State.RUN)
+			if not is_on_floor():
+				await get_tree().create_timer(0.1).timeout
+				set_state(State.AIR)
 			else:
 				dashes = 1
 				can_jump = true
 			check_for_dash()
-			if direction: set_state(State.RUN)
 
 		State.RUN:
 			if not move(delta): set_state(State.IDLE)
 			check_for_jump()
 			check_for_kick()
 			check_for_dash()
-			if not is_on_floor(): set_state(State.AIR)
+			if not is_on_floor():
+				await get_tree().create_timer(0.1).timeout
+				set_state(State.AIR)
 			else:
 				dashes = 1
 				can_jump = true
 			apply_gravity(delta)
+
+		State.JUMP:
+			var is_jump_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_A)
+			if is_jump_pressed:
+				if not j_prev_frame && can_jump:
+					j_prev_frame = true
+			elif j_prev_frame && can_jump:
+				if anim.current_animation == "jump":
+					velocity.y = JUMP_VELOCITY * 0.75
+					anim.play("rise")
+					set_state(State.AIR)
+				j_prev_frame = false
+			velocity.x = lerpf(velocity.x, 0, 10*delta)
 		
 		State.AIR:
-			move(delta, 5)
+			move(delta, 2)
 			check_for_jump()
 			check_for_kick()
 			check_for_dash()
 			apply_gravity(delta)
 
-			if velocity.y > 0 && anim.current_animation != "fall": anim.play("fall")
+			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0: set_state(State.IDLE)
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state(State.WALL)
 
 		State.WALL:
-			check_for_jump()
-			gravity = BASE_GRAVITY * 0.1
+			check_for_wall_jump()
 			apply_gravity(delta)
-			if !is_on_wall_only(): set_state(State.IDLE)
+			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
+			var wall_dir : float = 0
+			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
+			wall_jump_dir = wall_dir
+			if abs(direction) < dead_zone: direction = 0
+			if is_on_wall_only() && sign(direction) != wall_dir: set_state(State.AIR)
+			elif !is_on_wall_only(): set_state(State.AIR)
 
 		State.KICK:
-			apply_gravity(delta)
-			if not anim.current_animation: set_state(State.IDLE)
+			if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
+				apply_gravity(delta/10)
+				rotation = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)).angle()
+			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
+				anim.play("kick")
+				await anim.animation_finished
+				set_state(State.IDLE)
+				rotation = 0
+			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
+				anim.play("kick")
+				await anim.animation_finished
+				set_state(State.IDLE)
 			if is_on_floor(): velocity.x = move_toward(velocity.x, 0, SPEED)
+			elif anim.current_animation == "kick_charge": apply_gravity(delta)
+			elif anim.current_animation == "kick": apply_gravity(delta)
 
 		State.DASH:
 			if Engine.get_physics_frames() % 3: return
 			var after_image : Sprite2D = Sprite2D.new()
-			after_image = sprite.duplicate()
+			after_image.texture = sprite.texture
+			after_image.hframes = sprite.hframes
+			after_image.frame = sprite.frame
 			after_image.global_position = global_position
 			var tween = after_image.create_tween()
 			get_tree().root.add_child(after_image)
 			after_image.modulate = modulate
-			tween.tween_property(after_image, "modulate", Color(modulate.r, modulate.g, modulate.b, 0), 0.1)
+			tween.tween_property(after_image, "modulate", Color(1,1,1, modulate.a), 0.1)
+			tween.tween_callback(after_image.queue_free)
 
 
 func exit_state():
 	match state:
 		State.WALL:
 			gravity = BASE_GRAVITY
+		State.KICK:
+			bonk_box_collider.disabled = false
 
 
 func check_for_jump():
-	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_A):
-		if not j_prev_frame:
-			jump_buffered = true
-			jump_buffer_timer.start()
+	var is_jump_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_A)
+	if is_jump_pressed && not j_prev_frame:
+		if can_jump: set_state(State.JUMP)
 		j_prev_frame = true
-		gravity = BASE_GRAVITY
-	elif velocity.y < 0:
+	elif not is_jump_pressed:
 		j_prev_frame = false
-		gravity = BASE_GRAVITY * 4
-	else:
-		j_prev_frame = false
-		gravity = BASE_GRAVITY
 
+
+func check_for_wall_jump():
+	var is_jump_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_A)
+	if is_jump_pressed && not j_prev_frame:
+		velocity.y = JUMP_VELOCITY
+		velocity.x = (JUMP_VELOCITY * wall_jump_dir) * 0.65
+		set_state(State.AIR)
+		gravity = BASE_GRAVITY
+		j_prev_frame = true
+	elif not is_jump_pressed:
+		j_prev_frame = false
+	
 
 func check_for_kick():
 	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X):
-		anim.play("kick")
+		#anim.play("kick")
 		set_state(State.KICK)
 
 
