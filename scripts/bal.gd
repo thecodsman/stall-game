@@ -21,16 +21,18 @@ func _physics_process(delta : float) -> void:
 		if not collision: return
 		var collider = collision.get_collider()
 		if is_on_floor():
+			spin *= -1
 			velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/4,PI/4)))
 			spin *= 0.75
 			if not colliding_prev_frame: velocity *= 0.60
-			# if GameText.visible: return
-			# GameText.visible = true
-			# GameText.text = str("P", last_hit + 1, " Won!")
-			# await get_tree().create_timer(2).timeout
-			# GameText.visible = false
-			# get_tree().reload_current_scene()
+			if GameText.visible: return
+			GameText.visible = true
+			GameText.text = str("P", last_hit + 1, " Won!")
+			await get_tree().create_timer(2).timeout
+			GameText.visible = false
+			get_tree().reload_current_scene()
 		else:
+			spin *= -1
 			velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/4,PI/4)))
 			spin *= 0.75
 			if not colliding_prev_frame: velocity *= 0.60

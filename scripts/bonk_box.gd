@@ -6,7 +6,7 @@ func _ready():
 	player_index = owner.player_index
 
 func _on_body_entered(ball:Ball) -> void:
-	ball.last_hit = player_index
+	if ball.last_hit == -1: ball.last_hit = player_index
 	ball.velocity = bonk(ball.global_position)
 	owner.velocity.x += ball.spin * 100
 

@@ -48,7 +48,8 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_Y):
-		global_position = Vector2(48,48)
+		if player_index == 0: queue_free()
+		else: global_position = Vector2(48,48)
 	update_state(delta)
 	move_and_slide()
 
