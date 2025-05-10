@@ -21,6 +21,7 @@ var jump_type : JumpType
 var wall_jump_dir : float = 0
 var dash_speed : float = 200.0
 var dashes : int = 1
+var on_wall_prev_frame : bool = false
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
 @onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
@@ -103,7 +104,8 @@ func update_state(delta : float):
 	match state:
 		State.IDLE:
 			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
-			velocity.x = move_toward(velocity.x, 0, SPEED)
+			velocity.x = lerpf(velocity.x, 0, 10*delta)
+			check_for_drop_through()
 			check_for_jump()
 			check_for_kick()
 			apply_gravity(delta)
@@ -115,13 +117,12 @@ func update_state(delta : float):
 			else:
 				dashes = 1
 				can_jump = true
-			check_for_dash()
 
 		State.RUN:
 			if not move(delta): set_state(State.IDLE)
+			check_for_drop_through()
 			check_for_jump()
 			check_for_kick()
-			check_for_dash()
 			if not is_on_floor():
 				await get_tree().create_timer(0.1).timeout
 				set_state(State.AIR)
@@ -155,6 +156,7 @@ func update_state(delta : float):
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state(State.WALL)
 
 		State.WALL:
+			on_wall_prev_frame = true
 			check_for_wall_jump()
 			velocity.y = lerpf(velocity.y, 0 , 5*delta)
 			apply_gravity(delta)
@@ -163,8 +165,16 @@ func update_state(delta : float):
 			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
 			wall_jump_dir = wall_dir
 			if abs(direction) < dead_zone: direction = 0
-			if is_on_wall_only() && sign(direction) != wall_dir: set_state(State.AIR)
-			elif !is_on_wall_only(): set_state(State.AIR)
+			if is_on_wall_only() && round(direction) != wall_dir && on_wall_prev_frame:
+				on_wall_prev_frame = false
+				await get_tree().create_timer(0.075).timeout
+				if state != State.WALL: return
+				set_state(State.AIR)
+			elif !is_on_wall_only() && on_wall_prev_frame:
+				on_wall_prev_frame = false
+				await get_tree().create_timer(0.075).timeout
+				if state != State.WALL: return
+				set_state(State.AIR)
 
 		State.KICK:
 			if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
@@ -233,7 +243,6 @@ func check_for_wall_jump():
 
 func check_for_kick():
 	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X):
-		#anim.play("kick")
 		set_state(State.KICK)
 
 
@@ -259,3 +268,13 @@ func move(delta : float, accel : float = 20):
 func apply_gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
+
+
+func check_for_drop_through():
+	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > 0.9 && is_on_floor():
+		set_collision_mask_value(4, false)
+		velocity.y += 5
+		return true
+	else:
+		set_collision_mask_value(4, true)
+		return false

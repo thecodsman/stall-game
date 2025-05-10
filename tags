@@ -347,6 +347,7 @@ cell_polygon	addons/better-terrain/BetterTerrainData.gd	/^static func cell_polyg
 cells_adjacent_for_fill	addons/better-terrain/BetterTerrainData.gd	/^static func cells_adjacent_for_fill(ts: TileSet) -> Array[int]:$/;"	m	typeref:typename:Array[int]	annotations:static
 change_zoom_level	addons/better-terrain/editor/TileView.gd	/^signal change_zoom_level(value)$/;"	s
 check_for_dash	scripts/player.gd	/^func check_for_dash():$/;"	m
+check_for_drop_through	scripts/player.gd	/^func check_for_drop_through():$/;"	m
 check_for_jump	scripts/player.gd	/^func check_for_jump():$/;"	m
 check_for_kick	scripts/player.gd	/^func check_for_kick():$/;"	m
 check_for_wall_jump	scripts/player.gd	/^func check_for_wall_jump():$/;"	m
@@ -468,6 +469,7 @@ nsd74ca2320101	addons/better-terrain/icons/SymmetryMirror.svg	/^<svg width="16" 
 nse1d481bf0101	addons/better-terrain/icons/SymmetryRotateAll.svg	/^<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
 nsedc174240101	addons/better-terrain/icons/paint-symmetry/SymmetryFlip.svg	/^<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
 nseed52a700101	addons/better-terrain/icons/SymmetryAll.svg	/^<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
+on_wall_prev_frame	scripts/player.gd	/^var on_wall_prev_frame : bool = false$/;"	v	typeref:typename:bool
 paint	addons/better-terrain/editor/TileView.gd	/^var paint := BetterTerrain.TileCategory.NON_TERRAIN$/;"	v
 paint_action	addons/better-terrain/editor/Dock.gd	/^var paint_action := PaintAction.NO_ACTION$/;"	v
 paint_action	addons/better-terrain/editor/TileView.gd	/^var paint_action := PaintAction.NO_ACTION$/;"	v
