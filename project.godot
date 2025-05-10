@@ -12,7 +12,7 @@ config_version=5
 
 config/name="stall"
 config/tags=PackedStringArray("small")
-run/main_scene="uid://dk63esv5x4rpx"
+run/main_scene="uid://dqrhx4hoehkkl"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
