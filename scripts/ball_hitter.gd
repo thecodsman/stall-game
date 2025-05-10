@@ -9,3 +9,4 @@ func _on_body_entered(ball:Ball) -> void:
 	ball.last_hit = owner.player_index
 	ball.velocity += (dir.normalized() * 140).rotated(clampf(ball.spin, -PI/2,PI/2))
 	ball.spin += (ball.velocity.angle() - dir.angle())
+	ball.modulate = owner.modulate

@@ -248,6 +248,7 @@ platform_on_leave = 2
 script = ExtResource("1_7defb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_7defb")
 
@@ -264,6 +265,7 @@ collision_mask = 4
 script = ExtResource("3_xc1ee")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box"]
+visible = false
 shape = SubResource("CircleShape2D_tnfj0")
 disabled = true
 
@@ -274,6 +276,7 @@ collision_mask = 4
 script = ExtResource("5_pbn0x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/bonk_box"]
+visible = false
 shape = SubResource("CircleShape2D_pbn0x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

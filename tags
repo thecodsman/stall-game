@@ -261,6 +261,7 @@ _on_pick_icon_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_pick_icon_
 _on_quick_mode_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_quick_mode_pressed() -> void:$/;"	m	typeref:typename:void
 _on_remove_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_remove_terrain_pressed() -> void:$/;"	m	typeref:typename:void
 _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuffle_random_pressed():$/;"	m
+_on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_symmetry_selected	addons/better-terrain/editor/Dock.gd	/^func _on_symmetry_selected(index):$/;"	m
 _on_terrain_enable_id_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_enable_id_pressed(id):$/;"	m
 _on_terrain_updated	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_updated(index):$/;"	m

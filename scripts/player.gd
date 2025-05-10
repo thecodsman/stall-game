@@ -89,11 +89,12 @@ func enter_state():
 			await anim.animation_finished
 			var tween = create_tween()
 			tween.tween_property(self, "velocity", Vector2.ZERO, 0.2)
+			sprite.scale = Vector2(1,1)
 			#velocity *= 0
 		State.WALL:
 			can_jump = true
 			dashes = 1
-			velocity.y = clampf(velocity.y, -5,5)
+			#velocity.y = clampf(velocity.y, -5,5)
 			gravity = BASE_GRAVITY*0.1
 			jump_type = JumpType.WALL
 
@@ -155,6 +156,7 @@ func update_state(delta : float):
 
 		State.WALL:
 			check_for_wall_jump()
+			velocity.y = lerpf(velocity.y, 0 , 5*delta)
 			apply_gravity(delta)
 			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
 			var wall_dir : float = 0
@@ -167,12 +169,17 @@ func update_state(delta : float):
 		State.KICK:
 			if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
 				apply_gravity(delta/10)
-				rotation = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)).angle()
+				sprite.rotation = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)).angle()
+				if sprite.rotation > PI/2 || sprite.rotation < -PI/2:
+					sprite.scale.y = -1
+				else:
+					sprite.scale = Vector2(1,1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
 				anim.play("kick")
 				await anim.animation_finished
 				set_state(State.IDLE)
-				rotation = 0
+				sprite.rotation = 0
+				sprite.scale = Vector2(1,1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				await anim.animation_finished

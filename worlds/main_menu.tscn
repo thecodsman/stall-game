@@ -1,0 +1,201 @@
+[gd_scene load_steps=17 format=3 uid="uid://dqrhx4hoehkkl"]
+
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_2cpqk"]
+[ext_resource type="Script" uid="uid://drirafignu277" path="res://scripts/main_menu.gd" id="1_7dyyr"]
+[ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="2_wxd3g"]
+[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_klc2m"]
+[ext_resource type="Texture2D" uid="uid://clr6ei0d2sc0l" path="res://sprites/stallnew.png" id="4_wxd3g"]
+[ext_resource type="FontFile" uid="uid://cvyngxo2g5pk7" path="res://font/PixelatedEleganceRegular-ovyAA.ttf" id="5_klc2m"]
+
+[sub_resource type="Gradient" id="Gradient_2cpqk"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.506061, 1)
+colors = PackedColorArray(0.741176, 0.0627451, 0.321569, 1, 1, 0, 0.290196, 1, 0.741176, 0.0627451, 0.321569, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wxd3g"]
+gradient = SubResource("Gradient_2cpqk")
+width = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_klc2m"]
+shader = ExtResource("1_2cpqk")
+shader_parameter/snes_transparency = false
+shader_parameter/gba_transparency = false
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = true
+shader_parameter/sprite_scroll_direction = Vector2(0, 0)
+shader_parameter/sprite_scroll_speed = 0.01
+shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
+shader_parameter/gba_transparency_scroll_speed = 0.01
+shader_parameter/gba_transparency_value = 0.5
+shader_parameter/horizontal_wave_amplitude = 0.0
+shader_parameter/horizontal_wave_frequency = 0.0
+shader_parameter/horizontal_wave_speed = 1.0
+shader_parameter/vertical_wave_amplitude = 0.0
+shader_parameter/vertical_wave_frequency = 0.0
+shader_parameter/vertical_wave_speed = 1.0
+shader_parameter/horizontal_deform_amplitude = 0.0
+shader_parameter/horizontal_deform_frequency = 0.0
+shader_parameter/horizontal_deform_speed = 1.0
+shader_parameter/vertical_deform_amplitude = 0.0
+shader_parameter/vertical_deform_frequency = 0.0
+shader_parameter/vertical_deform_speed = 1.0
+shader_parameter/width = 0.0
+shader_parameter/height = 0.0
+shader_parameter/palette_cycling_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_wxd3g")
+
+[sub_resource type="Gradient" id="Gradient_p8lkq"]
+interpolation_mode = 2
+interpolation_color_space = 1
+offsets = PackedFloat32Array(0, 0.49061, 1)
+colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
+metadata/_snap_count = 7
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
+gradient = SubResource("Gradient_p8lkq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fb03m"]
+shader = ExtResource("1_2cpqk")
+shader_parameter/snes_transparency = true
+shader_parameter/gba_transparency = false
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = true
+shader_parameter/sprite_scroll_direction = Vector2(0, 0)
+shader_parameter/sprite_scroll_speed = 0.01
+shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
+shader_parameter/gba_transparency_scroll_speed = 0.01
+shader_parameter/gba_transparency_value = 0.5
+shader_parameter/horizontal_wave_amplitude = 1.21
+shader_parameter/horizontal_wave_frequency = 0.705
+shader_parameter/horizontal_wave_speed = 1.0
+shader_parameter/vertical_wave_amplitude = -0.37
+shader_parameter/vertical_wave_frequency = 4.72
+shader_parameter/vertical_wave_speed = 1.0
+shader_parameter/horizontal_deform_amplitude = 2.51
+shader_parameter/horizontal_deform_frequency = 0.7
+shader_parameter/horizontal_deform_speed = 0.5
+shader_parameter/vertical_deform_amplitude = 1.62
+shader_parameter/vertical_deform_frequency = 0.54
+shader_parameter/vertical_deform_speed = 0.1
+shader_parameter/width = 96.0
+shader_parameter/height = 96.0
+shader_parameter/palette_cycling_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_klc2m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dyyr"]
+content_margin_top = 0.0
+bg_color = Color(0.160784, 0.682353, 1, 1)
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.14902, 0.490196, 0.862745, 1)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klc2m"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+bg_color = Color(0.160784, 0.682353, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.14902, 0.490196, 0.862745, 1)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8lkq"]
+bg_color = Color(0.505882, 0.92549, 1, 1)
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.51, 0.9265, 1, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.14902, 0.490196, 0.862745, 1)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[node name="main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7dyyr")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+z_index = -1
+offset_right = 96.0
+offset_bottom = 96.0
+color = Color(0.160784, 0.682353, 1, 1)
+metadata/_edit_lock_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+visible = false
+z_index = -1
+texture_repeat = 3
+material = SubResource("ShaderMaterial_klc2m")
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("2_wxd3g")
+metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+z_index = -1
+texture_repeat = 3
+material = SubResource("ShaderMaterial_fb03m")
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("3_klc2m")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0.345098)
+z_index = -1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 19.0
+offset_bottom = 24.0
+scale = Vector2(4.08393, 3.43716)
+metadata/_edit_lock_ = true
+
+[node name="Stallnew" type="Sprite2D" parent="."]
+position = Vector2(50, 21)
+texture = ExtResource("4_wxd3g")
+
+[node name="start" type="Button" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 50.0
+offset_right = 71.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_klc2m")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/focus = SubResource("StyleBoxEmpty_klc2m")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7dyyr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_klc2m")
+theme_override_styles/normal = SubResource("StyleBoxFlat_p8lkq")
+text = "Start"
+
+[connection signal="pressed" from="start" to="." method="_on_start_pressed"]

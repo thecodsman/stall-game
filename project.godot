@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="stall"
+config/tags=PackedStringArray("small")
 run/main_scene="uid://dk63esv5x4rpx"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
@@ -20,6 +21,7 @@ config/icon="res://icon.svg"
 GameText="*res://stuff/label.tscn"
 Globals="*res://scripts/globals.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
+MusicPlayer="*res://stuff/music_player.tscn"
 
 [display]
 
