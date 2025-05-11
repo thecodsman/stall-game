@@ -273,9 +273,10 @@ func apply_gravity(delta):
 
 
 func check_for_drop_through():
-	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > 0.75 && not is_on_floor():
+	var threshold : float = 0.85
+	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > threshold && not is_on_floor():
 		set_collision_mask_value(4, false)
-	elif Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > 0.75 && is_on_floor():
+	elif Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > threshold && is_on_floor():
 		set_collision_mask_value(4, false)
 		velocity.y = 10
 	else:
