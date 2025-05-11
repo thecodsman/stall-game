@@ -105,8 +105,8 @@ func update_state(delta : float):
 		State.IDLE:
 			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
-			check_for_drop_through()
 			check_for_jump()
+			check_for_drop_through()
 			check_for_kick()
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
@@ -120,8 +120,8 @@ func update_state(delta : float):
 
 		State.RUN:
 			if not move(delta): set_state(State.IDLE)
-			check_for_drop_through()
 			check_for_jump()
+			check_for_drop_through()
 			check_for_kick()
 			if not is_on_floor():
 				await get_tree().create_timer(0.1).timeout
@@ -146,7 +146,7 @@ func update_state(delta : float):
 		
 		State.AIR:
 			move(delta, 2)
-			check_for_jump()
+			check_for_drop_through()
 			check_for_kick()
 			check_for_dash()
 			apply_gravity(delta)
@@ -165,7 +165,7 @@ func update_state(delta : float):
 			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
 			wall_jump_dir = wall_dir
 			if abs(direction) < dead_zone: direction = 0
-			if is_on_wall_only() && round(direction) != wall_dir && on_wall_prev_frame:
+			if is_on_wall_only() && sign(direction) != wall_dir && on_wall_prev_frame:
 				on_wall_prev_frame = false
 				await get_tree().create_timer(0.075).timeout
 				if state != State.WALL: return
@@ -204,6 +204,8 @@ func update_state(delta : float):
 			after_image.texture = sprite.texture
 			after_image.hframes = sprite.hframes
 			after_image.frame = sprite.frame
+			after_image.scale = sprite.scale
+			after_image.rotation = sprite.rotation + rotation
 			after_image.global_position = global_position
 			var tween = after_image.create_tween()
 			get_tree().root.add_child(after_image)
@@ -271,10 +273,10 @@ func apply_gravity(delta):
 
 
 func check_for_drop_through():
-	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > 0.9 && is_on_floor():
+	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > 0.75 && not is_on_floor():
 		set_collision_mask_value(4, false)
-		velocity.y += 5
-		return true
+	elif Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) > 0.75 && is_on_floor():
+		set_collision_mask_value(4, false)
+		velocity.y = 10
 	else:
 		set_collision_mask_value(4, true)
-		return false

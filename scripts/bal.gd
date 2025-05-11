@@ -21,7 +21,6 @@ func _physics_process(delta : float) -> void:
 		if not collision: return
 		var collider : TileMapLayer = collision.get_collider()
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
-		print(tile.get_custom_data("floor"))
 		if is_on_floor_only():
 			spin *= -1
 			velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/4,PI/4)))

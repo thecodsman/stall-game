@@ -130,8 +130,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_tnfj0"]
 resource_name = "jump"
-length = 0.0666733
-step = 0.0666667
+length = 0.050005
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
