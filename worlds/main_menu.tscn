@@ -1,11 +1,11 @@
 [gd_scene load_steps=17 format=3 uid="uid://dqrhx4hoehkkl"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_2cpqk"]
-[ext_resource type="Script" uid="uid://drirafignu277" path="res://scripts/main_menu.gd" id="1_7dyyr"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_7dyyr"]
 [ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="2_wxd3g"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_klc2m"]
 [ext_resource type="Texture2D" uid="uid://clr6ei0d2sc0l" path="res://sprites/stallnew.png" id="4_wxd3g"]
-[ext_resource type="FontFile" uid="uid://cvyngxo2g5pk7" path="res://font/PixelatedEleganceRegular-ovyAA.ttf" id="5_klc2m"]
+[ext_resource type="FontFile" uid="uid://dq3ivvjy1lslp" path="res://font/miaow default.ttf" id="6_7dyyr"]
 
 [sub_resource type="Gradient" id="Gradient_2cpqk"]
 interpolation_mode = 2
@@ -170,6 +170,7 @@ texture = ExtResource("3_klc2m")
 metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 modulate = Color(1, 1, 1, 0.345098)
 z_index = -1
 offset_left = -8.0
@@ -185,17 +186,46 @@ texture = ExtResource("4_wxd3g")
 
 [node name="start" type="Button" parent="."]
 layout_mode = 0
-offset_left = 27.0
-offset_top = 50.0
-offset_right = 71.0
-offset_bottom = 64.0
+offset_left = 33.0
+offset_top = 40.0
+offset_right = 68.0
+offset_bottom = 52.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_klc2m")
-theme_override_font_sizes/font_size = 9
+theme_override_fonts/font = ExtResource("6_7dyyr")
+theme_override_font_sizes/font_size = 8
 theme_override_styles/focus = SubResource("StyleBoxEmpty_klc2m")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7dyyr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_klc2m")
 theme_override_styles/normal = SubResource("StyleBoxFlat_p8lkq")
-text = "Start"
+text = "start"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+modulate = Color(0.160784, 0.678431, 1, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.531
+anchor_right = 0.531
+offset_left = -49.976
+offset_top = 81.0
+offset_right = 46.024
+offset_bottom = 95.0
+theme_override_fonts/normal_font = ExtResource("6_7dyyr")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "miaow  games  l.l.c"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 96.0
+offset_bottom = 94.0
+theme_override_fonts/normal_font = ExtResource("6_7dyyr")
+theme_override_font_sizes/normal_font_size = 8
+bbcode_enabled = true
+text = "miaow  games  l.l.c"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
