@@ -118,6 +118,7 @@ MIN_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MIN_ZOOM_SETTING :
 MIRROR	addons/better-terrain/BetterTerrain.gd	/^	MIRROR, ## Horizontally mirror$/;"	e	enum:SymmetryType	file:
 MatchTiles	addons/better-terrain/BetterTerrain.cs	/^        MatchTiles = 0,$/;"	e	enum:BetterTerrain.TerrainType	file:
 MatchVertices	addons/better-terrain/BetterTerrain.cs	/^        MatchVertices = 1,$/;"	e	enum:BetterTerrain.TerrainType	file:
+MaxOwnerLevel	scripts/bal.gd	/^const MaxOwnerLevel : int = 2$/;"	C	typeref:typename:int
 MethodName	addons/better-terrain/BetterTerrain.cs	/^    private static class MethodName$/;"	c	class:BetterTerrain
 Mirror	addons/better-terrain/BetterTerrain.cs	/^        Mirror = 1, \/\/ Horizontally mirror$/;"	e	enum:BetterTerrain.SymmetryType	file:
 NONE	addons/better-terrain/BetterTerrain.gd	/^	NONE,$/;"	e	enum:SymmetryType	file:
@@ -329,6 +330,8 @@ add_tile_peering_type	addons/better-terrain/BetterTerrain.gd	/^func add_tile_pee
 alternate_lookup	addons/better-terrain/editor/TileView.gd	/^var alternate_lookup := []$/;"	v	typeref:typename:=[]
 alternate_size	addons/better-terrain/editor/TileView.gd	/^var alternate_size : Vector2$/;"	v	typeref:typename:Vector2
 anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
+apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m
+apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
 apply_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func apply_terrain_changeset(change: Dictionary) -> void:$/;"	m	typeref:typename:void
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
@@ -346,6 +349,7 @@ category_icon	addons/better-terrain/editor/TerrainProperties.gd	/^var category_i
 cell_polygon	addons/better-terrain/BetterTerrainData.gd	/^static func cell_polygon(ts: TileSet) -> PackedVector2Array:$/;"	m	typeref:typename:PackedVector2Array	annotations:static
 cells_adjacent_for_fill	addons/better-terrain/BetterTerrainData.gd	/^static func cells_adjacent_for_fill(ts: TileSet) -> Array[int]:$/;"	m	typeref:typename:Array[int]	annotations:static
 change_zoom_level	addons/better-terrain/editor/TileView.gd	/^signal change_zoom_level(value)$/;"	s
+charged_kick	scripts/player.gd	/^var charged_kick : bool = false$/;"	v	typeref:typename:bool
 check_for_dash	scripts/player.gd	/^func check_for_dash():$/;"	m
 check_for_drop_through	scripts/player.gd	/^func check_for_drop_through():$/;"	m
 check_for_jump	scripts/player.gd	/^func check_for_jump():$/;"	m
@@ -428,7 +432,6 @@ juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_buffer_timer	scripts/player.gd	/^var jump_buffer_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
 jump_buffered	scripts/player.gd	/^var jump_buffered : bool = false$/;"	v	typeref:typename:bool
 jump_type	scripts/player.gd	/^var jump_type : JumpType$/;"	v	typeref:typename:JumpType
-last_hit	scripts/bal.gd	/^var last_hit : int = -1$/;"	v	typeref:typename:int
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
 layer_grid	addons/better-terrain/editor/Dock.gd	/^@onready var layer_grid: Button = $VBox\/Toolbar\/LayerGrid$/;"	v	typeref:typename:Button	annotations:onready
 layer_highlight	addons/better-terrain/editor/Dock.gd	/^@onready var layer_highlight: Button = $VBox\/Toolbar\/LayerHighlight$/;"	v	typeref:typename:Button	annotations:onready
@@ -470,6 +473,9 @@ nse1d481bf0101	addons/better-terrain/icons/SymmetryRotateAll.svg	/^<svg width="1
 nsedc174240101	addons/better-terrain/icons/paint-symmetry/SymmetryFlip.svg	/^<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
 nseed52a700101	addons/better-terrain/icons/SymmetryAll.svg	/^<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
 on_wall_prev_frame	scripts/player.gd	/^var on_wall_prev_frame : bool = false$/;"	v	typeref:typename:bool
+owner_color	scripts/bal.gd	/^var owner_color : Color $/;"	v	typeref:typename:Color
+owner_index	scripts/bal.gd	/^var owner_index : int = -1 ## player index of the owner of the ball$/;"	v	typeref:typename:int
+owner_level	scripts/bal.gd	/^var owner_level : int = 0 ## level of ownership$/;"	v	typeref:typename:int
 paint	addons/better-terrain/editor/TileView.gd	/^var paint := BetterTerrain.TileCategory.NON_TERRAIN$/;"	v
 paint_action	addons/better-terrain/editor/Dock.gd	/^var paint_action := PaintAction.NO_ACTION$/;"	v
 paint_action	addons/better-terrain/editor/TileView.gd	/^var paint_action := PaintAction.NO_ACTION$/;"	v
@@ -607,6 +613,7 @@ type_icon_slot	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_
 undo_manager	addons/better-terrain/editor/Dock.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 undo_manager	addons/better-terrain/editor/TileView.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 update	addons/better-terrain/editor/TerrainEntry.gd	/^func update():$/;"	m
+update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m
 update_overlay	addons/better-terrain/editor/Dock.gd	/^signal update_overlay$/;"	s
 update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m
 update_style	addons/better-terrain/editor/TerrainEntry.gd	/^func update_style():$/;"	m

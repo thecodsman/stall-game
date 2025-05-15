@@ -1,7 +1,10 @@
 class_name Ball extends CharacterBody2D
 
 var gravity : float = 70
-var last_hit : int = -1
+var owner_index : int = -1 ## player index of the owner of the ball
+var owner_level : int = 0 ## level of ownership
+var owner_color : Color 
+const MaxOwnerLevel : int = 2
 var spin : float = 0
 var colliding_prev_frame : bool = false
 @onready var rotate_node = $rotate_node
@@ -9,13 +12,14 @@ var colliding_prev_frame : bool = false
 @onready var sprite = $rotate_node/scale_node/Sprite2D
 
 func _physics_process(delta : float) -> void:
-	if last_hit != -1: velocity.y += gravity * delta
+	if owner_index != -1: velocity.y += gravity * delta
 	var raw_vel = velocity
 	sprite.rotation += (spin * delta) * 20
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
 	move_and_slide()
+	if owner_level > 2: owner_level = 2
 	for i in get_slide_collision_count():
 		var collision : KinematicCollision2D = get_slide_collision(i)
 		if not collision: return
@@ -27,9 +31,10 @@ func _physics_process(delta : float) -> void:
 			spin *= 0.75
 			if not colliding_prev_frame: velocity *= 0.60
 			if not tile.get_custom_data("floor"): return
+			if not owner_level > 1: return
 			if GameText.visible: return
 			GameText.visible = true
-			GameText.text = str("P", last_hit + 1, " Won!")
+			GameText.text = str("P", owner_index + 1, " Won!")
 			await get_tree().create_timer(2).timeout
 			GameText.visible = false
 			get_tree().reload_current_scene()
@@ -72,3 +77,15 @@ func juice_it_up():
 	rotate_node.rotation = angle
 	prev_vel = velocity
 	prev_scale = Vector2(width,height)
+
+
+func update_color(color : Color, index : int):
+	if index != owner_index: color = owner_color
+	else: owner_color = color
+	match owner_level:
+		0:
+			modulate = Color.WHITE
+		1:
+			modulate = color * 1.75
+		2:
+			modulate = color

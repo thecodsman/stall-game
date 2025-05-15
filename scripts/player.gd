@@ -62,6 +62,7 @@ func set_state(new_state : State):
 	enter_state()
 
 
+var charged_kick : bool = false
 func enter_state():
 	match state:
 		State.IDLE:
@@ -87,15 +88,9 @@ func enter_state():
 		State.KICK:
 			anim.play("kick_charge")
 			bonk_box_collider.disabled = true
-			await anim.animation_finished
-			var tween = create_tween()
-			tween.tween_property(self, "velocity", Vector2.ZERO, 0.2)
-			sprite.scale = Vector2(1,1)
-			#velocity *= 0
 		State.WALL:
 			can_jump = true
 			dashes = 1
-			#velocity.y = clampf(velocity.y, -5,5)
 			gravity = BASE_GRAVITY*0.1
 			jump_type = JumpType.WALL
 
@@ -177,11 +172,17 @@ func update_state(delta : float):
 				set_state(State.AIR)
 
 		State.KICK:
+			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
 			if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
-				apply_gravity(delta/10)
+				delta *= 0.1
+				if not charged_kick:
+					var tween = create_tween()
+					tween.tween_property(self, "velocity",velocity * 0.1, 0.1)
+				charged_kick = true
+				apply_gravity(delta)
 				sprite.rotation = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)).angle()
 				if sprite.rotation > PI/2 || sprite.rotation < -PI/2:
-					sprite.scale.y = -1
+					sprite.scale = Vector2(1,-1)
 				else:
 					sprite.scale = Vector2(1,1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
@@ -192,13 +193,15 @@ func update_state(delta : float):
 				sprite.scale = Vector2(1,1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
+				charged_kick = false
 				await anim.animation_finished
 				set_state(State.IDLE)
-			if is_on_floor(): velocity.x = move_toward(velocity.x, 0, SPEED)
-			elif anim.current_animation == "kick_charge": apply_gravity(delta)
-			elif anim.current_animation == "kick": apply_gravity(delta)
+			elif anim.current_animation == "kick" && not charged_kick:
+				apply_gravity(delta)
+				move(delta, 2)
 
 		State.DASH:
+			check_for_kick()
 			if Engine.get_physics_frames() % 3: return
 			var after_image : Sprite2D = Sprite2D.new()
 			after_image.texture = sprite.texture
@@ -220,6 +223,11 @@ func exit_state():
 			gravity = BASE_GRAVITY
 		State.KICK:
 			bonk_box_collider.disabled = false
+			sprite.scale.y = 1
+			if charged_kick:
+				var tween = create_tween()
+				tween.tween_property(self, "velocity", velocity * 10, 0.1)
+			charged_kick = false
 
 
 func check_for_jump():
