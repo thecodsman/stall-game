@@ -105,7 +105,7 @@ IDLE	scripts/player.gd	/^	IDLE,$/;"	e	enum:State	file:
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName IsTerrainChangesetReady = "is_terrain_changeset_ready"/;"	f	class:BetterTerrain.MethodName
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^    public bool IsTerrainChangesetReady(Godot.Collections.Dictionary<Variant, Variant> changeset/;"	m	class:BetterTerrain
 JUMP	scripts/player.gd	/^	JUMP,$/;"	e	enum:State	file:
-JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -200.0$/;"	C	typeref:typename:float
+JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -230.0$/;"	C	typeref:typename:float
 JumpType	scripts/player.gd	/^enum JumpType {$/;"	g
 KICK	scripts/player.gd	/^	KICK,$/;"	e	enum:State	file:
 LINE	addons/better-terrain/editor/Dock.gd	/^	LINE,$/;"	e	enum:PaintAction	file:
@@ -338,6 +338,8 @@ associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func
 betterTerrain	addons/better-terrain/BetterTerrain.cs	/^    private readonly Node betterTerrain;$/;"	f	class:BetterTerrain	file:
 bonk	scripts/bonk_box.gd	/^func bonk(pos) -> Vector2: ## pass in the global position of the bonked$/;"	m	typeref:typename:Vector2
 bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	annotations:onready
+bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
+bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx = $bounce_sfx$/;"	v	annotations:onready
 button	addons/better-terrain/TerrainPlugin.gd	/^var button : Button$/;"	v	typeref:typename:Button
 camera	scripts/globals.gd	/^var camera : Camera2D$/;"	v	typeref:typename:Camera2D
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
@@ -431,7 +433,9 @@ j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:t
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_buffer_timer	scripts/player.gd	/^var jump_buffer_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
 jump_buffered	scripts/player.gd	/^var jump_buffered : bool = false$/;"	v	typeref:typename:bool
+jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
 jump_type	scripts/player.gd	/^var jump_type : JumpType$/;"	v	typeref:typename:JumpType
+kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
 layer_grid	addons/better-terrain/editor/Dock.gd	/^@onready var layer_grid: Button = $VBox\/Toolbar\/LayerGrid$/;"	v	typeref:typename:Button	annotations:onready
 layer_highlight	addons/better-terrain/editor/Dock.gd	/^@onready var layer_highlight: Button = $VBox\/Toolbar\/LayerHighlight$/;"	v	typeref:typename:Button	annotations:onready

@@ -1,15 +1,17 @@
 extends Area2D
 
+@onready var kick_sfx = $kick_sfx
 
 func _on_body_entered(ball:Ball) -> void:
 	Globals.freeze_frame(0.05)
+	kick_sfx.play()
 	var dir = Vector2(Input.get_joy_axis(owner.player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(owner.player_index, JOY_AXIS_LEFT_Y))
-	if dir.length() < 0.9: dir = Vector2.ZERO
-	if dir.length() == 0: dir = Vector2.UP
+	if dir.length() < 0.09: dir = Vector2.UP
 	apply_ball_ownership(ball)
 	ball.update_color(owner.modulate, owner.player_index)
-	ball.velocity += (dir.normalized() * 140).rotated(clampf(ball.spin, -PI/2,PI/2))
-	ball.spin += (ball.velocity.angle() - dir.angle())
+	var kick_angle_offset = ball.spin
+	if ball.velocity.length() > 0: ball.spin += ((ball.velocity.angle() * sign(dir.angle())) - dir.angle()) * clampf(ball.velocity.length() * 0.01, 0.5, 3)
+	ball.velocity += (dir.normalized() * 140).rotated(clampf(kick_angle_offset, -PI/4,PI/4))
 
 
 func apply_ball_ownership(ball:Ball):

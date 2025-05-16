@@ -1,12 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://cg0f1u4swchxb"]
+[gd_scene load_steps=7 format=3 uid="uid://cg0f1u4swchxb"]
 
 [ext_resource type="Script" uid="uid://vcfnl5g05scq" path="res://scripts/bal.gd" id="1_68n8j"]
 [ext_resource type="Texture2D" uid="uid://co27q43o2u5i7" path="res://sprites/ball.png" id="2_nvnwp"]
+[ext_resource type="AudioStream" uid="uid://c23shny3karkj" path="res://sounds/ball bounce.wav" id="3_gssss"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nd7ro"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e3n6g"]
 radius = 3.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_nvnwp"]
+playback_mode = 1
+random_pitch = 1.2
+random_volume_offset_db = 0.5
+streams_count = 1
+stream_0/stream = ExtResource("3_gssss")
 
 [node name="bal" type="CharacterBody2D"]
 collision_layer = 4
@@ -27,3 +35,7 @@ texture = ExtResource("2_nvnwp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_e3n6g")
+
+[node name="bounce_sfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_nvnwp")
+bus = &"SFX"

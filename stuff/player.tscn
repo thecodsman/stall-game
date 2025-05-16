@@ -1,9 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=30 format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
 [ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/ball_hitter.gd" id="3_xc1ee"]
+[ext_resource type="AudioStream" uid="uid://dckhqsnsynhwp" path="res://sounds/kick.wav" id="4_pbn0x"]
 [ext_resource type="Script" uid="uid://bf2gsw8tyk6a5" path="res://scripts/bonk_box.gd" id="5_pbn0x"]
+[ext_resource type="AudioStream" uid="uid://cvy7sd2sqxotu" path="res://sounds/dash.wav" id="6_iqidt"]
+[ext_resource type="AudioStream" uid="uid://dojtu42gvjf7c" path="res://sounds/jump.wav" id="7_28f3j"]
+[ext_resource type="AudioStream" uid="uid://b6cx0yte18dbu" path="res://sounds/walk.wav" id="8_b0gpc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
@@ -11,6 +15,12 @@ radius = 3.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pbn0x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tnfj0"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tnfj0"]
+playback_mode = 1
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("4_pbn0x")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pbn0x"]
 radius = 4.0
@@ -90,7 +100,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [22]
+"values": [29]
 }
 
 [sub_resource type="Animation" id="Animation_pbn0x"]
@@ -143,6 +153,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [4]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("jump_sfx")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_xoaqs"]
@@ -225,6 +249,36 @@ tracks/0/keys = {
 "update": 1,
 "values": [16, 17, 18, 19]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("walk_sfx")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_rh03w"]
+resource_name = "on_wall"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [40]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xc1ee"]
 _data = {
@@ -237,9 +291,28 @@ _data = {
 &"jump": SubResource("Animation_tnfj0"),
 &"kick": SubResource("Animation_xoaqs"),
 &"kick_charge": SubResource("Animation_5hghs"),
+&"on_wall": SubResource("Animation_rh03w"),
 &"rise": SubResource("Animation_yi3w4"),
 &"run": SubResource("Animation_b0gpc")
 }
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_28f3j"]
+playback_mode = 1
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("6_iqidt")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_b0gpc"]
+playback_mode = 1
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("7_28f3j")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xoaqs"]
+playback_mode = 1
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("8_b0gpc")
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 2
@@ -269,6 +342,9 @@ visible = false
 shape = SubResource("CircleShape2D_tnfj0")
 disabled = true
 
+[node name="kick_sfx" type="AudioStreamPlayer" parent="Sprite2D/kick_box"]
+stream = SubResource("AudioStreamRandomizer_tnfj0")
+
 [node name="bonk_box" type="Area2D" parent="Sprite2D"]
 position = Vector2(1, -2)
 collision_layer = 512
@@ -283,6 +359,19 @@ shape = SubResource("CircleShape2D_pbn0x")
 libraries = {
 &"": SubResource("AnimationLibrary_xc1ee")
 }
+
+[node name="dash_sfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_28f3j")
+bus = &"SFX"
+
+[node name="jump_sfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_b0gpc")
+bus = &"SFX"
+
+[node name="walk_sfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_xoaqs")
+volume_db = -7.19
+bus = &"SFX"
 
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="area_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_area_entered"]

@@ -80,4 +80,5 @@ Vector2i(3, 1): {
 [node name="music_player" type="AudioStreamPlayer"]
 stream = SubResource("AudioStreamInteractive_vl365")
 autoplay = true
+bus = &"Music"
 script = ExtResource("4_0o21y")

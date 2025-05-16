@@ -3,7 +3,7 @@ class_name Player extends CharacterBody2D
 @export var player_index : int = 0
 @export var dead_zone : float = 0.09
 const SPEED : float = 100.0
-const JUMP_VELOCITY : float = -200.0
+const JUMP_VELOCITY : float = -230.0
 const BASE_GRAVITY : float = 700.0
 const FRICTION : float = 20
 var gravity : float = BASE_GRAVITY
@@ -25,6 +25,7 @@ var on_wall_prev_frame : bool = false
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
 @onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
+@onready var jump_sfx = $jump_sfx
 
 enum State {
 	IDLE,
@@ -133,8 +134,9 @@ func update_state(delta : float):
 					j_prev_frame = true
 			elif j_prev_frame && can_jump:
 				if anim.current_animation == "jump":
-					velocity.y = JUMP_VELOCITY * 0.75
+					velocity.y = JUMP_VELOCITY * 0.66
 					anim.play("rise")
+					jump_sfx.play()
 					set_state(State.AIR)
 				j_prev_frame = false
 			velocity.x = lerpf(velocity.x, 0, 10*delta)

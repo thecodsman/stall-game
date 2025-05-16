@@ -10,6 +10,7 @@ var colliding_prev_frame : bool = false
 @onready var rotate_node = $rotate_node
 @onready var scale_node = $rotate_node/scale_node
 @onready var sprite = $rotate_node/scale_node/Sprite2D
+@onready var bounce_sfx = $bounce_sfx
 
 func _physics_process(delta : float) -> void:
 	if owner_index != -1: velocity.y += gravity * delta
@@ -26,24 +27,27 @@ func _physics_process(delta : float) -> void:
 		var collider : TileMapLayer = collision.get_collider()
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
-			spin *= -1
-			velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/4,PI/4)))
-			spin *= 0.75
-			if not colliding_prev_frame: velocity *= 0.60
-			if not tile.get_custom_data("floor"): return
-			if not owner_level > 1: return
-			if GameText.visible: return
+			bounce(raw_vel,collision)
+			if not tile.get_custom_data("floor"): continue
+			if not owner_level > 1: continue
+			if GameText.visible: continue
 			GameText.visible = true
 			GameText.text = str("P", owner_index + 1, " Won!")
 			await get_tree().create_timer(2).timeout
 			GameText.visible = false
 			get_tree().reload_current_scene()
 		else:
-			spin *= -1
-			velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/4,PI/4)))
-			spin *= 0.75
-			if not colliding_prev_frame: velocity *= 0.60
+			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0
+
+
+func bounce(raw_vel, collision):
+	velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/2,PI/2)))
+	if not colliding_prev_frame:
+		spin *= -0.75
+		bounce_sfx.volume_linear = raw_vel.length() * 0.1
+		bounce_sfx.play()
+		velocity *= 0.60
 
 
 func punt(pos): ## pass in the global position of the punter
