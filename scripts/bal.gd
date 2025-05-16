@@ -28,14 +28,14 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			if not tile.get_custom_data("floor"): continue
-			if not owner_level > 1: continue
-			if GameText.visible: continue
-			GameText.visible = true
-			GameText.text = str("P", owner_index + 1, " Won!")
-			await get_tree().create_timer(2).timeout
-			GameText.visible = false
-			get_tree().reload_current_scene()
+			# if not tile.get_custom_data("floor"): continue
+			# if not owner_level > 1: continue
+			# if GameText.visible: continue
+			# GameText.visible = true
+			# GameText.text = str("P", owner_index + 1, " Won!")
+			# await get_tree().create_timer(2).timeout
+			# GameText.visible = false
+			# get_tree().reload_current_scene()
 		else:
 			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0

@@ -102,6 +102,20 @@ tracks/0/keys = {
 "update": 1,
 "values": [29]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("dash_sfx")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_pbn0x"]
 resource_name = "fall"
@@ -215,6 +229,22 @@ tracks/0/keys = {
 "values": [30]
 }
 
+[sub_resource type="Animation" id="Animation_rh03w"]
+resource_name = "on_wall"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [40]
+}
+
 [sub_resource type="Animation" id="Animation_yi3w4"]
 resource_name = "rise"
 length = 0.40001
@@ -262,22 +292,6 @@ tracks/1/keys = {
 "args": [0.0],
 "method": &"play"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_rh03w"]
-resource_name = "on_wall"
-step = 1.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [40]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xc1ee"]
