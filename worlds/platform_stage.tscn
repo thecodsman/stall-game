@@ -1,15 +1,15 @@
 [gd_scene load_steps=21 format=4 uid="uid://dk63esv5x4rpx"]
 
-[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/world.gd" id="1_c7htk"]
-[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_5rksg"]
-[ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/player.tscn" id="2_m138w"]
-[ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_5rksg"]
-[ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="4_wp1yw"]
-[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="5_12do3"]
-[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="8_5rksg"]
-[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_iw727"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="10_fg3hj"]
-[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow2.gdshader" id="10_kbcbp"]
+[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/world.gd" id="1_pjgop"]
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_likaa"]
+[ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_ybuv6"]
+[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="4_o4h0l"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_vujsw"]
+[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_0y6ho"]
+[ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/player.tscn" id="7_51lma"]
+[ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="8_bolxr"]
+[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_78wr1"]
+[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow2.gdshader" id="10_l2sf4"]
 
 [sub_resource type="Gradient" id="Gradient_iw727"]
 interpolation_mode = 2
@@ -21,7 +21,7 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_iw727")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iw727"]
-shader = ExtResource("2_5rksg")
+shader = ExtResource("2_likaa")
 shader_parameter/snes_transparency = false
 shader_parameter/gba_transparency = true
 shader_parameter/horizontal_scan_line = false
@@ -60,7 +60,7 @@ metadata/_snap_count = 7
 gradient = SubResource("Gradient_kbcbp")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kbcbp"]
-shader = ExtResource("2_5rksg")
+shader = ExtResource("2_likaa")
 shader_parameter/snes_transparency = true
 shader_parameter/gba_transparency = false
 shader_parameter/horizontal_scan_line = false
@@ -89,14 +89,14 @@ shader_parameter/palette_cycling_speed = 0.1
 shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okiaf"]
-shader = ExtResource("10_fg3hj")
+shader = ExtResource("5_vujsw")
 shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kbcbp"]
-texture = ExtResource("9_iw727")
+texture = ExtResource("9_78wr1")
 texture_region_size = Vector2i(4, 4)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -2, 2, 2, -2, 2)
@@ -379,13 +379,13 @@ metadata/_better_terrain = {
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fg3hj"]
-shader = ExtResource("10_kbcbp")
+shader = ExtResource("10_l2sf4")
 shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
 
 [node name="world" type="Node2D"]
-script = ExtResource("1_c7htk")
+script = ExtResource("1_pjgop")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -403,7 +403,7 @@ texture_repeat = 3
 material = SubResource("ShaderMaterial_iw727")
 offset_right = 96.0
 offset_bottom = 96.0
-texture = ExtResource("3_5rksg")
+texture = ExtResource("3_ybuv6")
 metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
@@ -413,7 +413,7 @@ texture_repeat = 3
 material = SubResource("ShaderMaterial_kbcbp")
 offset_right = 96.0
 offset_bottom = 96.0
-texture = ExtResource("5_12do3")
+texture = ExtResource("4_o4h0l")
 metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
@@ -446,18 +446,18 @@ color = Color(0, 1, 0, 1)
 
 [node name="Camera2D" type="Camera2D" parent="SubViewportContainer/game"]
 position = Vector2(48, 48)
-script = ExtResource("8_5rksg")
+script = ExtResource("6_0y6ho")
 
-[node name="player" parent="SubViewportContainer/game" instance=ExtResource("2_m138w")]
+[node name="player" parent="SubViewportContainer/game" instance=ExtResource("7_51lma")]
 modulate = Color(0.160784, 0.682353, 1, 1)
 position = Vector2(10, 86)
 
-[node name="player2" parent="SubViewportContainer/game" instance=ExtResource("2_m138w")]
+[node name="player2" parent="SubViewportContainer/game" instance=ExtResource("7_51lma")]
 modulate = Color(1, 0, 0.290196, 1)
 position = Vector2(86, 86)
 player_index = 1
 
-[node name="bal" parent="SubViewportContainer/game" instance=ExtResource("4_wp1yw")]
+[node name="bal" parent="SubViewportContainer/game" instance=ExtResource("8_bolxr")]
 position = Vector2(48, 48)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]
