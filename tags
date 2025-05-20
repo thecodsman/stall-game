@@ -70,7 +70,7 @@ BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^    public BetterTerrain(
 BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^public class BetterTerrain$/;"	c
 CATEGORY	addons/better-terrain/BetterTerrain.gd	/^	CATEGORY, ## Declares a matching type for more sophisticated rules.$/;"	e	enum:TerrainType	file:
 CATEGORY_CHECK_ID	addons/better-terrain/editor/TerrainProperties.gd	/^const CATEGORY_CHECK_ID = &"category_check_id"$/;"	C
-COYOTE_TIME	scripts/player.gd	/^const COYOTE_TIME : float = 0.065$/;"	C	typeref:typename:float
+COYOTE_TIME	scripts/player.gd	/^const COYOTE_TIME : float = 0.05$/;"	C	typeref:typename:float
 Category	addons/better-terrain/BetterTerrain.cs	/^        Category = 2,$/;"	e	enum:BetterTerrain.TerrainType	file:
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName CreateTerrainChangeset = "create_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public Godot.Collections.Dictionary<Variant, Variant> CreateTerrainChangeset(Godot.Collectio/;"	m	class:BetterTerrain
