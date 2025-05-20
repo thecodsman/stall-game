@@ -244,6 +244,7 @@ _gui_input	addons/better-terrain/editor/TileView.gd	/^func _gui_input(event) -> 
 _handles	addons/better-terrain/TerrainPlugin.gd	/^func _handles(object) -> bool:$/;"	m	typeref:typename:bool
 _has_invalid_peering_types	addons/better-terrain/BetterTerrain.gd	/^func _has_invalid_peering_types(ts: TileSet) -> bool:$/;"	m	typeref:typename:bool
 _icon_draw_connected	addons/better-terrain/editor/TerrainEntry.gd	/^var _icon_draw_connected := false$/;"	v
+_input	scripts/main_menu.gd	/^func _input(event):$/;"	m
 _intersect	addons/better-terrain/BetterTerrain.gd	/^func _intersect(first: Array, second: Array) -> bool:$/;"	m	typeref:typename:bool
 _make_visible	addons/better-terrain/TerrainPlugin.gd	/^func _make_visible(visible) -> void:$/;"	m	typeref:typename:void
 _on_add_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_add_terrain_pressed() -> void:$/;"	m	typeref:typename:void
@@ -299,6 +300,7 @@ _ready	addons/better-terrain/editor/TerrainEntry.gd	/^func _ready():$/;"	m
 _ready	scripts/bonk_box.gd	/^func _ready():$/;"	m
 _ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
+_ready	scripts/main_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
 _ready	scripts/world.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _set_terrain_meta	addons/better-terrain/BetterTerrain.gd	/^func _set_terrain_meta(ts: TileSet, meta : Dictionary) -> void:$/;"	m	typeref:typename:void
