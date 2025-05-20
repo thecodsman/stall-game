@@ -50,6 +50,7 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.1.0	/v6.1.0/
 !_TAG_ROLE_DESCRIPTION!GDScript!class	extended	/used as a base class for extending/
+ACCEL	scripts/player.gd	/^const ACCEL : float = 20.0$/;"	C	typeref:typename:float
 AIR	scripts/player.gd	/^	AIR,$/;"	e	enum:State	file:
 ALL	addons/better-terrain/BetterTerrain.gd	/^	ALL ## All rotated and reflected forms$/;"	e	enum:SymmetryType	file:
 ALL	addons/better-terrain/editor/Dock.gd	/^	ALL = 1000000,$/;"	e	enum:SourceSelectors	file:
@@ -68,6 +69,7 @@ BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^    public BetterTerrain(
 BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^public class BetterTerrain$/;"	c
 CATEGORY	addons/better-terrain/BetterTerrain.gd	/^	CATEGORY, ## Declares a matching type for more sophisticated rules.$/;"	e	enum:TerrainType	file:
 CATEGORY_CHECK_ID	addons/better-terrain/editor/TerrainProperties.gd	/^const CATEGORY_CHECK_ID = &"category_check_id"$/;"	C
+COYOTE_TIME	scripts/player.gd	/^const COYOTE_TIME : float = 0.065$/;"	C	typeref:typename:float
 Category	addons/better-terrain/BetterTerrain.cs	/^        Category = 2,$/;"	e	enum:BetterTerrain.TerrainType	file:
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName CreateTerrainChangeset = "create_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public Godot.Collections.Dictionary<Variant, Variant> CreateTerrainChangeset(Godot.Collectio/;"	m	class:BetterTerrain
@@ -147,6 +149,7 @@ ROTATE_ALL	addons/better-terrain/BetterTerrain.gd	/^	ROTATE_ALL, ## All four rot
 ROTATE_CLOCKWISE	addons/better-terrain/BetterTerrain.gd	/^	ROTATE_CLOCKWISE,$/;"	e	enum:SymmetryType	file:
 ROTATE_COUNTER_CLOCKWISE	addons/better-terrain/BetterTerrain.gd	/^	ROTATE_COUNTER_CLOCKWISE,$/;"	e	enum:SymmetryType	file:
 RUN	scripts/player.gd	/^	RUN,$/;"	e	enum:State	file:
+RUN_DASH	scripts/player.gd	/^	RUN_DASH,$/;"	e	enum:State	file:
 Reflect	addons/better-terrain/BetterTerrain.cs	/^        Reflect = 3, \/\/ All four reflections$/;"	e	enum:BetterTerrain.SymmetryType	file:
 RemoveTerrain	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName RemoveTerrain = "remove_terrain";$/;"	f	class:BetterTerrain.MethodName
 RemoveTerrain	addons/better-terrain/BetterTerrain.cs	/^    public bool RemoveTerrain(int index)$/;"	m	class:BetterTerrain
@@ -201,6 +204,7 @@ UpdateTerrainCell	addons/better-terrain/BetterTerrain.cs	/^        public static
 UpdateTerrainCell	addons/better-terrain/BetterTerrain.cs	/^    public void UpdateTerrainCell(Vector2I cell, bool updateSurroundingCells = true)$/;"	m	class:BetterTerrain
 UpdateTerrainCells	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName UpdateTerrainCells = "update_terrain_cells";$/;"	f	class:BetterTerrain.MethodName
 UpdateTerrainCells	addons/better-terrain/BetterTerrain.cs	/^    public void UpdateTerrainCells(Array<Vector2I> cells, bool updateSurroundingCells = true)$/;"	m	class:BetterTerrain
+WALK	scripts/player.gd	/^	WALK,$/;"	e	enum:State	file:
 WALL	scripts/player.gd	/^	WALL$/;"	e	enum:JumpType	file:
 WALL	scripts/player.gd	/^	WALL,$/;"	e	enum:State	file:
 WaitForTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName WaitForTerrainChangeset = "wait_for_terrain_changeset"/;"	f	class:BetterTerrain.MethodName
@@ -239,6 +243,7 @@ _intersect	addons/better-terrain/BetterTerrain.gd	/^func _intersect(first: Array
 _make_visible	addons/better-terrain/TerrainPlugin.gd	/^func _make_visible(visible) -> void:$/;"	m	typeref:typename:void
 _on_add_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_add_terrain_pressed() -> void:$/;"	m	typeref:typename:void
 _on_adjust_settings	addons/better-terrain/editor/Dock.gd	/^func _on_adjust_settings():$/;"	m
+_on_animation_finished	scripts/player.gd	/^func _on_animation_finished(animation):$/;"	m
 _on_bit_button_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_bit_button_pressed(button: BaseButton) -> void:$/;"	m	typeref:typename:void
 _on_body_entered	scripts/ball_hitter.gd	/^func _on_body_entered(ball:Ball) -> void:$/;"	m	typeref:typename:void
 _on_body_entered	scripts/bonk_box.gd	/^func _on_body_entered(ball:Ball) -> void:$/;"	m	typeref:typename:void
@@ -390,6 +395,7 @@ dashes	scripts/player.gd	/^var dashes : int = 1$/;"	v	typeref:typename:int
 data	addons/better-terrain/BetterTerrain.gd	/^var data := load("res:\/\/addons\/better-terrain\/BetterTerrainData.gd"):$/;"	v
 dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref:typename:float	annotations:export
 delete_selection	addons/better-terrain/editor/TileView.gd	/^func delete_selection():$/;"	m
+dir_prev_frame	scripts/player.gd	/^var dir_prev_frame : float = 0$/;"	v	typeref:typename:float
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
 disabled_sources	addons/better-terrain/editor/TileView.gd	/^var disabled_sources: Array[int] = []: set = set_disabled_sources$/;"	v	typeref:typename:Array[int]
 dock	addons/better-terrain/TerrainPlugin.gd	/^var dock : Control$/;"	v	typeref:typename:Control
@@ -442,7 +448,7 @@ layer_highlight	addons/better-terrain/editor/Dock.gd	/^@onready var layer_highli
 layer_up	addons/better-terrain/editor/Dock.gd	/^@onready var layer_up: Button = $VBox\/Toolbar\/LayerUp$/;"	v	typeref:typename:Button	annotations:onready
 layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var layout_container := %Layout$/;"	v	annotations:onready
 line_button	addons/better-terrain/editor/Dock.gd	/^@onready var line_button: Button = $VBox\/Toolbar\/Line$/;"	v	typeref:typename:Button	annotations:onready
-move	scripts/player.gd	/^func move(delta : float, accel : float = 20):$/;"	m
+move	scripts/player.gd	/^func move(delta : float, accel : float = ACCEL, speed : float = SPEED):$/;"	m
 move_down_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_down_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveDo/;"	v	typeref:typename:Button	annotations:onready
 move_up_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_up_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveUp$/;"	v	typeref:typename:Button	annotations:onready
 name_label	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var name_label := %Name$/;"	v	annotations:onready
@@ -528,6 +534,7 @@ reward	addons/better-terrain/BetterTerrain.gd	/^	const reward := 3$/;"	C	method:
 reward	addons/better-terrain/BetterTerrain.gd	/^	const reward := 3$/;"	C	method:_update_tile_vertices	file:
 rng	addons/better-terrain/BetterTerrain.gd	/^var rng = RandomNumberGenerator.new()$/;"	v
 rotate_node	scripts/bal.gd	/^@onready var rotate_node = $rotate_node$/;"	v	annotations:onready
+run_dash_timer	scripts/player.gd	/^var run_dash_timer : Timer = Timer.new()$/;"	v	typeref:typename:Timer
 s	addons/better-terrain/BetterTerrainData.gd	/^	const s := 1.0 \/ 8.0$/;"	C	method:_peering_polygon_horizontal_tiles	file:
 s	addons/better-terrain/BetterTerrainData.gd	/^	const s := 1.0 \/ 8.0$/;"	C	method:_peering_polygon_horizontal_vertices	file:
 s	addons/better-terrain/BetterTerrainData.gd	/^	const s := 1.0 \/ 8.0$/;"	C	method:_peering_polygon_vertical_tiles	file:
@@ -612,6 +619,7 @@ tileset_dirty	addons/better-terrain/editor/Dock.gd	/^var tileset_dirty := false$
 toggle_selection	addons/better-terrain/editor/TileView.gd	/^func toggle_selection():$/;"	m
 trigger	addons/better-terrain/Watcher.gd	/^signal trigger$/;"	s
 ttt	addons/better-terrain/BetterTerrainData.gd	/^	const ttt := 3.0 * t$/;"	C	method:_peering_polygon_isometric_vertices	file:
+turned_around	scripts/player.gd	/^var turned_around : bool = false$/;"	v	typeref:typename:bool
 type_icon_panel	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_icon_panel := %TerrainIconPanel$/;"	v	annotations:onready
 type_icon_slot	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_icon_slot := %TypeIcon$/;"	v	annotations:onready
 undo_manager	addons/better-terrain/editor/Dock.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager

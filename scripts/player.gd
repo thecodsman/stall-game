@@ -3,11 +3,14 @@ class_name Player extends CharacterBody2D
 @export var player_index : int = 0
 @export var dead_zone : float = 0.09
 const SPEED : float = 100.0
+const ACCEL : float = 20.0
 const JUMP_VELOCITY : float = -230.0
 const BASE_GRAVITY : float = 700.0
 const FRICTION : float = 20
+const COYOTE_TIME : float = 0.065
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
+var dir_prev_frame : float = 0
 var can_jump : bool = false
 var j_prev_frame : bool = false
 var jump_buffered : bool = false
@@ -22,6 +25,7 @@ var wall_jump_dir : float = 0
 var dash_speed : float = 200.0
 var dashes : int = 1
 var on_wall_prev_frame : bool = false
+var run_dash_timer : Timer = Timer.new()
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
 @onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
@@ -29,7 +33,9 @@ var on_wall_prev_frame : bool = false
 
 enum State {
 	IDLE,
+	WALK,
 	RUN,
+	RUN_DASH,
 	JUMP,
 	AIR,
 	KICK,
@@ -40,12 +46,8 @@ var state : State
 
 
 func _ready():
-	add_child(jump_buffer_timer)
-	jump_buffer_timer.one_shot = true
-	jump_buffer_timer.wait_time = 0.1
-	jump_buffer_timer.timeout.connect(func():
-		jump_buffered = false
-		)
+	add_child(run_dash_timer)
+	anim.animation_finished.connect(_on_animation_finished)
 
 
 func _physics_process(delta: float) -> void:
@@ -68,8 +70,17 @@ func enter_state():
 	match state:
 		State.IDLE:
 			anim.play("idle")
+		State.WALK:
+			anim.play("walk")
 		State.RUN:
 			anim.play("run")
+		State.RUN_DASH:
+			anim.play("run_dash")
+			velocity.x = sign(direction) * SPEED*1.2
+			run_dash_timer.start(0.15)
+			await run_dash_timer.timeout
+			if state != State.RUN_DASH: return
+			set_state(State.RUN)
 		State.DASH:
 			anim.play("dash")
 			var dir = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y))
@@ -96,6 +107,7 @@ func enter_state():
 			jump_type = JumpType.WALL
 
 
+var turned_around : bool = false
 func update_state(delta : float):
 	match state:
 		State.IDLE:
@@ -106,16 +118,45 @@ func update_state(delta : float):
 			check_for_kick()
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
-			if direction: set_state(State.RUN)
+			if direction:
+				await get_tree().create_timer(0.02).timeout
+				if abs(direction) > 0.5: set_state(State.RUN_DASH)
+				else: set_state(State.WALK)
 			if not is_on_floor():
-				await get_tree().create_timer(0.1).timeout
+				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state(State.AIR)
 			else:
 				dashes = 1
 				can_jump = true
 
+		State.WALK:
+			if not move(delta, ACCEL, SPEED * 0.65): set_state(State.IDLE)
+			check_for_jump()
+			check_for_drop_through()
+			check_for_kick()
+			if not is_on_floor():
+				await get_tree().create_timer(COYOTE_TIME).timeout
+				set_state(State.AIR)
+			else:
+				dashes = 1
+				can_jump = true
+			apply_gravity(delta)
+
 		State.RUN:
-			if not move(delta): set_state(State.IDLE)
+			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
+			if abs(direction) < dead_zone: direction = 0
+			if not direction && abs(velocity.x) < 1: set_state(State.IDLE)
+			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1 && not turned_around: 
+				turned_around = true
+				anim.play("turn_around")
+			elif anim.current_animation == "":
+				anim.play("run")
+				move(delta)
+			elif anim.current_animation == "run":
+				move(delta)
+				turned_around = false
+			elif anim.current_animation == "turn_around":
+				velocity.x = lerpf(velocity.x, 0, 10*delta)
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
@@ -126,6 +167,19 @@ func update_state(delta : float):
 				dashes = 1
 				can_jump = true
 			apply_gravity(delta)
+
+		State.RUN_DASH:
+			#move(delta, 10)
+			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
+			if abs(direction) < dead_zone: direction = 0
+			check_for_jump()
+			if direction:
+				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
+			if not direction * -sprite.scale.x > 0.9 || not abs(dir_prev_frame) < 0.7: return
+			sprite.scale.x = sign(direction)
+			anim.play("run_dash")
+			velocity.x = sign(direction) * SPEED*1.5
+			run_dash_timer.start(0.15)
 
 		State.JUMP:
 			var is_jump_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_A)
@@ -178,8 +232,8 @@ func update_state(delta : float):
 			if Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
 				delta *= 0.1
 				if not charged_kick:
-					var tween = create_tween()
-					tween.tween_property(self, "velocity",velocity * 0.1, 0.1)
+					velocity *= 0.1
+					sprite.scale = Vector2(1,1)
 				charged_kick = true
 				apply_gravity(delta)
 				sprite.rotation = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)).angle()
@@ -189,16 +243,13 @@ func update_state(delta : float):
 					sprite.scale = Vector2(1,1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
 				anim.play("kick")
-				await anim.animation_finished
-				set_state(State.IDLE)
-				sprite.rotation = 0
-				sprite.scale = Vector2(1,1)
+				if charged_kick:
+					var tween = create_tween()
+					tween.tween_property(self, "velocity", velocity * 10, 0.1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				charged_kick = false
-				await anim.animation_finished
-				set_state(State.IDLE)
-			elif anim.current_animation == "kick" && not charged_kick:
+			elif anim.current_animation == "kick" || anim.current_animation == "kick_charge":
 				apply_gravity(delta)
 				move(delta, 2)
 
@@ -226,10 +277,15 @@ func exit_state():
 		State.KICK:
 			bonk_box_collider.disabled = false
 			sprite.scale.y = 1
-			if charged_kick:
-				var tween = create_tween()
-				tween.tween_property(self, "velocity", velocity * 10, 0.1)
 			charged_kick = false
+
+
+func _on_animation_finished(animation):
+	match animation:
+		"kick":
+				set_state(State.AIR)
+				sprite.rotation = 0
+				sprite.scale = Vector2(1,1)
 
 
 func check_for_jump():
@@ -268,12 +324,11 @@ func check_for_dash():
 		dash_pressed_prev_frame = false
 
 
-func move(delta : float, accel : float = 20):
+func move(delta : float, accel : float = ACCEL, speed : float = SPEED):
 	direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
 	if abs(direction) < dead_zone: direction = 0
-	if direction:
-		velocity.x = lerpf(velocity.x, direction * SPEED, accel*delta)
-		sprite.scale.x = sign(direction)
+	if velocity.x: sprite.scale.x = sign(velocity.x)
+	velocity.x = lerpf(velocity.x, direction * speed, accel*delta)
 	return direction
 	
 
