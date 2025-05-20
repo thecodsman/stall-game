@@ -169,16 +169,16 @@ func update_state(delta : float):
 			apply_gravity(delta)
 
 		State.RUN_DASH:
-			#move(delta, 10)
 			direction = Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
 			if abs(direction) < dead_zone: direction = 0
-			check_for_jump()
 			if direction:
 				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
-			if not direction * -sprite.scale.x > 0.9 || not abs(dir_prev_frame) < 0.7: return
+			check_for_jump()
+			check_for_kick()
+			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.75): return
 			sprite.scale.x = sign(direction)
 			anim.play("run_dash")
-			velocity.x = sign(direction) * SPEED*1.5
+			velocity.x = sign(direction) * SPEED*1.2
 			run_dash_timer.start(0.15)
 
 		State.JUMP:
