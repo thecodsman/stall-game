@@ -11,6 +11,8 @@ config_version=5
 [application]
 
 config/name="stall"
+config/description="stall the ball"
+config/version="0.7.5"
 config/tags=PackedStringArray("small")
 run/main_scene="uid://dqrhx4hoehkkl"
 config/features=PackedStringArray("4.4", "Forward Plus")
