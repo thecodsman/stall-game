@@ -465,13 +465,10 @@ tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAA
 tile_set = SubResource("TileSet_aprxe")
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
+z_index = 20
 material = SubResource("ShaderMaterial_fg3hj")
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
-
-[node name="AudioListener2D" type="AudioListener2D" parent="SubViewportContainer/game"]
-position = Vector2(48, 48)
-current = true

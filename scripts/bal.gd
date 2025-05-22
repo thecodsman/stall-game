@@ -7,10 +7,12 @@ var owner_color : Color
 const MaxOwnerLevel : int = 2
 var spin : float = 0
 var colliding_prev_frame : bool = false
-@onready var rotate_node = $rotate_node
-@onready var scale_node = $rotate_node/scale_node
-@onready var sprite = $rotate_node/scale_node/Sprite2D
-@onready var bounce_sfx = $bounce_sfx
+var stalled : bool = false
+@onready var rotate_node := $rotate_node
+@onready var scale_node := $rotate_node/scale_node
+@onready var sprite := $rotate_node/scale_node/Sprite2D
+@onready var bounce_sfx := $bounce_sfx
+@onready var collision_shape := $CollisionShape2D
 
 func _physics_process(delta : float) -> void:
 	if owner_index != -1: velocity.y += gravity * delta
@@ -19,7 +21,7 @@ func _physics_process(delta : float) -> void:
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
-	move_and_slide()
+	if not stalled: move_and_slide()
 	if owner_level > 2: owner_level = 2
 	for i in get_slide_collision_count():
 		var collision : KinematicCollision2D = get_slide_collision(i)

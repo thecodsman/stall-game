@@ -13,8 +13,6 @@ var direction : float = 0
 var dir_prev_frame : float = 0
 var can_jump : bool = false
 var j_prev_frame : bool = false
-var jump_buffered : bool = false
-var jump_buffer_timer : Timer = Timer.new()
 enum JumpType {
 	FULL,
 	SHORT,
@@ -26,10 +24,13 @@ var dash_speed : float = 200.0
 var dashes : int = 1
 var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
+var is_ball_stalled : bool = false
+@onready var ball_holder = $ball_holder
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
 @onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
 @onready var jump_sfx = $jump_sfx
+@onready var stall_box = $Sprite2D/stall_box
 
 enum State {
 	IDLE,
@@ -40,7 +41,9 @@ enum State {
 	AIR,
 	KICK,
 	WALL,
-	DASH
+	DASH,
+	STALL,
+	STALL_KICK
 	}
 var state : State
 
@@ -51,9 +54,6 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
-	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_Y):
-		if player_index == 0: queue_free()
-		else: global_position = Vector2(48,48)
 	update_state(delta)
 	move_and_slide()
 
@@ -95,7 +95,6 @@ func enter_state():
 			anim.play("rise")
 			set_state(State.AIR)
 		State.AIR:
-			#await get_tree().create_timer(0.1).timeout
 			can_jump = false
 		State.KICK:
 			anim.play("kick_charge")
@@ -105,7 +104,14 @@ func enter_state():
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
 			jump_type = JumpType.WALL
-
+		State.STALL:
+			anim.play("stall")
+			set_collision_mask_value(3, false)
+			bonk_box_collider.disabled = true
+		State.STALL_KICK:
+			anim.play("stall_kick")
+			set_collision_mask_value(3, false)
+			bonk_box_collider.disabled = true
 
 var turned_around : bool = false
 func update_state(delta : float):
@@ -116,6 +122,7 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
+			check_for_special()
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
@@ -134,6 +141,7 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
+			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state(State.AIR)
@@ -160,6 +168,7 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
+			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(0.1).timeout
 				set_state(State.AIR)
@@ -175,6 +184,7 @@ func update_state(delta : float):
 				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
 			check_for_jump()
 			check_for_kick()
+			check_for_special()
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.75): return
 			sprite.scale.x = sign(direction)
 			anim.play("run_dash")
@@ -200,6 +210,7 @@ func update_state(delta : float):
 			check_for_drop_through()
 			check_for_kick()
 			check_for_dash()
+			check_for_special()
 			apply_gravity(delta)
 
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
@@ -237,15 +248,15 @@ func update_state(delta : float):
 				charged_kick = true
 				apply_gravity(delta)
 				sprite.rotation = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)).angle()
-				if sprite.rotation > PI/2 || sprite.rotation < -PI/2:
+				if sprite.rotation >= PI/2 || sprite.rotation <= -PI/2:
 					sprite.scale = Vector2(1,-1)
 				else:
 					sprite.scale = Vector2(1,1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "":
 				anim.play("kick")
-				if charged_kick:
-					var tween = create_tween()
-					tween.tween_property(self, "velocity", velocity * 10, 0.1)
+				if not charged_kick: return
+				var tween = create_tween()
+				tween.tween_property(self, "velocity", velocity * 10, 0.1)
 			elif not Input.is_joy_button_pressed(player_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				charged_kick = false
@@ -269,6 +280,18 @@ func update_state(delta : float):
 			tween.tween_property(after_image, "modulate", Color(1,1,1, modulate.a), 0.1)
 			tween.tween_callback(after_image.queue_free)
 
+		State.STALL:
+			var anim_finished = (anim.current_animation == "")
+			apply_gravity(delta)
+			velocity.lerp(Vector2.ZERO, 10*delta)
+			if anim_finished && not is_ball_stalled: set_state(State.AIR) # set the state to air to avoid coyote time
+			elif not anim_finished || not is_ball_stalled: return
+			var kick_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_X)
+			if kick_pressed: set_state(State.STALL_KICK)
+
+		State.STALL_KICK:
+			apply_gravity(delta)
+			velocity.lerp(Vector2.ZERO, 10*delta)
 
 func exit_state():
 	match state:
@@ -278,14 +301,28 @@ func exit_state():
 			bonk_box_collider.disabled = false
 			sprite.scale.y = 1
 			charged_kick = false
+		State.STALL:
+			set_collision_mask_value(3, true)
+			bonk_box_collider.disabled = false
+		State.STALL_KICK:
+			set_collision_mask_value(3, true)
+			bonk_box_collider.disabled = false
 
 
 func _on_animation_finished(animation):
 	match animation:
 		"kick":
-				set_state(State.AIR)
-				sprite.rotation = 0
-				sprite.scale = Vector2(1,1)
+			set_state(State.AIR)
+			sprite.rotation = 0
+			sprite.scale = Vector2(1,1)
+		"stall_kick":
+			set_state(State.AIR)
+
+
+func check_for_special():
+	var is_special_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_B)
+	if is_special_pressed:
+		set_state(State.STALL)
 
 
 func check_for_jump():
@@ -346,3 +383,21 @@ func check_for_drop_through():
 		velocity.y = 10
 	else:
 		set_collision_mask_value(4, true)
+
+
+func launch_stalled_ball():
+	is_ball_stalled = false
+	var ball : Ball = ball_holder.get_child(0)
+	ball.velocity = Vector2(0,-200)
+	ball.collision_shape.disabled = false
+	ball.stalled = false
+	ball.reparent(get_parent())
+
+
+func _on_stall_box_body_entered(ball : Ball) -> void:
+	is_ball_stalled = true
+	ball.velocity = Vector2.ZERO
+	ball.stalled = true
+	ball.global_position = ball_holder.global_position
+	ball.collision_shape.disabled = true
+	ball.reparent(ball_holder)
