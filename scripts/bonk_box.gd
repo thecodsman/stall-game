@@ -8,7 +8,7 @@ func _ready():
 func _on_body_entered(ball:Ball) -> void:
 	if ball.owner_level == 0:
 		apply_ball_ownership(ball)
-		ball.update_color(owner.modulate, owner.player_index)
+		ball.update_color(owner.self_modulate, owner.player_index)
 	ball.velocity = bonk(ball.global_position)
 	owner.velocity.x += ball.spin * 100
 

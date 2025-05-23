@@ -25,7 +25,7 @@ var dashes : int = 1
 var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
-@onready var ball_holder = $ball_holder
+@onready var ball_holder = $Sprite2D/ball_holder
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
 @onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
@@ -51,6 +51,7 @@ var state : State
 func _ready():
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
+	sprite.self_modulate = self_modulate
 
 
 func _physics_process(delta: float) -> void:
@@ -283,7 +284,7 @@ func update_state(delta : float):
 		State.STALL:
 			var anim_finished = (anim.current_animation == "")
 			apply_gravity(delta)
-			velocity.lerp(Vector2.ZERO, 10*delta)
+			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
 			if anim_finished && not is_ball_stalled: set_state(State.AIR) # set the state to air to avoid coyote time
 			elif not anim_finished || not is_ball_stalled: return
 			var kick_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_X)
@@ -388,10 +389,22 @@ func check_for_drop_through():
 func launch_stalled_ball():
 	is_ball_stalled = false
 	var ball : Ball = ball_holder.get_child(0)
-	ball.velocity = Vector2(0,-200)
+	var dir = Vector2( Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) )
+	ball.velocity = Vector2(200,0).rotated(dir.angle())
 	ball.collision_shape.disabled = false
 	ball.stalled = false
 	ball.reparent(get_parent())
+	#apply_ball_ownership(ball)
+	ball.update_color(self_modulate, player_index)
+
+
+func apply_ball_ownership(ball:Ball):
+	if ball.owner_index != player_index && ball.owner_level > 0:
+		ball.owner_level -= 1
+	else:
+		ball.owner_index = player_index
+		ball.owner_level += 1
+		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
 
 
 func _on_stall_box_body_entered(ball : Ball) -> void:

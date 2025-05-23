@@ -449,11 +449,11 @@ position = Vector2(48, 48)
 script = ExtResource("6_0y6ho")
 
 [node name="player" parent="SubViewportContainer/game" instance=ExtResource("7_51lma")]
-modulate = Color(0.160784, 0.682353, 1, 1)
+self_modulate = Color(0.160784, 0.682353, 1, 1)
 position = Vector2(10, 86)
 
 [node name="player2" parent="SubViewportContainer/game" instance=ExtResource("7_51lma")]
-modulate = Color(1, 0, 0.290196, 1)
+self_modulate = Color(1, 0, 0.290196, 1)
 position = Vector2(86, 86)
 player_index = 1
 

@@ -26,7 +26,7 @@ stream_0/stream = ExtResource("4_pbn0x")
 radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b0gpc"]
-radius = 12.0
+radius = 6.0
 
 [sub_resource type="Animation" id="Animation_xc1ee"]
 length = 0.001
@@ -354,6 +354,37 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_68hwx"]
+resource_name = "stall_kick"
+length = 0.30001
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [26, 27, 28]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"launch_stalled_ball"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_uheho"]
 resource_name = "turn_around"
 length = 0.20001
@@ -403,37 +434,6 @@ tracks/1/keys = {
 }, {
 "args": [0.0],
 "method": &"play"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_68hwx"]
-resource_name = "stall_kick"
-length = 0.30001
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [26, 27, 28]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"launch_stalled_ball"
 }]
 }
 
@@ -493,6 +493,9 @@ texture = ExtResource("2_4ira2")
 hframes = 42
 region_rect = Rect2(0, 0, 372, 12)
 
+[node name="ball_holder" type="Node2D" parent="Sprite2D"]
+position = Vector2(4, 0)
+
 [node name="kick_box" type="Area2D" parent="Sprite2D"]
 visible = false
 position = Vector2(2, 0)
@@ -545,9 +548,6 @@ bus = &"SFX"
 stream = SubResource("AudioStreamRandomizer_xoaqs")
 volume_db = -7.19
 bus = &"SFX"
-
-[node name="ball_holder" type="Node2D" parent="."]
-position = Vector2(4, 0)
 
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="area_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_area_entered"]
