@@ -246,7 +246,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_rh03w"]
 resource_name = "on_wall"
-step = 1.0
+length = 0.20001
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -254,10 +255,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [40]
+"values": [48, 49]
 }
 
 [sub_resource type="Animation" id="Animation_yi3w4"]
@@ -311,7 +312,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_1fg0o"]
 resource_name = "run_dash"
-step = 0.1
+length = 1.00001
+step = 0.0666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -319,10 +321,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.466667, 0.866667),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [29]
+"values": [54, 55, 56]
 }
 
 [sub_resource type="Animation" id="Animation_2eir2"]
@@ -387,8 +389,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_uheho"]
 resource_name = "turn_around"
-length = 0.20001
-step = 0.1
+length = 0.13334
+step = 0.0666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -396,7 +398,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.0666667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [14, 15]
@@ -490,7 +492,7 @@ shape = SubResource("CircleShape2D_7defb")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_pbn0x")
 texture = ExtResource("2_4ira2")
-hframes = 42
+hframes = 57
 region_rect = Rect2(0, 0, 372, 12)
 
 [node name="ball_holder" type="Node2D" parent="Sprite2D"]

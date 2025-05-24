@@ -101,6 +101,7 @@ func enter_state():
 			anim.play("kick_charge")
 			bonk_box_collider.disabled = true
 		State.WALL:
+			anim.play("on_wall")
 			can_jump = true
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
@@ -127,7 +128,7 @@ func update_state(delta : float):
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
-				await get_tree().create_timer(0.02).timeout
+				await get_tree().create_timer(0.03).timeout
 				if abs(direction) > 0.5: set_state(State.RUN_DASH)
 				else: set_state(State.WALK)
 			if not is_on_floor():
