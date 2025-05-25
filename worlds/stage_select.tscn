@@ -8,8 +8,8 @@
 [ext_resource type="FontFile" uid="uid://dsvndvksm8333" path="res://font/miaow-italic.ttf" id="6_1dnoh"]
 [ext_resource type="FontFile" uid="uid://b87q8kt3xpixp" path="res://font/miaow-bold.ttf" id="7_n0kpk"]
 [ext_resource type="Script" uid="uid://slj0q2g5pgbm" path="res://scripts/carousel_select.gd" id="8_y8sy2"]
-[ext_resource type="Texture2D" uid="uid://87gtsmkks4hp" path="res://sprites/stage-2-thumbnail.png" id="9_6v0ux"]
-[ext_resource type="Texture2D" uid="uid://ccp88q0expo2v" path="res://sprites/stage-1-thumbnail.png" id="10_y8sy2"]
+[ext_resource type="PackedScene" uid="uid://wgaroelgg0e7" path="res://worlds/basic_stage.tscn" id="9_mrdiy"]
+[ext_resource type="PackedScene" uid="uid://dk63esv5x4rpx" path="res://worlds/platform_stage.tscn" id="10_h55md"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow2.gdshader" id="12_mrdiy"]
 
 [sub_resource type="Gradient" id="Gradient_2cpqk"]
@@ -199,6 +199,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_y8sy2")
+stages = Array[PackedScene]([ExtResource("9_mrdiy"), ExtResource("10_h55md")])
 
 [node name="stage_title" type="RichTextLabel" parent="SubViewportContainer2/game/Control"]
 layout_mode = 0
@@ -228,38 +229,6 @@ offset_top = -44.0
 offset_right = -6.0
 offset_bottom = -44.0
 grow_vertical = 2
-
-[node name="basic" type="TextureRect" parent="SubViewportContainer2/game/Control/Carousel"]
-layout_mode = 0
-offset_right = 12.0
-offset_bottom = 12.0
-pivot_offset = Vector2(6, 6)
-size_flags_horizontal = 6
-size_flags_vertical = 4
-texture = ExtResource("9_6v0ux")
-stretch_mode = 4
-
-[node name="Button" type="Button" parent="SubViewportContainer2/game/Control/Carousel/basic"]
-layout_mode = 0
-offset_right = 12.0
-offset_bottom = 12.0
-flat = true
-
-[node name="platform" type="TextureRect" parent="SubViewportContainer2/game/Control/Carousel"]
-layout_mode = 0
-offset_right = 12.0
-offset_bottom = 12.0
-pivot_offset = Vector2(6, 6)
-size_flags_horizontal = 6
-size_flags_vertical = 4
-texture = ExtResource("10_y8sy2")
-stretch_mode = 4
-
-[node name="Button" type="Button" parent="SubViewportContainer2/game/Control/Carousel/platform"]
-layout_mode = 0
-offset_right = 12.0
-offset_bottom = 12.0
-flat = true
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer2/game"]
 z_index = 4096
