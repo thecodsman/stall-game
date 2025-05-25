@@ -77,11 +77,7 @@ func enter_state():
 			anim.play("run")
 		State.RUN_DASH:
 			anim.play("run_dash")
-			velocity.x = sign(direction) * SPEED*1.2
-			run_dash_timer.start(0.15)
-			await run_dash_timer.timeout
-			if state != State.RUN_DASH: return
-			set_state(State.RUN)
+			velocity.x = sign(direction) * SPEED
 		State.DASH:
 			anim.play("dash")
 			var dir = Vector2(Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y))
@@ -90,11 +86,6 @@ func enter_state():
 			set_state(State.AIR)
 		State.JUMP:
 			anim.play("jump")
-			await anim.animation_finished
-			if not Input.is_joy_button_pressed(player_index, JOY_BUTTON_A): return
-			velocity.y = JUMP_VELOCITY
-			anim.play("rise")
-			set_state(State.AIR)
 		State.AIR:
 			can_jump = false
 		State.KICK:
@@ -184,27 +175,34 @@ func update_state(delta : float):
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
 				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
+			if anim.current_animation != "run_dash":
+				set_state(State.RUN)
+				return
 			check_for_jump()
 			check_for_kick()
 			check_for_special()
-			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.75): return
+			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
 			anim.play("run_dash")
-			velocity.x = sign(direction) * SPEED*1.2
-			run_dash_timer.start(0.15)
+			velocity.x = sign(direction) * SPEED
 
 		State.JUMP:
 			var is_jump_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_A)
 			if is_jump_pressed:
 				if not j_prev_frame && can_jump:
 					j_prev_frame = true
-			elif j_prev_frame && can_jump:
+			elif not is_jump_pressed && j_prev_frame && can_jump:
+				j_prev_frame = false
 				if anim.current_animation == "jump":
 					velocity.y = JUMP_VELOCITY * 0.66
 					anim.play("rise")
 					jump_sfx.play()
 					set_state(State.AIR)
-				j_prev_frame = false
+			if anim.current_animation == "":
+				velocity.y = JUMP_VELOCITY
+				anim.play("rise")
+				jump_sfx.play()
+				set_state(State.AIR)
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 		
 		State.AIR:
@@ -278,8 +276,8 @@ func update_state(delta : float):
 			after_image.global_position = global_position
 			var tween = after_image.create_tween()
 			get_tree().root.add_child(after_image)
-			after_image.modulate = modulate
-			tween.tween_property(after_image, "modulate", Color(1,1,1, modulate.a), 0.1)
+			after_image.modulate = self_modulate
+			tween.tween_property(after_image, "self_modulate", Color(1,1,1, self_modulate.a), 0.1)
 			tween.tween_callback(after_image.queue_free)
 
 		State.STALL:
@@ -287,13 +285,25 @@ func update_state(delta : float):
 			apply_gravity(delta)
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
 			if anim_finished && not is_ball_stalled: set_state(State.AIR) # set the state to air to avoid coyote time
-			elif not anim_finished || not is_ball_stalled: return
+			if ball_holder.get_child_count() < 1 && is_ball_stalled:
+				set_state(State.AIR)
+				return
+			var ball : Ball = ball_holder.get_child(0)
+			if is_ball_stalled && ball.velocity.length() > 0:
+				ball.stalled = false
+				ball.set_deferred("disabled", false)
+				ball.call_deferred("reparent", get_parent())
+				set_state(State.AIR)
+				return
+			if not is_ball_stalled: return
+			if not anim_finished: return
 			var kick_pressed = Input.is_joy_button_pressed(player_index, JOY_BUTTON_X)
 			if kick_pressed: set_state(State.STALL_KICK)
 
 		State.STALL_KICK:
 			apply_gravity(delta)
 			velocity.lerp(Vector2.ZERO, 10*delta)
+
 
 func exit_state():
 	match state:
@@ -306,9 +316,11 @@ func exit_state():
 		State.STALL:
 			set_collision_mask_value(3, true)
 			bonk_box_collider.disabled = false
+			is_ball_stalled = false
 		State.STALL_KICK:
 			set_collision_mask_value(3, true)
 			bonk_box_collider.disabled = false
+			is_ball_stalled = false
 
 
 func _on_animation_finished(animation):
@@ -391,27 +403,21 @@ func launch_stalled_ball():
 	is_ball_stalled = false
 	var ball : Ball = ball_holder.get_child(0)
 	var dir = Vector2( Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) )
-	ball.velocity = Vector2(200,0).rotated(dir.angle())
-	ball.collision_shape.disabled = false
+	ball.velocity = Vector2(100,0).rotated(dir.angle())
 	ball.stalled = false
 	ball.reparent(get_parent())
-	#apply_ball_ownership(ball)
 	ball.update_color(self_modulate, player_index)
 
 
 func apply_ball_ownership(ball:Ball):
-	if ball.owner_index != player_index && ball.owner_level > 0:
-		ball.owner_level -= 1
-	else:
+	if ball.owner_index == -1:
 		ball.owner_index = player_index
-		ball.owner_level += 1
-		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
-
 
 func _on_stall_box_body_entered(ball : Ball) -> void:
 	is_ball_stalled = true
+	apply_ball_ownership(ball)
 	ball.velocity = Vector2.ZERO
+	ball.spin = 0
 	ball.stalled = true
 	ball.global_position = ball_holder.global_position
-	ball.collision_shape.disabled = true
 	ball.reparent(ball_holder)

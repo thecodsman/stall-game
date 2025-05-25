@@ -15,14 +15,15 @@ var stalled : bool = false
 @onready var collision_shape := $CollisionShape2D
 
 func _physics_process(delta : float) -> void:
-	if owner_index != -1: velocity.y += gravity * delta
 	var raw_vel = velocity
 	sprite.rotation += (spin * delta) * 20
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
-	if not stalled: move_and_slide()
 	if owner_level > 2: owner_level = 2
+	if stalled: return
+	if owner_index != -1: velocity.y += gravity * delta
+	move_and_slide()
 	for i in get_slide_collision_count():
 		var collision : KinematicCollision2D = get_slide_collision(i)
 		if not collision: return

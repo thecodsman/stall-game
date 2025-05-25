@@ -312,8 +312,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_1fg0o"]
 resource_name = "run_dash"
-length = 1.00001
-step = 0.0666667
+length = 0.10001
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
