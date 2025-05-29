@@ -7,6 +7,10 @@ func _on_start_pressed() -> void:
 	stream_playback.switch_to_clip_by_name(&"Stall Battle")
 
 
+func _on_online_pressed() -> void:
+	get_tree().change_scene_to_file("res://worlds/connect_menu.tscn")
+
+
 func _ready():
 	$VBoxContainer/local.grab_focus()
 

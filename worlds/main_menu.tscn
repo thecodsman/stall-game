@@ -14,7 +14,7 @@ offsets = PackedFloat32Array(0, 0.49061, 1)
 colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
 metadata/_snap_count = 7
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7dyyr"]
 gradient = SubResource("Gradient_p8lkq")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fb03m"]
@@ -44,7 +44,7 @@ shader_parameter/vertical_deform_speed = 0.1
 shader_parameter/width = 96.0
 shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
+shader_parameter/palette = SubResource("GradientTexture1D_7dyyr")
 
 [node name="main_menu" type="Control"]
 layout_mode = 3
@@ -138,3 +138,4 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [connection signal="pressed" from="VBoxContainer/local" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/online" to="." method="_on_online_pressed"]

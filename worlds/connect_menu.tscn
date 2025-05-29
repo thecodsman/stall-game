@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://jhomeys3bfhg"]
+[gd_scene load_steps=8 format=3 uid="uid://jhomeys3bfhg"]
 
+[ext_resource type="Script" uid="uid://u46bcxk0kgsh" path="res://scripts/connect_menu.gd" id="1_7571w"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_c8y1k"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="2_kvax6"]
+[ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_kvax6"]
 
 [sub_resource type="Gradient" id="Gradient_7571w"]
 interpolation_mode = 2
@@ -10,7 +12,7 @@ offsets = PackedFloat32Array(0, 0.49061, 1)
 colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
 metadata/_snap_count = 7
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7571w"]
 gradient = SubResource("Gradient_7571w")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bblat"]
@@ -40,7 +42,7 @@ shader_parameter/vertical_deform_speed = 0.1
 shader_parameter/width = 96.0
 shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
+shader_parameter/palette = SubResource("GradientTexture1D_7571w")
 
 [node name="connect_menu" type="Control"]
 layout_mode = 3
@@ -49,6 +51,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7571w")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -68,3 +71,51 @@ offset_right = 96.0
 offset_bottom = 96.0
 texture = ExtResource("2_kvax6")
 metadata/_edit_lock_ = true
+
+[node name="address" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 10.0
+offset_right = 95.0
+offset_bottom = 50.0
+theme_override_constants/separation = 1
+
+[node name="name" type="LineEdit" parent="address"]
+layout_mode = 2
+theme = ExtResource("3_kvax6")
+placeholder_text = "name"
+
+[node name="ip" type="LineEdit" parent="address"]
+layout_mode = 2
+theme = ExtResource("3_kvax6")
+text = "127.0.0.1"
+placeholder_text = "ip address"
+
+[node name="port" type="LineEdit" parent="address"]
+layout_mode = 2
+theme = ExtResource("3_kvax6")
+text = "5835"
+placeholder_text = "port"
+
+[node name="buttons" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 73.0
+offset_right = 98.0
+offset_bottom = 93.0
+alignment = 1
+
+[node name="connect" type="Button" parent="buttons"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme = ExtResource("3_kvax6")
+text = "CONNECT"
+
+[node name="host" type="Button" parent="buttons"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+theme = ExtResource("3_kvax6")
+text = "HOST"
+
+[connection signal="pressed" from="buttons/connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="buttons/host" to="." method="_on_host_pressed"]

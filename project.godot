@@ -21,10 +21,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameText="*res://stuff/label.tscn"
-Globals="*res://scripts/globals.gd"
+Globals="*res://singletons/globals.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 MusicPlayer="*res://stuff/music_player.tscn"
-GlobalSteam="*res://scripts/steam.gd"
+GlobalSteam="*res://singletons/steam.gd"
+Lobby="*res://singletons/lobby.gd"
 
 [display]
 
