@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://0v71744dqy0u"]
+[gd_scene load_steps=18 format=3 uid="uid://0v71744dqy0u"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_hwrfj"]
 [ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_1dnoh"]
@@ -8,8 +8,6 @@
 [ext_resource type="FontFile" uid="uid://dsvndvksm8333" path="res://font/miaow-italic.ttf" id="6_1dnoh"]
 [ext_resource type="FontFile" uid="uid://b87q8kt3xpixp" path="res://font/miaow-bold.ttf" id="7_n0kpk"]
 [ext_resource type="Script" uid="uid://slj0q2g5pgbm" path="res://scripts/carousel_select.gd" id="8_y8sy2"]
-[ext_resource type="PackedScene" uid="uid://wgaroelgg0e7" path="res://worlds/basic_stage.tscn" id="9_mrdiy"]
-[ext_resource type="PackedScene" uid="uid://dk63esv5x4rpx" path="res://worlds/platform_stage.tscn" id="10_h55md"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow2.gdshader" id="12_mrdiy"]
 
 [sub_resource type="Gradient" id="Gradient_2cpqk"]
@@ -199,7 +197,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_y8sy2")
-stages = Array[PackedScene]([ExtResource("9_mrdiy"), ExtResource("10_h55md")])
+stages = Array[String](["uid://wgaroelgg0e7", "uid://dk63esv5x4rpx"])
 
 [node name="stage_title" type="RichTextLabel" parent="SubViewportContainer2/game/Control"]
 layout_mode = 0

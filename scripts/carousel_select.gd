@@ -4,7 +4,7 @@ extends Control
 @onready var stage_title = $stage_title
 @onready var current_index = 0
 
-@export var stages : Array[PackedScene]
+@export_file("*.tscn") var stages : Array[String]
 
 const ANIM_DURATION = 0.4
 const SCALE_FRONT = Vector2(1.0, 1.0)
@@ -51,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func spawn_stage_icons():
 	for i in range(stages.size()):
-		var stage : Stage = stages[i].instantiate()
+		var stage : Stage = load(stages[i]).instantiate()
 		var icon : Texture2D = stage.thumb_nail
 		var stage_name : String = stage.stage_name
 		var texture_rect : TextureRect = TextureRect.new()
@@ -62,19 +62,24 @@ func spawn_stage_icons():
 
 
 func go_to_stage():
-	get_tree().change_scene_to_packed(stages[current_index])	
+	if multiplayer.multiplayer_peer && is_multiplayer_authority():
+		var stage = stages[current_index]
+		Lobby.load_game.rpc(stage)
+	else:
+		get_tree().change_scene_to_file(stages[current_index])	
 
 
 func scroll_right():
 	current_index = (current_index + 1) % child_count
-	update_carousel()
+	update_carousel.rpc()
 
 
 func scroll_left():
 	current_index = (current_index - 1 + child_count) % child_count
-	update_carousel()
+	update_carousel.rpc()
 
 
+@rpc("call_local", "reliable")
 func update_carousel():
 	for i in range(child_count):
 		var child = carousel.get_child(i)

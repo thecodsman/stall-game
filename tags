@@ -160,7 +160,7 @@ MATCH_TILES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_TILES, ## Selects ti
 MATCH_VERTICES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_VERTICES, ## Select tiles by analysing vertices, similar to wang-style tiles.$/;"	e	enum:TerrainType	file:
 MAX	addons/better-terrain/BetterTerrain.gd	/^	MAX,$/;"	e	enum:TerrainType	file:
 MAX_CANVAS_RENDER_TILES	addons/better-terrain/editor/Dock.gd	/^const MAX_CANVAS_RENDER_TILES = 1500$/;"	C
-MAX_CONNECTIONS	singletons/lobby.gd	/^const MAX_CONNECTIONS = 20$/;"	C
+MAX_CONNECTIONS	singletons/lobby.gd	/^const MAX_CONNECTIONS = 2$/;"	C
 MAX_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MAX_ZOOM_SETTING := "editor\/better_terrain\/max_zoom_amount"$/;"	C
 MIN_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MIN_ZOOM_SETTING := "editor\/better_terrain\/min_zoom_amount"$/;"	C
 MIRROR	addons/better-terrain/BetterTerrain.gd	/^	MIRROR, ## Horizontally mirror$/;"	e	enum:SymmetryType	file:
@@ -232,6 +232,7 @@ SetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^        public stati
 SetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^    public bool SetTileTerrainType(TileData tileData, int type)$/;"	m	class:BetterTerrain
 Show your support	addons/steam-multiplayer-peer/README.md	/^## Show your support$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 SourceSelectors	addons/better-terrain/editor/Dock.gd	/^enum SourceSelectors {$/;"	g
+Stage	scripts/stage.gd	/^class_name Stage extends Node2D$/;"	c
 Stage	scripts/world.gd	/^class_name Stage extends Node2D$/;"	c
 State	scripts/player.gd	/^enum State {$/;"	g
 SwapTerrains	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName SwapTerrains = "swap_terrains";$/;"	f	class:BetterTerrain.MethodName
@@ -334,6 +335,7 @@ _on_remove_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_remov
 _on_server_disconnected	singletons/lobby.gd	/^func _on_server_disconnected():$/;"	m
 _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuffle_random_pressed():$/;"	m
 _on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(ball : Ball) -> void:$/;"	m	typeref:typename:void
+_on_start_pressed	scripts/lobby_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_symmetry_selected	addons/better-terrain/editor/Dock.gd	/^func _on_symmetry_selected(index):$/;"	m
 _on_terrain_enable_id_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_enable_id_pressed(id):$/;"	m
@@ -364,6 +366,7 @@ _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
 _ready	scripts/lobby_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/main_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
+_ready	scripts/stage.gd	/^func _ready():$/;"	m
 _ready	singletons/lobby.gd	/^func _ready():$/;"	m
 _ready	singletons/steam.gd	/^func _ready():$/;"	m
 _register_player	singletons/lobby.gd	/^func _register_player(new_player_info):$/;"	m	annotations:rpc("any_peer", "reliable")
@@ -510,6 +513,7 @@ get_tile_symmetry_type	addons/better-terrain/BetterTerrain.gd	/^func get_tile_sy
 get_tile_terrain_type	addons/better-terrain/BetterTerrain.gd	/^func get_tile_terrain_type(td: TileData) -> int:$/;"	m	typeref:typename:int
 get_tiles_in_terrain	addons/better-terrain/BetterTerrain.gd	/^func get_tiles_in_terrain(ts: TileSet, type: int) -> Array[TileData]:$/;"	m	typeref:typename:Array[TileData]
 go_to_stage	scripts/carousel_select.gd	/^func go_to_stage():$/;"	m
+go_to_stage_select	scripts/lobby_menu.gd	/^func go_to_stage_select() -> void:$/;"	m	typeref:typename:void	annotations:rpc("call_local", "reliable")
 gravity	scripts/bal.gd	/^var gravity : float = 70$/;"	v	typeref:typename:float
 gravity	scripts/player.gd	/^var gravity : float = BASE_GRAVITY$/;"	v	typeref:typename:float
 grid_mode	addons/better-terrain/editor/TerrainEntry.gd	/^var grid_mode := false$/;"	v
@@ -603,10 +607,10 @@ player_connected	singletons/lobby.gd	/^signal player_connected(peer_id, player_i
 player_disconnected	singletons/lobby.gd	/^signal player_disconnected(peer_id)$/;"	s
 player_index	scripts/bonk_box.gd	/^var player_index : int = -1$/;"	v	typeref:typename:int
 player_index	scripts/player.gd	/^@export var player_index : int = 0$/;"	v	typeref:typename:int	annotations:export
-player_info	singletons/lobby.gd	/^var player_info = {"name": "Name"}$/;"	v
+player_info	singletons/lobby.gd	/^var player_info : Dictionary = {"name": "Name"}$/;"	v	typeref:typename:Dictionary
 player_loaded	singletons/lobby.gd	/^func player_loaded():$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
-players	singletons/lobby.gd	/^var players = {}$/;"	v
-players_loaded	singletons/lobby.gd	/^var players_loaded = 0$/;"	v
+players	singletons/lobby.gd	/^var players : Dictionary = {}$/;"	v	typeref:typename:Dictionary
+players_loaded	singletons/lobby.gd	/^var players_loaded : int = 0$/;"	v	typeref:typename:int
 port	scripts/connect_menu.gd	/^@onready var port = $address\/port$/;"	v	annotations:onready
 prev_position	addons/better-terrain/editor/Dock.gd	/^var prev_position : Vector2i$/;"	v	typeref:typename:Vector2i
 prev_position	addons/better-terrain/editor/TileView.gd	/^var prev_position : Vector2i$/;"	v	typeref:typename:Vector2i
@@ -671,10 +675,11 @@ spawn_stage_icons	scripts/carousel_select.gd	/^func spawn_stage_icons():$/;"	m
 spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite := $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready
 sprite	scripts/player.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
+stage_name	scripts/stage.gd	/^@export var stage_name : String$/;"	v	typeref:typename:String	annotations:export
 stage_name	scripts/world.gd	/^@export var stage_name : String$/;"	v	typeref:typename:String	annotations:export
 stage_title	scripts/carousel_select.gd	/^@onready var stage_title = $stage_title$/;"	v	annotations:onready
 staged_paste_tile_states	addons/better-terrain/editor/TileView.gd	/^var staged_paste_tile_states : Array[Dictionary] = []$/;"	v	typeref:typename:Array[Dictionary]
-stages	scripts/carousel_select.gd	/^@export var stages : Array[PackedScene]$/;"	v	typeref:typename:Array[PackedScene]	annotations:export
+stages	scripts/carousel_select.gd	/^@export_file("*.tscn") var stages : Array[String]$/;"	v	typeref:typename:Array[String]	annotations:export_file("*.tscn")
 stall_box	scripts/player.gd	/^@onready var stall_box = $Sprite2D\/stall_box$/;"	v	annotations:onready
 stalled	scripts/bal.gd	/^var stalled : bool = false$/;"	v	typeref:typename:bool
 state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
@@ -703,6 +708,7 @@ terrain_type	addons/better-terrain/editor/TerrainProperties.gd	/^var terrain_typ
 terrain_undo	addons/better-terrain/editor/Dock.gd	/^var terrain_undo$/;"	v
 terrain_undo	addons/better-terrain/editor/TileView.gd	/^var terrain_undo$/;"	v
 terrain_updated	addons/better-terrain/editor/TileView.gd	/^signal terrain_updated(index)$/;"	s
+thumb_nail	scripts/stage.gd	/^@export var thumb_nail : Texture2D$/;"	v	typeref:typename:Texture2D	annotations:export
 thumb_nail	scripts/world.gd	/^@export var thumb_nail : Texture2D$/;"	v	typeref:typename:Texture2D	annotations:export
 tidy	addons/better-terrain/Watcher.gd	/^func tidy() -> bool:$/;"	m	typeref:typename:bool
 tileMapLayer	addons/better-terrain/BetterTerrain.cs	/^    private readonly TileMapLayer tileMapLayer;$/;"	f	class:BetterTerrain	file:
@@ -733,7 +739,7 @@ type_icon_slot	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_
 undo_manager	addons/better-terrain/editor/Dock.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 undo_manager	addons/better-terrain/editor/TileView.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 update	addons/better-terrain/editor/TerrainEntry.gd	/^func update():$/;"	m
-update_carousel	scripts/carousel_select.gd	/^func update_carousel():$/;"	m
+update_carousel	scripts/carousel_select.gd	/^func update_carousel():$/;"	m	annotations:rpc("call_local", "reliable")
 update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m
 update_overlay	addons/better-terrain/editor/Dock.gd	/^signal update_overlay$/;"	s
 update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m

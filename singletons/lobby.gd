@@ -9,19 +9,19 @@ signal server_disconnected
 
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 const DEFAULT_SERVER_PORT = 5835
-const MAX_CONNECTIONS = 20
+const MAX_CONNECTIONS = 2
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
-var players = {}
+var players : Dictionary = {}
 
 # This is the local player info. This should be modified locally
 # before the connection is made. It will be passed to every other peer.
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
-var player_info = {"name": "Name"}
+var player_info : Dictionary = {"name": "Name"}
 
-var players_loaded = 0
+var players_loaded : int = 0
 
 
 
@@ -76,6 +76,7 @@ func player_loaded():
 		print(players_loaded)
 		if players_loaded == players.size():
 			#$/root/Game.start_game()
+			print("all players loaded!")
 			players_loaded = 0
 
 
