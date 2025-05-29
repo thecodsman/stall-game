@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://jhomeys3bfhg"]
+
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_c8y1k"]
+[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="2_kvax6"]
+
+[sub_resource type="Gradient" id="Gradient_7571w"]
+interpolation_mode = 2
+interpolation_color_space = 1
+offsets = PackedFloat32Array(0, 0.49061, 1)
+colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
+metadata/_snap_count = 7
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
+gradient = SubResource("Gradient_7571w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bblat"]
+shader = ExtResource("1_c8y1k")
+shader_parameter/snes_transparency = true
+shader_parameter/gba_transparency = false
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = true
+shader_parameter/sprite_scroll_direction = Vector2(0, 0)
+shader_parameter/sprite_scroll_speed = 0.01
+shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
+shader_parameter/gba_transparency_scroll_speed = 0.01
+shader_parameter/gba_transparency_value = 0.5
+shader_parameter/horizontal_wave_amplitude = 1.21
+shader_parameter/horizontal_wave_frequency = 0.705
+shader_parameter/horizontal_wave_speed = 1.0
+shader_parameter/vertical_wave_amplitude = -0.37
+shader_parameter/vertical_wave_frequency = 4.72
+shader_parameter/vertical_wave_speed = 1.0
+shader_parameter/horizontal_deform_amplitude = 2.51
+shader_parameter/horizontal_deform_frequency = 0.7
+shader_parameter/horizontal_deform_speed = 0.5
+shader_parameter/vertical_deform_amplitude = 1.62
+shader_parameter/vertical_deform_frequency = 0.54
+shader_parameter/vertical_deform_speed = 0.1
+shader_parameter/width = 96.0
+shader_parameter/height = 96.0
+shader_parameter/palette_cycling_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
+
+[node name="connect_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="blue_bg" type="ColorRect" parent="CanvasLayer"]
+z_index = -1
+offset_right = 96.0
+offset_bottom = 96.0
+color = Color(0.160784, 0.682353, 1, 1)
+metadata/_edit_lock_ = true
+
+[node name="moving_bg" type="TextureRect" parent="CanvasLayer"]
+z_index = -1
+texture_repeat = 3
+material = SubResource("ShaderMaterial_bblat")
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("2_kvax6")
+metadata/_edit_lock_ = true

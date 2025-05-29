@@ -1,49 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://dqrhx4hoehkkl"]
+[gd_scene load_steps=10 format=3 uid="uid://dqrhx4hoehkkl"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_2cpqk"]
 [ext_resource type="Script" uid="uid://drirafignu277" path="res://scripts/main_menu.gd" id="1_7dyyr"]
-[ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="2_wxd3g"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_klc2m"]
 [ext_resource type="Texture2D" uid="uid://clr6ei0d2sc0l" path="res://sprites/stallnew.png" id="4_wxd3g"]
 [ext_resource type="FontFile" uid="uid://dq3ivvjy1lslp" path="res://font/miaow default.ttf" id="6_7dyyr"]
-
-[sub_resource type="Gradient" id="Gradient_2cpqk"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.506061, 1)
-colors = PackedColorArray(0.741176, 0.0627451, 0.321569, 1, 1, 0, 0.290196, 1, 0.741176, 0.0627451, 0.321569, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_wxd3g"]
-gradient = SubResource("Gradient_2cpqk")
-width = 2
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_klc2m"]
-shader = ExtResource("1_2cpqk")
-shader_parameter/snes_transparency = false
-shader_parameter/gba_transparency = false
-shader_parameter/horizontal_scan_line = false
-shader_parameter/vertical_scan_line = false
-shader_parameter/enable_palette_cycling = true
-shader_parameter/sprite_scroll_direction = Vector2(0, 0)
-shader_parameter/sprite_scroll_speed = 0.01
-shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
-shader_parameter/gba_transparency_scroll_speed = 0.01
-shader_parameter/gba_transparency_value = 0.5
-shader_parameter/horizontal_wave_amplitude = 0.0
-shader_parameter/horizontal_wave_frequency = 0.0
-shader_parameter/horizontal_wave_speed = 1.0
-shader_parameter/vertical_wave_amplitude = 0.0
-shader_parameter/vertical_wave_frequency = 0.0
-shader_parameter/vertical_wave_speed = 1.0
-shader_parameter/horizontal_deform_amplitude = 0.0
-shader_parameter/horizontal_deform_frequency = 0.0
-shader_parameter/horizontal_deform_speed = 1.0
-shader_parameter/vertical_deform_amplitude = 0.0
-shader_parameter/vertical_deform_frequency = 0.0
-shader_parameter/vertical_deform_speed = 1.0
-shader_parameter/width = 0.0
-shader_parameter/height = 0.0
-shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_wxd3g")
+[ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="6_inn1b"]
 
 [sub_resource type="Gradient" id="Gradient_p8lkq"]
 interpolation_mode = 2
@@ -84,53 +46,6 @@ shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
 shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_klc2m"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dyyr"]
-content_margin_top = 0.0
-bg_color = Color(0.160784, 0.682353, 1, 1)
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.8, 0.8, 0.8, 0)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_color = Color(0.14902, 0.490196, 0.862745, 1)
-shadow_size = 1
-shadow_offset = Vector2(1, 1)
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klc2m"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-bg_color = Color(0.160784, 0.682353, 1, 1)
-border_width_left = 1
-border_width_top = 1
-border_color = Color(0.8, 0.8, 0.8, 0)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_color = Color(0.14902, 0.490196, 0.862745, 1)
-shadow_size = 1
-shadow_offset = Vector2(1, 1)
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8lkq"]
-bg_color = Color(0.505882, 0.92549, 1, 1)
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.51, 0.9265, 1, 0)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_color = Color(0.14902, 0.490196, 0.862745, 1)
-shadow_size = 1
-shadow_offset = Vector2(1, 1)
-anti_aliasing = false
-
 [node name="main_menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -150,16 +65,6 @@ offset_bottom = 96.0
 color = Color(0.160784, 0.682353, 1, 1)
 metadata/_edit_lock_ = true
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
-visible = false
-z_index = -1
-texture_repeat = 3
-material = SubResource("ShaderMaterial_klc2m")
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("2_wxd3g")
-metadata/_edit_lock_ = true
-
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 z_index = -1
 texture_repeat = 3
@@ -169,37 +74,39 @@ offset_bottom = 96.0
 texture = ExtResource("3_klc2m")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-visible = false
-modulate = Color(1, 1, 1, 0.345098)
-z_index = -1
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 19.0
-offset_bottom = 24.0
-scale = Vector2(4.08393, 3.43716)
-metadata/_edit_lock_ = true
-
 [node name="Stall" type="Sprite2D" parent="."]
 position = Vector2(50, 21)
 texture = ExtResource("4_wxd3g")
 
-[node name="start" type="Button" parent="."]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 40.0
-offset_right = 68.0
-offset_bottom = 52.0
-focus_next = NodePath(".")
-focus_previous = NodePath(".")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("6_7dyyr")
-theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = SubResource("StyleBoxEmpty_klc2m")
-theme_override_styles/hover = SubResource("StyleBoxFlat_7dyyr")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_klc2m")
-theme_override_styles/normal = SubResource("StyleBoxFlat_p8lkq")
-text = "start"
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -7.0
+offset_right = 27.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="local" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_next = NodePath("../online")
+focus_previous = NodePath("../online")
+theme = ExtResource("6_inn1b")
+text = "Local
+"
+
+[node name="online" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_next = NodePath("../local")
+focus_previous = NodePath("../local")
+theme = ExtResource("6_inn1b")
+text = "Online
+"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
 modulate = Color(0.160784, 0.678431, 1, 1)
@@ -230,4 +137,4 @@ text = "miaow  games  l.l.c"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/local" to="." method="_on_start_pressed"]

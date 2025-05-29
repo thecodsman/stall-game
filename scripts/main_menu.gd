@@ -8,20 +8,21 @@ func _on_start_pressed() -> void:
 
 
 func _ready():
-	$start.grab_focus()
+	$VBoxContainer/local.grab_focus()
 
 
 func _input(event):
 	var current = get_viewport().gui_get_focus_owner()
 	if not current: return
-
 	if event is InputEventJoypadMotion:
 		if event.axis == JOY_AXIS_LEFT_Y: #vertical left stick
 			if event.axis_value == -1.0: #full motion up
-				var prev = get_node(current.focus_previous)
+				var prev = get_node(NodePath("VBoxContainer/local/" + str(current.focus_previous)))
+				if not prev: return
 				prev.grab_focus()
 			elif event.axis_value == 1.0: # full motion down
-				var next = get_node(current.focus_next)
+				var next = get_node(NodePath("VBoxContainer/local/" + str(current.focus_next)))
+				if not next: return
 				next.grab_focus()
 	elif event is InputEventJoypadButton:
 		if event.button_index == JOY_BUTTON_A and event.pressed:
