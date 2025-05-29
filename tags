@@ -31,6 +31,15 @@
 !_TAG_KIND_DESCRIPTION!GDScript	m,method	/methods/
 !_TAG_KIND_DESCRIPTION!GDScript	s,signal	/signals/
 !_TAG_KIND_DESCRIPTION!GDScript	v,variable	/variables/
+!_TAG_KIND_DESCRIPTION!Markdown	S,subsection	/level 2 sections/
+!_TAG_KIND_DESCRIPTION!Markdown	T,l4subsection	/level 4 sections/
+!_TAG_KIND_DESCRIPTION!Markdown	c,chapter	/chapters/
+!_TAG_KIND_DESCRIPTION!Markdown	h,hashtag	/hashtags/
+!_TAG_KIND_DESCRIPTION!Markdown	n,footnote	/footnotes/
+!_TAG_KIND_DESCRIPTION!Markdown	s,section	/sections/
+!_TAG_KIND_DESCRIPTION!Markdown	t,subsubsection	/level 3 sections/
+!_TAG_KIND_DESCRIPTION!Markdown	u,l5subsection	/level 5 sections/
+!_TAG_KIND_DESCRIPTION!PlistXML	k,key	/keys/
 !_TAG_KIND_DESCRIPTION!SVG	d,def	/ids in defs tags/
 !_TAG_KIND_DESCRIPTION!Sh	a,alias	/aliases/
 !_TAG_KIND_DESCRIPTION!Sh	f,function	/functions/
@@ -45,6 +54,8 @@
 !_TAG_OUTPUT_VERSION	0.0	/current.age/
 !_TAG_PARSER_VERSION!C#	0.0	/current.age/
 !_TAG_PARSER_VERSION!GDScript	0.0	/current.age/
+!_TAG_PARSER_VERSION!Markdown	1.1	/current.age/
+!_TAG_PARSER_VERSION!PlistXML	0.0	/current.age/
 !_TAG_PARSER_VERSION!SVG	0.0	/current.age/
 !_TAG_PARSER_VERSION!Sh	0.0	/current.age/
 !_TAG_PARSER_VERSION!XML	0.0	/current.age/
@@ -57,6 +68,7 @@
 !_TAG_ROLE_DESCRIPTION!GDScript!class	extended	/used as a base class for extending/
 !_TAG_ROLE_DESCRIPTION!Sh!heredoc	endmarker	/end marker/
 !_TAG_ROLE_DESCRIPTION!Sh!script	loaded	/loaded/
+<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋	addons/steam-multiplayer-peer/README.md	/^# <img src="https:\/\/raw.githubusercontent.com\/expressobits\/steam-multiplayer-peer\/main\/ico/;"	c
 ACCEL	scripts/player.gd	/^const ACCEL : float = 20.0$/;"	C	typeref:typename:float
 AIR	scripts/player.gd	/^	AIR,$/;"	e	enum:State	file:
 ALL	addons/better-terrain/BetterTerrain.gd	/^	ALL ## All rotated and reflected forms$/;"	e	enum:SymmetryType	file:
@@ -71,12 +83,29 @@ AddTilePeeringType	addons/better-terrain/BetterTerrain.cs	/^    public bool AddT
 All	addons/better-terrain/BetterTerrain.cs	/^        All = 8 \/\/ All rotated and reflected forms$/;"	e	enum:BetterTerrain.SymmetryType	file:
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName ApplyTerrainChangeset = "apply_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public void ApplyTerrainChangeset(Godot.Collections.Dictionary<Variant, Variant> changeset)$/;"	m	class:BetterTerrain
+Authors	addons/steam-multiplayer-peer/README.md	/^## Authors$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 BASE_GRAVITY	scripts/player.gd	/^const BASE_GRAVITY : float = 700.0$/;"	C	typeref:typename:float
 Ball	scripts/bal.gd	/^class_name Ball extends CharacterBody2D$/;"	c
 BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^    public BetterTerrain(TileMapLayer tileMapLayer)$/;"	m	class:BetterTerrain
 BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^public class BetterTerrain$/;"	c
 CATEGORY	addons/better-terrain/BetterTerrain.gd	/^	CATEGORY, ## Declares a matching type for more sophisticated rules.$/;"	e	enum:TerrainType	file:
 CATEGORY_CHECK_ID	addons/better-terrain/editor/TerrainProperties.gd	/^const CATEGORY_CHECK_ID = &"category_check_id"$/;"	C
+CFBundleExecutable	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleExecutable<\/key>$/;"	k
+CFBundleExecutable	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleExecutable<\/key>$/;"	k
+CFBundleIdentifier	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleIdentifier<\/key>$/;"	k
+CFBundleIdentifier	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleIdentifier<\/key>$/;"	k
+CFBundleInfoDictionaryVersion	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleInfoDictionaryVersion<\/key>$/;"	k
+CFBundleInfoDictionaryVersion	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleInfoDictionaryVersion<\/key>$/;"	k
+CFBundleName	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleName<\/key>$/;"	k
+CFBundleName	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleName<\/key>$/;"	k
+CFBundlePackageType	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundlePackageType<\/key>$/;"	k
+CFBundlePackageType	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundlePackageType<\/key>$/;"	k
+CFBundleShortVersionString	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleShortVersionString<\/key>$/;"	k
+CFBundleShortVersionString	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleShortVersionString<\/key>$/;"	k
+CFBundleSupportedPlatforms	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleSupportedPlatforms<\/key>$/;"	k
+CFBundleSupportedPlatforms	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleSupportedPlatforms<\/key>$/;"	k
+CFBundleVersion	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>CFBundleVersion<\/key>$/;"	k
+CFBundleVersion	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleVersion<\/key>$/;"	k
 COYOTE_TIME	scripts/player.gd	/^const COYOTE_TIME : float = 0.05$/;"	C	typeref:typename:float
 Category	addons/better-terrain/BetterTerrain.cs	/^        Category = 2,$/;"	e	enum:BetterTerrain.TerrainType	file:
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName CreateTerrainChangeset = "create_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
@@ -96,6 +125,7 @@ ERROR	addons/better-terrain/BetterTerrain.gd	/^	ERROR = -3$/;"	e	enum:TileCatego
 FLIP	addons/better-terrain/BetterTerrain.gd	/^	FLIP, ## Vertically flip$/;"	e	enum:SymmetryType	file:
 FRICTION	scripts/player.gd	/^const FRICTION : float = 20$/;"	C	typeref:typename:float
 FULL	scripts/player.gd	/^	FULL,$/;"	e	enum:JumpType	file:
+Features	addons/steam-multiplayer-peer/README.md	/^## Features$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 Flip	addons/better-terrain/BetterTerrain.cs	/^        Flip = 2, \/\/ Vertically flip$/;"	e	enum:BetterTerrain.SymmetryType	file:
 GetCell	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName GetCell = "get_cell";$/;"	f	class:BetterTerrain.MethodName
 GetCell	addons/better-terrain/BetterTerrain.cs	/^    public int GetCell(Vector2I coordinate)$/;"	m	class:BetterTerrain
@@ -111,14 +141,19 @@ GetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^        public stati
 GetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^    public int GetTileTerrainType(TileData tileData)$/;"	m	class:BetterTerrain
 GetTilesInTerrain	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName GetTilesInTerrain = "get_tiles_in_terrain";$/;"	f	class:BetterTerrain.MethodName
 GetTilesInTerrain	addons/better-terrain/BetterTerrain.cs	/^    public Array<TileData> GetTilesInTerrain(int type)$/;"	m	class:BetterTerrain
+GodotSteam SteamMultiplayerPeer Differences	addons/steam-multiplayer-peer/README.md	/^## GodotSteam SteamMultiplayerPeer Differences$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 IDLE	scripts/player.gd	/^	IDLE,$/;"	e	enum:State	file:
+In Progress	addons/steam-multiplayer-peer/README.md	/^## In Progress$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName IsTerrainChangesetReady = "is_terrain_changeset_ready"/;"	f	class:BetterTerrain.MethodName
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^    public bool IsTerrainChangesetReady(Godot.Collections.Dictionary<Variant, Variant> changeset/;"	m	class:BetterTerrain
 JUMP	scripts/player.gd	/^	JUMP,$/;"	e	enum:State	file:
 JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -230.0$/;"	C	typeref:typename:float
 JumpType	scripts/player.gd	/^enum JumpType {$/;"	g
 KICK	scripts/player.gd	/^	KICK,$/;"	e	enum:State	file:
+Known issues	addons/steam-multiplayer-peer/README.md	/^## Known issues$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 LINE	addons/better-terrain/editor/Dock.gd	/^	LINE,$/;"	e	enum:PaintAction	file:
+LSMinimumSystemVersion	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framework/Resources/Info.plist	/^	<key>LSMinimumSystemVersion<\/key>$/;"	k
+LSMinimumSystemVersion	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>LSMinimumSystemVersion<\/key>$/;"	k
 MATCH_TILES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_TILES, ## Selects tiles by matching against adjacent tiles.$/;"	e	enum:TerrainType	file:
 MATCH_VERTICES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_VERTICES, ## Select tiles by analysing vertices, similar to wang-style tiles.$/;"	e	enum:TerrainType	file:
 MAX	addons/better-terrain/BetterTerrain.gd	/^	MAX,$/;"	e	enum:TerrainType	file:
@@ -151,6 +186,7 @@ PaintAction	addons/better-terrain/editor/Dock.gd	/^enum PaintAction {$/;"	g
 PaintAction	addons/better-terrain/editor/TileView.gd	/^enum PaintAction {$/;"	g
 PaintMode	addons/better-terrain/editor/Dock.gd	/^enum PaintMode {$/;"	g
 PaintMode	addons/better-terrain/editor/TileView.gd	/^enum PaintMode {$/;"	g
+Planneds	addons/steam-multiplayer-peer/README.md	/^## Planneds$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 Player	scripts/player.gd	/^class_name Player extends CharacterBody2D$/;"	c
 RECT	addons/better-terrain/editor/Dock.gd	/^	RECT$/;"	e	enum:PaintAction	file:
 REFLECT	addons/better-terrain/BetterTerrain.gd	/^	REFLECT, ## All four reflections$/;"	e	enum:SymmetryType	file:
@@ -191,6 +227,7 @@ SetTileSymmetryType	addons/better-terrain/BetterTerrain.cs	/^        public stat
 SetTileSymmetryType	addons/better-terrain/BetterTerrain.cs	/^    public bool SetTileSymmetryType(TileData tileData, SymmetryType type)$/;"	m	class:BetterTerrain
 SetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName SetTileTerrainType = "set_tile_terrain_type";$/;"	f	class:BetterTerrain.MethodName
 SetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^    public bool SetTileTerrainType(TileData tileData, int type)$/;"	m	class:BetterTerrain
+Show your support	addons/steam-multiplayer-peer/README.md	/^## Show your support$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 SourceSelectors	addons/better-terrain/editor/Dock.gd	/^enum SourceSelectors {$/;"	g
 Stage	scripts/world.gd	/^class_name Stage extends Node2D$/;"	c
 State	scripts/player.gd	/^enum State {$/;"	g
@@ -213,6 +250,7 @@ TilePeeringKeys	addons/better-terrain/BetterTerrain.cs	/^        public static r
 TilePeeringKeys	addons/better-terrain/BetterTerrain.cs	/^    public Array<TileSet.CellNeighbor> TilePeeringKeys(TileData tileData)$/;"	m	class:BetterTerrain
 TilePeeringTypes	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName TilePeeringTypes = "tile_peering_types";$/;"	f	class:BetterTerrain.MethodName
 TilePeeringTypes	addons/better-terrain/BetterTerrain.cs	/^    public Array<int> TilePeeringTypes(TileData tileData, TileSet.CellNeighbor peering)$/;"	m	class:BetterTerrain
+Tutorial and Learnings (How to use)	addons/steam-multiplayer-peer/README.md	/^## Tutorial and Learnings (How to use)$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 UpdateTerrainArea	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName UpdateTerrainArea = "update_terrain_area";$/;"	f	class:BetterTerrain.MethodName
 UpdateTerrainArea	addons/better-terrain/BetterTerrain.cs	/^    public void UpdateTerrainArea(Rect2I area, bool updateSurroundingCells = true)$/;"	m	class:BetterTerrain
 UpdateTerrainCell	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName UpdateTerrainCell = "update_terrain_cell";$/;"	f	class:BetterTerrain.MethodName
@@ -304,6 +342,8 @@ _physics_process	scripts/camera.gd	/^func _physics_process(delta : float):$/;"	m
 _physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void:$/;"	m	typeref:typename:void
 _probe	addons/better-terrain/BetterTerrain.gd	/^func _probe(tm: TileMapLayer, coord: Vector2i, peering: int, type: int, types: Dictionary) -> in/;"	m	typeref:typename:int
 _process	addons/better-terrain/editor/Dock.gd	/^func _process(delta):$/;"	m
+_process	scripts/steam.gd	/^func _process(_delta: float):$/;"	m
+_process	scripts/steam_init.gd	/^func _process(delta: float) -> void:$/;"	m	typeref:typename:void
 _purge_cache	addons/better-terrain/BetterTerrain.gd	/^func _purge_cache(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/Dock.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/TerrainEntry.gd	/^func _ready():$/;"	m
@@ -312,6 +352,8 @@ _ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
 _ready	scripts/main_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
+_ready	scripts/steam.gd	/^func _ready():$/;"	m
+_ready	scripts/steam_init.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _set_terrain_meta	addons/better-terrain/BetterTerrain.gd	/^func _set_terrain_meta(ts: TileSet, meta : Dictionary) -> void:$/;"	m	typeref:typename:void
 _set_tile_meta	addons/better-terrain/BetterTerrain.gd	/^func _set_tile_meta(ts: TileSet, td: TileData, meta) -> void:$/;"	m	typeref:typename:void
 _shortcut_input	addons/better-terrain/editor/Dock.gd	/^func _shortcut_input(event) -> void:$/;"	m	typeref:typename:void
@@ -684,3 +726,5 @@ wall_jump_dir	scripts/player.gd	/^var wall_jump_dir : float = 0$/;"	v	typeref:ty
 zoom_level	addons/better-terrain/editor/TileView.gd	/^var zoom_level := 1.0$/;"	v
 zoom_slider	addons/better-terrain/editor/Dock.gd	/^var zoom_slider : HSlider$/;"	v	typeref:typename:HSlider
 zoom_slider_container	addons/better-terrain/editor/Dock.gd	/^@onready var zoom_slider_container: VBoxContainer = $VBox\/Toolbar\/ZoomContainer$/;"	v	typeref:typename:VBoxContainer	annotations:onready
+📝 License	addons/steam-multiplayer-peer/README.md	/^## 📝 License$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
+🤝 Contributing	addons/steam-multiplayer-peer/README.md	/^## 🤝 Contributing$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋

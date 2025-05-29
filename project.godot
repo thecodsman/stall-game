@@ -24,6 +24,7 @@ GameText="*res://stuff/label.tscn"
 Globals="*res://scripts/globals.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 MusicPlayer="*res://stuff/music_player.tscn"
+GlobalSteam="*res://scripts/steam.gd"
 
 [display]
 
