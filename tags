@@ -357,6 +357,7 @@ _physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void
 _probe	addons/better-terrain/BetterTerrain.gd	/^func _probe(tm: TileMapLayer, coord: Vector2i, peering: int, type: int, types: Dictionary) -> in/;"	m	typeref:typename:int
 _process	addons/better-terrain/editor/Dock.gd	/^func _process(delta):$/;"	m
 _process	singletons/steam.gd	/^func _process(_delta: float):$/;"	m
+_process	singletons/steamworks.gd	/^func _process(_delta: float):$/;"	m
 _purge_cache	addons/better-terrain/BetterTerrain.gd	/^func _purge_cache(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/Dock.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/TerrainEntry.gd	/^func _ready():$/;"	m
@@ -369,6 +370,7 @@ _ready	scripts/player.gd	/^func _ready():$/;"	m
 _ready	scripts/stage.gd	/^func _ready():$/;"	m
 _ready	singletons/lobby.gd	/^func _ready():$/;"	m
 _ready	singletons/steam.gd	/^func _ready():$/;"	m
+_ready	singletons/steamworks.gd	/^func _ready():$/;"	m
 _register_player	singletons/lobby.gd	/^func _register_player(new_player_info):$/;"	m	annotations:rpc("any_peer", "reliable")
 _set_terrain_meta	addons/better-terrain/BetterTerrain.gd	/^func _set_terrain_meta(ts: TileSet, meta : Dictionary) -> void:$/;"	m	typeref:typename:void
 _set_tile_meta	addons/better-terrain/BetterTerrain.gd	/^func _set_tile_meta(ts: TileSet, td: TileData, meta) -> void:$/;"	m	typeref:typename:void
