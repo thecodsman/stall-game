@@ -126,7 +126,6 @@ ERASE_TYPE	addons/better-terrain/editor/TileView.gd	/^	ERASE_TYPE,$/;"	e	enum:Pa
 ERROR	addons/better-terrain/BetterTerrain.gd	/^	ERROR = -3$/;"	e	enum:TileCategory	file:
 FLIP	addons/better-terrain/BetterTerrain.gd	/^	FLIP, ## Vertically flip$/;"	e	enum:SymmetryType	file:
 FRICTION	scripts/player.gd	/^const FRICTION : float = 20$/;"	C	typeref:typename:float
-FULL	scripts/player.gd	/^	FULL,$/;"	e	enum:JumpType	file:
 Features	addons/steam-multiplayer-peer/README.md	/^## Features$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 Flip	addons/better-terrain/BetterTerrain.cs	/^        Flip = 2, \/\/ Vertically flip$/;"	e	enum:BetterTerrain.SymmetryType	file:
 GetCell	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName GetCell = "get_cell";$/;"	f	class:BetterTerrain.MethodName
@@ -150,7 +149,6 @@ IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^        public 
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^    public bool IsTerrainChangesetReady(Godot.Collections.Dictionary<Variant, Variant> changeset/;"	m	class:BetterTerrain
 JUMP	scripts/player.gd	/^	JUMP,$/;"	e	enum:State	file:
 JUMP_VELOCITY	scripts/player.gd	/^const JUMP_VELOCITY : float = -230.0$/;"	C	typeref:typename:float
-JumpType	scripts/player.gd	/^enum JumpType {$/;"	g
 KICK	scripts/player.gd	/^	KICK,$/;"	e	enum:State	file:
 Known issues	addons/steam-multiplayer-peer/README.md	/^## Known issues$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 LINE	addons/better-terrain/editor/Dock.gd	/^	LINE,$/;"	e	enum:PaintAction	file:
@@ -216,7 +214,6 @@ SCALE_FRONT	scripts/carousel_select.gd	/^const SCALE_FRONT = Vector2(1.0, 1.0)$/
 SCALE_SIDE	scripts/carousel_select.gd	/^const SCALE_SIDE = Vector2(0.8, 0.8)$/;"	C
 SELECT	addons/better-terrain/editor/TileView.gd	/^	SELECT,$/;"	e	enum:PaintAction	file:
 SELECT	addons/better-terrain/editor/TileView.gd	/^	SELECT,$/;"	e	enum:PaintMode	file:
-SHORT	scripts/player.gd	/^	SHORT,$/;"	e	enum:JumpType	file:
 SPEED	scripts/player.gd	/^const SPEED : float = 100.0$/;"	C	typeref:typename:float
 STALL	scripts/player.gd	/^	STALL,$/;"	e	enum:State	file:
 STALL_KICK	scripts/player.gd	/^	STALL_KICK$/;"	e	enum:State	file:
@@ -262,7 +259,6 @@ UpdateTerrainCell	addons/better-terrain/BetterTerrain.cs	/^    public void Updat
 UpdateTerrainCells	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName UpdateTerrainCells = "update_terrain_cells";$/;"	f	class:BetterTerrain.MethodName
 UpdateTerrainCells	addons/better-terrain/BetterTerrain.cs	/^    public void UpdateTerrainCells(Array<Vector2I> cells, bool updateSurroundingCells = true)$/;"	m	class:BetterTerrain
 WALK	scripts/player.gd	/^	WALK,$/;"	e	enum:State	file:
-WALL	scripts/player.gd	/^	WALL$/;"	e	enum:JumpType	file:
 WALL	scripts/player.gd	/^	WALL,$/;"	e	enum:State	file:
 WaitForTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName WaitForTerrainChangeset = "wait_for_terrain_changeset"/;"	f	class:BetterTerrain.MethodName
 WaitForTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public void WaitForTerrainChangeset(Godot.Collections.Dictionary<Variant, Variant> changeset/;"	m	class:BetterTerrain
@@ -413,8 +409,8 @@ add_tile_peering_type	addons/better-terrain/BetterTerrain.gd	/^func add_tile_pee
 alternate_lookup	addons/better-terrain/editor/TileView.gd	/^var alternate_lookup := []$/;"	v	typeref:typename:=[]
 alternate_size	addons/better-terrain/editor/TileView.gd	/^var alternate_size : Vector2$/;"	v	typeref:typename:Vector2
 anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
-apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m
-apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m
+apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
+apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m	annotations:rpc("call_local", "reliable")
 apply_ball_ownership	scripts/player.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
 apply_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func apply_terrain_changeset(change: Dictionary) -> void:$/;"	m	typeref:typename:void
@@ -422,7 +418,7 @@ associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func
 ball_holder	scripts/player.gd	/^@onready var ball_holder = $Sprite2D\/ball_holder$/;"	v	annotations:onready
 basic_stage	scripts/carousel_select.gd	/^const basic_stage = "res:\/\/worlds\/basic_stage.tscn"$/;"	C
 betterTerrain	addons/better-terrain/BetterTerrain.cs	/^    private readonly Node betterTerrain;$/;"	f	class:BetterTerrain	file:
-bonk	scripts/bonk_box.gd	/^func bonk(pos) -> Vector2: ## pass in the global position of the bonked$/;"	m	typeref:typename:Vector2
+bonk	scripts/bonk_box.gd	/^func bonk(ball:Ball) -> void: ## pass in the global position of the bonked$/;"	m	typeref:typename:void	annotations:rpc("call_local")
 bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	annotations:onready
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
@@ -533,7 +529,6 @@ j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:t
 join_game	singletons/lobby.gd	/^func join_game(address : String = "", port : int = 0):$/;"	m
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
-jump_type	scripts/player.gd	/^var jump_type : JumpType$/;"	v	typeref:typename:JumpType
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball():$/;"	m
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
@@ -742,7 +737,7 @@ undo_manager	addons/better-terrain/editor/Dock.gd	/^var undo_manager : EditorUnd
 undo_manager	addons/better-terrain/editor/TileView.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 update	addons/better-terrain/editor/TerrainEntry.gd	/^func update():$/;"	m
 update_carousel	scripts/carousel_select.gd	/^func update_carousel():$/;"	m	annotations:rpc("call_local", "reliable")
-update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m
+update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m	annotations:rpc("call_local", "reliable")
 update_overlay	addons/better-terrain/editor/Dock.gd	/^signal update_overlay$/;"	s
 update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m
 update_style	addons/better-terrain/editor/TerrainEntry.gd	/^func update_style():$/;"	m

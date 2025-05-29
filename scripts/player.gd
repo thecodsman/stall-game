@@ -13,12 +13,6 @@ var direction : float = 0
 var dir_prev_frame : float = 0
 var can_jump : bool = false
 var j_prev_frame : bool = false
-enum JumpType {
-	FULL,
-	SHORT,
-	WALL
-	}
-var jump_type : JumpType
 var wall_jump_dir : float = 0
 var dash_speed : float = 200.0
 var dashes : int = 1
@@ -96,7 +90,6 @@ func enter_state():
 			can_jump = true
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
-			jump_type = JumpType.WALL
 		State.STALL:
 			anim.play("stall")
 			set_collision_mask_value(3, false)
