@@ -55,7 +55,7 @@ func get_joy_axis(device : int, axis : JoyAxis) -> float:
 	return Input.get_joy_axis(device,axis)
 
 
-func is_joy_button_pressed(device : int, button : JoyButton) -> bool:
+func is_joy_button_pressed(button : JoyButton) -> bool:
 	if not is_multiplayer_authority(): return false
 	set_action_state.rpc(button)
-	return Input.is_joy_button_pressed(device,button)
+	return buttons[button].held == 1

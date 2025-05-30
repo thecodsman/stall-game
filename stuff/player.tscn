@@ -533,6 +533,7 @@ collision_layer = 2
 collision_mask = 13
 platform_on_leave = 2
 script = ExtResource("1_7defb")
+dead_zone = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

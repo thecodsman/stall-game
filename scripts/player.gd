@@ -242,7 +242,7 @@ func update_state(delta : float):
 
 		State.KICK:
 			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
-			if input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "":
+			if input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
 				delta *= 0.1
 				if not charged_kick:
 					velocity *= 0.1
@@ -254,7 +254,7 @@ func update_state(delta : float):
 					sprite.scale = Vector2(1,-1)
 				else:
 					sprite.scale = Vector2(1,1)
-			elif not input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "":
+			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
 				anim.play("kick")
 				if not charged_kick: return
 				var tween = create_tween()
