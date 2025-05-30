@@ -509,7 +509,7 @@ force_show_terrains	addons/better-terrain/editor/Dock.gd	/^signal force_show_ter
 freeze_frame	singletons/globals.gd	/^func freeze_frame(time : float, time_scale : float = 0.1):$/;"	m
 get_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func get_categories() -> Array:$/;"	m	typeref:typename:Array
 get_cell	addons/better-terrain/BetterTerrain.gd	/^func get_cell(tm: TileMapLayer, coord: Vector2i) -> int:$/;"	m	typeref:typename:int
-get_joy_axis	scripts/player_input.gd	/^func get_joy_axis(device : int, axis : JoyAxis) -> float:$/;"	m	typeref:typename:float
+get_joy_axis	scripts/player_input.gd	/^func get_joy_axis(device : int, axis : JoyAxis):$/;"	m
 get_terrain	addons/better-terrain/BetterTerrain.gd	/^func get_terrain(ts: TileSet, index: int) -> Dictionary:$/;"	m	typeref:typename:Dictionary
 get_terrain_categories	addons/better-terrain/BetterTerrain.gd	/^func get_terrain_categories(ts: TileSet) -> Array:$/;"	m	typeref:typename:Array
 get_terrain_peering_cells	addons/better-terrain/BetterTerrainData.gd	/^static func get_terrain_peering_cells(ts: TileSet, type: int) -> Array[int]:$/;"	m	typeref:typename:Array[int]	annotations:static
@@ -532,8 +532,8 @@ input	scripts/ball_hitter.gd	/^@export var input : PlayerInput$/;"	v	typeref:typ
 input	scripts/player.gd	/^@onready var input : PlayerInput = $Input$/;"	v	typeref:typename:PlayerInput	annotations:onready
 ip	scripts/connect_menu.gd	/^@onready var ip = $address\/ip$/;"	v	annotations:onready
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
-is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
-is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
+is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton):$/;"	m
+is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(button : JoyButton):$/;"	m
 is_online	singletons/globals.gd	/^var is_online : bool = false$/;"	v	typeref:typename:bool
 is_terrain_changeset_ready	addons/better-terrain/BetterTerrain.gd	/^func is_terrain_changeset_ready(change: Dictionary) -> bool:$/;"	m	typeref:typename:bool
 is_terrain_peering_cell	addons/better-terrain/BetterTerrainData.gd	/^static func is_terrain_peering_cell(ts: TileSet, type: int, peering: int) -> bool:$/;"	m	typeref:typename:bool	annotations:static
