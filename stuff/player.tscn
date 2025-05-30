@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=39 format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cvy7sd2sqxotu" path="res://sounds/dash.wav" id="6_iqidt"]
 [ext_resource type="AudioStream" uid="uid://dojtu42gvjf7c" path="res://sounds/jump.wav" id="7_28f3j"]
 [ext_resource type="AudioStream" uid="uid://b6cx0yte18dbu" path="res://sounds/walk.wav" id="8_b0gpc"]
+[ext_resource type="Script" uid="uid://d2bauq2q5x7ed" path="res://scripts/player_input.gd" id="9_xoaqs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
@@ -493,22 +494,33 @@ properties/3/spawn = true
 properties/3/replication_mode = 1
 properties/4/path = NodePath("Sprite2D/kick_box/CollisionShape2D:disabled")
 properties/4/spawn = true
-properties/4/replication_mode = 2
+properties/4/replication_mode = 0
 properties/5/path = NodePath("Sprite2D/bonk_box/CollisionShape2D:disabled")
 properties/5/spawn = true
-properties/5/replication_mode = 2
+properties/5/replication_mode = 0
 properties/6/path = NodePath("Sprite2D/stall_box/CollisionShape2D:disabled")
 properties/6/spawn = true
-properties/6/replication_mode = 2
+properties/6/replication_mode = 0
 properties/7/path = NodePath(".:self_modulate")
 properties/7/spawn = true
-properties/7/replication_mode = 2
+properties/7/replication_mode = 0
 properties/8/path = NodePath(".:velocity")
 properties/8/spawn = true
-properties/8/replication_mode = 1
+properties/8/replication_mode = 0
 properties/9/path = NodePath(".:player_index")
 properties/9/spawn = true
 properties/9/replication_mode = 2
+properties/10/path = NodePath(".:id")
+properties/10/spawn = true
+properties/10/replication_mode = 0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xoaqs"]
+properties/0/path = NodePath("Input:buttons")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Input:direction")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 2
@@ -585,6 +597,10 @@ bus = &"SFX"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_b0gpc")
+
+[node name="Input" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_xoaqs")
+script = ExtResource("9_xoaqs")
 
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="area_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_area_entered"]

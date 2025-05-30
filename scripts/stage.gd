@@ -19,6 +19,7 @@ func online_spawn_players():
 	for i in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
 		player.name = str(Lobby.players.keys()[i])
+		player.id = Lobby.players.keys()[i]
 		player.self_modulate = Globals.player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = 0

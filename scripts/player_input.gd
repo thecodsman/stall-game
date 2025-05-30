@@ -1,0 +1,50 @@
+extends MultiplayerSynchronizer
+
+var device_index : int = 0
+var button_state : Dictionary[String,int] = {
+	"held":0,
+	"frame_pressed":-1,
+	"frame_released":-1,
+	}
+var buttons : Dictionary[int,Dictionary] ## button pressed and frame that started pressing
+var direction : Vector2
+var dead_zone : float = 0.09
+
+
+func _ready():
+	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+
+
+func _physics_process(_delta: float) -> void:
+	direction = Vector2(
+		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_X),
+		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_Y)
+		)
+	for i in range(buttons.size()):
+		set_action_state(buttons.keys()[i])
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton:
+		set_action_state(event.button_index)
+
+
+func set_action_state(button : int):
+	if not buttons.get(button):
+		buttons[button] = button_state.duplicate()
+	var prev_button_state = buttons[button]
+	var currently_held = Input.is_joy_button_pressed(device_index, button)
+	if currently_held && not prev_button_state.held:
+		buttons[button].held = 1
+		buttons[button].frame_pressed = Engine.get_physics_frames()
+	elif not currently_held && prev_button_state.held:
+		buttons[button].held = 0
+		buttons[button].frame_released = Engine.get_physics_frames()
+
+
+func get_joy_axis(device : int, axis : JoyAxis) -> float:
+	return Input.get_joy_axis(device,axis)
+
+
+func is_joy_button_pressed(device : int, button : JoyButton) -> bool:
+	return Input.is_joy_button_pressed(device,button)

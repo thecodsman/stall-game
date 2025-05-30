@@ -349,6 +349,7 @@ _peering_polygon_vertical_vertices	addons/better-terrain/BetterTerrainData.gd	/^
 _physics_process	scripts/bal.gd	/^func _physics_process(delta : float) -> void:$/;"	m	typeref:typename:void
 _physics_process	scripts/camera.gd	/^func _physics_process(delta : float):$/;"	m
 _physics_process	scripts/player.gd	/^func _physics_process(delta: float) -> void:$/;"	m	typeref:typename:void
+_physics_process	scripts/player_input.gd	/^func _physics_process(_delta: float) -> void:$/;"	m	typeref:typename:void
 _probe	addons/better-terrain/BetterTerrain.gd	/^func _probe(tm: TileMapLayer, coord: Vector2i, peering: int, type: int, types: Dictionary) -> in/;"	m	typeref:typename:int
 _process	addons/better-terrain/editor/Dock.gd	/^func _process(delta):$/;"	m
 _process	singletons/steamworks.gd	/^func _process(_delta: float):$/;"	m
@@ -361,6 +362,7 @@ _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
 _ready	scripts/lobby_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/main_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
+_ready	scripts/player_input.gd	/^func _ready():$/;"	m
 _ready	scripts/stage.gd	/^func _ready():$/;"	m
 _ready	singletons/lobby.gd	/^func _ready():$/;"	m
 _ready	singletons/steamworks.gd	/^func _ready():$/;"	m
@@ -384,6 +386,7 @@ _terrain_texture	addons/better-terrain/editor/TerrainEntry.gd	/^var _terrain_tex
 _terrain_texture_rect	addons/better-terrain/editor/TerrainEntry.gd	/^var _terrain_texture_rect:Rect2i$/;"	v	typeref:typename:Rect2i
 _tile_cache	addons/better-terrain/BetterTerrain.gd	/^var _tile_cache = {}$/;"	v
 _unhandled_input	scripts/carousel_select.gd	/^func _unhandled_input(event: InputEvent) -> void:$/;"	m	typeref:typename:void
+_unhandled_input	scripts/player_input.gd	/^func _unhandled_input(event: InputEvent) -> void:$/;"	m	typeref:typename:void
 _update_terrain_data	addons/better-terrain/BetterTerrain.gd	/^func _update_terrain_data(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _update_tile_deferred	addons/better-terrain/BetterTerrain.gd	/^func _update_tile_deferred(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictionary, types: Dictio/;"	m
 _update_tile_immediate	addons/better-terrain/BetterTerrain.gd	/^func _update_tile_immediate(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictionary, types: Dicti/;"	m	typeref:typename:void
@@ -420,6 +423,8 @@ bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
 button	addons/better-terrain/TerrainPlugin.gd	/^var button : Button$/;"	v	typeref:typename:Button
+button_state	scripts/player_input.gd	/^var button_state : Dictionary[String,int] = {$/;"	v	typeref:typename:Dictionary[String,int]
+buttons	scripts/player_input.gd	/^var buttons : Dictionary[int,Dictionary] ## button pressed and frame that started pressing$/;"	v	typeref:typename:Dictionary[int,Dictionary]
 camera	singletons/globals.gd	/^var camera : Camera2D$/;"	v	typeref:typename:Camera2D
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
 can_scroll	scripts/carousel_select.gd	/^var can_scroll : bool = true$/;"	v	typeref:typename:bool
@@ -478,9 +483,12 @@ dash_speed	scripts/player.gd	/^var dash_speed : float = 200.0$/;"	v	typeref:type
 dashes	scripts/player.gd	/^var dashes : int = 1$/;"	v	typeref:typename:int
 data	addons/better-terrain/BetterTerrain.gd	/^var data := load("res:\/\/addons\/better-terrain\/BetterTerrainData.gd"):$/;"	v
 dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref:typename:float	annotations:export
+dead_zone	scripts/player_input.gd	/^var dead_zone : float = 0.09$/;"	v	typeref:typename:float
 delete_selection	addons/better-terrain/editor/TileView.gd	/^func delete_selection():$/;"	m
+device_index	scripts/player_input.gd	/^var device_index : int = 0$/;"	v	typeref:typename:int
 dir_prev_frame	scripts/player.gd	/^var dir_prev_frame : float = 0$/;"	v	typeref:typename:float
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
+direction	scripts/player_input.gd	/^var direction : Vector2$/;"	v	typeref:typename:Vector2
 disabled_sources	addons/better-terrain/editor/TileView.gd	/^var disabled_sources: Array[int] = []: set = set_disabled_sources$/;"	v	typeref:typename:Array[int]
 dock	addons/better-terrain/TerrainPlugin.gd	/^var dock : Control$/;"	v	typeref:typename:Control
 draw_button	addons/better-terrain/editor/Dock.gd	/^@onready var draw_button: Button = $VBox\/Toolbar\/Draw$/;"	v	typeref:typename:Button	annotations:onready
@@ -501,6 +509,7 @@ force_show_terrains	addons/better-terrain/editor/Dock.gd	/^signal force_show_ter
 freeze_frame	singletons/globals.gd	/^func freeze_frame(time : float, time_scale : float = 0.1):$/;"	m
 get_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func get_categories() -> Array:$/;"	m	typeref:typename:Array
 get_cell	addons/better-terrain/BetterTerrain.gd	/^func get_cell(tm: TileMapLayer, coord: Vector2i) -> int:$/;"	m	typeref:typename:int
+get_joy_axis	scripts/player_input.gd	/^func get_joy_axis(device : int, axis : JoyAxis) -> float:$/;"	m	typeref:typename:float
 get_terrain	addons/better-terrain/BetterTerrain.gd	/^func get_terrain(ts: TileSet, index: int) -> Dictionary:$/;"	m	typeref:typename:Dictionary
 get_terrain_categories	addons/better-terrain/BetterTerrain.gd	/^func get_terrain_categories(ts: TileSet) -> Array:$/;"	m	typeref:typename:Array
 get_terrain_peering_cells	addons/better-terrain/BetterTerrainData.gd	/^static func get_terrain_peering_cells(ts: TileSet, type: int) -> Array[int]:$/;"	m	typeref:typename:Array[int]	annotations:static
@@ -516,11 +525,13 @@ grid_mode	addons/better-terrain/editor/TerrainEntry.gd	/^var grid_mode := false$
 grid_mode_button	addons/better-terrain/editor/Dock.gd	/^@onready var grid_mode_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/GridMode$/;"	v	typeref:typename:Button	annotations:onready
 highlighted_tile_part	addons/better-terrain/editor/TileView.gd	/^var highlighted_tile_part := { valid = false }$/;"	v
 icon_layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var icon_layout_container := %IconLayout$/;"	v	annotations:onready
-id	scripts/player.gd	/^var id : int = 1$/;"	v	typeref:typename:int
+id	scripts/player.gd	/^var id : int = 1 :$/;"	v	typeref:typename:int
 initial_click	addons/better-terrain/editor/Dock.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 initial_click	addons/better-terrain/editor/TileView.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
+input	scripts/player.gd	/^@onready var input = $Input$/;"	v	annotations:onready
 ip	scripts/connect_menu.gd	/^@onready var ip = $address\/ip$/;"	v	annotations:onready
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
+is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(device : int, button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
 is_online	singletons/globals.gd	/^var is_online : bool = false$/;"	v	typeref:typename:bool
 is_terrain_changeset_ready	addons/better-terrain/BetterTerrain.gd	/^func is_terrain_changeset_ready(change: Dictionary) -> bool:$/;"	m	typeref:typename:bool
 is_terrain_peering_cell	addons/better-terrain/BetterTerrainData.gd	/^static func is_terrain_peering_cell(ts: TileSet, type: int, peering: int) -> bool:$/;"	m	typeref:typename:bool	annotations:static
@@ -657,6 +668,7 @@ selection_end	addons/better-terrain/editor/TileView.gd	/^var selection_end : Vec
 selection_rect	addons/better-terrain/editor/TileView.gd	/^var selection_rect : Rect2i$/;"	v	typeref:typename:Rect2i
 selection_start	addons/better-terrain/editor/TileView.gd	/^var selection_start : Vector2i$/;"	v	typeref:typename:Vector2i
 server_disconnected	singletons/lobby.gd	/^signal server_disconnected$/;"	s
+set_action_state	scripts/player_input.gd	/^func set_action_state(button : int):$/;"	m
 set_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func set_categories(ids : Array):$/;"	m
 set_category_data	addons/better-terrain/editor/TerrainProperties.gd	/^func set_category_data(options: Array) -> void:$/;"	m	typeref:typename:void
 set_cell	addons/better-terrain/BetterTerrain.gd	/^func set_cell(tm: TileMapLayer, coord: Vector2i, type: int) -> bool:$/;"	m	typeref:typename:bool

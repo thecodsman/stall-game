@@ -9,7 +9,10 @@ const FRICTION : float = 20
 const COYOTE_TIME : float = 0.05
 var player_index : int = 0
 var controller_index : int = 0
-var id : int = 1
+var id : int = 1 :
+	set(new_id):
+		id = new_id
+		$Input.set_multiplayer_authority(id)
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
@@ -21,6 +24,7 @@ var dashes : int = 1
 var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
+@onready var input = $Input
 @onready var ball_holder = $Sprite2D/ball_holder
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
@@ -43,16 +47,16 @@ enum State {
 	}
 var state : State
 
+
 func _ready():
 	sprite.self_modulate = self_modulate
-	print("instance:%s, authority:%s" % [multiplayer.get_unique_id(), get_multiplayer_authority()])
-	if not id == multiplayer.get_unique_id(): return
+	print("instance:%s, authority:%s" % [multiplayer.get_unique_id(), id])
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
+	#set_physics_process(id == multiplayer.get_unique_id())
 
 
 func _physics_process(delta: float) -> void:
-	if not id == multiplayer.get_unique_id(): return
 	update_state(delta)
 	move_and_slide()
 
@@ -78,7 +82,7 @@ func enter_state():
 			velocity.x = sign(direction) * SPEED
 		State.DASH:
 			anim.play("dash")
-			var dir = Vector2(Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y))
+			var dir = Vector2(input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y))
 			velocity = dir * dash_speed
 			await get_tree().create_timer(0.1).timeout
 			set_state(State.AIR)
@@ -108,7 +112,7 @@ var turned_around : bool = false
 func update_state(delta : float):
 	match state:
 		State.IDLE:
-			direction = Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X)
+			direction = input.direction.x
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 			check_for_jump()
 			check_for_drop_through()
@@ -142,7 +146,7 @@ func update_state(delta : float):
 			apply_gravity(delta)
 
 		State.RUN:
-			direction = Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X)
+			direction = input.direction.x
 			if abs(direction) < dead_zone: direction = 0
 			if not direction && abs(velocity.x) < 1: set_state(State.IDLE)
 			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1 && not turned_around: 
@@ -169,7 +173,7 @@ func update_state(delta : float):
 			apply_gravity(delta)
 
 		State.RUN_DASH:
-			direction = Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X)
+			direction = input.direction.x
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
 				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
@@ -185,7 +189,7 @@ func update_state(delta : float):
 			velocity.x = sign(direction) * SPEED
 
 		State.JUMP:
-			var is_jump_pressed = Input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
+			var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
 			if is_jump_pressed:
 				if not j_prev_frame && can_jump:
 					j_prev_frame = true
@@ -220,7 +224,7 @@ func update_state(delta : float):
 			check_for_wall_jump()
 			velocity.y = lerpf(velocity.y, 0 , 5*delta)
 			apply_gravity(delta)
-			direction = Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X)
+			direction = input.direction.x
 			var wall_dir : float = 0
 			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
 			wall_jump_dir = wall_dir
@@ -238,24 +242,24 @@ func update_state(delta : float):
 
 		State.KICK:
 			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
-			if Input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "":
+			if input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "":
 				delta *= 0.1
 				if not charged_kick:
 					velocity *= 0.1
 					sprite.scale = Vector2(1,1)
 				charged_kick = true
 				apply_gravity(delta)
-				sprite.rotation = Vector2(Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y)).angle()
+				sprite.rotation = Vector2(input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y)).angle()
 				if sprite.rotation >= PI/2 || sprite.rotation <= -PI/2:
 					sprite.scale = Vector2(1,-1)
 				else:
 					sprite.scale = Vector2(1,1)
-			elif not Input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "":
+			elif not input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "":
 				anim.play("kick")
 				if not charged_kick: return
 				var tween = create_tween()
 				tween.tween_property(self, "velocity", velocity * 10, 0.1)
-			elif not Input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
+			elif not input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				charged_kick = false
 			elif anim.current_animation == "kick" || anim.current_animation == "kick_charge":
@@ -295,7 +299,7 @@ func update_state(delta : float):
 				return
 			if not is_ball_stalled: return
 			if not anim_finished: return
-			var kick_pressed = Input.is_joy_button_pressed(controller_index, JOY_BUTTON_X)
+			var kick_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_X)
 			if kick_pressed: set_state(State.STALL_KICK)
 
 		State.STALL_KICK:
@@ -332,13 +336,13 @@ func _on_animation_finished(animation):
 
 
 func check_for_special():
-	var is_special_pressed = Input.is_joy_button_pressed(controller_index, JOY_BUTTON_B)
+	var is_special_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_B)
 	if is_special_pressed:
 		set_state(State.STALL)
 
 
 func check_for_jump():
-	var is_jump_pressed = Input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
+	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
 	if is_jump_pressed && not j_prev_frame:
 		if can_jump: set_state(State.JUMP)
 		j_prev_frame = true
@@ -347,7 +351,7 @@ func check_for_jump():
 
 
 func check_for_wall_jump():
-	var is_jump_pressed = Input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
+	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
 	if is_jump_pressed && not j_prev_frame:
 		velocity.y = JUMP_VELOCITY
 		velocity.x = (JUMP_VELOCITY * wall_jump_dir) * 0.65
@@ -359,22 +363,22 @@ func check_for_wall_jump():
 	
 
 func check_for_kick():
-	if Input.is_joy_button_pressed(controller_index, JOY_BUTTON_X):
+	if input.is_joy_button_pressed(controller_index, JOY_BUTTON_X):
 		set_state(State.KICK)
 
 
 var dash_pressed_prev_frame : bool = false
 func check_for_dash():
-	if Input.is_joy_button_pressed(controller_index, JOY_BUTTON_RIGHT_SHOULDER) && not dash_pressed_prev_frame && dashes > 0:
+	if input.is_joy_button_pressed(controller_index, JOY_BUTTON_RIGHT_SHOULDER) && not dash_pressed_prev_frame && dashes > 0:
 		dash_pressed_prev_frame = true
 		dashes -= 1
 		set_state(State.DASH)
-	elif not Input.is_joy_button_pressed(controller_index, JOY_BUTTON_RIGHT_SHOULDER):
+	elif not input.is_joy_button_pressed(controller_index, JOY_BUTTON_RIGHT_SHOULDER):
 		dash_pressed_prev_frame = false
 
 
 func move(delta : float, accel : float = ACCEL, speed : float = SPEED):
-	direction = Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X)
+	direction = input.direction.x
 	if abs(direction) < dead_zone: direction = 0
 	if velocity.x: sprite.scale.x = sign(velocity.x)
 	velocity.x = lerpf(velocity.x, direction * speed, accel*delta)
@@ -388,9 +392,9 @@ func apply_gravity(delta):
 
 func check_for_drop_through():
 	var threshold : float = 0.85
-	if Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) > threshold && not is_on_floor():
+	if input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) > threshold && not is_on_floor():
 		set_collision_mask_value(4, false)
-	elif Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) > threshold && is_on_floor():
+	elif input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) > threshold && is_on_floor():
 		set_collision_mask_value(4, false)
 		velocity.y = 10
 	else:
@@ -400,7 +404,7 @@ func check_for_drop_through():
 func launch_stalled_ball():
 	is_ball_stalled = false
 	var ball : Ball = ball_holder.get_child(0)
-	var dir = Vector2( Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), Input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) )
+	var dir = Vector2( input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) )
 	ball.velocity = Vector2(100,0).rotated(dir.angle())
 	ball.stalled = false
 	ball.reparent(get_parent())
