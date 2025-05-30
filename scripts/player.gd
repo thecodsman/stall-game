@@ -341,13 +341,18 @@ func check_for_special():
 		set_state(State.STALL)
 
 
+# func check_for_jump():
+# 	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
+# 	if is_jump_pressed && not j_prev_frame:
+# 		if can_jump: set_state(State.JUMP)
+# 		j_prev_frame = true
+# 	elif not is_jump_pressed:
+# 		j_prev_frame = false
+
+
 func check_for_jump():
-	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
-	if is_jump_pressed && not j_prev_frame:
+	if input.is_button_just_pressed(JOY_BUTTON_A):
 		if can_jump: set_state(State.JUMP)
-		j_prev_frame = true
-	elif not is_jump_pressed:
-		j_prev_frame = false
 
 
 func check_for_wall_jump():

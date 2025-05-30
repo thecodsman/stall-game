@@ -531,6 +531,7 @@ initial_click	addons/better-terrain/editor/TileView.gd	/^var initial_click : Vec
 input	scripts/player.gd	/^@onready var input = $Input$/;"	v	annotations:onready
 ip	scripts/connect_menu.gd	/^@onready var ip = $address\/ip$/;"	v	annotations:onready
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
+is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
 is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(device : int, button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
 is_online	singletons/globals.gd	/^var is_online : bool = false$/;"	v	typeref:typename:bool
 is_terrain_changeset_ready	addons/better-terrain/BetterTerrain.gd	/^func is_terrain_changeset_ready(change: Dictionary) -> bool:$/;"	m	typeref:typename:bool

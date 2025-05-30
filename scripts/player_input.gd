@@ -25,6 +25,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if get_multiplayer_authority() != multiplayer.get_unique_id(): return
 	if event is InputEventJoypadButton:
 		set_action_state(event.button_index)
 
@@ -40,6 +41,10 @@ func set_action_state(button : int):
 	elif not currently_held && prev_button_state.held:
 		buttons[button].held = 0
 		buttons[button].frame_released = Engine.get_physics_frames()
+
+
+func is_button_just_pressed(button : JoyButton) -> bool:
+	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
 
 
 func get_joy_axis(device : int, axis : JoyAxis) -> float:
