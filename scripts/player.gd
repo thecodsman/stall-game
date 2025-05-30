@@ -83,8 +83,7 @@ func enter_state():
 			velocity.x = sign(direction) * SPEED
 		State.DASH:
 			anim.play("dash")
-			var dir = Vector2(input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y))
-			velocity = dir * dash_speed
+			velocity = input.direction * dash_speed
 			await get_tree().create_timer(0.1).timeout
 			set_state.rpc(State.AIR)
 		State.JUMP:
@@ -357,15 +356,12 @@ func check_for_jump():
 
 
 func check_for_wall_jump():
-	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
-	if is_jump_pressed && not j_prev_frame:
+	if input.is_button_just_pressed(JOY_BUTTON_A):
 		velocity.y = JUMP_VELOCITY
 		velocity.x = (JUMP_VELOCITY * wall_jump_dir) * 0.65
 		set_state.rpc(State.AIR)
 		gravity = BASE_GRAVITY
 		j_prev_frame = true
-	elif not is_jump_pressed:
-		j_prev_frame = false
 	
 
 func check_for_kick():

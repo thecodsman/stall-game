@@ -15,7 +15,6 @@ var stalled : bool = false
 @onready var collision_shape := $CollisionShape2D
 
 func _physics_process(delta : float) -> void:
-	if not is_multiplayer_authority(): return
 	var raw_vel = velocity
 	sprite.rotation += (spin * delta) * 20
 	spin = lerpf(spin, 0, 0.5*delta)
