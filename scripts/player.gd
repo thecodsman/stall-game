@@ -250,7 +250,7 @@ func update_state(delta : float):
 					sprite.scale = Vector2(1,1)
 				charged_kick = true
 				apply_gravity(delta)
-				sprite.rotation = Vector2(input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y)).angle()
+				sprite.rotation = input.direction.angle()
 				if sprite.rotation >= PI/2 || sprite.rotation <= -PI/2:
 					sprite.scale = Vector2(1,-1)
 				else:
