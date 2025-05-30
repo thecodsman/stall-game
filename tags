@@ -189,6 +189,7 @@ PaintMode	addons/better-terrain/editor/Dock.gd	/^enum PaintMode {$/;"	g
 PaintMode	addons/better-terrain/editor/TileView.gd	/^enum PaintMode {$/;"	g
 Planneds	addons/steam-multiplayer-peer/README.md	/^## Planneds$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 Player	scripts/player.gd	/^class_name Player extends CharacterBody2D$/;"	c
+PlayerInput	scripts/player_input.gd	/^class_name PlayerInput extends MultiplayerSynchronizer$/;"	c
 RECT	addons/better-terrain/editor/Dock.gd	/^	RECT$/;"	e	enum:PaintAction	file:
 REFLECT	addons/better-terrain/BetterTerrain.gd	/^	REFLECT, ## All four reflections$/;"	e	enum:SymmetryType	file:
 ROTATE_180	addons/better-terrain/BetterTerrain.gd	/^	ROTATE_180,$/;"	e	enum:SymmetryType	file:
@@ -386,7 +387,6 @@ _terrain_texture	addons/better-terrain/editor/TerrainEntry.gd	/^var _terrain_tex
 _terrain_texture_rect	addons/better-terrain/editor/TerrainEntry.gd	/^var _terrain_texture_rect:Rect2i$/;"	v	typeref:typename:Rect2i
 _tile_cache	addons/better-terrain/BetterTerrain.gd	/^var _tile_cache = {}$/;"	v
 _unhandled_input	scripts/carousel_select.gd	/^func _unhandled_input(event: InputEvent) -> void:$/;"	m	typeref:typename:void
-_unhandled_input	scripts/player_input.gd	/^func _unhandled_input(event: InputEvent) -> void:$/;"	m	typeref:typename:void
 _update_terrain_data	addons/better-terrain/BetterTerrain.gd	/^func _update_terrain_data(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _update_tile_deferred	addons/better-terrain/BetterTerrain.gd	/^func _update_tile_deferred(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictionary, types: Dictio/;"	m
 _update_tile_immediate	addons/better-terrain/BetterTerrain.gd	/^func _update_tile_immediate(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictionary, types: Dicti/;"	m	typeref:typename:void
@@ -528,7 +528,7 @@ icon_layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready va
 id	scripts/player.gd	/^var id : int = 1 :$/;"	v	typeref:typename:int
 initial_click	addons/better-terrain/editor/Dock.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 initial_click	addons/better-terrain/editor/TileView.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
-input	scripts/player.gd	/^@onready var input = $Input$/;"	v	annotations:onready
+input	scripts/player.gd	/^@onready var input : PlayerInput = $Input$/;"	v	typeref:typename:PlayerInput	annotations:onready
 ip	scripts/connect_menu.gd	/^@onready var ip = $address\/ip$/;"	v	annotations:onready
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
 is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool

@@ -1,4 +1,4 @@
-extends MultiplayerSynchronizer
+class_name PlayerInput extends MultiplayerSynchronizer
 
 var device_index : int = 0
 var button_state : Dictionary[String,int] = {
@@ -20,14 +20,14 @@ func _physics_process(_delta: float) -> void:
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_X),
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_Y)
 		)
-	for i in range(buttons.size()):
-		set_action_state(buttons.keys()[i])
+	# for i in range(buttons.size()):
+	# 	set_action_state(buttons.keys()[i])
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if get_multiplayer_authority() != multiplayer.get_unique_id(): return
-	if event is InputEventJoypadButton:
-		set_action_state(event.button_index)
+# func _unhandled_input(event: InputEvent) -> void:
+# 	if get_multiplayer_authority() != multiplayer.get_unique_id(): return
+# 	if event is InputEventJoypadButton:
+# 		set_action_state(event.button_index)
 
 
 func set_action_state(button : int):

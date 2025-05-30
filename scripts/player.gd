@@ -24,7 +24,7 @@ var dashes : int = 1
 var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
-@onready var input = $Input
+@onready var input : PlayerInput = $Input
 @onready var ball_holder = $Sprite2D/ball_holder
 @onready var anim = $AnimationPlayer
 @onready var sprite = $Sprite2D
@@ -368,18 +368,15 @@ func check_for_wall_jump():
 	
 
 func check_for_kick():
-	if input.is_joy_button_pressed(controller_index, JOY_BUTTON_X):
+	if input.is_button_just_pressed(JOY_BUTTON_X):
 		set_state(State.KICK)
 
 
 var dash_pressed_prev_frame : bool = false
 func check_for_dash():
-	if input.is_joy_button_pressed(controller_index, JOY_BUTTON_RIGHT_SHOULDER) && not dash_pressed_prev_frame && dashes > 0:
-		dash_pressed_prev_frame = true
+	if input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER) && dashes > 0:
 		dashes -= 1
 		set_state(State.DASH)
-	elif not input.is_joy_button_pressed(controller_index, JOY_BUTTON_RIGHT_SHOULDER):
-		dash_pressed_prev_frame = false
 
 
 func move(delta : float, accel : float = ACCEL, speed : float = SPEED):
