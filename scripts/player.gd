@@ -189,7 +189,7 @@ func update_state(delta : float):
 			velocity.x = sign(direction) * SPEED
 
 		State.JUMP:
-			var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
+			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
 			if is_jump_pressed:
 				if not j_prev_frame && can_jump:
 					j_prev_frame = true
@@ -259,7 +259,7 @@ func update_state(delta : float):
 				if not charged_kick: return
 				var tween = create_tween()
 				tween.tween_property(self, "velocity", velocity * 10, 0.1)
-			elif not input.is_joy_button_pressed(controller_index, JOY_BUTTON_X) && anim.current_animation == "kick_charge":
+			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				charged_kick = false
 			elif anim.current_animation == "kick" || anim.current_animation == "kick_charge":
@@ -299,7 +299,7 @@ func update_state(delta : float):
 				return
 			if not is_ball_stalled: return
 			if not anim_finished: return
-			var kick_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_X)
+			var kick_pressed = input.is_joy_button_pressed(JOY_BUTTON_X)
 			if kick_pressed: set_state.rpc(State.STALL_KICK)
 
 		State.STALL_KICK:
@@ -336,13 +336,13 @@ func _on_animation_finished(animation):
 
 
 func check_for_special():
-	var is_special_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_B)
+	var is_special_pressed = input.is_joy_button_pressed(JOY_BUTTON_B)
 	if is_special_pressed:
 		set_state.rpc(State.STALL)
 
 
 # func check_for_jump():
-# 	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
+# 	var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
 # 	if is_jump_pressed && not j_prev_frame:
 # 		if can_jump: set_state.rpc(State.JUMP)
 # 		j_prev_frame = true
