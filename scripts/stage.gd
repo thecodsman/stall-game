@@ -15,13 +15,12 @@ func start_game():
 
 
 func online_spawn_players():
+	if not multiplayer.is_server(): return
 	for i in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
-		player.set_multiplayer_authority.rpc(Lobby.players.keys()[i])
 		player.name = str(Lobby.players.keys()[i])
 		player.self_modulate = Globals.player_colors[i]
 		player.player_index = i + 1
-		print(i + 1)
 		player.controller_index = 0
 		$SubViewportContainer/game.add_child(player)
 		player.global_position = player_spawns[i].global_position

@@ -9,6 +9,7 @@ const FRICTION : float = 20
 const COYOTE_TIME : float = 0.05
 var player_index : int = 0
 var controller_index : int = 0
+var id : int = 1
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
@@ -42,16 +43,16 @@ enum State {
 	}
 var state : State
 
-
 func _ready():
 	sprite.self_modulate = self_modulate
-	if not is_multiplayer_authority(): return
+	print("instance:%s, authority:%s" % [multiplayer.get_unique_id(), get_multiplayer_authority()])
+	if not id == multiplayer.get_unique_id(): return
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
 
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority(): return
+	if not id == multiplayer.get_unique_id(): return
 	update_state(delta)
 	move_and_slide()
 

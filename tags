@@ -516,6 +516,7 @@ grid_mode	addons/better-terrain/editor/TerrainEntry.gd	/^var grid_mode := false$
 grid_mode_button	addons/better-terrain/editor/Dock.gd	/^@onready var grid_mode_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/GridMode$/;"	v	typeref:typename:Button	annotations:onready
 highlighted_tile_part	addons/better-terrain/editor/TileView.gd	/^var highlighted_tile_part := { valid = false }$/;"	v
 icon_layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var icon_layout_container := %IconLayout$/;"	v	annotations:onready
+id	scripts/player.gd	/^var id : int = 1$/;"	v	typeref:typename:int
 initial_click	addons/better-terrain/editor/Dock.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 initial_click	addons/better-terrain/editor/TileView.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 ip	scripts/connect_menu.gd	/^@onready var ip = $address\/ip$/;"	v	annotations:onready
@@ -740,7 +741,7 @@ undo_manager	addons/better-terrain/editor/Dock.gd	/^var undo_manager : EditorUnd
 undo_manager	addons/better-terrain/editor/TileView.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 update	addons/better-terrain/editor/TerrainEntry.gd	/^func update():$/;"	m
 update_carousel	scripts/carousel_select.gd	/^func update_carousel():$/;"	m	annotations:rpc("call_local", "reliable")
-update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m	annotations:rpc("call_local", "reliable")
+update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 update_overlay	addons/better-terrain/editor/Dock.gd	/^signal update_overlay$/;"	s
 update_state	scripts/player.gd	/^func update_state(delta : float):$/;"	m
 update_style	addons/better-terrain/editor/TerrainEntry.gd	/^func update_style():$/;"	m

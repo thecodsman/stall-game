@@ -86,7 +86,7 @@ func juice_it_up():
 	prev_scale = Vector2(width,height)
 
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func update_color(color : Color, index : int):
 	if index != owner_index: color = owner_color
 	else: owner_color = color

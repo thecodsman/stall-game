@@ -73,11 +73,10 @@ func load_game(game_scene_path):
 func player_loaded():
 	if multiplayer.is_server():
 		players_loaded += 1
-		print(players_loaded)
 		if players_loaded == players.size():
 			$/root/stage.start_game()
-			print("all players loaded!")
 			players_loaded = 0
+			print("all players loaded!")
 
 
 # When a peer connects, send them my player info.
