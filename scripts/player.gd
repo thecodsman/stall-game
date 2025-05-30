@@ -406,9 +406,11 @@ func check_for_drop_through():
 		set_collision_mask_value(4, true)
 
 
+@rpc("any_peer", "call_local", "reliable")
 func launch_stalled_ball():
 	is_ball_stalled = false
 	var ball : Ball = ball_holder.get_child(0)
+	if not ball: return
 	var dir = Vector2( input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) )
 	ball.velocity = Vector2(100,0).rotated(dir.angle())
 	ball.stalled = false
@@ -416,6 +418,7 @@ func launch_stalled_ball():
 	ball.update_color(self_modulate, controller_index)
 
 
+@rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball:Ball):
 	if ball.owner_index == -1:
 		ball.owner_index = controller_index
@@ -423,7 +426,7 @@ func apply_ball_ownership(ball:Ball):
 
 func _on_stall_box_body_entered(ball : Ball) -> void:
 	is_ball_stalled = true
-	apply_ball_ownership(ball)
+	apply_ball_ownership.rpc(ball)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
