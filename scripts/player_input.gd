@@ -53,4 +53,5 @@ func get_joy_axis(device : int, axis : JoyAxis) -> float:
 
 
 func is_joy_button_pressed(device : int, button : JoyButton) -> bool:
+	set_action_state(button)
 	return Input.is_joy_button_pressed(device,button)
