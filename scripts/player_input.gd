@@ -44,14 +44,17 @@ func set_action_state(button : int):
 
 
 func is_button_just_pressed(button : JoyButton) -> bool:
+	if not is_multiplayer_authority(): return false
 	set_action_state(button)
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
 
 
 func get_joy_axis(device : int, axis : JoyAxis) -> float:
+	if not is_multiplayer_authority(): return 0
 	return Input.get_joy_axis(device,axis)
 
 
 func is_joy_button_pressed(device : int, button : JoyButton) -> bool:
+	if not is_multiplayer_authority(): return false
 	set_action_state(button)
 	return Input.is_joy_button_pressed(device,button)
