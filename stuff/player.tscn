@@ -514,8 +514,8 @@ properties/10/path = NodePath(".:id")
 properties/10/spawn = true
 properties/10/replication_mode = 0
 properties/11/path = NodePath(".:state")
-properties/11/spawn = true
-properties/11/replication_mode = 2
+properties/11/spawn = false
+properties/11/replication_mode = 0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xoaqs"]
 properties/0/path = NodePath("Input:buttons")
