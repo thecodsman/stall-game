@@ -669,14 +669,14 @@ selection_end	addons/better-terrain/editor/TileView.gd	/^var selection_end : Vec
 selection_rect	addons/better-terrain/editor/TileView.gd	/^var selection_rect : Rect2i$/;"	v	typeref:typename:Rect2i
 selection_start	addons/better-terrain/editor/TileView.gd	/^var selection_start : Vector2i$/;"	v	typeref:typename:Vector2i
 server_disconnected	singletons/lobby.gd	/^signal server_disconnected$/;"	s
-set_action_state	scripts/player_input.gd	/^func set_action_state(button : int):$/;"	m
+set_action_state	scripts/player_input.gd	/^func set_action_state(button : int):$/;"	m	annotations:rpc("call_local")
 set_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func set_categories(ids : Array):$/;"	m
 set_category_data	addons/better-terrain/editor/TerrainProperties.gd	/^func set_category_data(options: Array) -> void:$/;"	m	typeref:typename:void
 set_cell	addons/better-terrain/BetterTerrain.gd	/^func set_cell(tm: TileMapLayer, coord: Vector2i, type: int) -> bool:$/;"	m	typeref:typename:bool
 set_cells	addons/better-terrain/BetterTerrain.gd	/^func set_cells(tm: TileMapLayer, coords: Array, type: int) -> bool:$/;"	m	typeref:typename:bool
 set_disabled_sources	addons/better-terrain/editor/TileView.gd	/^func set_disabled_sources(list):$/;"	m
 set_selected	addons/better-terrain/editor/TerrainEntry.gd	/^func set_selected(value:bool = true):$/;"	m
-set_state	scripts/player.gd	/^func set_state(new_state : State):$/;"	m
+set_state	scripts/player.gd	/^func set_state(new_state : State):$/;"	m	annotations:rpc("call_local", "reliable")
 set_terrain	addons/better-terrain/BetterTerrain.gd	/^func set_terrain(ts: TileSet, index: int, name: String, color: Color, type: int, categories: Arr/;"	m	typeref:typename:bool
 set_tile_symmetry_type	addons/better-terrain/BetterTerrain.gd	/^func set_tile_symmetry_type(ts: TileSet, td: TileData, type: int) -> bool:$/;"	m	typeref:typename:bool
 set_tile_terrain_type	addons/better-terrain/BetterTerrain.gd	/^func set_tile_terrain_type(ts: TileSet, td: TileData, type: int) -> bool:$/;"	m	typeref:typename:bool

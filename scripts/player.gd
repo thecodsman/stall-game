@@ -61,6 +61,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
+@rpc("call_local", "reliable")
 func set_state(new_state : State):
 	if state == new_state: return
 	exit_state()
@@ -85,7 +86,7 @@ func enter_state():
 			var dir = Vector2(input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y))
 			velocity = dir * dash_speed
 			await get_tree().create_timer(0.1).timeout
-			set_state(State.AIR)
+			set_state.rpc(State.AIR)
 		State.JUMP:
 			anim.play("jump")
 		State.AIR:
@@ -122,24 +123,24 @@ func update_state(delta : float):
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
 				await get_tree().create_timer(0.03).timeout
-				if abs(direction) > 0.5: set_state(State.RUN_DASH)
-				else: set_state(State.WALK)
+				if abs(direction) > 0.5: set_state.rpc(State.RUN_DASH)
+				else: set_state.rpc(State.WALK)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 			else:
 				dashes = 1
 				can_jump = true
 
 		State.WALK:
-			if not move(delta, ACCEL, SPEED * 0.65): set_state(State.IDLE)
+			if not move(delta, ACCEL, SPEED * 0.65): set_state.rpc(State.IDLE)
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 			else:
 				dashes = 1
 				can_jump = true
@@ -148,7 +149,7 @@ func update_state(delta : float):
 		State.RUN:
 			direction = input.direction.x
 			if abs(direction) < dead_zone: direction = 0
-			if not direction && abs(velocity.x) < 1: set_state(State.IDLE)
+			if not direction && abs(velocity.x) < 1: set_state.rpc(State.IDLE)
 			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1 && not turned_around: 
 				turned_around = true
 				anim.play("turn_around")
@@ -166,7 +167,7 @@ func update_state(delta : float):
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(0.1).timeout
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 			else:
 				dashes = 1
 				can_jump = true
@@ -178,7 +179,7 @@ func update_state(delta : float):
 			if direction:
 				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
 			if anim.current_animation != "run_dash":
-				set_state(State.RUN)
+				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
 			check_for_kick()
@@ -199,12 +200,12 @@ func update_state(delta : float):
 					velocity.y = JUMP_VELOCITY * 0.66
 					anim.play("rise")
 					jump_sfx.play()
-					set_state(State.AIR)
+					set_state.rpc(State.AIR)
 			if anim.current_animation == "":
 				velocity.y = JUMP_VELOCITY
 				anim.play("rise")
 				jump_sfx.play()
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 		
 		State.AIR:
@@ -216,8 +217,8 @@ func update_state(delta : float):
 			apply_gravity(delta)
 
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
-			if is_on_floor() && velocity.y >= 0: set_state(State.IDLE)
-			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state(State.WALL)
+			if is_on_floor() && velocity.y >= 0: set_state.rpc(State.IDLE)
+			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state.rpc(State.WALL)
 
 		State.WALL:
 			on_wall_prev_frame = true
@@ -233,12 +234,12 @@ func update_state(delta : float):
 				on_wall_prev_frame = false
 				await get_tree().create_timer(0.075).timeout
 				if state != State.WALL: return
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 			elif !is_on_wall_only() && on_wall_prev_frame:
 				on_wall_prev_frame = false
 				await get_tree().create_timer(0.075).timeout
 				if state != State.WALL: return
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 
 		State.KICK:
 			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
@@ -286,21 +287,21 @@ func update_state(delta : float):
 			var anim_finished = (anim.current_animation == "")
 			apply_gravity(delta)
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
-			if anim_finished && not is_ball_stalled: set_state(State.AIR) # set the state to air to avoid coyote time
+			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
 			if ball_holder.get_child_count() < 1 && is_ball_stalled:
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 				return
 			var ball : Ball = ball_holder.get_child(0)
 			if is_ball_stalled && ball.velocity.length() > 0:
 				ball.stalled = false
 				ball.set_deferred("disabled", false)
 				ball.call_deferred("reparent", get_parent())
-				set_state(State.AIR)
+				set_state.rpc(State.AIR)
 				return
 			if not is_ball_stalled: return
 			if not anim_finished: return
 			var kick_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_X)
-			if kick_pressed: set_state(State.STALL_KICK)
+			if kick_pressed: set_state.rpc(State.STALL_KICK)
 
 		State.STALL_KICK:
 			apply_gravity(delta)
@@ -328,23 +329,23 @@ func exit_state():
 func _on_animation_finished(animation):
 	match animation:
 		"kick":
-			set_state(State.AIR)
+			set_state.rpc(State.AIR)
 			sprite.rotation = 0
 			sprite.scale = Vector2(1,1)
 		"stall_kick":
-			set_state(State.AIR)
+			set_state.rpc(State.AIR)
 
 
 func check_for_special():
 	var is_special_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_B)
 	if is_special_pressed:
-		set_state(State.STALL)
+		set_state.rpc(State.STALL)
 
 
 # func check_for_jump():
 # 	var is_jump_pressed = input.is_joy_button_pressed(controller_index, JOY_BUTTON_A)
 # 	if is_jump_pressed && not j_prev_frame:
-# 		if can_jump: set_state(State.JUMP)
+# 		if can_jump: set_state.rpc(State.JUMP)
 # 		j_prev_frame = true
 # 	elif not is_jump_pressed:
 # 		j_prev_frame = false
@@ -352,7 +353,7 @@ func check_for_special():
 
 func check_for_jump():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
-		if can_jump: set_state(State.JUMP)
+		if can_jump: set_state.rpc(State.JUMP)
 
 
 func check_for_wall_jump():
@@ -360,7 +361,7 @@ func check_for_wall_jump():
 	if is_jump_pressed && not j_prev_frame:
 		velocity.y = JUMP_VELOCITY
 		velocity.x = (JUMP_VELOCITY * wall_jump_dir) * 0.65
-		set_state(State.AIR)
+		set_state.rpc(State.AIR)
 		gravity = BASE_GRAVITY
 		j_prev_frame = true
 	elif not is_jump_pressed:
@@ -369,14 +370,14 @@ func check_for_wall_jump():
 
 func check_for_kick():
 	if input.is_button_just_pressed(JOY_BUTTON_X):
-		set_state(State.KICK)
+		set_state.rpc(State.KICK)
 
 
 var dash_pressed_prev_frame : bool = false
 func check_for_dash():
 	if input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER) && dashes > 0:
 		dashes -= 1
-		set_state(State.DASH)
+		set_state.rpc(State.DASH)
 
 
 func move(delta : float, accel : float = ACCEL, speed : float = SPEED):
