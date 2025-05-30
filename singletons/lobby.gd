@@ -24,8 +24,8 @@ var player_info : Dictionary = {"name": "Name"}
 var players_loaded : int = 0
 
 
-
 func _ready():
+	multiplayer.allow_object_decoding = true
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -75,7 +75,7 @@ func player_loaded():
 		players_loaded += 1
 		print(players_loaded)
 		if players_loaded == players.size():
-			#$/root/Game.start_game()
+			$/root/stage.start_game()
 			print("all players loaded!")
 			players_loaded = 0
 

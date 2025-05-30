@@ -80,11 +80,6 @@ offset_right = 95.0
 offset_bottom = 50.0
 theme_override_constants/separation = 1
 
-[node name="name" type="LineEdit" parent="address"]
-layout_mode = 2
-theme = ExtResource("3_kvax6")
-placeholder_text = "name"
-
 [node name="ip" type="LineEdit" parent="address"]
 layout_mode = 2
 theme = ExtResource("3_kvax6")

@@ -2,12 +2,14 @@ extends Control
 
 
 func _on_start_pressed() -> void:
+	Globals.is_online = false
 	get_tree().change_scene_to_file("res://worlds/stage_select.tscn")
-	var stream_playback : AudioStreamPlaybackInteractive = MusicPlayer.get_stream_playback()
-	stream_playback.switch_to_clip_by_name(&"Stall Battle")
+	# var stream_playback : AudioStreamPlaybackInteractive = MusicPlayer.get_stream_playback()
+	# stream_playback.switch_to_clip_by_name(&"Stall Battle")
 
 
 func _on_online_pressed() -> void:
+	Globals.is_online = true
 	get_tree().change_scene_to_file("res://worlds/connect_menu.tscn")
 
 

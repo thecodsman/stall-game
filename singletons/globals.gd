@@ -1,6 +1,8 @@
 extends Node
 
+@export var player_colors : Array[Color]
 var camera : Camera2D
+var is_online : bool = false
 
 func freeze_frame(time : float, time_scale : float = 0.1):
 	Engine.time_scale = time_scale

@@ -13,7 +13,7 @@ func _on_body_entered(ball:Ball) -> void:
 	bonk.rpc(ball)
 
 
-@rpc("call_local")
+@rpc("any_peer", "call_local")
 func bonk(ball:Ball) -> void: ## pass in the global position of the bonked
 	var velocity : Vector2
 	var angle = (global_position - ball.global_position).angle()
@@ -25,7 +25,7 @@ func bonk(ball:Ball) -> void: ## pass in the global position of the bonked
 	owner.velocity.x += ball.spin * 100
 
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball:Ball):
 	if ball.owner_index != owner.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1

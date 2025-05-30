@@ -500,6 +500,15 @@ properties/5/replication_mode = 2
 properties/6/path = NodePath("Sprite2D/stall_box/CollisionShape2D:disabled")
 properties/6/spawn = true
 properties/6/replication_mode = 2
+properties/7/path = NodePath(".:self_modulate")
+properties/7/spawn = true
+properties/7/replication_mode = 2
+properties/8/path = NodePath(".:velocity")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:player_index")
+properties/9/spawn = true
+properties/9/replication_mode = 2
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 2

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpewuu2lwv1dc"]
+
+[ext_resource type="Script" uid="uid://bmqs0ns4f32ag" path="res://singletons/globals.gd" id="1_68tgv"]
+
+[node name="globals" type="Node"]
+script = ExtResource("1_68tgv")
+player_colors = Array[Color]([Color(0.160784, 0.682353, 1, 1), Color(1, 0, 0.290196, 1), Color(1, 0.854902, 0.12549, 1), Color(0, 0.713726, 0.254902, 1)])
