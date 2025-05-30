@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-@rpc("call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func set_state(new_state : State):
 	if state == new_state: return
 	exit_state()
