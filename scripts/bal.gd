@@ -15,12 +15,12 @@ var stalled : bool = false
 @onready var collision_shape := $CollisionShape2D
 
 func _physics_process(delta : float) -> void:
-	juice_it_up()
-	if not multiplayer.is_server(): return
+	if not is_multiplayer_authority(): return
 	var raw_vel = velocity
 	sprite.rotation += (spin * delta) * 20
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
+	juice_it_up()
 	if owner_level > 2: owner_level = 2
 	if stalled: return
 	if owner_index != -1: velocity.y += gravity * delta

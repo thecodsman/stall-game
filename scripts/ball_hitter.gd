@@ -7,10 +7,10 @@ extends Area2D
 func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var dir = input.direction
-	if dir.length() < 0.09: dir = Vector2.UP
+	if dir.length() < input.dead_zone: dir = Vector2.UP
 	apply_ball_ownership.rpc(ball)
 	ball.update_color.rpc(owner.self_modulate, owner.player_index)
-	kick.rpc(ball,dir)
+	kick.rpc_id(1,ball,dir)
 
 
 @rpc("any_peer", "call_local", "reliable")
