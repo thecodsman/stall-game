@@ -44,6 +44,7 @@ func set_action_state(button : int):
 
 
 func is_button_just_pressed(button : JoyButton) -> bool:
+	set_action_state(button)
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
 
 
