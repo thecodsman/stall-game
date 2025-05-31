@@ -509,7 +509,7 @@ force_show_terrains	addons/better-terrain/editor/Dock.gd	/^signal force_show_ter
 freeze_frame	singletons/globals.gd	/^func freeze_frame(time : float, time_scale : float = 0.1):$/;"	m
 get_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func get_categories() -> Array:$/;"	m	typeref:typename:Array
 get_cell	addons/better-terrain/BetterTerrain.gd	/^func get_cell(tm: TileMapLayer, coord: Vector2i) -> int:$/;"	m	typeref:typename:int
-get_joy_axis	scripts/player_input.gd	/^func get_joy_axis(device : int, axis : JoyAxis) -> float:$/;"	m	typeref:typename:float
+get_joy_axis	scripts/player_input.gd	/^func get_joy_axis(axis : JoyAxis) -> float:$/;"	m	typeref:typename:float
 get_terrain	addons/better-terrain/BetterTerrain.gd	/^func get_terrain(ts: TileSet, index: int) -> Dictionary:$/;"	m	typeref:typename:Dictionary
 get_terrain_categories	addons/better-terrain/BetterTerrain.gd	/^func get_terrain_categories(ts: TileSet) -> Array:$/;"	m	typeref:typename:Array
 get_terrain_peering_cells	addons/better-terrain/BetterTerrainData.gd	/^static func get_terrain_peering_cells(ts: TileSet, type: int) -> Array[int]:$/;"	m	typeref:typename:Array[int]	annotations:static
@@ -670,7 +670,7 @@ selection_end	addons/better-terrain/editor/TileView.gd	/^var selection_end : Vec
 selection_rect	addons/better-terrain/editor/TileView.gd	/^var selection_rect : Rect2i$/;"	v	typeref:typename:Rect2i
 selection_start	addons/better-terrain/editor/TileView.gd	/^var selection_start : Vector2i$/;"	v	typeref:typename:Vector2i
 server_disconnected	singletons/lobby.gd	/^signal server_disconnected$/;"	s
-set_action_state	scripts/player_input.gd	/^func set_action_state(button : int):$/;"	m	annotations:rpc("call_local")
+set_action_state	scripts/player_input.gd	/^func set_action_state(button : int):$/;"	m	annotations:rpc("authority", "call_local", "unreliable_ordered")
 set_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func set_categories(ids : Array):$/;"	m
 set_category_data	addons/better-terrain/editor/TerrainProperties.gd	/^func set_category_data(options: Array) -> void:$/;"	m	typeref:typename:void
 set_cell	addons/better-terrain/BetterTerrain.gd	/^func set_cell(tm: TileMapLayer, coord: Vector2i, type: int) -> bool:$/;"	m	typeref:typename:bool

@@ -391,9 +391,9 @@ func apply_gravity(delta):
 
 func check_for_drop_through():
 	var threshold : float = 0.85
-	if input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) > threshold && not is_on_floor():
+	if input.direction.y > threshold && not is_on_floor():
 		set_collision_mask_value(4, false)
-	elif input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) > threshold && is_on_floor():
+	elif input.direction.y > threshold && is_on_floor():
 		set_collision_mask_value(4, false)
 		velocity.y = 10
 	else:
@@ -405,7 +405,7 @@ func launch_stalled_ball():
 	is_ball_stalled = false
 	var ball : Ball = ball_holder.get_child(0)
 	if not ball: return
-	var dir = Vector2( input.get_joy_axis(controller_index, JOY_AXIS_LEFT_X), input.get_joy_axis(controller_index, JOY_AXIS_LEFT_Y) )
+	var dir = Vector2( input.direction.x, input.direction.y )
 	ball.velocity = Vector2(100,0).rotated(dir.angle())
 	ball.stalled = false
 	ball.reparent(get_parent())

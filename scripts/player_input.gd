@@ -30,7 +30,7 @@ func _physics_process(_delta: float) -> void:
 # 		set_action_state(event.button_index)
 
 
-@rpc("call_local")
+@rpc("authority", "call_local", "unreliable_ordered")
 func set_action_state(button : int):
 	if not buttons.get(button):
 		buttons[button] = button_state.duplicate()
@@ -50,9 +50,9 @@ func is_button_just_pressed(button : JoyButton) -> bool:
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
 
 
-func get_joy_axis(device : int, axis : JoyAxis) -> float:
+func get_joy_axis(axis : JoyAxis) -> float:
 	if not is_multiplayer_authority(): return 0
-	return Input.get_joy_axis(device,axis)
+	return Input.get_joy_axis(device_index, axis)
 
 
 func is_joy_button_pressed(button : JoyButton) -> bool:
