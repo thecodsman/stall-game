@@ -7,7 +7,7 @@ var shakef : int = 1 ## shake every X amount of frames
 func _ready():
 	Globals.camera = self
 
-func _physics_process(delta : float):
+func _physics_process(_delta : float):
 	if Engine.get_physics_frames() % shakef: return
 	if shaket > 0:
 		offset = Vector2(randf_range(-shakei,shakei),randf_range(-shakei,shakei))

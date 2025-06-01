@@ -13,7 +13,7 @@ func _on_body_entered(ball:Ball) -> void:
 	bonk.rpc(ball)
 
 
-@rpc("any_peer", "call_local", "unreliable_ordered")
+@rpc("any_peer", "call_local", "reliable")
 func bonk(ball:Ball) -> void: ## pass in the global position of the bonked
 	var velocity : Vector2
 	var angle = (global_position - ball.global_position).angle()

@@ -14,7 +14,7 @@ func _on_body_entered(ball:Ball) -> void:
 	print(ball.get_multiplayer_authority())
 
 
-@rpc("any_peer", "call_local", "unreliable_ordered")
+@rpc("any_peer", "call_local", "reliable")
 func kick(ball : Ball, dir : Vector2):
 	collider.set_deferred("disabled", true)
 	Globals.freeze_frame(0.05)
