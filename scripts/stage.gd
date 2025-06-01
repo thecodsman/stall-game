@@ -11,15 +11,19 @@ func _ready():
 
 
 func start_game():
-	online_spawn_players()
+	match Globals.is_online:
+		true:
+			online_spawn_players()
+		false:
+			pass
 
 
 func online_spawn_players():
 	if not multiplayer.is_server(): return
 	for i in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
-		player.name = str(Lobby.players.keys()[i])
 		player.id = Lobby.players.keys()[i]
+		player.name = str(player.id)
 		player.self_modulate = Globals.player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = 0

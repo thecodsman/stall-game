@@ -20,14 +20,6 @@ func _physics_process(_delta: float) -> void:
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_X),
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_Y)
 		)
-	# for i in range(buttons.size()):
-	# 	set_action_state(buttons.keys()[i])
-
-
-# func _unhandled_input(event: InputEvent) -> void:
-# 	if get_multiplayer_authority() != multiplayer.get_unique_id(): return
-# 	if event is InputEventJoypadButton:
-# 		set_action_state(event.button_index)
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
@@ -45,7 +37,7 @@ func set_action_state(button : int):
 
 
 func is_button_just_pressed(button : JoyButton) -> bool:
-	if not is_multiplayer_authority(): return false
+	if not is_multiplayer_authority(): pass
 	set_action_state.rpc(button)
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
 
@@ -56,6 +48,6 @@ func get_joy_axis(axis : JoyAxis) -> float:
 
 
 func is_joy_button_pressed(button : JoyButton) -> bool:
-	if not is_multiplayer_authority(): return false
+	if not is_multiplayer_authority(): pass
 	set_action_state.rpc(button)
 	return buttons[button].held == 1
