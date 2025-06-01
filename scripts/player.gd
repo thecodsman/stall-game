@@ -55,7 +55,7 @@ func _ready():
 	print("instance:%s, authority:%s" % [multiplayer.get_unique_id(), id])
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
-	#set_physics_process(id == multiplayer.get_unique_id())
+	set_physics_process(id == multiplayer.get_unique_id())
 
 
 func _physics_process(delta: float) -> void:
