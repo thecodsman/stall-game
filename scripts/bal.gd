@@ -15,6 +15,7 @@ var stalled : bool = false
 @onready var collision_shape := $CollisionShape2D
 
 func _ready():
+	print($MultiplayerSynchronizer.get_multiplayer_authority())
 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
@@ -35,19 +36,19 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			if tile.get_custom_data("floor"): end_game.rpc()
+			if tile.get_custom_data("floor") && multiplayer.is_server(): end_game.rpc(owner_index)
 		else:
 			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0
 
 
 @rpc("authority", "call_local", "reliable")
-func end_game():
+func end_game(winner : int):
 	if not owner_level > 1: return
 	if GameText.visible: return
-	var tree : SceneTree
+	var tree : SceneTree = null
 	GameText.visible = true
-	GameText.text = str("P", owner_index, " Won!")
+	GameText.text = str("P", winner, " Won!")
 	while not tree:
 		tree = get_tree()
 	await tree.create_timer(2).timeout

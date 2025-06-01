@@ -503,7 +503,7 @@ e	addons/better-terrain/BetterTerrainData.gd	/^	const e := t - 1.0 \/ (2.0 * sqr
 edit_terrain_button	addons/better-terrain/editor/Dock.gd	/^@onready var edit_terrain_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/Edi/;"	v	typeref:typename:Button	annotations:onready
 edit_tool_buttons	addons/better-terrain/editor/Dock.gd	/^@onready var edit_tool_buttons: HBoxContainer = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools$/;"	v	typeref:typename:HBoxContainer	annotations:onready
 emit_terrain_updated	addons/better-terrain/editor/TileView.gd	/^func emit_terrain_updated(index):$/;"	m
-end_game	scripts/bal.gd	/^func end_game():$/;"	m	annotations:rpc("authority", "call_local", "reliable")
+end_game	scripts/bal.gd	/^func end_game(winner : int):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 enter_state	scripts/player.gd	/^func enter_state():$/;"	m
 exit_state	scripts/player.gd	/^func exit_state():$/;"	m
 fill_button	addons/better-terrain/editor/Dock.gd	/^@onready var fill_button: Button = $VBox\/Toolbar\/Fill$/;"	v	typeref:typename:Button	annotations:onready
