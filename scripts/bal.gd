@@ -14,6 +14,10 @@ var stalled : bool = false
 @onready var bounce_sfx := $bounce_sfx
 @onready var collision_shape := $CollisionShape2D
 
+func _ready():
+	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+
+
 func _physics_process(delta : float) -> void:
 	var raw_vel = velocity
 	sprite.rotation += (spin * delta) * 20
@@ -31,17 +35,21 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			if not tile.get_custom_data("floor"): continue
-			if not owner_level > 1: continue
-			if GameText.visible: continue
-			GameText.visible = true
-			GameText.text = str("P", owner_index, " Won!")
-			await get_tree().create_timer(2).timeout
-			GameText.visible = false
-			get_tree().reload_current_scene()
+			if tile.get_custom_data("floor"): end_game.rpc()
 		else:
 			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0
+
+
+@rpc("authority", "call_local", "reliable")
+func end_game():
+	if not owner_level > 1: return
+	if GameText.visible: return
+	GameText.visible = true
+	GameText.text = str("P", owner_index, " Won!")
+	await get_tree().create_timer(2).timeout
+	GameText.visible = false
+	get_tree().reload_current_scene()
 
 
 func bounce(raw_vel, collision):

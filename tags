@@ -358,6 +358,7 @@ _process	singletons/steamworks.gd	/^func _process(_delta: float):$/;"	m
 _purge_cache	addons/better-terrain/BetterTerrain.gd	/^func _purge_cache(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/Dock.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/TerrainEntry.gd	/^func _ready():$/;"	m
+_ready	scripts/bal.gd	/^func _ready():$/;"	m
 _ready	scripts/bonk_box.gd	/^func _ready():$/;"	m
 _ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
@@ -410,7 +411,7 @@ add_tile_peering_type	addons/better-terrain/BetterTerrain.gd	/^func add_tile_pee
 alternate_lookup	addons/better-terrain/editor/TileView.gd	/^var alternate_lookup := []$/;"	v	typeref:typename:=[]
 alternate_size	addons/better-terrain/editor/TileView.gd	/^var alternate_size : Vector2$/;"	v	typeref:typename:Vector2
 anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
-apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball : Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "unreliable_ordered")
+apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball : Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_ball_ownership	scripts/player.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
@@ -502,6 +503,7 @@ e	addons/better-terrain/BetterTerrainData.gd	/^	const e := t - 1.0 \/ (2.0 * sqr
 edit_terrain_button	addons/better-terrain/editor/Dock.gd	/^@onready var edit_terrain_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/Edi/;"	v	typeref:typename:Button	annotations:onready
 edit_tool_buttons	addons/better-terrain/editor/Dock.gd	/^@onready var edit_tool_buttons: HBoxContainer = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools$/;"	v	typeref:typename:HBoxContainer	annotations:onready
 emit_terrain_updated	addons/better-terrain/editor/TileView.gd	/^func emit_terrain_updated(index):$/;"	m
+end_game	scripts/bal.gd	/^func end_game():$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 enter_state	scripts/player.gd	/^func enter_state():$/;"	m
 exit_state	scripts/player.gd	/^func exit_state():$/;"	m
 fill_button	addons/better-terrain/editor/Dock.gd	/^@onready var fill_button: Button = $VBox\/Toolbar\/Fill$/;"	v	typeref:typename:Button	annotations:onready
@@ -543,7 +545,7 @@ j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:t
 join_game	singletons/lobby.gd	/^func join_game(address : String = "", port : int = 0):$/;"	m
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
-kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
+kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2):$/;"	m	annotations:rpc("any_peer", "call_local", "unreliable_ordered")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball():$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready

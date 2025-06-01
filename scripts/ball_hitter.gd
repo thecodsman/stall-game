@@ -14,7 +14,7 @@ func _on_body_entered(ball:Ball) -> void:
 	print(ball.get_multiplayer_authority())
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer", "call_local", "unreliable_ordered")
 func kick(ball : Ball, dir : Vector2):
 	collider.set_deferred("disabled", true)
 	Globals.freeze_frame(0.05)
@@ -23,7 +23,7 @@ func kick(ball : Ball, dir : Vector2):
 	ball.velocity = Vector2(ball.velocity.length() + 140,0).rotated(dir.angle())
 
 
-@rpc("any_peer", "call_local", "unreliable_ordered")
+@rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball : Ball):
 	if ball.owner_index != owner.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
