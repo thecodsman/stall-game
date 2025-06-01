@@ -53,6 +53,7 @@ func bounce(raw_vel, collision):
 		velocity *= 0.60
 
 
+@rpc("any_peer", "call_local", "unreliable_ordered")
 func punt(pos): ## pass in the global position of the punter
 	# Camera.screen_shake(4,5)
 	var angle = (pos - global_position).angle()

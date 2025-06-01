@@ -24,6 +24,7 @@ var dashes : int = 1
 var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
+var process_state : bool = false
 @onready var input : PlayerInput = $Input
 @onready var ball_holder = $Sprite2D/ball_holder
 @onready var anim = $AnimationPlayer
@@ -62,11 +63,12 @@ func _ready():
 	print("instance:%s, id:%s, sync_authority:%s" % [multiplayer.get_unique_id(), id, $sync.get_multiplayer_authority()])
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
-	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	#set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	process_state = (get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
 func _physics_process(delta: float) -> void:
-	update_state(delta)
+	if process_state: update_state(delta)
 	move_and_slide()
 
 
