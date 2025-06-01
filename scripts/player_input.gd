@@ -1,4 +1,4 @@
-class_name PlayerInput extends MultiplayerSynchronizer
+class_name PlayerInput extends Node
 
 var device_index : int = 0
 var button_state : Dictionary[String,int] = {
