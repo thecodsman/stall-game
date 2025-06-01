@@ -545,7 +545,7 @@ j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:t
 join_game	singletons/lobby.gd	/^func join_game(address : String = "", port : int = 0):$/;"	m
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
-kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2):$/;"	m	annotations:rpc("any_peer", "call_local", "unreliable_ordered")
+kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball():$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
