@@ -45,9 +45,12 @@ func _physics_process(delta : float) -> void:
 func end_game():
 	if not owner_level > 1: return
 	if GameText.visible: return
+	var tree : SceneTree
 	GameText.visible = true
 	GameText.text = str("P", owner_index, " Won!")
-	await get_tree().create_timer(2).timeout
+	while not tree:
+		tree = get_tree()
+	await tree.create_timer(2).timeout
 	GameText.visible = false
 	get_tree().reload_current_scene()
 
