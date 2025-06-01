@@ -520,7 +520,7 @@ properties/11/replication_mode = 0
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xoaqs"]
 properties/0/path = NodePath("Input:buttons")
 properties/0/spawn = true
-properties/0/replication_mode = 0
+properties/0/replication_mode = 2
 properties/1/path = NodePath("Input:direction")
 properties/1/spawn = true
 properties/1/replication_mode = 1
