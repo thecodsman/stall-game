@@ -6,7 +6,7 @@ var button_state : Dictionary[String,int] = {
 	"frame_pressed":-1,
 	"frame_released":-1,
 	}
-var buttons : Dictionary[int,Dictionary] ## button pressed and frame that started pressing
+var buttons : Dictionary[JoyButton,Dictionary] ## button states
 var direction : Vector2
 var dead_zone : float = 0.09
 

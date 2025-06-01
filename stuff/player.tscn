@@ -602,7 +602,7 @@ stream = SubResource("AudioStreamRandomizer_xoaqs")
 volume_db = -7.19
 bus = &"SFX"
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="sync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_b0gpc")
 
 [node name="Input" type="MultiplayerSynchronizer" parent="."]

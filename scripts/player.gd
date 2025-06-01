@@ -9,10 +9,10 @@ const FRICTION : float = 20
 const COYOTE_TIME : float = 0.05
 var player_index : int = 0
 var controller_index : int = 0
-var id : int = 1
-	# set(new_id):
-	# 	id = new_id
-	# 	set_multiplayer_authority(id)
+var id : int = 1 :
+	set(new_id):
+		id = new_id
+		$Input.set_multiplayer_authority(id)
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
@@ -47,15 +47,17 @@ enum State {
 	}
 var state : State
 
+
 # func _enter_tree():
 # 	set_multiplayer_authority(int(name))
 
+
 func _ready():
 	sprite.self_modulate = self_modulate
-	print("instance:%s, authority:%s" % [multiplayer.get_unique_id(), id])
+	print("instance:%s, id:%s, authority:%s" % [multiplayer.get_unique_id(), id, get_multiplayer_authority()])
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
-	set_physics_process(id == multiplayer.get_unique_id())
+	#set_physics_process(id == multiplayer.get_unique_id())
 
 
 func _physics_process(delta: float) -> void:
