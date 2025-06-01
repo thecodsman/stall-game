@@ -37,7 +37,7 @@ func set_action_state(button : int):
 
 
 func is_button_just_pressed(button : JoyButton) -> bool:
-	if not is_multiplayer_authority(): pass
+	if not is_multiplayer_authority(): return false
 	set_action_state.rpc(button)
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
 
@@ -48,6 +48,6 @@ func get_joy_axis(axis : JoyAxis) -> float:
 
 
 func is_joy_button_pressed(button : JoyButton) -> bool:
-	if not is_multiplayer_authority(): pass
+	if not is_multiplayer_authority(): return false
 	set_action_state.rpc(button)
 	return buttons[button].held == 1
