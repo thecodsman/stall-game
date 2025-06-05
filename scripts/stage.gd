@@ -25,9 +25,9 @@ func online_spawn_players():
 		var id = Lobby.players.keys()[i]
 		player.id = id
 		player.name = str(id)
+		print(player.name)
 		player.self_modulate = Globals.player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = 0
-		$SubViewportContainer/game.add_child(player)
-		#player.global_position = player_spawns[i].global_position
+		$SubViewportContainer/game.add_child(player, true)
 		player.set_location.rpc_id(id, player_spawns[i].global_position)

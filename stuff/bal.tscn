@@ -26,24 +26,21 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath("CollisionShape2D:disabled")
+properties/3/path = NodePath(".:owner_index")
 properties/3/spawn = true
 properties/3/replication_mode = 2
-properties/4/path = NodePath(".:owner_index")
+properties/4/path = NodePath(".:owner_level")
 properties/4/spawn = true
 properties/4/replication_mode = 2
-properties/5/path = NodePath(".:owner_level")
+properties/5/path = NodePath(".:modulate")
 properties/5/spawn = true
 properties/5/replication_mode = 2
-properties/6/path = NodePath(".:modulate")
+properties/6/path = NodePath(".:spin")
 properties/6/spawn = true
-properties/6/replication_mode = 2
-properties/7/path = NodePath(".:spin")
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:velocity")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath(".:velocity")
-properties/8/spawn = true
-properties/8/replication_mode = 1
 
 [node name="bal" type="CharacterBody2D"]
 collision_layer = 4
@@ -71,4 +68,3 @@ bus = &"SFX"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_gssss")
-visibility_update_mode = 1

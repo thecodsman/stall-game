@@ -14,8 +14,8 @@ var stalled : bool = false
 @onready var bounce_sfx := $bounce_sfx
 @onready var collision_shape := $CollisionShape2D
 
+
 func _ready():
-	print($MultiplayerSynchronizer.get_multiplayer_authority())
 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
@@ -48,7 +48,7 @@ func end_game(winner : int):
 	if GameText.visible: return
 	var tree : SceneTree = null
 	GameText.visible = true
-	GameText.text = str("P", winner, " Won!")
+	GameText.text = str("P%s Won!" % winner)
 	while not tree:
 		tree = get_tree()
 	await tree.create_timer(2).timeout
@@ -65,14 +65,14 @@ func bounce(raw_vel, collision):
 		velocity *= 0.60
 
 
-@rpc("any_peer", "call_local", "reliable")
-func punt(pos): ## pass in the global position of the punter
-	# Camera.screen_shake(4,5)
-	var angle = (pos - global_position).angle()
-	if angle >= 0   && angle < PI/2: velocity = Vector2(-20,-60)
-	elif angle > PI/2 && angle <= PI: velocity = Vector2(20,-60)
-	elif angle > -PI/2 && angle <= 0: velocity = Vector2(-60,20)
-	elif angle >= -PI && angle < -PI/2: velocity = Vector2(60,20)
+# @rpc("any_peer", "call_local", "reliable")
+# func punt(pos): ## pass in the global position of the punter
+# 	# Camera.screen_shake(4,5)
+# 	var angle = (pos - global_position).angle()
+# 	if angle >= 0   && angle < PI/2: velocity = Vector2(-20,-60)
+# 	elif angle > PI/2 && angle <= PI: velocity = Vector2(20,-60)
+# 	elif angle > -PI/2 && angle <= 0: velocity = Vector2(-60,20)
+# 	elif angle >= -PI && angle < -PI/2: velocity = Vector2(60,20)
 	
 
 var prev_vel : Vector2 = Vector2.ZERO

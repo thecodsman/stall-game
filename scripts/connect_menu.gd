@@ -13,4 +13,3 @@ func _on_connect_pressed() -> void:
 	Lobby.join_game(ip.text, int(port.text))
 	await multiplayer.connected_to_server
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
-

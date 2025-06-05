@@ -51,7 +51,7 @@
 !_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
-!_TAG_OUTPUT_VERSION	0.0	/current.age/
+!_TAG_OUTPUT_VERSION	1.1	/current.age/
 !_TAG_PARSER_VERSION!C#	0.0	/current.age/
 !_TAG_PARSER_VERSION!GDScript	0.0	/current.age/
 !_TAG_PARSER_VERSION!Markdown	1.1	/current.age/
@@ -64,7 +64,7 @@
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	6.1.0	/v6.1.0/
+!_TAG_PROGRAM_VERSION	6.2.0	/v6.2.0/
 !_TAG_ROLE_DESCRIPTION!GDScript!class	extended	/used as a base class for extending/
 !_TAG_ROLE_DESCRIPTION!Sh!heredoc	endmarker	/end marker/
 !_TAG_ROLE_DESCRIPTION!Sh!script	loaded	/loaded/
@@ -420,7 +420,7 @@ associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func
 ball_holder	scripts/player.gd	/^@onready var ball_holder = $Sprite2D\/ball_holder$/;"	v	annotations:onready
 basic_stage	scripts/carousel_select.gd	/^const basic_stage = "res:\/\/worlds\/basic_stage.tscn"$/;"	C
 betterTerrain	addons/better-terrain/BetterTerrain.cs	/^    private readonly Node betterTerrain;$/;"	f	class:BetterTerrain	file:
-bonk	scripts/bonk_box.gd	/^func bonk(ball:Ball) -> void: ## pass in the global position of the bonked$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
+bonk	scripts/bonk_box.gd	/^func bonk(ball:Ball) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
 bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	annotations:onready
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
@@ -545,7 +545,7 @@ j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:t
 join_game	singletons/lobby.gd	/^func join_game(address : String = "", port : int = 0):$/;"	m
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
-kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
+kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball():$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
@@ -635,7 +635,6 @@ prev_position	addons/better-terrain/editor/TileView.gd	/^var prev_position : Vec
 prev_scale	scripts/bal.gd	/^var prev_scale : Vector2 = Vector2(1,1)$/;"	v	typeref:typename:Vector2
 prev_vel	scripts/bal.gd	/^var prev_vel : Vector2 = Vector2.ZERO$/;"	v	typeref:typename:Vector2
 process_state	scripts/player.gd	/^var process_state : bool = false$/;"	v	typeref:typename:bool
-punt	scripts/bal.gd	/^func punt(pos): ## pass in the global position of the punter$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 queue_tiles_changed	addons/better-terrain/editor/Dock.gd	/^func queue_tiles_changed() -> void:$/;"	m	typeref:typename:void
 quick_mode_button	addons/better-terrain/editor/Dock.gd	/^@onready var quick_mode_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/QuickMode$/;"	v	typeref:typename:Button	annotations:onready
 rectangle_button	addons/better-terrain/editor/Dock.gd	/^@onready var rectangle_button: Button = $VBox\/Toolbar\/Rectangle$/;"	v	typeref:typename:Button	annotations:onready

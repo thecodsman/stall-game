@@ -60,7 +60,6 @@ func _enter_tree():
 
 func _ready():
 	sprite.self_modulate = self_modulate
-	print("instance:%s, id:%s, sync_authority:%s" % [multiplayer.get_unique_id(), id, $sync.get_multiplayer_authority()])
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
 	#set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
