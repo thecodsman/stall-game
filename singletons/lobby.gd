@@ -77,15 +77,14 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 
 
-func _on_steam_lobby_joined(new_lobby_id : int, permissions : int, locked : bool, response : int):
+func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bool, response : int):
 	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	lobby_id = new_lobby_id
 	var id = Steam.getLobbyOwner(new_lobby_id)
 	if id != Steam.getSteamID():
-				connect_steam_socket(id)
-				_register_player.rpc(id, player_info)
-				players[multiplayer.get_unique_id()] = "test"
-	lobby_id = new_lobby_id
-	multiplayer.multiplayer_peer = peer
+		connect_steam_socket(id)
+		_register_player.rpc(id, player_info)
+		#players[multiplayer.get_unique_id()].name = "test"
 
 
 func create_steam_socket():
@@ -96,7 +95,7 @@ func create_steam_socket():
 
 func connect_steam_socket(steam_id : int):
 	peer = SteamMultiplayerPeer.new()
-	peer.create_client(steam_id, 0, [])
+	peer.create_client(steam_id, 0)
 	multiplayer.set_multiplayer_peer(peer)
 
 
