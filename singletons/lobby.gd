@@ -35,7 +35,8 @@ func _ready():
 	if not OS.has_feature("Steam"): return
 	Steam.lobby_created.connect(_on_steam_lobby_created)
 	Steam.lobby_joined.connect(_on_steam_lobby_joined)
-	Steam.join_game_requested.connect(_on_steam_lobby_join_requested)
+	Steam.join_requested.connect(_on_steam_lobby_join_requested)
+	#Steam.join_requested
 
 
 func join_game(address : String = "", port : int = 0):
