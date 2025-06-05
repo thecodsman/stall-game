@@ -537,7 +537,7 @@ initial_click	addons/better-terrain/editor/Dock.gd	/^var initial_click : Vector2
 initial_click	addons/better-terrain/editor/TileView.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 input	scripts/ball_hitter.gd	/^@export var input : PlayerInput$/;"	v	typeref:typename:PlayerInput	annotations:export
 input	scripts/player.gd	/^@onready var input : PlayerInput = $Input$/;"	v	typeref:typename:PlayerInput	annotations:onready
-ip	scripts/connect_menu.gd	/^@onready var ip = $address\/ip$/;"	v	annotations:onready
+ip	scripts/connect_menu.gd	/^@onready var ip = $Tabs\/IP\/IP\/ip$/;"	v	annotations:onready
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
 is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
 is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
@@ -634,7 +634,7 @@ player_scene	scripts/stage.gd	/^var player_scene = preload("res:\/\/stuff\/playe
 player_spawns	scripts/stage.gd	/^@onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn]$/;"	v	typeref:typename:Array[Node2D]	annotations:onready
 players	singletons/lobby.gd	/^var players : Dictionary = {}$/;"	v	typeref:typename:Dictionary
 players_loaded	singletons/lobby.gd	/^var players_loaded : int = 0$/;"	v	typeref:typename:int
-port	scripts/connect_menu.gd	/^@onready var port = $address\/port$/;"	v	annotations:onready
+port	scripts/connect_menu.gd	/^@onready var port = $Tabs\/IP\/IP\/port$/;"	v	annotations:onready
 prev_position	addons/better-terrain/editor/Dock.gd	/^var prev_position : Vector2i$/;"	v	typeref:typename:Vector2i
 prev_position	addons/better-terrain/editor/TileView.gd	/^var prev_position : Vector2i$/;"	v	typeref:typename:Vector2i
 prev_scale	scripts/bal.gd	/^var prev_scale : Vector2 = Vector2(1,1)$/;"	v	typeref:typename:Vector2

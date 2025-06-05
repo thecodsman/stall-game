@@ -1,7 +1,7 @@
 extends Control
 
-@onready var ip = $address/ip
-@onready var port = $address/port
+@onready var ip = $Tabs/IP/IP/ip
+@onready var port = $Tabs/IP/IP/port
 
 
 func _on_host_pressed() -> void:
