@@ -84,7 +84,7 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 	var id = Steam.getLobbyOwner(new_lobby_id)
 	if id != Steam.getSteamID():
 		connect_steam_socket(id)
-		_register_player.rpc_id(id, player_info)
+		_register_player.rpc(player_info)
 		#players[multiplayer.get_unique_id()].name = "test"
 
 
