@@ -334,10 +334,10 @@ _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuff
 _on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(ball : Ball) -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/lobby_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
-_on_steam_create_game	singletons/lobby.gd	/^func _on_steam_create_game(response : int, new_lobby_id : int):$/;"	m
 _on_steam_host_pressed	scripts/connect_menu.gd	/^func _on_steam_host_pressed() -> void:$/;"	m	typeref:typename:void
-_on_steam_join_game	singletons/lobby.gd	/^func _on_steam_join_game(new_lobby_id : int, permissions : int, locked : bool, response : int):$/;"	m
+_on_steam_lobby_created	singletons/lobby.gd	/^func _on_steam_lobby_created(response : int, new_lobby_id : int):$/;"	m
 _on_steam_lobby_join_requested	singletons/lobby.gd	/^func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:$/;"	m	typeref:typename:void
+_on_steam_lobby_joined	singletons/lobby.gd	/^func _on_steam_lobby_joined(new_lobby_id : int, permissions : int, locked : bool, response : int/;"	m
 _on_symmetry_selected	addons/better-terrain/editor/Dock.gd	/^func _on_symmetry_selected(index):$/;"	m
 _on_terrain_enable_id_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_enable_id_pressed(id):$/;"	m
 _on_terrain_updated	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_updated(index):$/;"	m
@@ -469,6 +469,7 @@ color_style_decoration	addons/better-terrain/editor/TerrainEntry.gd	/^var color_
 color_style_grid	addons/better-terrain/editor/TerrainEntry.gd	/^var color_style_grid:StyleBoxFlat$/;"	v	typeref:typename:StyleBoxFlat
 color_style_list	addons/better-terrain/editor/TerrainEntry.gd	/^var color_style_list:StyleBoxFlat$/;"	v	typeref:typename:StyleBoxFlat
 complete	addons/better-terrain/Watcher.gd	/^var complete := false$/;"	v
+connect_steam_socket	singletons/lobby.gd	/^func connect_steam_socket(steam_id : int):$/;"	m
 controller_index	scripts/player.gd	/^var controller_index : int = 0$/;"	v	typeref:typename:int
 copied_tile_states	addons/better-terrain/editor/TileView.gd	/^var copied_tile_states : Array[Dictionary] = []$/;"	v	typeref:typename:Array[Dictionary]
 copy_selection	addons/better-terrain/editor/TileView.gd	/^func copy_selection():$/;"	m
@@ -477,6 +478,7 @@ create_game	singletons/lobby.gd	/^func create_game(port : int):$/;"	m
 create_peering_restore_point	addons/better-terrain/editor/TerrainUndo.gd	/^func create_peering_restore_point(undo_manager: EditorUndoRedoManager, ts: TileSet) -> void:$/;"	m	typeref:typename:void
 create_peering_restore_point_specific	addons/better-terrain/editor/TerrainUndo.gd	/^func create_peering_restore_point_specific(undo_manager: EditorUndoRedoManager, ts: TileSet, pro/;"	m	typeref:typename:void
 create_peering_restore_point_tile	addons/better-terrain/editor/TerrainUndo.gd	/^func create_peering_restore_point_tile(undo_manager: EditorUndoRedoManager, ts: TileSet, source_/;"	m	typeref:typename:void
+create_steam_socket	singletons/lobby.gd	/^func create_steam_socket():$/;"	m
 create_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func create_terrain_changeset(tm: TileMapLayer, paint: Dictionary) -> Dictionary:$/;"	m	typeref:typename:Dictionary
 create_terrain_type_restore_point	addons/better-terrain/editor/TerrainUndo.gd	/^func create_terrain_type_restore_point(undo_manager: EditorUndoRedoManager, ts: TileSet) -> void/;"	m	typeref:typename:void
 create_tile_restore_point	addons/better-terrain/editor/TerrainUndo.gd	/^func create_tile_restore_point(undo_manager: EditorUndoRedoManager, tm: TileMapLayer, cells: Arr/;"	m	typeref:typename:void
@@ -611,6 +613,7 @@ paint_terrain	addons/better-terrain/editor/Dock.gd	/^@onready var paint_terrain:
 paint_type	addons/better-terrain/editor/Dock.gd	/^@onready var paint_type: Button = $VBox\/Toolbar\/PaintType$/;"	v	typeref:typename:Button	annotations:onready
 paste_occurred	addons/better-terrain/editor/TileView.gd	/^signal paste_occurred$/;"	s
 paste_selection	addons/better-terrain/editor/TileView.gd	/^func paste_selection():$/;"	m
+peer	singletons/lobby.gd	/^var peer : MultiplayerPeer = null$/;"	v	typeref:typename:MultiplayerPeer
 peering_bit_after_symmetry	addons/better-terrain/BetterTerrainData.gd	/^static func peering_bit_after_symmetry(bit: int, altflags: int) -> int:$/;"	m	typeref:typename:int	annotations:static
 peering_bits_after_symmetry	addons/better-terrain/BetterTerrainData.gd	/^static func peering_bits_after_symmetry(dict: Dictionary, altflags: int) -> Dictionary:$/;"	m	typeref:typename:Dictionary	annotations:static
 peering_polygon	addons/better-terrain/BetterTerrainData.gd	/^static func peering_polygon(ts: TileSet, type: int, peering: int) -> PackedVector2Array:$/;"	m	typeref:typename:PackedVector2Array	annotations:static

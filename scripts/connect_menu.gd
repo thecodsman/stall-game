@@ -17,5 +17,5 @@ func _on_connect_pressed() -> void:
 
 func _on_steam_host_pressed() -> void:
 	Lobby.steam_create_lobby()
+	await Steam.lobby_created
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
-

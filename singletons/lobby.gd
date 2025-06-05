@@ -20,10 +20,9 @@ var players : Dictionary = {}
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
 var player_info : Dictionary = {"name": "Name"}
-
 var players_loaded : int = 0
-
 var lobby_id : int
+var peer : MultiplayerPeer = null
 
 
 func _ready():
@@ -34,8 +33,8 @@ func _ready():
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	if not OS.has_feature("Steam"): return
-	Steam.lobby_created.connect(_on_steam_create_game)
-	Steam.lobby_joined.connect(_on_steam_join_game)
+	Steam.lobby_created.connect(_on_steam_lobby_created)
+	Steam.lobby_joined.connect(_on_steam_lobby_joined)
 	Steam.join_game_requested.connect(_on_steam_lobby_join_requested)
 
 
@@ -44,18 +43,16 @@ func join_game(address : String = "", port : int = 0):
 		address = DEFAULT_SERVER_IP
 	if not port:
 		port = DEFAULT_SERVER_PORT
-	var peer = ENetMultiplayerPeer.new()
+	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(address, port)
-	if error:
-		return error
+	if error: return error
 	multiplayer.multiplayer_peer = peer
 
 
 func create_game(port : int):
-	var peer = ENetMultiplayerPeer.new()
+	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, MAX_CONNECTIONS)
-	if error:
-		return error
+	if error: return error
 	multiplayer.multiplayer_peer = peer
 
 	players[1] = player_info
@@ -69,8 +66,8 @@ func steam_join_lobby(new_lobby_id : int):
 
 
 func steam_create_lobby():
-	if lobby_id == 0:
-		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, MAX_CONNECTIONS)
+	if lobby_id != 0: return
+	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, MAX_CONNECTIONS)
 
 
 func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
@@ -80,25 +77,37 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 
 
-func _on_steam_join_game(new_lobby_id : int, permissions : int, locked : bool, response : int):
+func _on_steam_lobby_joined(new_lobby_id : int, permissions : int, locked : bool, response : int):
 	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
-	var peer = SteamMultiplayerPeer.new()
 	var id = Steam.getLobbyOwner(new_lobby_id)
-	var error = peer.create_client(id, 0)
-	if error:
-		return error
+	if id != Steam.getSteamID():
+				connect_steam_socket(id)
+				_register_player.rpc(id, player_info)
+				players[multiplayer.get_unique_id()] = "test"
+	lobby_id = new_lobby_id
 	multiplayer.multiplayer_peer = peer
 
 
-func _on_steam_create_game(response : int, new_lobby_id : int):
+func create_steam_socket():
+	peer = SteamMultiplayerPeer.new()
+	peer.create_host(0)
+	multiplayer.set_multiplayer_peer(peer)
+
+
+func connect_steam_socket(steam_id : int):
+	peer = SteamMultiplayerPeer.new()
+	peer.create_client(steam_id, 0, [])
+	multiplayer.set_multiplayer_peer(peer)
+
+
+func _on_steam_lobby_created(response : int, new_lobby_id : int):
 	if not response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
-	var peer = SteamMultiplayerPeer.new()
-	var error = peer.create_host(0)
-	if error:
-		return error
-	multiplayer.multiplayer_peer = peer
+	Steam.setLobbyData(new_lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
+	Steam.setLobbyJoinable(lobby_id, true)
+	Steam.allowP2PPacketRelay(true)
+	create_steam_socket()
 	players[1] = player_info
-	#player_connected.emit(1, player_info)
+	player_connected.emit(1, player_info)
 
 
 func remove_multiplayer_peer():
