@@ -36,7 +36,6 @@ func _ready():
 	Steam.lobby_created.connect(_on_steam_lobby_created)
 	Steam.lobby_joined.connect(_on_steam_lobby_joined)
 	Steam.join_requested.connect(_on_steam_lobby_join_requested)
-	#Steam.join_requested
 
 
 func join_game(address : String = "", port : int = 0):
@@ -61,7 +60,7 @@ func create_game(port : int):
 
 
 func steam_join_lobby(new_lobby_id : int):
-	print("Attempting to join lobby %s" % lobby_id)
+	print("Attempting to join lobby %s" % new_lobby_id)
 	players.clear()
 	Steam.joinLobby(new_lobby_id)
 
