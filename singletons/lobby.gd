@@ -77,6 +77,7 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	var owner_name: String = Steam.getFriendPersonaName(friend_id)
 	print("Joining %s's lobby..." % owner_name)
 	steam_join_lobby(new_lobby_id)
+	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 
 
 func _on_steam_join_game(new_lobby_id : int, permissions : int, locked : bool, response : int):
@@ -96,9 +97,8 @@ func _on_steam_create_game(response : int, new_lobby_id : int):
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
-
 	players[1] = player_info
-	player_connected.emit(1, player_info)
+	#player_connected.emit(1, player_info)
 
 
 func remove_multiplayer_peer():
