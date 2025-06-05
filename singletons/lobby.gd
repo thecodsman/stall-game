@@ -74,6 +74,7 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	var owner_name: String = Steam.getFriendPersonaName(friend_id)
 	print("Joining %s's lobby..." % owner_name)
 	steam_join_lobby(new_lobby_id)
+	await Steam.lobby_joined
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 
 
