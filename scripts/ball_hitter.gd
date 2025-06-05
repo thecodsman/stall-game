@@ -9,7 +9,7 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var dir = input.direction
 	if dir.length() < input.dead_zone: dir = Vector2.UP
-	apply_ball_ownership.rpc(ball)
+	apply_ball_ownership.rpc_id(1, ball)
 	ball.update_color.rpc_id(1, owner.self_modulate, owner.player_index)
 	kick.rpc_id(1,ball,dir)
 

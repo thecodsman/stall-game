@@ -334,6 +334,9 @@ _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuff
 _on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(ball : Ball) -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/lobby_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
+_on_steam_create_game	singletons/lobby.gd	/^func _on_steam_create_game(response : int, new_lobby_id : int):$/;"	m
+_on_steam_join_game	singletons/lobby.gd	/^func _on_steam_join_game(new_lobby_id : int, permissions : int, locked : bool, response : int):$/;"	m
+_on_steam_lobby_join_requested	singletons/lobby.gd	/^func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:$/;"	m	typeref:typename:void
 _on_symmetry_selected	addons/better-terrain/editor/Dock.gd	/^func _on_symmetry_selected(index):$/;"	m
 _on_terrain_enable_id_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_enable_id_pressed(id):$/;"	m
 _on_terrain_updated	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_updated(index):$/;"	m
@@ -555,6 +558,7 @@ layer_up	addons/better-terrain/editor/Dock.gd	/^@onready var layer_up: Button = 
 layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var layout_container := %Layout$/;"	v	annotations:onready
 line_button	addons/better-terrain/editor/Dock.gd	/^@onready var line_button: Button = $VBox\/Toolbar\/Line$/;"	v	typeref:typename:Button	annotations:onready
 load_game	singletons/lobby.gd	/^func load_game(game_scene_path):$/;"	m	annotations:rpc("call_local", "reliable")
+lobby_id	singletons/lobby.gd	/^var lobby_id : int$/;"	v	typeref:typename:int
 move	scripts/player.gd	/^func move(delta : float, accel : float = ACCEL, speed : float = SPEED):$/;"	m
 move_down_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_down_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveDo/;"	v	typeref:typename:Button	annotations:onready
 move_up_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_up_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveUp$/;"	v	typeref:typename:Button	annotations:onready
@@ -703,6 +707,8 @@ stall_box	scripts/player.gd	/^@onready var stall_box = $Sprite2D\/stall_box$/;"	
 stalled	scripts/bal.gd	/^var stalled : bool = false$/;"	v	typeref:typename:bool
 start_game	scripts/stage.gd	/^func start_game():$/;"	m
 state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
+steam_create_lobby	singletons/lobby.gd	/^func steam_create_lobby():$/;"	m
+steam_join_lobby	singletons/lobby.gd	/^func steam_join_lobby(new_lobby_id : int):$/;"	m
 swap_terrains	addons/better-terrain/BetterTerrain.gd	/^func swap_terrains(ts: TileSet, index1: int, index2: int) -> bool:$/;"	m	typeref:typename:bool
 symmetry_mapping	addons/better-terrain/BetterTerrainData.gd	/^const symmetry_mapping := {$/;"	C
 symmetry_options	addons/better-terrain/editor/Dock.gd	/^@onready var symmetry_options: OptionButton = $VBox\/Toolbar\/SymmetryOptions$/;"	v	typeref:typename:OptionButton	annotations:onready

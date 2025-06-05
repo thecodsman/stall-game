@@ -23,6 +23,8 @@ var player_info : Dictionary = {"name": "Name"}
 
 var players_loaded : int = 0
 
+var lobby_id : int
+
 
 func _ready():
 	multiplayer.allow_object_decoding = true
@@ -31,6 +33,10 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	if not OS.has_feature("Steam"): return
+	Steam.lobby_created.connect(_on_steam_create_game)
+	Steam.lobby_joined.connect(_on_steam_join_game)
+	Steam.join_game_requested.connect(_on_steam_lobby_join_requested)
 
 
 func join_game(address : String = "", port : int = 0):
@@ -48,6 +54,45 @@ func join_game(address : String = "", port : int = 0):
 func create_game(port : int):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, MAX_CONNECTIONS)
+	if error:
+		return error
+	multiplayer.multiplayer_peer = peer
+
+	players[1] = player_info
+	player_connected.emit(1, player_info)
+
+
+func steam_join_lobby(new_lobby_id : int):
+	print("Attempting to join lobby %s" % lobby_id)
+	players.clear()
+	Steam.joinLobby(new_lobby_id)
+
+
+func steam_create_lobby():
+	if lobby_id == 0:
+		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, MAX_CONNECTIONS)
+
+
+func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
+	var owner_name: String = Steam.getFriendPersonaName(friend_id)
+	print("Joining %s's lobby..." % owner_name)
+	steam_join_lobby(new_lobby_id)
+
+
+func _on_steam_join_game(new_lobby_id : int, permissions : int, locked : bool, response : int):
+	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	var peer = SteamMultiplayerPeer.new()
+	var id = Steam.getLobbyOwner(new_lobby_id)
+	var error = peer.create_client(id, 0)
+	if error:
+		return error
+	multiplayer.multiplayer_peer = peer
+
+
+func _on_steam_create_game(response : int, new_lobby_id : int):
+	if not response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	var peer = SteamMultiplayerPeer.new()
+	var error = peer.create_host(0)
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
