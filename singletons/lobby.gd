@@ -88,6 +88,16 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 		#players[multiplayer.get_unique_id()].name = "test"
 
 
+func _on_steam_lobby_created(response : int, new_lobby_id : int):
+	if not response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	Steam.setLobbyData(new_lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
+	Steam.setLobbyJoinable(lobby_id, true)
+	Steam.allowP2PPacketRelay(true)
+	create_steam_socket()
+	players[1] = player_info
+	player_connected.emit(1, player_info)
+
+
 func create_steam_socket():
 	peer = SteamMultiplayerPeer.new()
 	peer.create_host(0)
@@ -98,16 +108,6 @@ func connect_steam_socket(steam_id : int):
 	peer = SteamMultiplayerPeer.new()
 	peer.create_client(steam_id, 0)
 	multiplayer.set_multiplayer_peer(peer)
-
-
-func _on_steam_lobby_created(response : int, new_lobby_id : int):
-	if not response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
-	Steam.setLobbyData(new_lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
-	Steam.setLobbyJoinable(lobby_id, true)
-	Steam.allowP2PPacketRelay(true)
-	create_steam_socket()
-	players[1] = player_info
-	player_connected.emit(1, player_info)
 
 
 func remove_multiplayer_peer():
@@ -136,6 +136,7 @@ func player_loaded():
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_player_connected(id):
+	print_debug(id)
 	_register_player.rpc_id(id, player_info)
 
 
