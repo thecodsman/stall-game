@@ -335,6 +335,7 @@ _on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(b
 _on_start_pressed	scripts/lobby_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_steam_create_game	singletons/lobby.gd	/^func _on_steam_create_game(response : int, new_lobby_id : int):$/;"	m
+_on_steam_host_pressed	scripts/connect_menu.gd	/^func _on_steam_host_pressed() -> void:$/;"	m	typeref:typename:void
 _on_steam_join_game	singletons/lobby.gd	/^func _on_steam_join_game(new_lobby_id : int, permissions : int, locked : bool, response : int):$/;"	m
 _on_steam_lobby_join_requested	singletons/lobby.gd	/^func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:$/;"	m	typeref:typename:void
 _on_symmetry_selected	addons/better-terrain/editor/Dock.gd	/^func _on_symmetry_selected(index):$/;"	m

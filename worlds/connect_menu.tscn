@@ -72,45 +72,85 @@ offset_bottom = 96.0
 texture = ExtResource("2_kvax6")
 metadata/_edit_lock_ = true
 
-[node name="address" type="VBoxContainer" parent="."]
+[node name="Tabs" type="TabContainer" parent="."]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 10.0
-offset_right = 95.0
-offset_bottom = 50.0
+offset_right = 96.0
+offset_bottom = 97.0
+theme = ExtResource("3_kvax6")
+tab_alignment = 1
+current_tab = 1
+
+[node name="IP" type="Control" parent="Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="IP" type="VBoxContainer" parent="Tabs/IP"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_bottom = -3.0
 theme_override_constants/separation = 1
 
-[node name="ip" type="LineEdit" parent="address"]
+[node name="ip" type="LineEdit" parent="Tabs/IP/IP"]
 layout_mode = 2
 theme = ExtResource("3_kvax6")
 text = "127.0.0.1"
 placeholder_text = "ip address"
 
-[node name="port" type="LineEdit" parent="address"]
+[node name="port" type="LineEdit" parent="Tabs/IP/IP"]
 layout_mode = 2
 theme = ExtResource("3_kvax6")
 text = "5835"
 placeholder_text = "port"
 
-[node name="buttons" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_left = -1.0
-offset_top = 73.0
-offset_right = 98.0
-offset_bottom = 93.0
+[node name="buttons" type="HBoxContainer" parent="Tabs/IP"]
+layout_mode = 2
+offset_left = -2.0
+offset_top = 57.0
+offset_right = 97.0
+offset_bottom = 77.0
 alignment = 1
 
-[node name="connect" type="Button" parent="buttons"]
+[node name="connect" type="Button" parent="Tabs/IP/buttons"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme = ExtResource("3_kvax6")
 text = "CONNECT"
 
-[node name="host" type="Button" parent="buttons"]
+[node name="host" type="Button" parent="Tabs/IP/buttons"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
 theme = ExtResource("3_kvax6")
 text = "HOST"
 
-[connection signal="pressed" from="buttons/connect" to="." method="_on_connect_pressed"]
-[connection signal="pressed" from="buttons/host" to="." method="_on_host_pressed"]
+[node name="Steam" type="Control" parent="Tabs"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="buttons" type="VBoxContainer" parent="Tabs/Steam"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 76.0
+offset_bottom = 58.0
+
+[node name="steam_host" type="Button" parent="Tabs/Steam/buttons"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Host"
+
+[node name="steam_quick_match" type="Button" parent="Tabs/Steam/buttons"]
+layout_mode = 2
+disabled = true
+text = "Quick Match"
+
+[node name="steam_server_list" type="Button" parent="Tabs/Steam/buttons"]
+layout_mode = 2
+disabled = true
+text = "Server List"
+
+[connection signal="pressed" from="Tabs/IP/buttons/connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="Tabs/IP/buttons/host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Tabs/Steam/buttons/steam_host" to="." method="_on_steam_host_pressed"]
