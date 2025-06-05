@@ -84,7 +84,7 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 	var id = Steam.getLobbyOwner(new_lobby_id)
 	if id != Steam.getSteamID():
 		connect_steam_socket(id)
-		_register_player.rpc(id, player_info)
+		_register_player.rpc_id(id, player_info)
 		#players[multiplayer.get_unique_id()].name = "test"
 
 
@@ -136,7 +136,6 @@ func player_loaded():
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_player_connected(id):
-	print_debug(id)
 	_register_player.rpc_id(id, player_info)
 
 
