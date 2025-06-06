@@ -27,8 +27,8 @@ var peer : MultiplayerPeer = null
 
 func _ready():
 	multiplayer.allow_object_decoding = true
-	multiplayer.peer_connected.connect(_on_player_connected)
-	multiplayer.peer_disconnected.connect(_on_player_disconnected)
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
@@ -74,7 +74,7 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	var owner_name: String = Steam.getFriendPersonaName(friend_id)
 	print("Joining %s's lobby..." % owner_name)
 	steam_join_lobby(new_lobby_id)
-	await Steam.lobby_joined
+	#await Steam.lobby_joined
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 
 
@@ -84,15 +84,15 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 	var id = Steam.getLobbyOwner(new_lobby_id)
 	if id != Steam.getSteamID():
 		connect_steam_socket(id)
-		await multiplayer.connected_to_server
 		_register_player.rpc(player_info)
 		#players[multiplayer.get_unique_id()].name = "test"
 
 
 func _on_steam_lobby_created(response : int, new_lobby_id : int):
 	if not response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	lobby_id = new_lobby_id
 	Steam.setLobbyData(new_lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
-	Steam.setLobbyJoinable(lobby_id, true)
+	Steam.setLobbyJoinable(new_lobby_id, true)
 	Steam.allowP2PPacketRelay(true)
 	create_steam_socket()
 	players[1] = player_info
@@ -102,13 +102,14 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int):
 func create_steam_socket():
 	peer = SteamMultiplayerPeer.new()
 	peer.create_host(0)
-	multiplayer.set_multiplayer_peer(peer)
+	multiplayer.multiplayer_peer = peer
 
 
 func connect_steam_socket(steam_id : int):
 	peer = SteamMultiplayerPeer.new()
-	peer.create_client(steam_id, 0)
-	multiplayer.set_multiplayer_peer(peer)
+	var error = peer.create_client(steam_id, 0)
+	if error: return error
+	multiplayer.multiplayer_peer = peer
 
 
 func remove_multiplayer_peer():
@@ -136,7 +137,7 @@ func player_loaded():
 
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
-func _on_player_connected(id):
+func _on_peer_connected(id):
 	_register_player.rpc_id(id, player_info)
 
 
@@ -147,7 +148,7 @@ func _register_player(new_player_info):
 	player_connected.emit(new_player_id, new_player_info)
 
 
-func _on_player_disconnected(id):
+func _on_peer_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
 

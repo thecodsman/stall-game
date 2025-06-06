@@ -322,11 +322,11 @@ _on_layer_up_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_layer_up_pr
 _on_move_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_move_pressed(down: bool) -> void:$/;"	m	typeref:typename:void
 _on_online_pressed	scripts/main_menu.gd	/^func _on_online_pressed() -> void:$/;"	m	typeref:typename:void
 _on_paste_occurred	addons/better-terrain/editor/Dock.gd	/^func _on_paste_occurred():$/;"	m
+_on_peer_connected	singletons/lobby.gd	/^func _on_peer_connected(id):$/;"	m
+_on_peer_disconnected	singletons/lobby.gd	/^func _on_peer_disconnected(id):$/;"	m
 _on_pick_icon_focus_exited	addons/better-terrain/editor/Dock.gd	/^func _on_pick_icon_focus_exited():$/;"	m
 _on_pick_icon_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_pick_icon_pressed():$/;"	m
 _on_player_connected	scripts/lobby_menu.gd	/^func _on_player_connected(peer_id, player_info):$/;"	m
-_on_player_connected	singletons/lobby.gd	/^func _on_player_connected(id):$/;"	m
-_on_player_disconnected	singletons/lobby.gd	/^func _on_player_disconnected(id):$/;"	m
 _on_quick_mode_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_quick_mode_pressed() -> void:$/;"	m	typeref:typename:void
 _on_remove_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_remove_terrain_pressed() -> void:$/;"	m	typeref:typename:void
 _on_server_disconnected	singletons/lobby.gd	/^func _on_server_disconnected():$/;"	m
