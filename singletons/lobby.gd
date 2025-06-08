@@ -95,10 +95,10 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int):
 		print("ERROR CREATING LOBBY, CODE: %s" % response)
 		return response
 	lobby_id = new_lobby_id
-	Steam.setLobbyData(new_lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
-	Steam.setLobbyJoinable(new_lobby_id, true)
-	Steam.allowP2PPacketRelay(true)
 	create_steam_socket()
+	Steam.setLobbyJoinable(lobby_id, true)
+	Steam.setLobbyData(lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
+	Steam.allowP2PPacketRelay(true)
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 
