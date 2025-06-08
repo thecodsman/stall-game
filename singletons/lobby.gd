@@ -73,13 +73,15 @@ func steam_create_lobby():
 func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	var owner_name: String = Steam.getFriendPersonaName(friend_id)
 	print("Joining %s's lobby..." % owner_name)
+	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 	steam_join_lobby(new_lobby_id)
 	#await Steam.lobby_joined
-	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 
 
 func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bool, response : int):
-	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
+		print("ERROR JOINING LOBBY, CODE: %s" % response)
+		return response
 	lobby_id = new_lobby_id
 	var id = Steam.getLobbyOwner(new_lobby_id)
 	if id != Steam.getSteamID():
@@ -89,7 +91,9 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 
 
 func _on_steam_lobby_created(response : int, new_lobby_id : int):
-	if not response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS: return response
+	if response != Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
+		print("ERROR CREATING LOBBY, CODE: %s" % response)
+		return response
 	lobby_id = new_lobby_id
 	Steam.setLobbyData(new_lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
 	Steam.setLobbyJoinable(new_lobby_id, true)
@@ -101,14 +105,19 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int):
 
 func create_steam_socket():
 	peer = SteamMultiplayerPeer.new()
-	peer.create_host(0)
+	var error = peer.create_host(0)
+	if error:
+		print("ERROR : %s" % error)
+		return error
 	multiplayer.multiplayer_peer = peer
 
 
 func connect_steam_socket(steam_id : int):
 	peer = SteamMultiplayerPeer.new()
 	var error = peer.create_client(steam_id, 0)
-	if error: return error
+	if error: 
+		print("ERROR : %s" % error)
+		return error
 	multiplayer.multiplayer_peer = peer
 
 
