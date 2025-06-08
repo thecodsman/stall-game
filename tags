@@ -158,7 +158,7 @@ MATCH_TILES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_TILES, ## Selects ti
 MATCH_VERTICES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_VERTICES, ## Select tiles by analysing vertices, similar to wang-style tiles.$/;"	e	enum:TerrainType	file:
 MAX	addons/better-terrain/BetterTerrain.gd	/^	MAX,$/;"	e	enum:TerrainType	file:
 MAX_CANVAS_RENDER_TILES	addons/better-terrain/editor/Dock.gd	/^const MAX_CANVAS_RENDER_TILES = 1500$/;"	C
-MAX_CONNECTIONS	singletons/lobby.gd	/^const MAX_CONNECTIONS = 2$/;"	C
+MAX_CONNECTIONS	singletons/lobby.gd	/^const MAX_CONNECTIONS = 10$/;"	C
 MAX_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MAX_ZOOM_SETTING := "editor\/better_terrain\/max_zoom_amount"$/;"	C
 MIN_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MIN_ZOOM_SETTING := "editor\/better_terrain\/min_zoom_amount"$/;"	C
 MIRROR	addons/better-terrain/BetterTerrain.gd	/^	MIRROR, ## Horizontally mirror$/;"	e	enum:SymmetryType	file:

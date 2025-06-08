@@ -5,7 +5,7 @@ func _ready():
 		set_process(false)
 		print("no steam")
 		return
-	print(Steam.steamInit(3737110))
+	print(Steam.steamInitEx(3737110, true))
 	set_process(true)
 
 func _process(_delta: float):
