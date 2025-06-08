@@ -107,7 +107,7 @@ func create_steam_socket():
 	peer = SteamMultiplayerPeer.new()
 	var error = peer.create_host(0)
 	if error:
-		print_debug("ERROR CREATING SOCKET, ERROR CODE : %s" % error)
+		print("ERROR CREATING SOCKET, ERROR CODE : %s" % error)
 		return error
 	multiplayer.multiplayer_peer = peer
 
