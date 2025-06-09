@@ -15,8 +15,8 @@ var stalled : bool = false
 @onready var collision_shape := $CollisionShape2D
 
 
-# func _ready():
-# 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+func _ready():
+	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
 func _physics_process(delta : float) -> void:
@@ -28,7 +28,6 @@ func _physics_process(delta : float) -> void:
 	if owner_level > 2: owner_level = 2
 	if stalled: return
 	if owner_index != -1: velocity.y += gravity * delta
-	if get_multiplayer_authority() != multiplayer.get_unique_id(): return
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collision : KinematicCollision2D = get_slide_collision(i)

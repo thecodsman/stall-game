@@ -362,6 +362,7 @@ _process	singletons/steamworks.gd	/^func _process(_delta: float):$/;"	m
 _purge_cache	addons/better-terrain/BetterTerrain.gd	/^func _purge_cache(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/Dock.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _ready	addons/better-terrain/editor/TerrainEntry.gd	/^func _ready():$/;"	m
+_ready	scripts/bal.gd	/^func _ready():$/;"	m
 _ready	scripts/bonk_box.gd	/^func _ready():$/;"	m
 _ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
