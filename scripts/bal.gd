@@ -15,8 +15,8 @@ var stalled : bool = false
 @onready var collision_shape := $CollisionShape2D
 
 
-func _ready():
-	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+# func _ready():
+# 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
 func _physics_process(delta : float) -> void:
