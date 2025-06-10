@@ -19,8 +19,8 @@ func _enter_tree():
 	set_multiplayer_authority(1)
 
 
-func _ready():
-	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+# func _ready():
+# 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
 func _physics_process(delta : float) -> void:
