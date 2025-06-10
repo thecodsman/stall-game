@@ -87,7 +87,6 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 	if id != Steam.getSteamID():
 		connect_steam_socket(id)
 		await multiplayer.connected_to_server
-		print("connected")
 		_register_player.rpc(player_info)
 		#players[multiplayer.get_unique_id()].name = "test"
 
@@ -139,6 +138,7 @@ func load_game(game_scene_path):
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
 	if multiplayer.is_server():
+		print("player loaded")
 		players_loaded += 1
 		if players_loaded == players.size():
 			$/root/stage.start_game()

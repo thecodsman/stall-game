@@ -8,12 +8,11 @@ var player_scene = preload("res://stuff/player.tscn")
 
 func _ready():
 	if Globals.is_online: Lobby.player_loaded.rpc()
-	else: start_game()
-
-
-func start_game():
-	if Globals.is_online: online_spawn_players()
 	else: local_spawn_players()
+
+
+func start_game(): # is only called in online lobbies
+	online_spawn_players()
 
 
 func online_spawn_players():

@@ -868,7 +868,7 @@ stalled	scripts/bal.gd	/^var stalled : bool = false$/;"	v	typeref:typename:bool
 start	build/v0.8.1/windows/stall.js	/^			start: function (controller) {$/;"	m	variable:Preloader.getTrackedResponse.anonymousObject1799aa230305
 start	build/v0.8.1/windows/stall.js	/^			start: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
 startGame	build/v0.8.1/windows/stall.js	/^			startGame: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
-start_game	scripts/stage.gd	/^func start_game():$/;"	m
+start_game	scripts/stage.gd	/^func start_game(): # is only called in online lobbies$/;"	m
 state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
 status	build/v0.8.1/windows/stall.html	/^		<div id="status">$/;"	I
 status-notice	build/v0.8.1/windows/stall.html	/^			<div id="status-notice"><\/div>$/;"	I
