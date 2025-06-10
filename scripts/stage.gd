@@ -27,8 +27,7 @@ func online_spawn_players():
 		player.player_index = i + 1
 		player.controller_index = 0
 		$SubViewportContainer/game.add_child(player, true)
-		#player.set_location.rpc_id(id, player_spawns[i].global_position)
-		player.set_location.rpc(player_spawns[i].global_position)
+		player.set_location.rpc_id(id, player_spawns[i].global_position)
 
 
 func local_spawn_players():
