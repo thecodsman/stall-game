@@ -7,8 +7,8 @@ var player_scene = preload("res://stuff/player.tscn")
 
 
 func _ready():
-	if Globals.is_online: Lobby.player_loaded.rpc()
-	else: local_spawn_players()
+	Lobby.player_loaded.rpc()
+	if not Globals.is_online: local_spawn_players()
 
 
 func start_game(): # is only called in online lobbies
@@ -20,7 +20,6 @@ func online_spawn_players():
 	for i in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
 		var id = Lobby.players.keys()[i]
-		print("spawning player id : %s" % id)
 		player.id = id
 		player.name = str(id)
 		player.self_modulate = Globals.player_colors[i]

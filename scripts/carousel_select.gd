@@ -62,11 +62,12 @@ func spawn_stage_icons():
 
 
 func go_to_stage():
-	if multiplayer.multiplayer_peer && is_multiplayer_authority():
+	if Globals.is_online:
 		var stage = stages[current_index]
 		Lobby.load_game.rpc(stage)
 	else:
-		get_tree().change_scene_to_file(stages[current_index])	
+		var stage = stages[current_index]
+		get_tree().change_scene_to_file(stage)	
 
 
 func scroll_right():
