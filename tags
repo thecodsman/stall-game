@@ -31,6 +31,25 @@
 !_TAG_KIND_DESCRIPTION!GDScript	m,method	/methods/
 !_TAG_KIND_DESCRIPTION!GDScript	s,signal	/signals/
 !_TAG_KIND_DESCRIPTION!GDScript	v,variable	/variables/
+!_TAG_KIND_DESCRIPTION!HTML	C,stylesheet	/stylesheets/
+!_TAG_KIND_DESCRIPTION!HTML	I,id	/identifiers/
+!_TAG_KIND_DESCRIPTION!HTML	J,script	/scripts/
+!_TAG_KIND_DESCRIPTION!HTML	a,anchor	/named anchors/
+!_TAG_KIND_DESCRIPTION!HTML	c,class	/classes/
+!_TAG_KIND_DESCRIPTION!HTML	h,heading1	/H1 headings/
+!_TAG_KIND_DESCRIPTION!HTML	i,heading2	/H2 headings/
+!_TAG_KIND_DESCRIPTION!HTML	j,heading3	/H3 headings/
+!_TAG_KIND_DESCRIPTION!HTML	t,title	/titles/
+!_TAG_KIND_DESCRIPTION!JavaScript	C,constant	/constants/
+!_TAG_KIND_DESCRIPTION!JavaScript	G,getter	/getters/
+!_TAG_KIND_DESCRIPTION!JavaScript	M,field	/fields/
+!_TAG_KIND_DESCRIPTION!JavaScript	S,setter	/setters/
+!_TAG_KIND_DESCRIPTION!JavaScript	c,class	/classes/
+!_TAG_KIND_DESCRIPTION!JavaScript	f,function	/functions/
+!_TAG_KIND_DESCRIPTION!JavaScript	g,generator	/generators/
+!_TAG_KIND_DESCRIPTION!JavaScript	m,method	/methods/
+!_TAG_KIND_DESCRIPTION!JavaScript	p,property	/properties/
+!_TAG_KIND_DESCRIPTION!JavaScript	v,variable	/global variables/
 !_TAG_KIND_DESCRIPTION!Markdown	S,subsection	/level 2 sections/
 !_TAG_KIND_DESCRIPTION!Markdown	T,l4subsection	/level 4 sections/
 !_TAG_KIND_DESCRIPTION!Markdown	c,chapter	/chapters/
@@ -54,6 +73,8 @@
 !_TAG_OUTPUT_VERSION	1.1	/current.age/
 !_TAG_PARSER_VERSION!C#	0.0	/current.age/
 !_TAG_PARSER_VERSION!GDScript	0.0	/current.age/
+!_TAG_PARSER_VERSION!HTML	0.0	/current.age/
+!_TAG_PARSER_VERSION!JavaScript	1.1	/current.age/
 !_TAG_PARSER_VERSION!Markdown	1.1	/current.age/
 !_TAG_PARSER_VERSION!PlistXML	0.0	/current.age/
 !_TAG_PARSER_VERSION!SVG	0.0	/current.age/
@@ -66,8 +87,14 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.2.0	/v6.2.0/
 !_TAG_ROLE_DESCRIPTION!GDScript!class	extended	/used as a base class for extending/
+!_TAG_ROLE_DESCRIPTION!HTML!class	attribute	/assigned as attributes/
+!_TAG_ROLE_DESCRIPTION!HTML!script	extFile	/referenced as external files/
+!_TAG_ROLE_DESCRIPTION!HTML!stylesheet	extFile	/referenced as external files/
+!_TAG_ROLE_DESCRIPTION!JavaScript!function	foreigndecl	/declared in foreign languages/
 !_TAG_ROLE_DESCRIPTION!Sh!heredoc	endmarker	/end marker/
 !_TAG_ROLE_DESCRIPTION!Sh!script	loaded	/loaded/
+$GODOT_PROJECT_NAME	build/current_build/windows/stall.html	/^		<title>$GODOT_PROJECT_NAME<\/title>$/;"	j
+$GODOT_PROJECT_NAME	build/v0.8.1/windows/stall.html	/^		<title>$GODOT_PROJECT_NAME<\/title>$/;"	j
 <img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋	addons/steam-multiplayer-peer/README.md	/^# <img src="https:\/\/raw.githubusercontent.com\/expressobits\/steam-multiplayer-peer\/main\/ico/;"	c
 ACCEL	scripts/player.gd	/^const ACCEL : float = 20.0$/;"	C	typeref:typename:float
 AIR	scripts/player.gd	/^	AIR,$/;"	e	enum:State	file:
@@ -83,6 +110,8 @@ AddTilePeeringType	addons/better-terrain/BetterTerrain.cs	/^    public bool AddT
 All	addons/better-terrain/BetterTerrain.cs	/^        All = 8 \/\/ All rotated and reflected forms$/;"	e	enum:BetterTerrain.SymmetryType	file:
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName ApplyTerrainChangeset = "apply_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public void ApplyTerrainChangeset(Godot.Collections.Dictionary<Variant, Variant> changeset)$/;"	m	class:BetterTerrain
+AudioContext	build/current_build/windows/stall.js	/^		return 'AudioContext' in window && 'audioWorklet' in AudioContext.prototype;$/;"	c
+AudioContext	build/v0.8.1/windows/stall.js	/^		return 'AudioContext' in window && 'audioWorklet' in AudioContext.prototype;$/;"	c
 Authors	addons/steam-multiplayer-peer/README.md	/^## Authors$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 BASE_GRAVITY	scripts/player.gd	/^const BASE_GRAVITY : float = 700.0$/;"	C	typeref:typename:float
 Ball	scripts/bal.gd	/^class_name Ball extends CharacterBody2D$/;"	c
@@ -108,6 +137,10 @@ CFBundleVersion	addons/godotsteam/osx/libgodotsteam.macos.template_debug.framewo
 CFBundleVersion	addons/godotsteam/osx/libgodotsteam.macos.template_release.framework/Resources/Info.plist	/^	<key>CFBundleVersion<\/key>$/;"	k
 COYOTE_TIME	scripts/player.gd	/^const COYOTE_TIME : float = 0.05$/;"	C	typeref:typename:float
 Category	addons/better-terrain/BetterTerrain.cs	/^        Category = 2,$/;"	e	enum:BetterTerrain.TerrainType	file:
+Config	build/current_build/windows/stall.js	/^	Config.prototype = cfg;$/;"	c
+Config	build/current_build/windows/stall.js	/^	function Config(opts) {$/;"	c	class:InternalConfig
+Config	build/v0.8.1/windows/stall.js	/^	Config.prototype = cfg;$/;"	c
+Config	build/v0.8.1/windows/stall.js	/^	function Config(opts) {$/;"	c	class:InternalConfig
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName CreateTerrainChangeset = "create_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public Godot.Collections.Dictionary<Variant, Variant> CreateTerrainChangeset(Godot.Collectio/;"	m	class:BetterTerrain
 DASH	scripts/player.gd	/^	DASH,$/;"	e	enum:State	file:
@@ -124,9 +157,17 @@ ERASE_PEERING	addons/better-terrain/editor/TileView.gd	/^	ERASE_PEERING,$/;"	e	e
 ERASE_SYMMETRY	addons/better-terrain/editor/TileView.gd	/^	ERASE_SYMMETRY,$/;"	e	enum:PaintAction	file:
 ERASE_TYPE	addons/better-terrain/editor/TileView.gd	/^	ERASE_TYPE,$/;"	e	enum:PaintAction	file:
 ERROR	addons/better-terrain/BetterTerrain.gd	/^	ERROR = -3$/;"	e	enum:TileCategory	file:
+Engine	build/current_build/windows/stall.js	/^	function Engine(initConfig) { \/\/ eslint-disable-line no-shadow$/;"	c	class:Engine
+Engine	build/current_build/windows/stall.js	/^const Engine = (function () {$/;"	c
+Engine	build/v0.8.1/windows/stall.js	/^	function Engine(initConfig) { \/\/ eslint-disable-line no-shadow$/;"	c	class:Engine
+Engine	build/v0.8.1/windows/stall.js	/^const Engine = (function () {$/;"	c
+EngineConfig	build/current_build/windows/stall.js	/^const EngineConfig = {}; \/\/ eslint-disable-line no-unused-vars$/;"	C
+EngineConfig	build/v0.8.1/windows/stall.js	/^const EngineConfig = {}; \/\/ eslint-disable-line no-unused-vars$/;"	C
 FLIP	addons/better-terrain/BetterTerrain.gd	/^	FLIP, ## Vertically flip$/;"	e	enum:SymmetryType	file:
 FRICTION	scripts/player.gd	/^const FRICTION : float = 20$/;"	C	typeref:typename:float
 Features	addons/steam-multiplayer-peer/README.md	/^## Features$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
+Features	build/current_build/windows/stall.js	/^const Features = {$/;"	v
+Features	build/v0.8.1/windows/stall.js	/^const Features = {$/;"	v
 Flip	addons/better-terrain/BetterTerrain.cs	/^        Flip = 2, \/\/ Vertically flip$/;"	e	enum:BetterTerrain.SymmetryType	file:
 GetCell	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName GetCell = "get_cell";$/;"	f	class:BetterTerrain.MethodName
 GetCell	addons/better-terrain/BetterTerrain.cs	/^    public int GetCell(Vector2I coordinate)$/;"	m	class:BetterTerrain
@@ -142,9 +183,17 @@ GetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^        public stati
 GetTileTerrainType	addons/better-terrain/BetterTerrain.cs	/^    public int GetTileTerrainType(TileData tileData)$/;"	m	class:BetterTerrain
 GetTilesInTerrain	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName GetTilesInTerrain = "get_tiles_in_terrain";$/;"	f	class:BetterTerrain.MethodName
 GetTilesInTerrain	addons/better-terrain/BetterTerrain.cs	/^    public Array<TileData> GetTilesInTerrain(int type)$/;"	m	class:BetterTerrain
+Godot	build/current_build/windows/stall.js	/^var Godot = (() => {$/;"	v
+Godot	build/v0.8.1/windows/stall.js	/^var Godot = (() => {$/;"	v
+GodotPositionReportingProcessor	build/current_build/windows/stall.audio.position.worklet.js	/^class GodotPositionReportingProcessor extends AudioWorkletProcessor {$/;"	c
+GodotPositionReportingProcessor	build/v0.8.1/windows/stall.audio.position.worklet.js	/^class GodotPositionReportingProcessor extends AudioWorkletProcessor {$/;"	c
+GodotProcessor	build/current_build/windows/stall.audio.worklet.js	/^class GodotProcessor extends AudioWorkletProcessor {$/;"	c
+GodotProcessor	build/v0.8.1/windows/stall.audio.worklet.js	/^class GodotProcessor extends AudioWorkletProcessor {$/;"	c
 GodotSteam SteamMultiplayerPeer Differences	addons/steam-multiplayer-peer/README.md	/^## GodotSteam SteamMultiplayerPeer Differences$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 IDLE	scripts/player.gd	/^	IDLE,$/;"	e	enum:State	file:
 In Progress	addons/steam-multiplayer-peer/README.md	/^## In Progress$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
+InternalConfig	build/current_build/windows/stall.js	/^const InternalConfig = function (initConfig) { \/\/ eslint-disable-line no-unused-vars$/;"	c
+InternalConfig	build/v0.8.1/windows/stall.js	/^const InternalConfig = function (initConfig) { \/\/ eslint-disable-line no-unused-vars$/;"	c
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName IsTerrainChangesetReady = "is_terrain_changeset_ready"/;"	f	class:BetterTerrain.MethodName
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^    public bool IsTerrainChangesetReady(Godot.Collections.Dictionary<Variant, Variant> changeset/;"	m	class:BetterTerrain
 JUMP	scripts/player.gd	/^	JUMP,$/;"	e	enum:State	file:
@@ -183,6 +232,8 @@ PASTE	addons/better-terrain/editor/TileView.gd	/^	PASTE$/;"	e	enum:PaintAction	f
 PASTE	addons/better-terrain/editor/TileView.gd	/^	PASTE$/;"	e	enum:PaintMode	file:
 POSITION_OFFSET_X	scripts/carousel_select.gd	/^const POSITION_OFFSET_X = 14$/;"	C
 POSITION_OFFSET_Y	scripts/carousel_select.gd	/^const POSITION_OFFSET_Y = -3$/;"	C
+POST_THRESHOLD_S	build/current_build/windows/stall.audio.position.worklet.js	/^const POST_THRESHOLD_S = 0.1;$/;"	C
+POST_THRESHOLD_S	build/v0.8.1/windows/stall.audio.position.worklet.js	/^const POST_THRESHOLD_S = 0.1;$/;"	C
 PaintAction	addons/better-terrain/editor/Dock.gd	/^enum PaintAction {$/;"	g
 PaintAction	addons/better-terrain/editor/TileView.gd	/^enum PaintAction {$/;"	g
 PaintMode	addons/better-terrain/editor/Dock.gd	/^enum PaintMode {$/;"	g
@@ -190,6 +241,8 @@ PaintMode	addons/better-terrain/editor/TileView.gd	/^enum PaintMode {$/;"	g
 Planneds	addons/steam-multiplayer-peer/README.md	/^## Planneds$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 Player	scripts/player.gd	/^class_name Player extends CharacterBody2D$/;"	c
 PlayerInput	scripts/player_input.gd	/^class_name PlayerInput extends Node$/;"	c
+Preloader	build/current_build/windows/stall.js	/^const Preloader = \/** @constructor *\/ function () { \/\/ eslint-disable-line no-unused-vars$/;"	c
+Preloader	build/v0.8.1/windows/stall.js	/^const Preloader = \/** @constructor *\/ function () { \/\/ eslint-disable-line no-unused-vars$/;"	c
 RECT	addons/better-terrain/editor/Dock.gd	/^	RECT$/;"	e	enum:PaintAction	file:
 REFLECT	addons/better-terrain/BetterTerrain.gd	/^	REFLECT, ## All four reflections$/;"	e	enum:SymmetryType	file:
 ROTATE_180	addons/better-terrain/BetterTerrain.gd	/^	ROTATE_180,$/;"	e	enum:SymmetryType	file:
@@ -207,6 +260,10 @@ ReplaceCell	addons/better-terrain/BetterTerrain.cs	/^        public static reado
 ReplaceCell	addons/better-terrain/BetterTerrain.cs	/^    public bool ReplaceCell(Vector2I coordinate, int type)$/;"	m	class:BetterTerrain
 ReplaceCells	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName ReplaceCells = "replace_cells";$/;"	f	class:BetterTerrain.MethodName
 ReplaceCells	addons/better-terrain/BetterTerrain.cs	/^    public bool ReplaceCells(Array<Vector2I> coordinates, int type)$/;"	m	class:BetterTerrain
+Response	build/current_build/windows/stall.js	/^		return 'fetch' in window && 'Response' in window && 'body' in window.Response.prototype;$/;"	c	class:fetch
+Response	build/v0.8.1/windows/stall.js	/^		return 'fetch' in window && 'Response' in window && 'body' in window.Response.prototype;$/;"	c	class:fetch
+RingBuffer	build/current_build/windows/stall.audio.worklet.js	/^class RingBuffer {$/;"	c
+RingBuffer	build/v0.8.1/windows/stall.audio.worklet.js	/^class RingBuffer {$/;"	c
 Rotate180	addons/better-terrain/BetterTerrain.cs	/^        Rotate180 = 6,$/;"	e	enum:BetterTerrain.SymmetryType	file:
 RotateAll	addons/better-terrain/BetterTerrain.cs	/^        RotateAll = 7, \/\/ All four rotated forms$/;"	e	enum:BetterTerrain.SymmetryType	file:
 RotateClockwise	addons/better-terrain/BetterTerrain.cs	/^        RotateClockwise = 4,$/;"	e	enum:BetterTerrain.SymmetryType	file:
@@ -218,6 +275,8 @@ SELECT	addons/better-terrain/editor/TileView.gd	/^	SELECT,$/;"	e	enum:PaintMode	
 SPEED	scripts/player.gd	/^const SPEED : float = 100.0$/;"	C	typeref:typename:float
 STALL	scripts/player.gd	/^	STALL,$/;"	e	enum:State	file:
 STALL_KICK	scripts/player.gd	/^	STALL_KICK$/;"	e	enum:State	file:
+SafeEngine	build/current_build/windows/stall.js	/^	function SafeEngine(initConfig) {$/;"	c	class:Engine
+SafeEngine	build/v0.8.1/windows/stall.js	/^	function SafeEngine(initConfig) {$/;"	c	class:Engine
 SetCell	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName SetCell = "set_cell";$/;"	f	class:BetterTerrain.MethodName
 SetCell	addons/better-terrain/BetterTerrain.cs	/^    public bool SetCell(Vector2I coordinate, int type)$/;"	m	class:BetterTerrain
 SetCells	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName SetCells = "set_cells";$/;"	f	class:BetterTerrain.MethodName
@@ -333,6 +392,7 @@ _on_server_disconnected	singletons/lobby.gd	/^func _on_server_disconnected():$/;
 _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuffle_random_pressed():$/;"	m
 _on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(ball : Ball) -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/lobby_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
+_on_start_pressed	scripts/local_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_steam_host_pressed	scripts/connect_menu.gd	/^func _on_steam_host_pressed() -> void:$/;"	m	typeref:typename:void
 _on_steam_lobby_created	singletons/lobby.gd	/^func _on_steam_lobby_created(response : int, new_lobby_id : int):$/;"	m
@@ -342,6 +402,7 @@ _on_symmetry_selected	addons/better-terrain/editor/Dock.gd	/^func _on_symmetry_s
 _on_terrain_enable_id_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_enable_id_pressed(id):$/;"	m
 _on_terrain_updated	addons/better-terrain/editor/Dock.gd	/^func _on_terrain_updated(index):$/;"	m
 _on_type_option_item_selected	addons/better-terrain/editor/TerrainProperties.gd	/^func _on_type_option_item_selected(index: int) -> void:$/;"	m	typeref:typename:void
+_on_visibility_changed	singletons/game_text.gd	/^func _on_visibility_changed() -> void:$/;"	m	typeref:typename:void
 _on_zoom_value_changed	addons/better-terrain/editor/TileView.gd	/^func _on_zoom_value_changed(value) -> void:$/;"	m	typeref:typename:void
 _peering_non_modifying	addons/better-terrain/BetterTerrainData.gd	/^static func _peering_non_modifying() -> PackedVector2Array:$/;"	m	typeref:typename:PackedVector2Array	annotations:static
 _peering_polygon_horizontal_tiles	addons/better-terrain/BetterTerrainData.gd	/^static func _peering_polygon_horizontal_tiles(peering: int) -> PackedVector2Array:$/;"	m	typeref:typename:PackedVector2Array	annotations:static
@@ -366,6 +427,7 @@ _ready	scripts/bal.gd	/^func _ready():$/;"	m
 _ready	scripts/bonk_box.gd	/^func _ready():$/;"	m
 _ready	scripts/camera.gd	/^func _ready():$/;"	m
 _ready	scripts/carousel_select.gd	/^func _ready():$/;"	m
+_ready	scripts/connect_menu.gd	/^func _ready() -> void:$/;"	m	typeref:typename:void
 _ready	scripts/lobby_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/main_menu.gd	/^func _ready():$/;"	m
 _ready	scripts/player.gd	/^func _ready():$/;"	m
@@ -393,6 +455,7 @@ _terrain_texture	addons/better-terrain/editor/TerrainEntry.gd	/^var _terrain_tex
 _terrain_texture_rect	addons/better-terrain/editor/TerrainEntry.gd	/^var _terrain_texture_rect:Rect2i$/;"	v	typeref:typename:Rect2i
 _tile_cache	addons/better-terrain/BetterTerrain.gd	/^var _tile_cache = {}$/;"	v
 _unhandled_input	scripts/carousel_select.gd	/^func _unhandled_input(event: InputEvent) -> void:$/;"	m	typeref:typename:void
+_unhandled_input	scripts/local_menu.gd	/^func _unhandled_input(event: InputEvent) -> void:$/;"	m	typeref:typename:void
 _update_terrain_data	addons/better-terrain/BetterTerrain.gd	/^func _update_terrain_data(ts: TileSet) -> void:$/;"	m	typeref:typename:void
 _update_tile_deferred	addons/better-terrain/BetterTerrain.gd	/^func _update_tile_deferred(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictionary, types: Dictio/;"	m
 _update_tile_immediate	addons/better-terrain/BetterTerrain.gd	/^func _update_tile_immediate(tm: TileMapLayer, coord: Vector2i, ts_meta: Dictionary, types: Dicti/;"	m	typeref:typename:void
@@ -415,11 +478,71 @@ add_tile_peering_type	addons/better-terrain/BetterTerrain.gd	/^func add_tile_pee
 alternate_lookup	addons/better-terrain/editor/TileView.gd	/^var alternate_lookup := []$/;"	v	typeref:typename:=[]
 alternate_size	addons/better-terrain/editor/TileView.gd	/^var alternate_size : Vector2$/;"	v	typeref:typename:Vector2
 anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
+animateProgress	build/current_build/windows/stall.js	/^	const animateProgress = function () {$/;"	f	class:Preloader
+animateProgress	build/v0.8.1/windows/stall.js	/^	const animateProgress = function () {$/;"	f	class:Preloader
+anonymousFunction1799aa230200	build/v0.8.1/windows/stall.js	/^			return reader.read().then(function (result) {$/;"	f
+anonymousFunction1799aa230400	build/v0.8.1/windows/stall.js	/^				onloadprogress(reader, controller).then(function () {$/;"	f
+anonymousFunction1799aa230600	build/v0.8.1/windows/stall.js	/^		return fetch(file).then(function (response) {$/;"	f
+anonymousFunction1799aa230700	build/v0.8.1/windows/stall.js	/^			return new Promise(function (resolve, reject) {$/;"	f	function:Preloader.retry.onerror
+anonymousFunction1799aa230800	build/v0.8.1/windows/stall.js	/^				setTimeout(function () {$/;"	f	function:Preloader.retry.onerror.anonymousFunction1799aa230700
+anonymousFunction1799aa230a00	build/v0.8.1/windows/stall.js	/^		Object.keys(loadingFiles).forEach(function (file) {$/;"	f
+anonymousFunction1799aa230e00	build/v0.8.1/windows/stall.js	/^			return this.loadPromise(pathOrBuffer, fileSize).then(function (buf) {$/;"	f
+anonymousFunction1799aa231200	build/v0.8.1/windows/stall.js	/^			'instantiateWasm': function (imports, onSuccess) {$/;"	f
+anonymousFunction1799aa231300	build/v0.8.1/windows/stall.js	/^					r.arrayBuffer().then(function (buffer) {$/;"	f
+anonymousFunction1799aa231400	build/v0.8.1/windows/stall.js	/^			'locateFile': function (path) {$/;"	f
+anonymousFunction1799aa231500	build/v0.8.1/windows/stall.js	/^			'onExit': function (p_code) {$/;"	f
+anonymousFunction1799aa231900	build/v0.8.1/windows/stall.js	/^					return new Promise(function (resolve, reject) {$/;"	f	function:Engine.SafeEngine.proto.init.doInit
+anonymousFunction1799aa231a00	build/v0.8.1/windows/stall.js	/^						promise.then(function (response) {$/;"	f
+anonymousFunction1799aa231c00	build/v0.8.1/windows/stall.js	/^							Godot(me.config.getModuleConfig(loadPath, cloned)).then(function (module) {$/;"	f
+anonymousFunction1799aa231d00	build/v0.8.1/windows/stall.js	/^								module['initFS'](paths).then(function (err) {$/;"	f
+anonymousFunction1799aa231e00	build/v0.8.1/windows/stall.js	/^				return me.init().then(function () {$/;"	f
+anonymousFunction1799aa231f00	build/v0.8.1/windows/stall.js	/^						config = me.config.getGodotConfig(function () {$/;"	f	function:anonymousFunction1799aa231e00
+anonymousFunction1799aa232000	build/v0.8.1/windows/stall.js	/^					return new Promise(function (resolve, reject) {$/;"	f	function:anonymousFunction1799aa231e00
+anonymousFunction1799aa232100	build/v0.8.1/windows/stall.js	/^				]).then(function () {$/;"	f
+anonymousFunction43a10e2a0200	build/current_build/windows/stall.js	/^			return reader.read().then(function (result) {$/;"	f
+anonymousFunction43a10e2a0400	build/current_build/windows/stall.js	/^				onloadprogress(reader, controller).then(function () {$/;"	f
+anonymousFunction43a10e2a0600	build/current_build/windows/stall.js	/^		return fetch(file).then(function (response) {$/;"	f
+anonymousFunction43a10e2a0700	build/current_build/windows/stall.js	/^			return new Promise(function (resolve, reject) {$/;"	f	function:Preloader.retry.onerror
+anonymousFunction43a10e2a0800	build/current_build/windows/stall.js	/^				setTimeout(function () {$/;"	f	function:Preloader.retry.onerror.anonymousFunction43a10e2a0700
+anonymousFunction43a10e2a0a00	build/current_build/windows/stall.js	/^		Object.keys(loadingFiles).forEach(function (file) {$/;"	f
+anonymousFunction43a10e2a0e00	build/current_build/windows/stall.js	/^			return this.loadPromise(pathOrBuffer, fileSize).then(function (buf) {$/;"	f
+anonymousFunction43a10e2a1200	build/current_build/windows/stall.js	/^			'instantiateWasm': function (imports, onSuccess) {$/;"	f
+anonymousFunction43a10e2a1300	build/current_build/windows/stall.js	/^					r.arrayBuffer().then(function (buffer) {$/;"	f
+anonymousFunction43a10e2a1400	build/current_build/windows/stall.js	/^			'locateFile': function (path) {$/;"	f
+anonymousFunction43a10e2a1500	build/current_build/windows/stall.js	/^			'onExit': function (p_code) {$/;"	f
+anonymousFunction43a10e2a1900	build/current_build/windows/stall.js	/^					return new Promise(function (resolve, reject) {$/;"	f	function:Engine.SafeEngine.proto.init.doInit
+anonymousFunction43a10e2a1a00	build/current_build/windows/stall.js	/^						promise.then(function (response) {$/;"	f
+anonymousFunction43a10e2a1c00	build/current_build/windows/stall.js	/^							Godot(me.config.getModuleConfig(loadPath, cloned)).then(function (module) {$/;"	f
+anonymousFunction43a10e2a1d00	build/current_build/windows/stall.js	/^								module['initFS'](paths).then(function (err) {$/;"	f
+anonymousFunction43a10e2a1e00	build/current_build/windows/stall.js	/^				return me.init().then(function () {$/;"	f
+anonymousFunction43a10e2a1f00	build/current_build/windows/stall.js	/^						config = me.config.getGodotConfig(function () {$/;"	f	function:anonymousFunction43a10e2a1e00
+anonymousFunction43a10e2a2000	build/current_build/windows/stall.js	/^					return new Promise(function (resolve, reject) {$/;"	f	function:anonymousFunction43a10e2a1e00
+anonymousFunction43a10e2a2100	build/current_build/windows/stall.js	/^				]).then(function () {$/;"	f
+anonymousObject0f9e0ee30105	build/current_build/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	v
+anonymousObject1799aa230305	build/v0.8.1/windows/stall.js	/^		return new Response(new ReadableStream({$/;"	v	function:Preloader.getTrackedResponse
+anonymousObject1799aa230505	build/v0.8.1/windows/stall.js	/^		}), { headers: response.headers });$/;"	v	function:Preloader.getTrackedResponse
+anonymousObject1799aa230f05	build/v0.8.1/windows/stall.js	/^				me.preloadedFiles.push({$/;"	v
+anonymousObject1799aa231005	build/v0.8.1/windows/stall.js	/^			this.preloadedFiles.push({$/;"	v
+anonymousObject1799aa231b05	build/v0.8.1/windows/stall.js	/^							const cloned = new Response(response.clone().body, { 'headers': [['content-type', 'applic/;"	v	function:anonymousFunction1799aa231a00
+anonymousObject35070cb90105	build/v0.8.1/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	v
+anonymousObject35070cb90205	build/v0.8.1/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	v
+anonymousObject43a10e2a0305	build/current_build/windows/stall.js	/^		return new Response(new ReadableStream({$/;"	v	function:Preloader.getTrackedResponse
+anonymousObject43a10e2a0505	build/current_build/windows/stall.js	/^		}), { headers: response.headers });$/;"	v	function:Preloader.getTrackedResponse
+anonymousObject43a10e2a0f05	build/current_build/windows/stall.js	/^				me.preloadedFiles.push({$/;"	v
+anonymousObject43a10e2a1005	build/current_build/windows/stall.js	/^			this.preloadedFiles.push({$/;"	v
+anonymousObject43a10e2a1b05	build/current_build/windows/stall.js	/^							const cloned = new Response(response.clone().body, { 'headers': [['content-type', 'applic/;"	v	function:anonymousFunction43a10e2a1a00
+anonymousObject48a4eabc0105	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	v
+anonymousObjectbf2171000105	build/current_build/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	v
+anonymousObjectbf2171000205	build/current_build/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	v
 apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball : Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_ball_ownership	scripts/player.gd	/^func apply_ball_ownership(ball:Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
 apply_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func apply_terrain_changeset(change: Dictionary) -> void:$/;"	m	typeref:typename:void
+args	build/current_build/windows/stall.js	/^		args: [],$/;"	p	variable:InternalConfig.cfg
+args	build/v0.8.1/windows/stall.js	/^		args: [],$/;"	p	variable:InternalConfig.cfg
+array_has_data	build/current_build/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
+array_has_data	build/v0.8.1/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
 ball_holder	scripts/player.gd	/^@onready var ball_holder = $Sprite2D\/ball_holder$/;"	v	annotations:onready
 basic_stage	scripts/carousel_select.gd	/^const basic_stage = "res:\/\/worlds\/basic_stage.tscn"$/;"	C
@@ -428,6 +551,10 @@ bonk	scripts/bonk_box.gd	/^func bonk(ball:Ball) -> void:$/;"	m	typeref:typename:
 bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	annotations:onready
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
+buffer	build/current_build/windows/stall.js	/^					buffer: buf,$/;"	p	variable:anonymousObject43a10e2a0f05
+buffer	build/current_build/windows/stall.js	/^				buffer: pathOrBuffer,$/;"	p	variable:anonymousObject43a10e2a1005
+buffer	build/v0.8.1/windows/stall.js	/^					buffer: buf,$/;"	p	variable:anonymousObject1799aa230f05
+buffer	build/v0.8.1/windows/stall.js	/^				buffer: pathOrBuffer,$/;"	p	variable:anonymousObject1799aa231005
 button	addons/better-terrain/TerrainPlugin.gd	/^var button : Button$/;"	v	typeref:typename:Button
 button_state	scripts/player_input.gd	/^var button_state : Dictionary[String,int] = {$/;"	v	typeref:typename:Dictionary[String,int]
 buttons	scripts/player_input.gd	/^var buttons : Dictionary[JoyButton,Dictionary] ## button states$/;"	v	typeref:typename:Dictionary[JoyButton,Dictionary]
@@ -435,6 +562,12 @@ camera	singletons/globals.gd	/^var camera : Camera2D$/;"	v	typeref:typename:Came
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
 can_scroll	scripts/carousel_select.gd	/^var can_scroll : bool = true$/;"	v	typeref:typename:bool
 can_select	scripts/carousel_select.gd	/^var can_select : bool = false$/;"	v	typeref:typename:bool
+canvas	build/current_build/windows/stall.html	/^		<canvas id="canvas">$/;"	I
+canvas	build/current_build/windows/stall.js	/^		canvas: null,$/;"	p	variable:InternalConfig.cfg
+canvas	build/v0.8.1/windows/stall.html	/^		<canvas id="canvas">$/;"	I
+canvas	build/v0.8.1/windows/stall.js	/^		canvas: null,$/;"	p	variable:InternalConfig.cfg
+canvasResizePolicy	build/current_build/windows/stall.js	/^		canvasResizePolicy: 2,$/;"	p	variable:InternalConfig.cfg
+canvasResizePolicy	build/v0.8.1/windows/stall.js	/^		canvasResizePolicy: 2,$/;"	p	variable:InternalConfig.cfg
 canvas_draw	addons/better-terrain/editor/Dock.gd	/^func canvas_draw(overlay: Control) -> void:$/;"	m	typeref:typename:void
 canvas_input	addons/better-terrain/editor/Dock.gd	/^func canvas_input(event: InputEvent) -> bool:$/;"	m	typeref:typename:bool
 canvas_mouse_exit	addons/better-terrain/editor/Dock.gd	/^func canvas_mouse_exit() -> void:$/;"	m	typeref:typename:void
@@ -443,6 +576,8 @@ carousel	scripts/carousel_select.gd	/^@onready var carousel = $Carousel$/;"	v	an
 category_icon	addons/better-terrain/editor/TerrainProperties.gd	/^var category_icon := load("res:\/\/addons\/better-terrain\/icons\/NonModifying.svg")$/;"	v
 cell_polygon	addons/better-terrain/BetterTerrainData.gd	/^static func cell_polygon(ts: TileSet) -> PackedVector2Array:$/;"	m	typeref:typename:PackedVector2Array	annotations:static
 cells_adjacent_for_fill	addons/better-terrain/BetterTerrainData.gd	/^static func cells_adjacent_for_fill(ts: TileSet) -> Array[int]:$/;"	m	typeref:typename:Array[int]	annotations:static
+cfg	build/current_build/windows/stall.js	/^	const cfg = \/** @lends {InternalConfig.prototype} *\/ {$/;"	v	class:InternalConfig
+cfg	build/v0.8.1/windows/stall.js	/^	const cfg = \/** @lends {InternalConfig.prototype} *\/ {$/;"	v	class:InternalConfig
 change_zoom_level	addons/better-terrain/editor/TileView.gd	/^signal change_zoom_level(value)$/;"	s
 charged_kick	scripts/player.gd	/^var charged_kick : bool = false$/;"	v	typeref:typename:bool
 check_for_dash	scripts/player.gd	/^func check_for_dash():$/;"	m
@@ -461,6 +596,10 @@ clip0_952_3274	addons/better-terrain/icons/EditSymmetry.svg	/^<clipPath id="clip
 clip0_952_3274	addons/better-terrain/icons/EditSymmetry.svg	/^<clipPath id="clip0_952_3274">$/;"	i
 clip0_953_3297	addons/better-terrain/icons/SymmetryReflect.svg	/^<clipPath id="clip0_953_3297">$/;"	d
 clip0_953_3297	addons/better-terrain/icons/SymmetryReflect.svg	/^<clipPath id="clip0_953_3297">$/;"	i
+cmd	build/current_build/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	p	variable:anonymousObjectbf2171000205
+cmd	build/current_build/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	p	variable:anonymousObjectbf2171000105
+cmd	build/v0.8.1/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	p	variable:anonymousObject35070cb90205
+cmd	build/v0.8.1/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	p	variable:anonymousObject35070cb90105
 collider	scripts/ball_hitter.gd	/^@onready var collider = $CollisionShape2D$/;"	v	annotations:onready
 colliding_prev_frame	scripts/bal.gd	/^var colliding_prev_frame : bool = false$/;"	v	typeref:typename:bool
 collision_shape	scripts/bal.gd	/^@onready var collision_shape := $CollisionShape2D$/;"	v	annotations:onready
@@ -469,9 +608,19 @@ color_style_decoration	addons/better-terrain/editor/TerrainEntry.gd	/^var color_
 color_style_grid	addons/better-terrain/editor/TerrainEntry.gd	/^var color_style_grid:StyleBoxFlat$/;"	v	typeref:typename:StyleBoxFlat
 color_style_list	addons/better-terrain/editor/TerrainEntry.gd	/^var color_style_list:StyleBoxFlat$/;"	v	typeref:typename:StyleBoxFlat
 complete	addons/better-terrain/Watcher.gd	/^var complete := false$/;"	v
+config	build/current_build/windows/stall.js	/^				this.config.args = ['--main-pack', pack].concat(this.config.args);$/;"	p
+config	build/v0.8.1/windows/stall.js	/^				this.config.args = ['--main-pack', pack].concat(this.config.args);$/;"	p
 connect_steam_socket	singletons/lobby.gd	/^func connect_steam_socket(steam_id : int):$/;"	m
+constructor	build/current_build/windows/stall.audio.position.worklet.js	/^	constructor(...args) {$/;"	m	class:GodotPositionReportingProcessor
+constructor	build/current_build/windows/stall.audio.worklet.js	/^	constructor() {$/;"	m	class:GodotProcessor
+constructor	build/current_build/windows/stall.audio.worklet.js	/^	constructor(p_buffer, p_state, p_threads) {$/;"	m	class:RingBuffer
+constructor	build/v0.8.1/windows/stall.audio.position.worklet.js	/^	constructor(...args) {$/;"	m	class:GodotPositionReportingProcessor
+constructor	build/v0.8.1/windows/stall.audio.worklet.js	/^	constructor() {$/;"	m	class:GodotProcessor
+constructor	build/v0.8.1/windows/stall.audio.worklet.js	/^	constructor(p_buffer, p_state, p_threads) {$/;"	m	class:RingBuffer
 controller_index	scripts/player.gd	/^var controller_index : int = 0$/;"	v	typeref:typename:int
 copied_tile_states	addons/better-terrain/editor/TileView.gd	/^var copied_tile_states : Array[Dictionary] = []$/;"	v	typeref:typename:Array[Dictionary]
+copyToFS	build/current_build/windows/stall.js	/^			copyToFS: function (path, buffer) {$/;"	m	variable:Engine.SafeEngine.proto
+copyToFS	build/v0.8.1/windows/stall.js	/^			copyToFS: function (path, buffer) {$/;"	m	variable:Engine.SafeEngine.proto
 copy_selection	addons/better-terrain/editor/TileView.gd	/^func copy_selection():$/;"	m
 corresponding_tilemap_editor_button	addons/better-terrain/editor/Dock.gd	/^func corresponding_tilemap_editor_button(similar: Button) -> Button:$/;"	m	typeref:typename:Button
 create_game	singletons/lobby.gd	/^func create_game(port : int):$/;"	m
@@ -490,6 +639,14 @@ dash_pressed_prev_frame	scripts/player.gd	/^var dash_pressed_prev_frame : bool =
 dash_speed	scripts/player.gd	/^var dash_speed : float = 200.0$/;"	v	typeref:typename:float
 dashes	scripts/player.gd	/^var dashes : int = 1$/;"	v	typeref:typename:int
 data	addons/better-terrain/BetterTerrain.gd	/^var data := load("res:\/\/addons\/better-terrain\/BetterTerrainData.gd"):$/;"	v
+data	build/current_build/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	p	variable:anonymousObject0f9e0ee30105
+data	build/current_build/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	p	variable:anonymousObjectbf2171000205
+data	build/current_build/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	p	variable:anonymousObjectbf2171000105
+data	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	p	variable:anonymousObject48a4eabc0105
+data	build/v0.8.1/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	p	variable:anonymousObject35070cb90205
+data	build/v0.8.1/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	p	variable:anonymousObject35070cb90105
+data_left	build/current_build/windows/stall.audio.worklet.js	/^	data_left() {$/;"	m	class:RingBuffer
+data_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	data_left() {$/;"	m	class:RingBuffer
 dead_zone	scripts/player.gd	/^@export var dead_zone : float = 0.09$/;"	v	typeref:typename:float	annotations:export
 dead_zone	scripts/player_input.gd	/^var dead_zone : float = 0.09$/;"	v	typeref:typename:float
 delete_selection	addons/better-terrain/editor/TileView.gd	/^func delete_selection():$/;"	m
@@ -498,7 +655,13 @@ dir_prev_frame	scripts/player.gd	/^var dir_prev_frame : float = 0$/;"	v	typeref:
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
 direction	scripts/player_input.gd	/^var direction : Vector2$/;"	v	typeref:typename:Vector2
 disabled_sources	addons/better-terrain/editor/TileView.gd	/^var disabled_sources: Array[int] = []: set = set_disabled_sources$/;"	v	typeref:typename:Array[int]
+doInit	build/current_build/windows/stall.js	/^				function doInit(promise) {$/;"	f	method:Engine.SafeEngine.proto.init
+doInit	build/v0.8.1/windows/stall.js	/^				function doInit(promise) {$/;"	f	method:Engine.SafeEngine.proto.init
 dock	addons/better-terrain/TerrainPlugin.gd	/^var dock : Control$/;"	v	typeref:typename:Control
+done	build/current_build/windows/stall.js	/^				function done(result) {$/;"	f	function:anonymousFunction43a10e2a1200
+done	build/current_build/windows/stall.js	/^			done: false,$/;"	p	variable:Preloader.loadFetch.tracker
+done	build/v0.8.1/windows/stall.js	/^				function done(result) {$/;"	f	function:anonymousFunction1799aa231200
+done	build/v0.8.1/windows/stall.js	/^			done: false,$/;"	p	variable:Preloader.loadFetch.tracker
 draw_button	addons/better-terrain/editor/Dock.gd	/^@onready var draw_button: Button = $VBox\/Toolbar\/Draw$/;"	v	typeref:typename:Button	annotations:onready
 draw_overlay	addons/better-terrain/editor/Dock.gd	/^var draw_overlay := false$/;"	v
 e	addons/better-terrain/BetterTerrainData.gd	/^	const e := 1.0 \/ (2.0 * sqrt(3.0))$/;"	C	method:_peering_polygon_horizontal_tiles	file:
@@ -511,11 +674,29 @@ edit_tool_buttons	addons/better-terrain/editor/Dock.gd	/^@onready var edit_tool_
 emit_terrain_updated	addons/better-terrain/editor/TileView.gd	/^func emit_terrain_updated(index):$/;"	m
 end_game	scripts/bal.gd	/^func end_game(winner : int):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 enter_state	scripts/player.gd	/^func enter_state():$/;"	m
+executable	build/current_build/windows/stall.js	/^		executable: '',$/;"	p	variable:InternalConfig.cfg
+executable	build/v0.8.1/windows/stall.js	/^		executable: '',$/;"	p	variable:InternalConfig.cfg
 exit_state	scripts/player.gd	/^func exit_state():$/;"	m
+experimentalVK	build/current_build/windows/stall.js	/^		experimentalVK: false,$/;"	p	variable:InternalConfig.cfg
+experimentalVK	build/v0.8.1/windows/stall.js	/^		experimentalVK: false,$/;"	p	variable:InternalConfig.cfg
+fileSizes	build/current_build/windows/stall.js	/^		fileSizes: [],$/;"	p	variable:InternalConfig.cfg
+fileSizes	build/v0.8.1/windows/stall.js	/^		fileSizes: [],$/;"	p	variable:InternalConfig.cfg
 fill_button	addons/better-terrain/editor/Dock.gd	/^@onready var fill_button: Button = $VBox\/Toolbar\/Fill$/;"	v	typeref:typename:Button	annotations:onready
 finish_action	addons/better-terrain/editor/TerrainUndo.gd	/^func finish_action():$/;"	m
+focusCanvas	build/current_build/windows/stall.js	/^		focusCanvas: true,$/;"	p	variable:InternalConfig.cfg
+focusCanvas	build/v0.8.1/windows/stall.js	/^		focusCanvas: true,$/;"	p	variable:InternalConfig.cfg
 force_show_terrains	addons/better-terrain/editor/Dock.gd	/^signal force_show_terrains$/;"	s
 freeze_frame	singletons/globals.gd	/^func freeze_frame(time : float, time_scale : float = 0.1):$/;"	m
+gdextensionLibs	build/current_build/windows/stall.js	/^		gdextensionLibs: [],$/;"	p	variable:InternalConfig.cfg
+gdextensionLibs	build/v0.8.1/windows/stall.js	/^		gdextensionLibs: [],$/;"	p	variable:InternalConfig.cfg
+getGodotConfig	build/current_build/windows/stall.js	/^	Config.prototype.getGodotConfig = function (cleanup) {$/;"	m	class:Config
+getGodotConfig	build/v0.8.1/windows/stall.js	/^	Config.prototype.getGodotConfig = function (cleanup) {$/;"	m	class:Config
+getMissingFeatures	build/current_build/windows/stall.js	/^	getMissingFeatures: function (supportedFeatures = {}) {$/;"	m	variable:Features
+getMissingFeatures	build/v0.8.1/windows/stall.js	/^	getMissingFeatures: function (supportedFeatures = {}) {$/;"	m	variable:Features
+getModuleConfig	build/current_build/windows/stall.js	/^	Config.prototype.getModuleConfig = function (loadPath, response) {$/;"	m	class:Config
+getModuleConfig	build/v0.8.1/windows/stall.js	/^	Config.prototype.getModuleConfig = function (loadPath, response) {$/;"	m	class:Config
+getTrackedResponse	build/current_build/windows/stall.js	/^	function getTrackedResponse(response, load_status) {$/;"	f	class:Preloader
+getTrackedResponse	build/v0.8.1/windows/stall.js	/^	function getTrackedResponse(response, load_status) {$/;"	f	class:Preloader
 get_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func get_categories() -> Array:$/;"	m	typeref:typename:Array
 get_cell	addons/better-terrain/BetterTerrain.gd	/^func get_cell(tm: TileMapLayer, coord: Vector2i) -> int:$/;"	m	typeref:typename:int
 get_joy_axis	scripts/player_input.gd	/^func get_joy_axis(axis : JoyAxis) -> float:$/;"	m	typeref:typename:float
@@ -532,14 +713,34 @@ gravity	scripts/bal.gd	/^var gravity : float = 70$/;"	v	typeref:typename:float
 gravity	scripts/player.gd	/^var gravity : float = BASE_GRAVITY$/;"	v	typeref:typename:float
 grid_mode	addons/better-terrain/editor/TerrainEntry.gd	/^var grid_mode := false$/;"	v
 grid_mode_button	addons/better-terrain/editor/Dock.gd	/^@onready var grid_mode_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/GridMode$/;"	v	typeref:typename:Button	annotations:onready
+headers	build/current_build/windows/stall.js	/^							const cloned = new Response(response.clone().body, { 'headers': [['content-type', 'applic/;"	p	variable:anonymousFunction43a10e2a1a00.anonymousObject43a10e2a1b05
+headers	build/current_build/windows/stall.js	/^		}), { headers: response.headers });$/;"	p	variable:Preloader.getTrackedResponse.anonymousObject43a10e2a0505
+headers	build/v0.8.1/windows/stall.js	/^							const cloned = new Response(response.clone().body, { 'headers': [['content-type', 'applic/;"	p	variable:anonymousFunction1799aa231a00.anonymousObject1799aa231b05
+headers	build/v0.8.1/windows/stall.js	/^		}), { headers: response.headers });$/;"	p	variable:Preloader.getTrackedResponse.anonymousObject1799aa230505
 highlighted_tile_part	addons/better-terrain/editor/TileView.gd	/^var highlighted_tile_part := { valid = false }$/;"	v
 icon_layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var icon_layout_container := %IconLayout$/;"	v	annotations:onready
 id	scripts/player.gd	/^var id : int = 1$/;"	v	typeref:typename:int
+init	build/current_build/windows/stall.js	/^			init: function (basePath) {$/;"	m	variable:Engine.SafeEngine.proto
+init	build/v0.8.1/windows/stall.js	/^			init: function (basePath) {$/;"	m	variable:Engine.SafeEngine.proto
 initial_click	addons/better-terrain/editor/Dock.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 initial_click	addons/better-terrain/editor/TileView.gd	/^var initial_click : Vector2i$/;"	v	typeref:typename:Vector2i
 input	scripts/ball_hitter.gd	/^@export var input : PlayerInput$/;"	v	typeref:typename:PlayerInput	annotations:export
 input	scripts/player.gd	/^@onready var input : PlayerInput = $Input$/;"	v	typeref:typename:PlayerInput	annotations:onready
+installServiceWorker	build/current_build/windows/stall.js	/^			installServiceWorker: function () {$/;"	m	variable:Engine.SafeEngine.proto
+installServiceWorker	build/v0.8.1/windows/stall.js	/^			installServiceWorker: function () {$/;"	m	variable:Engine.SafeEngine.proto
 ip	scripts/connect_menu.gd	/^@onready var ip = $Tabs\/IP\/IP\/ip$/;"	v	annotations:onready
+isAudioWorkletAvailable	build/current_build/windows/stall.js	/^	isAudioWorkletAvailable: function () {$/;"	m	variable:Features
+isAudioWorkletAvailable	build/v0.8.1/windows/stall.js	/^	isAudioWorkletAvailable: function () {$/;"	m	variable:Features
+isCrossOriginIsolated	build/current_build/windows/stall.js	/^	isCrossOriginIsolated: function () {$/;"	m	variable:Features
+isCrossOriginIsolated	build/v0.8.1/windows/stall.js	/^	isCrossOriginIsolated: function () {$/;"	m	variable:Features
+isFetchAvailable	build/current_build/windows/stall.js	/^	isFetchAvailable: function () {$/;"	m	variable:Features
+isFetchAvailable	build/v0.8.1/windows/stall.js	/^	isFetchAvailable: function () {$/;"	m	variable:Features
+isSecureContext	build/current_build/windows/stall.js	/^	isSecureContext: function () {$/;"	m	variable:Features
+isSecureContext	build/v0.8.1/windows/stall.js	/^	isSecureContext: function () {$/;"	m	variable:Features
+isSharedArrayBufferAvailable	build/current_build/windows/stall.js	/^	isSharedArrayBufferAvailable: function () {$/;"	m	variable:Features
+isSharedArrayBufferAvailable	build/v0.8.1/windows/stall.js	/^	isSharedArrayBufferAvailable: function () {$/;"	m	variable:Features
+isWebGLAvailable	build/current_build/windows/stall.js	/^	isWebGLAvailable: function (majorVersion = 1) {$/;"	m	variable:Features
+isWebGLAvailable	build/v0.8.1/windows/stall.js	/^	isWebGLAvailable: function (majorVersion = 1) {$/;"	m	variable:Features
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
 is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
 is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
@@ -553,6 +754,8 @@ juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
 kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
+lastProgress	build/current_build/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
+lastProgress	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball():$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
 layer_grid	addons/better-terrain/editor/Dock.gd	/^@onready var layer_grid: Button = $VBox\/Toolbar\/LayerGrid$/;"	v	typeref:typename:Button	annotations:onready
@@ -560,8 +763,23 @@ layer_highlight	addons/better-terrain/editor/Dock.gd	/^@onready var layer_highli
 layer_up	addons/better-terrain/editor/Dock.gd	/^@onready var layer_up: Button = $VBox\/Toolbar\/LayerUp$/;"	v	typeref:typename:Button	annotations:onready
 layout_container	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var layout_container := %Layout$/;"	v	annotations:onready
 line_button	addons/better-terrain/editor/Dock.gd	/^@onready var line_button: Button = $VBox\/Toolbar\/Line$/;"	v	typeref:typename:Button	annotations:onready
+load	build/current_build/windows/stall.js	/^	Engine.load = function (basePath, size) {$/;"	f	class:Engine
+load	build/v0.8.1/windows/stall.js	/^	Engine.load = function (basePath, size) {$/;"	f	class:Engine
+loadFetch	build/current_build/windows/stall.js	/^	function loadFetch(file, tracker, fileSize, raw) {$/;"	f	class:Preloader
+loadFetch	build/v0.8.1/windows/stall.js	/^	function loadFetch(file, tracker, fileSize, raw) {$/;"	f	class:Preloader
+loadPromise	build/current_build/windows/stall.js	/^	this.loadPromise = function (file, fileSize, raw = false) {$/;"	m	class:Preloader
+loadPromise	build/v0.8.1/windows/stall.js	/^	this.loadPromise = function (file, fileSize, raw = false) {$/;"	m	class:Preloader
 load_game	singletons/lobby.gd	/^func load_game(game_scene_path):$/;"	m	annotations:rpc("call_local", "reliable")
+loaded	build/current_build/windows/stall.js	/^			loaded: 0,$/;"	p	variable:Preloader.loadFetch.tracker
+loaded	build/current_build/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	p	variable:Preloader.lastProgress
+loaded	build/v0.8.1/windows/stall.js	/^			loaded: 0,$/;"	p	variable:Preloader.loadFetch.tracker
+loaded	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	p	variable:Preloader.lastProgress
 lobby_id	singletons/lobby.gd	/^var lobby_id : int$/;"	v	typeref:typename:int
+local_spawn_players	scripts/stage.gd	/^func local_spawn_players():$/;"	m
+locale	build/current_build/windows/stall.js	/^		locale: null,$/;"	p	variable:InternalConfig.cfg
+locale	build/v0.8.1/windows/stall.js	/^		locale: null,$/;"	p	variable:InternalConfig.cfg
+mainPack	build/current_build/windows/stall.js	/^		mainPack: null,$/;"	p	variable:InternalConfig.cfg
+mainPack	build/v0.8.1/windows/stall.js	/^		mainPack: null,$/;"	p	variable:InternalConfig.cfg
 move	scripts/player.gd	/^func move(delta : float, accel : float = ACCEL, speed : float = SPEED):$/;"	m
 move_down_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_down_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveDo/;"	v	typeref:typename:Button	annotations:onready
 move_up_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_up_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveUp$/;"	v	typeref:typename:Button	annotations:onready
@@ -596,8 +814,22 @@ nsd74ca2320101	addons/better-terrain/icons/SymmetryMirror.svg	/^<svg width="16" 
 nse1d481bf0101	addons/better-terrain/icons/SymmetryRotateAll.svg	/^<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
 nsedc174240101	addons/better-terrain/icons/paint-symmetry/SymmetryFlip.svg	/^<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
 nseed52a700101	addons/better-terrain/icons/SymmetryAll.svg	/^<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http:\/\/www.w3.org\/2000\/sv/;"	n	uri:http://www.w3.org/2000/svg
+onExecute	build/current_build/windows/stall.js	/^		onExecute: null,$/;"	p	variable:InternalConfig.cfg
+onExecute	build/v0.8.1/windows/stall.js	/^		onExecute: null,$/;"	p	variable:InternalConfig.cfg
+onExit	build/current_build/windows/stall.js	/^		onExit: null,$/;"	p	variable:InternalConfig.cfg
+onExit	build/v0.8.1/windows/stall.js	/^		onExit: null,$/;"	p	variable:InternalConfig.cfg
+onPrint	build/current_build/windows/stall.js	/^		onPrint: function () {$/;"	m	variable:InternalConfig.cfg
+onPrint	build/v0.8.1/windows/stall.js	/^		onPrint: function () {$/;"	m	variable:InternalConfig.cfg
+onPrintError	build/current_build/windows/stall.js	/^		onPrintError: function (var_args) {$/;"	m	variable:InternalConfig.cfg
+onPrintError	build/v0.8.1/windows/stall.js	/^		onPrintError: function (var_args) {$/;"	m	variable:InternalConfig.cfg
+onProgress	build/current_build/windows/stall.js	/^		onProgress: null,$/;"	p	variable:InternalConfig.cfg
+onProgress	build/v0.8.1/windows/stall.js	/^		onProgress: null,$/;"	p	variable:InternalConfig.cfg
 on_wall_prev_frame	scripts/player.gd	/^var on_wall_prev_frame : bool = false$/;"	v	typeref:typename:bool
+onerror	build/current_build/windows/stall.js	/^		function onerror(err) {$/;"	f	function:Preloader.retry
+onerror	build/v0.8.1/windows/stall.js	/^		function onerror(err) {$/;"	f	function:Preloader.retry
 online_spawn_players	scripts/stage.gd	/^func online_spawn_players():$/;"	m
+onloadprogress	build/current_build/windows/stall.js	/^		function onloadprogress(reader, controller) {$/;"	f	function:Preloader.getTrackedResponse
+onloadprogress	build/v0.8.1/windows/stall.js	/^		function onloadprogress(reader, controller) {$/;"	f	function:Preloader.getTrackedResponse
 owner_color	scripts/bal.gd	/^var owner_color : Color $/;"	v	typeref:typename:Color
 owner_index	scripts/bal.gd	/^var owner_index : int = -1 ## player index of the owner of the ball$/;"	v	typeref:typename:int
 owner_level	scripts/bal.gd	/^var owner_level : int = 0 ## level of ownership$/;"	v	typeref:typename:int
@@ -611,8 +843,16 @@ paint_symmetry	addons/better-terrain/editor/TileView.gd	/^var paint_symmetry := 
 paint_symmetry_icons	addons/better-terrain/editor/TileView.gd	/^@onready var paint_symmetry_icons := [$/;"	v	typeref:typename:=[ null, preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryMirror.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryFlip.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryReflect.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryRotateClockwise.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryRotateCounterClockwise.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryRotate180.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryRotateAll.svg"), preload("res://addons/better-terrain/icons/paint-symmetry/SymmetryAll.svg"), ]	annotations:onready
 paint_terrain	addons/better-terrain/editor/Dock.gd	/^@onready var paint_terrain: Button = $VBox\/Toolbar\/PaintTerrain$/;"	v	typeref:typename:Button	annotations:onready
 paint_type	addons/better-terrain/editor/Dock.gd	/^@onready var paint_type: Button = $VBox\/Toolbar\/PaintType$/;"	v	typeref:typename:Button	annotations:onready
+parse	build/current_build/windows/stall.js	/^		function parse(key, def) {$/;"	f	method:Config.update
+parse	build/v0.8.1/windows/stall.js	/^		function parse(key, def) {$/;"	f	method:Config.update
+parse_message	build/current_build/windows/stall.audio.worklet.js	/^	parse_message(p_cmd, p_data) {$/;"	m	class:GodotProcessor
+parse_message	build/v0.8.1/windows/stall.audio.worklet.js	/^	parse_message(p_cmd, p_data) {$/;"	m	class:GodotProcessor
 paste_occurred	addons/better-terrain/editor/TileView.gd	/^signal paste_occurred$/;"	s
 paste_selection	addons/better-terrain/editor/TileView.gd	/^func paste_selection():$/;"	m
+path	build/current_build/windows/stall.js	/^					path: destPath || pathOrBuffer,$/;"	p	variable:anonymousObject43a10e2a0f05
+path	build/current_build/windows/stall.js	/^				path: destPath,$/;"	p	variable:anonymousObject43a10e2a1005
+path	build/v0.8.1/windows/stall.js	/^					path: destPath || pathOrBuffer,$/;"	p	variable:anonymousObject1799aa230f05
+path	build/v0.8.1/windows/stall.js	/^				path: destPath,$/;"	p	variable:anonymousObject1799aa231005
 peer	singletons/lobby.gd	/^var peer : MultiplayerPeer = null$/;"	v	typeref:typename:MultiplayerPeer
 peering_bit_after_symmetry	addons/better-terrain/BetterTerrainData.gd	/^static func peering_bit_after_symmetry(bit: int, altflags: int) -> int:$/;"	m	typeref:typename:int	annotations:static
 peering_bits_after_symmetry	addons/better-terrain/BetterTerrainData.gd	/^static func peering_bits_after_symmetry(dict: Dictionary, altflags: int) -> Dictionary:$/;"	m	typeref:typename:Dictionary	annotations:static
@@ -622,6 +862,10 @@ perform_add_terrain	addons/better-terrain/editor/Dock.gd	/^func perform_add_terr
 perform_edit_terrain	addons/better-terrain/editor/Dock.gd	/^func perform_edit_terrain(index: int, name: String, color: Color, type: int, categories: Array, /;"	m	typeref:typename:void
 perform_remove_terrain	addons/better-terrain/editor/Dock.gd	/^func perform_remove_terrain(index: int) -> void:$/;"	m	typeref:typename:void
 perform_swap_terrain	addons/better-terrain/editor/Dock.gd	/^func perform_swap_terrain(index1: int, index2: int) -> void:$/;"	m	typeref:typename:void
+persistentDrops	build/current_build/windows/stall.js	/^		persistentDrops: false,$/;"	p	variable:InternalConfig.cfg
+persistentDrops	build/v0.8.1/windows/stall.js	/^		persistentDrops: false,$/;"	p	variable:InternalConfig.cfg
+persistentPaths	build/current_build/windows/stall.js	/^		persistentPaths: ['\/userfs'],$/;"	p	variable:InternalConfig.cfg
+persistentPaths	build/v0.8.1/windows/stall.js	/^		persistentPaths: ['\/userfs'],$/;"	p	variable:InternalConfig.cfg
 pick_icon_button	addons/better-terrain/editor/Dock.gd	/^@onready var pick_icon_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/PickIc/;"	v	typeref:typename:Button	annotations:onready
 pick_icon_terrain	addons/better-terrain/editor/TileView.gd	/^var pick_icon_terrain : int = -1$/;"	v	typeref:typename:int
 pick_icon_terrain_cancel	addons/better-terrain/editor/TileView.gd	/^var pick_icon_terrain_cancel := false$/;"	v
@@ -635,18 +879,40 @@ player_info	singletons/lobby.gd	/^var player_info : Dictionary = {"name": "Name"
 player_loaded	singletons/lobby.gd	/^func player_loaded():$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 player_scene	scripts/stage.gd	/^var player_scene = preload("res:\/\/stuff\/player.tscn")$/;"	v
 player_spawns	scripts/stage.gd	/^@onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn]$/;"	v	typeref:typename:Array[Node2D]	annotations:onready
+player_sprites	scripts/local_menu.gd	/^@export var player_sprites : Array[Sprite2D]$/;"	v	typeref:typename:Array[Sprite2D]	annotations:export
 players	singletons/lobby.gd	/^var players : Dictionary = {}$/;"	v	typeref:typename:Dictionary
 players_loaded	singletons/lobby.gd	/^var players_loaded : int = 0$/;"	v	typeref:typename:int
+port	build/current_build/windows/stall.audio.position.worklet.js	/^		this.port.onmessage = (event) => {$/;"	f
+port	build/current_build/windows/stall.audio.worklet.js	/^		this.port.onmessage = (event) => {$/;"	f
+port	build/v0.8.1/windows/stall.audio.position.worklet.js	/^		this.port.onmessage = (event) => {$/;"	f
+port	build/v0.8.1/windows/stall.audio.worklet.js	/^		this.port.onmessage = (event) => {$/;"	f
 port	scripts/connect_menu.gd	/^@onready var port = $Tabs\/IP\/IP\/port$/;"	v	annotations:onready
+preload	build/current_build/windows/stall.js	/^	this.preload = function (pathOrBuffer, destPath, fileSize) {$/;"	m	class:Preloader
+preload	build/v0.8.1/windows/stall.js	/^	this.preload = function (pathOrBuffer, destPath, fileSize) {$/;"	m	class:Preloader
+preloadFile	build/current_build/windows/stall.js	/^			preloadFile: function (file, path) {$/;"	m	variable:Engine.SafeEngine.proto
+preloadFile	build/v0.8.1/windows/stall.js	/^			preloadFile: function (file, path) {$/;"	m	variable:Engine.SafeEngine.proto
+preloadedFiles	build/current_build/windows/stall.js	/^	this.preloadedFiles = [];$/;"	p	class:Preloader
+preloadedFiles	build/v0.8.1/windows/stall.js	/^	this.preloadedFiles = [];$/;"	p	class:Preloader
 prev_position	addons/better-terrain/editor/Dock.gd	/^var prev_position : Vector2i$/;"	v	typeref:typename:Vector2i
 prev_position	addons/better-terrain/editor/TileView.gd	/^var prev_position : Vector2i$/;"	v	typeref:typename:Vector2i
 prev_scale	scripts/bal.gd	/^var prev_scale : Vector2 = Vector2(1,1)$/;"	v	typeref:typename:Vector2
 prev_vel	scripts/bal.gd	/^var prev_vel : Vector2 = Vector2.ZERO$/;"	v	typeref:typename:Vector2
+process	build/current_build/windows/stall.audio.position.worklet.js	/^	process(inputs, _outputs, _parameters) {$/;"	m	class:GodotPositionReportingProcessor
+process	build/current_build/windows/stall.audio.worklet.js	/^	process(inputs, outputs, parameters) {$/;"	m	class:GodotProcessor
+process	build/v0.8.1/windows/stall.audio.position.worklet.js	/^	process(inputs, _outputs, _parameters) {$/;"	m	class:GodotPositionReportingProcessor
+process	build/v0.8.1/windows/stall.audio.worklet.js	/^	process(inputs, outputs, parameters) {$/;"	m	class:GodotProcessor
+process_notify	build/current_build/windows/stall.audio.worklet.js	/^	process_notify() {$/;"	m	class:GodotProcessor
+process_notify	build/v0.8.1/windows/stall.audio.worklet.js	/^	process_notify() {$/;"	m	class:GodotProcessor
 process_state	scripts/player.gd	/^var process_state : bool = false$/;"	v	typeref:typename:bool
+proto	build/current_build/windows/stall.js	/^		const proto = \/** @lends Engine.prototype *\/ {$/;"	v	class:Engine.SafeEngine
+proto	build/v0.8.1/windows/stall.js	/^		const proto = \/** @lends Engine.prototype *\/ {$/;"	v	class:Engine.SafeEngine
 queue_tiles_changed	addons/better-terrain/editor/Dock.gd	/^func queue_tiles_changed() -> void:$/;"	m	typeref:typename:void
 quick_mode_button	addons/better-terrain/editor/Dock.gd	/^@onready var quick_mode_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/QuickMode$/;"	v	typeref:typename:Button	annotations:onready
+read	build/current_build/windows/stall.audio.worklet.js	/^	read(output) {$/;"	m	class:RingBuffer
+read	build/v0.8.1/windows/stall.audio.worklet.js	/^	read(output) {$/;"	m	class:RingBuffer
 rectangle_button	addons/better-terrain/editor/Dock.gd	/^@onready var rectangle_button: Button = $VBox\/Toolbar\/Rectangle$/;"	v	typeref:typename:Button	annotations:onready
 refresh_tileset	addons/better-terrain/editor/TileView.gd	/^func refresh_tileset(ts: TileSet) -> void:$/;"	m	typeref:typename:void
+registered_controllers	singletons/globals.gd	/^var registered_controllers : Array[int] # array of device ids$/;"	v	typeref:typename:Array[int]
 remove_multiplayer_peer	singletons/lobby.gd	/^func remove_multiplayer_peer():$/;"	m
 remove_terrain	addons/better-terrain/BetterTerrain.gd	/^func remove_terrain(ts: TileSet, index: int) -> bool:$/;"	m	typeref:typename:bool
 remove_terrain_button	addons/better-terrain/editor/Dock.gd	/^@onready var remove_terrain_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/R/;"	v	typeref:typename:Button	annotations:onready
@@ -655,9 +921,13 @@ remove_tile_peering_type	addons/better-terrain/BetterTerrain.gd	/^func remove_ti
 replace_button	addons/better-terrain/editor/Dock.gd	/^@onready var replace_button: Button = $VBox\/Toolbar\/Replace$/;"	v	typeref:typename:Button	annotations:onready
 replace_cell	addons/better-terrain/BetterTerrain.gd	/^func replace_cell(tm: TileMapLayer, coord: Vector2i, type: int) -> bool:$/;"	m	typeref:typename:bool
 replace_cells	addons/better-terrain/BetterTerrain.gd	/^func replace_cells(tm: TileMapLayer, coords: Array, type: int) -> bool:$/;"	m	typeref:typename:bool
+requestQuit	build/current_build/windows/stall.js	/^			requestQuit: function () {$/;"	m	variable:Engine.SafeEngine.proto
+requestQuit	build/v0.8.1/windows/stall.js	/^			requestQuit: function () {$/;"	m	variable:Engine.SafeEngine.proto
 restore_peering	addons/better-terrain/editor/TerrainUndo.gd	/^func restore_peering(ts: TileSet, restore: Array) -> void:$/;"	m	typeref:typename:void
 restore_terrain	addons/better-terrain/editor/TerrainUndo.gd	/^func restore_terrain(ts: TileSet, restore: Array) -> void:$/;"	m	typeref:typename:void
 restore_tiles	addons/better-terrain/editor/TerrainUndo.gd	/^func restore_tiles(tm: TileMapLayer, restore: Array) -> void:$/;"	m	typeref:typename:void
+retry	build/current_build/windows/stall.js	/^	function retry(func, attempts = 1) {$/;"	f	class:Preloader
+retry	build/v0.8.1/windows/stall.js	/^	function retry(func, attempts = 1) {$/;"	f	class:Preloader
 reward	addons/better-terrain/BetterTerrain.gd	/^	const reward := 3$/;"	C	method:_update_tile_tiles	file:
 reward	addons/better-terrain/BetterTerrain.gd	/^	const reward := 3$/;"	C	method:_update_tile_vertices	file:
 rng	addons/better-terrain/BetterTerrain.gd	/^var rng = RandomNumberGenerator.new()$/;"	v
@@ -681,6 +951,10 @@ selection_end	addons/better-terrain/editor/TileView.gd	/^var selection_end : Vec
 selection_rect	addons/better-terrain/editor/TileView.gd	/^var selection_rect : Rect2i$/;"	v	typeref:typename:Rect2i
 selection_start	addons/better-terrain/editor/TileView.gd	/^var selection_start : Vector2i$/;"	v	typeref:typename:Vector2i
 server_disconnected	singletons/lobby.gd	/^signal server_disconnected$/;"	s
+serviceWorker	build/current_build/windows/stall.js	/^		serviceWorker: '',$/;"	p	variable:InternalConfig.cfg
+serviceWorker	build/v0.8.1/windows/stall.js	/^		serviceWorker: '',$/;"	p	variable:InternalConfig.cfg
+setProgressFunc	build/current_build/windows/stall.js	/^	this.setProgressFunc = function (callback) {$/;"	m	class:Preloader
+setProgressFunc	build/v0.8.1/windows/stall.js	/^	this.setProgressFunc = function (callback) {$/;"	m	class:Preloader
 set_action_state	scripts/player_input.gd	/^func set_action_state(button : int):$/;"	m	annotations:rpc("authority", "call_local", "unreliable_ordered")
 set_categories	addons/better-terrain/editor/TerrainProperties.gd	/^func set_categories(ids : Array):$/;"	m
 set_category_data	addons/better-terrain/editor/TerrainProperties.gd	/^func set_category_data(options: Array) -> void:$/;"	m	typeref:typename:void
@@ -693,12 +967,15 @@ set_state	scripts/player.gd	/^func set_state(new_state : State):$/;"	m	annotatio
 set_terrain	addons/better-terrain/BetterTerrain.gd	/^func set_terrain(ts: TileSet, index: int, name: String, color: Color, type: int, categories: Arr/;"	m	typeref:typename:bool
 set_tile_symmetry_type	addons/better-terrain/BetterTerrain.gd	/^func set_tile_symmetry_type(ts: TileSet, td: TileData, type: int) -> bool:$/;"	m	typeref:typename:bool
 set_tile_terrain_type	addons/better-terrain/BetterTerrain.gd	/^func set_tile_terrain_type(ts: TileSet, td: TileData, type: int) -> bool:$/;"	m	typeref:typename:bool
+shadow	singletons/game_text.gd	/^@onready var shadow = $shadow$/;"	v	annotations:onready
 shakef	scripts/camera.gd	/^var shakef : int = 1 ## shake every X amount of frames$/;"	v	typeref:typename:int
 shakei	scripts/camera.gd	/^var shakei : float = 0$/;"	v	typeref:typename:float
 shaket	scripts/camera.gd	/^var shaket : int = 0$/;"	v	typeref:typename:int
 shuffle_random	addons/better-terrain/editor/Dock.gd	/^@onready var shuffle_random: Button = $VBox\/Toolbar\/ShuffleRandom$/;"	v	typeref:typename:Button	annotations:onready
 source_selector	addons/better-terrain/editor/Dock.gd	/^@onready var source_selector: MenuBar = $VBox\/Toolbar\/Sources$/;"	v	typeref:typename:MenuBar	annotations:onready
 source_selector_popup	addons/better-terrain/editor/Dock.gd	/^@onready var source_selector_popup: PopupMenu = $VBox\/Toolbar\/Sources\/Sources$/;"	v	typeref:typename:PopupMenu	annotations:onready
+space_left	build/current_build/windows/stall.audio.worklet.js	/^	space_left() {$/;"	m	class:RingBuffer
+space_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	space_left() {$/;"	m	class:RingBuffer
 spawn_stage_icons	scripts/carousel_select.gd	/^func spawn_stage_icons():$/;"	m
 spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite := $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready
@@ -709,8 +986,22 @@ staged_paste_tile_states	addons/better-terrain/editor/TileView.gd	/^var staged_p
 stages	scripts/carousel_select.gd	/^@export_file("*.tscn") var stages : Array[String]$/;"	v	typeref:typename:Array[String]	annotations:export_file("*.tscn")
 stall_box	scripts/player.gd	/^@onready var stall_box = $Sprite2D\/stall_box$/;"	v	annotations:onready
 stalled	scripts/bal.gd	/^var stalled : bool = false$/;"	v	typeref:typename:bool
+start	build/current_build/windows/stall.js	/^			start: function (controller) {$/;"	m	variable:Preloader.getTrackedResponse.anonymousObject43a10e2a0305
+start	build/current_build/windows/stall.js	/^			start: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
+start	build/v0.8.1/windows/stall.js	/^			start: function (controller) {$/;"	m	variable:Preloader.getTrackedResponse.anonymousObject1799aa230305
+start	build/v0.8.1/windows/stall.js	/^			start: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
+startGame	build/current_build/windows/stall.js	/^			startGame: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
+startGame	build/v0.8.1/windows/stall.js	/^			startGame: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
 start_game	scripts/stage.gd	/^func start_game():$/;"	m
 state	scripts/player.gd	/^var state : State$/;"	v	typeref:typename:State
+status	build/current_build/windows/stall.html	/^		<div id="status">$/;"	I
+status	build/v0.8.1/windows/stall.html	/^		<div id="status">$/;"	I
+status-notice	build/current_build/windows/stall.html	/^			<div id="status-notice"><\/div>$/;"	I
+status-notice	build/v0.8.1/windows/stall.html	/^			<div id="status-notice"><\/div>$/;"	I
+status-progress	build/current_build/windows/stall.html	/^			<progress id="status-progress"><\/progress>$/;"	I
+status-progress	build/v0.8.1/windows/stall.html	/^			<progress id="status-progress"><\/progress>$/;"	I
+status-splash	build/current_build/windows/stall.html	/^			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">$/;"	I
+status-splash	build/v0.8.1/windows/stall.html	/^			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">$/;"	I
 steam_create_lobby	singletons/lobby.gd	/^func steam_create_lobby():$/;"	m
 steam_join_lobby	singletons/lobby.gd	/^func steam_join_lobby(new_lobby_id : int):$/;"	m
 swap_terrains	addons/better-terrain/BetterTerrain.gd	/^func swap_terrains(ts: TileSet, index1: int, index2: int) -> bool:$/;"	m	typeref:typename:bool
@@ -760,14 +1051,28 @@ tileset	addons/better-terrain/editor/TerrainEntry.gd	/^var tileset:TileSet$/;"	v
 tileset	addons/better-terrain/editor/TileView.gd	/^var tileset: TileSet$/;"	v	typeref:typename:TileSet
 tileset_dirty	addons/better-terrain/editor/Dock.gd	/^var tileset_dirty := false$/;"	v
 toggle_selection	addons/better-terrain/editor/TileView.gd	/^func toggle_selection():$/;"	m
+total	build/current_build/windows/stall.js	/^			total: fileSize || 0,$/;"	p	variable:Preloader.loadFetch.tracker
+total	build/current_build/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	p	variable:Preloader.lastProgress
+total	build/v0.8.1/windows/stall.js	/^			total: fileSize || 0,$/;"	p	variable:Preloader.loadFetch.tracker
+total	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	p	variable:Preloader.lastProgress
+tracker	build/current_build/windows/stall.js	/^		tracker[file] = {$/;"	v	function:Preloader.loadFetch
+tracker	build/v0.8.1/windows/stall.js	/^		tracker[file] = {$/;"	v	function:Preloader.loadFetch
 trigger	addons/better-terrain/Watcher.gd	/^signal trigger$/;"	s
 ttt	addons/better-terrain/BetterTerrainData.gd	/^	const ttt := 3.0 * t$/;"	C	method:_peering_polygon_isometric_vertices	file:
 turned_around	scripts/player.gd	/^var turned_around : bool = false$/;"	v	typeref:typename:bool
+type	build/current_build/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	p	variable:anonymousObject0f9e0ee30105
+type	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	p	variable:anonymousObject48a4eabc0105
 type_icon_panel	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_icon_panel := %TerrainIconPanel$/;"	v	annotations:onready
 type_icon_slot	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_icon_slot := %TypeIcon$/;"	v	annotations:onready
 undo_manager	addons/better-terrain/editor/Dock.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
 undo_manager	addons/better-terrain/editor/TileView.gd	/^var undo_manager : EditorUndoRedoManager$/;"	v	typeref:typename:EditorUndoRedoManager
+unload	build/current_build/windows/stall.js	/^	Engine.unload = function () {$/;"	f	class:Engine
+unload	build/v0.8.1/windows/stall.js	/^	Engine.unload = function () {$/;"	f	class:Engine
+unloadAfterInit	build/current_build/windows/stall.js	/^		unloadAfterInit: true,$/;"	p	variable:InternalConfig.cfg
+unloadAfterInit	build/v0.8.1/windows/stall.js	/^		unloadAfterInit: true,$/;"	p	variable:InternalConfig.cfg
 update	addons/better-terrain/editor/TerrainEntry.gd	/^func update():$/;"	m
+update	build/current_build/windows/stall.js	/^	Config.prototype.update = function (opts) {$/;"	m	class:Config
+update	build/v0.8.1/windows/stall.js	/^	Config.prototype.update = function (opts) {$/;"	m	class:Config
 update_carousel	scripts/carousel_select.gd	/^func update_carousel():$/;"	m	annotations:rpc("call_local", "reliable")
 update_color	scripts/bal.gd	/^func update_color(color : Color, index : int):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 update_overlay	addons/better-terrain/editor/Dock.gd	/^signal update_overlay$/;"	s
@@ -784,6 +1089,12 @@ w	addons/better-terrain/BetterTerrainData.gd	/^	const w := sqrt(3.0) \/ 8.0$/;"	
 w	addons/better-terrain/BetterTerrainData.gd	/^	const w := sqrt(3.0) \/ 8.0$/;"	C	method:_peering_polygon_vertical_vertices	file:
 wait_for_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func wait_for_terrain_changeset(change: Dictionary) -> void:$/;"	m	typeref:typename:void
 wall_jump_dir	scripts/player.gd	/^var wall_jump_dir : float = 0$/;"	v	typeref:typename:float
+write	build/current_build/windows/stall.audio.worklet.js	/^	write(p_buffer) {$/;"	m	class:RingBuffer
+write	build/v0.8.1/windows/stall.audio.worklet.js	/^	write(p_buffer) {$/;"	m	class:RingBuffer
+write_input	build/current_build/windows/stall.audio.worklet.js	/^	static write_input(dest, source) {$/;"	m	class:GodotProcessor
+write_input	build/v0.8.1/windows/stall.audio.worklet.js	/^	static write_input(dest, source) {$/;"	m	class:GodotProcessor
+write_output	build/current_build/windows/stall.audio.worklet.js	/^	static write_output(dest, source) {$/;"	m	class:GodotProcessor
+write_output	build/v0.8.1/windows/stall.audio.worklet.js	/^	static write_output(dest, source) {$/;"	m	class:GodotProcessor
 zoom_level	addons/better-terrain/editor/TileView.gd	/^var zoom_level := 1.0$/;"	v
 zoom_slider	addons/better-terrain/editor/Dock.gd	/^var zoom_slider : HSlider$/;"	v	typeref:typename:HSlider
 zoom_slider_container	addons/better-terrain/editor/Dock.gd	/^@onready var zoom_slider_container: VBoxContainer = $VBox\/Toolbar\/ZoomContainer$/;"	v	typeref:typename:VBoxContainer	annotations:onready

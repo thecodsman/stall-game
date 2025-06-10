@@ -47,8 +47,8 @@ func end_game(winner : int):
 	if not owner_level > 1: return
 	if GameText.visible: return
 	var tree : SceneTree = null
-	GameText.visible = true
 	GameText.text = str("P%s Won!" % winner)
+	GameText.visible = true
 	while not tree:
 		tree = get_tree()
 	await tree.create_timer(2).timeout

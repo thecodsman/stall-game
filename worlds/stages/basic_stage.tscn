@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_1i8il"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_u3m2j"]
 [ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="10_4k7gv"]
-[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow2.gdshader" id="10_vm2xn"]
+[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="10_vm2xn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iw727"]
 shader = ExtResource("2_vph35")
@@ -91,7 +91,7 @@ shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3lax3"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4k7gv"]
 texture = ExtResource("9_u3m2j")
 texture_region_size = Vector2i(4, 4)
 0:0/0 = 0
@@ -361,7 +361,7 @@ physics_layer_1/collision_layer = 8
 physics_layer_1/collision_mask = 0
 custom_data_layer_0/name = "floor"
 custom_data_layer_0/type = 1
-sources/1 = SubResource("TileSetAtlasSource_3lax3")
+sources/1 = SubResource("TileSetAtlasSource_4k7gv")
 metadata/_better_terrain = {
 &"decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
 &"path": "res://addons/better-terrain/icons/Decoration.svg"

@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://tp1cpr8b5hba"]
+
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_5g32u"]
+[ext_resource type="Texture2D" uid="uid://dqtowf126auej" path="res://sprites/background5.png" id="2_m5l1q"]
+
+[sub_resource type="Gradient" id="Gradient_5g2as"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.00394477, 0.508, 1)
+colors = PackedColorArray(1, 0.631373, 0, 1, 1, 0.505882, 0.67451, 1, 1, 0.631373, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vvpty"]
+gradient = SubResource("Gradient_5g2as")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vvpty"]
+shader = ExtResource("1_5g32u")
+shader_parameter/snes_transparency = false
+shader_parameter/gba_transparency = true
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = true
+shader_parameter/sprite_scroll_direction = Vector2(1, 0)
+shader_parameter/sprite_scroll_speed = 0.1
+shader_parameter/gba_transparency_scroll_direction = Vector2(-1, -1)
+shader_parameter/gba_transparency_scroll_speed = 1.0
+shader_parameter/gba_transparency_value = 0.675
+shader_parameter/horizontal_wave_amplitude = 0.175
+shader_parameter/horizontal_wave_frequency = 0.12
+shader_parameter/horizontal_wave_speed = 1.0
+shader_parameter/vertical_wave_amplitude = 0.385
+shader_parameter/vertical_wave_frequency = 0.18
+shader_parameter/vertical_wave_speed = 1.0
+shader_parameter/horizontal_deform_amplitude = 0.365
+shader_parameter/horizontal_deform_frequency = 1.445
+shader_parameter/horizontal_deform_speed = 1.065
+shader_parameter/vertical_deform_amplitude = 0.315
+shader_parameter/vertical_deform_frequency = 1.06
+shader_parameter/vertical_deform_speed = 1.0
+shader_parameter/width = 96.0
+shader_parameter/height = 96.0
+shader_parameter/palette_cycling_speed = 0.2
+shader_parameter/palette = SubResource("GradientTexture1D_vvpty")
+
+[node name="local_bg" type="CanvasLayer"]
+layer = -1
+
+[node name="color" type="ColorRect" parent="."]
+offset_right = 96.0
+offset_bottom = 96.0
+color = Color(1, 0.854902, 0.12549, 1)
+
+[node name="moving_bg" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_vvpty")
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_m5l1q")
+stretch_mode = 1

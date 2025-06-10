@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://dga37kf5dchc3"]
+
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_uiokb"]
+[ext_resource type="Texture2D" uid="uid://be5wtgkkitxgh" path="res://sprites/background4.png" id="2_1mk1r"]
+
+[sub_resource type="Gradient" id="Gradient_7571w"]
+interpolation_mode = 2
+interpolation_color_space = 1
+offsets = PackedFloat32Array(0, 0.49061, 1)
+colors = PackedColorArray(1, 0.631373, 0, 1, 1, 0.854902, 0.12549, 1, 1, 0.631373, 0, 1)
+metadata/_snap_count = 7
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7571w"]
+gradient = SubResource("Gradient_7571w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7571w"]
+shader = ExtResource("1_uiokb")
+shader_parameter/snes_transparency = false
+shader_parameter/gba_transparency = true
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = true
+shader_parameter/sprite_scroll_direction = Vector2(0, 0)
+shader_parameter/sprite_scroll_speed = 0.01
+shader_parameter/gba_transparency_scroll_direction = Vector2(0.18, 0.12)
+shader_parameter/gba_transparency_scroll_speed = 1.485
+shader_parameter/gba_transparency_value = 0.25
+shader_parameter/horizontal_wave_amplitude = 0.13
+shader_parameter/horizontal_wave_frequency = 0.0
+shader_parameter/horizontal_wave_speed = 1.07
+shader_parameter/vertical_wave_amplitude = 1.0
+shader_parameter/vertical_wave_frequency = 0.0
+shader_parameter/vertical_wave_speed = 0.205
+shader_parameter/horizontal_deform_amplitude = 0.19
+shader_parameter/horizontal_deform_frequency = 0.115
+shader_parameter/horizontal_deform_speed = 1.045
+shader_parameter/vertical_deform_amplitude = 0.0
+shader_parameter/vertical_deform_frequency = 0.0
+shader_parameter/vertical_deform_speed = 1.0
+shader_parameter/width = 96.0
+shader_parameter/height = 96.0
+shader_parameter/palette_cycling_speed = 0.1
+shader_parameter/palette = SubResource("GradientTexture1D_7571w")
+
+[node name="online_bg" type="CanvasLayer"]
+layer = -1
+
+[node name="blue_bg" type="ColorRect" parent="."]
+z_index = -1
+offset_right = 96.0
+offset_bottom = 96.0
+color = Color(0.741176, 0.0627451, 0.321569, 1)
+metadata/_edit_lock_ = true
+
+[node name="moving_bg" type="TextureRect" parent="."]
+z_index = -1
+texture_repeat = 3
+material = SubResource("ShaderMaterial_7571w")
+offset_right = 96.0
+offset_bottom = 96.0
+texture = ExtResource("2_1mk1r")
+metadata/_edit_lock_ = true

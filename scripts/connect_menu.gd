@@ -3,6 +3,9 @@ extends Control
 @onready var ip = $Tabs/IP/IP/ip
 @onready var port = $Tabs/IP/IP/port
 
+func _ready() -> void:
+	if not OS.has_feature("Steam"):
+		$Tabs/Steam.queue_free()
 
 func _on_host_pressed() -> void:
 	Lobby.create_game(int(port.text))

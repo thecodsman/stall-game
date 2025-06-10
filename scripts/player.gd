@@ -53,7 +53,7 @@ func set_location(pos : Vector2):
 	global_position = pos
 
 func _enter_tree():
-	id = int(name)
+	#id = int(name)
 	set_multiplayer_authority(id)
 	$server_sync.set_multiplayer_authority(1)
 
@@ -62,7 +62,9 @@ func _ready():
 	sprite.self_modulate = self_modulate
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
+	input.device_index = controller_index
 	#set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	print(get_multiplayer_authority())
 	process_state = (get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
@@ -419,13 +421,13 @@ func launch_stalled_ball():
 	ball.velocity = Vector2(100,0).rotated(dir.angle())
 	ball.stalled = false
 	ball.reparent(get_parent())
-	ball.update_color(self_modulate, controller_index)
+	ball.update_color(self_modulate, player_index)
 
 
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball:Ball):
 	if ball.owner_index == -1:
-		ball.owner_index = controller_index
+		ball.owner_index = player_index
 
 
 func _on_stall_box_body_entered(ball : Ball) -> void:
