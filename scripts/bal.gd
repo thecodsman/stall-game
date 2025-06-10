@@ -4,15 +4,19 @@ var gravity : float = 70
 var owner_index : int = -1 ## player index of the owner of the ball
 var owner_level : int = 0 ## level of ownership
 var owner_color : Color 
-const MaxOwnerLevel : int = 2
 var spin : float = 0
 var colliding_prev_frame : bool = false
 var stalled : bool = false
+const MaxOwnerLevel : int = 2
 @onready var rotate_node := $rotate_node
 @onready var scale_node := $rotate_node/scale_node
 @onready var sprite := $rotate_node/scale_node/Sprite2D
 @onready var bounce_sfx := $bounce_sfx
 @onready var collision_shape := $CollisionShape2D
+
+
+func _enter_tree():
+	set_multiplayer_authority(1)
 
 
 func _ready():

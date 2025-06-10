@@ -318,6 +318,7 @@ _draw_tile_symmetry	addons/better-terrain/editor/TileView.gd	/^func _draw_tile_s
 _edit	addons/better-terrain/TerrainPlugin.gd	/^func _edit(object) -> void:$/;"	m	typeref:typename:void
 _enter_tree	addons/better-terrain/TerrainPlugin.gd	/^func _enter_tree() -> void:$/;"	m	typeref:typename:void
 _enter_tree	addons/better-terrain/editor/TileView.gd	/^func _enter_tree() -> void:$/;"	m	typeref:typename:void
+_enter_tree	scripts/bal.gd	/^func _enter_tree():$/;"	m
 _enter_tree	scripts/player.gd	/^func _enter_tree():$/;"	m
 _exit_tree	addons/better-terrain/TerrainPlugin.gd	/^func _exit_tree() -> void:$/;"	m	typeref:typename:void
 _exit_tree	addons/better-terrain/editor/TileView.gd	/^func _exit_tree() -> void:$/;"	m	typeref:typename:void
