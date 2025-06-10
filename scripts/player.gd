@@ -414,12 +414,12 @@ func check_for_drop_through():
 
 
 func _anim_launch_stalled_ball():
+	if ball_holder.get_child_count() <= 0: return
 	var ball = ball_holder.get_child(0)
-	#var dir = Vector2( input.direction.x, input.direction.y )
 	launch_stalled_ball.rpc(ball, input.direction)
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func launch_stalled_ball(ball:Ball, dir):
 	is_ball_stalled = false
 	if not ball: return

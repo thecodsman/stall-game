@@ -20,7 +20,7 @@ func _enter_tree():
 
 
 func _ready():
-	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	set_physics_process(multiplayer.get_unique_id() == 1)
 
 
 func _physics_process(delta : float) -> void:
