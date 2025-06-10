@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var input : PlayerInput
+@export var player : Player
 @onready var kick_sfx = $kick_sfx
 @onready var collider = $CollisionShape2D
 
@@ -9,9 +10,9 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var dir = input.direction
 	if dir.length() < input.dead_zone: dir = Vector2.UP
-	apply_ball_ownership.rpc_id(1, ball)
-	ball.update_color.rpc_id(1, owner.self_modulate, owner.player_index)
-	kick.rpc_id(1,ball,dir)
+	apply_ball_ownership.rpc(ball)
+	ball.update_color.rpc(owner.self_modulate, owner.player_index)
+	kick.rpc(ball,dir)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -25,9 +26,9 @@ func kick(ball : Ball, dir : Vector2) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball : Ball):
-	if ball.owner_index != owner.player_index && ball.owner_level > 0:
+	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 	else:
-		ball.owner_index = owner.player_index
+		ball.owner_index = player.player_index
 		ball.owner_level += 1
 		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel

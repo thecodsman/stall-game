@@ -774,6 +774,8 @@ pick_icon_button	addons/better-terrain/editor/Dock.gd	/^@onready var pick_icon_b
 pick_icon_terrain	addons/better-terrain/editor/TileView.gd	/^var pick_icon_terrain : int = -1$/;"	v	typeref:typename:int
 pick_icon_terrain_cancel	addons/better-terrain/editor/TileView.gd	/^var pick_icon_terrain_cancel := false$/;"	v
 platform_stage	scripts/carousel_select.gd	/^const platform_stage = "res:\/\/worlds\/platform_stage.tscn"$/;"	C
+player	scripts/ball_hitter.gd	/^@export var player : Player$/;"	v	typeref:typename:Player	annotations:export
+player	scripts/bonk_box.gd	/^@export var player : Player$/;"	v	typeref:typename:Player	annotations:export
 player_colors	singletons/globals.gd	/^@export var player_colors : Array[Color]$/;"	v	typeref:typename:Array[Color]	annotations:export
 player_connected	singletons/lobby.gd	/^signal player_connected(peer_id, player_info)$/;"	s
 player_disconnected	singletons/lobby.gd	/^signal player_disconnected(peer_id)$/;"	s

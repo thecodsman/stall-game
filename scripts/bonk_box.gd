@@ -1,5 +1,6 @@
 extends Area2D
 
+@export var player : Player
 var player_index : int = -1
 
 func _ready():
@@ -10,7 +11,7 @@ func _on_body_entered(ball:Ball) -> void:
 	if ball.owner_level == 0:
 		apply_ball_ownership.rpc(ball)
 		ball.update_color.rpc(owner.self_modulate, owner.player_index)
-	bonk.rpc_id(1, ball)
+	bonk.rpc(ball)
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -27,9 +28,9 @@ func bonk(ball:Ball) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball:Ball):
-	if ball.owner_index != owner.player_index && ball.owner_level > 0:
+	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 	else:
-		ball.owner_index = owner.player_index
+		ball.owner_index = player.player_index
 		ball.owner_level += 1
 		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel

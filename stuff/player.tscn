@@ -545,13 +545,14 @@ region_rect = Rect2(0, 0, 372, 12)
 [node name="ball_holder" type="Node2D" parent="Sprite2D"]
 position = Vector2(4, 0)
 
-[node name="kick_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("input")]
+[node name="kick_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("input", "player")]
 visible = false
 position = Vector2(2, 0)
 collision_layer = 256
 collision_mask = 4
 script = ExtResource("3_xc1ee")
 input = NodePath("../../Input")
+player = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box"]
 visible = false
@@ -561,12 +562,13 @@ disabled = true
 [node name="kick_sfx" type="AudioStreamPlayer" parent="Sprite2D/kick_box"]
 stream = SubResource("AudioStreamRandomizer_tnfj0")
 
-[node name="bonk_box" type="Area2D" parent="Sprite2D"]
+[node name="bonk_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("player")]
 visible = false
 position = Vector2(1, -2)
 collision_layer = 512
 collision_mask = 4
 script = ExtResource("5_pbn0x")
+player = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/bonk_box"]
 visible = false
