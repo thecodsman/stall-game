@@ -419,7 +419,7 @@ func _anim_launch_stalled_ball():
 	launch_stalled_ball.rpc(ball, input.direction)
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func launch_stalled_ball(ball:Ball, dir):
 	is_ball_stalled = false
 	if not ball: return
