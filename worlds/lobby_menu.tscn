@@ -20,7 +20,7 @@ shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
 
-[node name="lobby_menu" type="Control"]
+[node name="lobby_menu" type="Control" node_paths=PackedStringArray("player_sprites")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,6 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ruh0p")
+player_sprites = [NodePath("SubViewportContainer/game/player1"), NodePath("SubViewportContainer/game/player2")]
 
 [node name="online_bg" parent="." instance=ExtResource("6_leutj")]
 
