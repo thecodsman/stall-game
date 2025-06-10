@@ -53,8 +53,11 @@ func set_location(pos : Vector2):
 	global_position = pos
 
 func _enter_tree():
-	print(id)
-	set_multiplayer_authority(id)
+	if Globals.is_online:
+		var id = int(name)
+		set_multiplayer_authority(id)
+	else:
+		set_multiplayer_authority(1)
 	$server_sync.set_multiplayer_authority(1)
 
 
