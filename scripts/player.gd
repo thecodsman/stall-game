@@ -414,13 +414,13 @@ func check_for_drop_through():
 
 
 func _anim_launch_stalled_ball():
-	launch_stalled_ball.rpc()
+	var ball = ball_holder.get_child(0)
+	launch_stalled_ball.rpc(ball)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func launch_stalled_ball():
+func launch_stalled_ball(ball:Ball):
 	is_ball_stalled = false
-	var ball : Ball = ball_holder.get_child(0)
 	if not ball: return
 	var dir = Vector2( input.direction.x, input.direction.y )
 	ball.velocity = Vector2(100,0).rotated(dir.angle())
