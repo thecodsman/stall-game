@@ -413,6 +413,10 @@ func check_for_drop_through():
 		set_collision_mask_value(4, true)
 
 
+func _anim_launch_stalled_ball():
+	launch_stalled_ball.rpc()
+
+
 @rpc("any_peer", "call_local", "reliable")
 func launch_stalled_ball():
 	is_ball_stalled = false
@@ -432,6 +436,12 @@ func apply_ball_ownership(ball:Ball):
 
 
 func _on_stall_box_body_entered(ball : Ball) -> void:
+	if ball.stalled: return
+	stall_ball.rpc(ball)
+
+
+@rpc("authority", "call_local", "reliable")
+func stall_ball(ball : Ball):
 	is_ball_stalled = true
 	apply_ball_ownership.rpc(ball)
 	ball.velocity = Vector2.ZERO
@@ -439,3 +449,4 @@ func _on_stall_box_body_entered(ball : Ball) -> void:
 	ball.stalled = true
 	ball.global_position = ball_holder.global_position
 	ball.reparent(ball_holder)
+
