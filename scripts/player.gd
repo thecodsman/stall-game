@@ -66,8 +66,6 @@ func _ready():
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
 	input.device_index = controller_index
-	#set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
-	print(get_multiplayer_authority())
 	process_state = (get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
