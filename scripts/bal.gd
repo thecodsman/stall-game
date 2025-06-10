@@ -49,8 +49,7 @@ func end_game(winner : int):
 	var tree : SceneTree = null
 	GameText.text = str("P%s Won!" % winner)
 	GameText.visible = true
-	while not tree:
-		tree = get_tree()
+	while not tree: tree = get_tree()
 	await tree.create_timer(2).timeout
 	GameText.visible = false
 	get_tree().reload_current_scene()
@@ -64,16 +63,6 @@ func bounce(raw_vel, collision):
 		bounce_sfx.play()
 		velocity *= 0.60
 
-
-# @rpc("any_peer", "call_local", "reliable")
-# func punt(pos): ## pass in the global position of the punter
-# 	# Camera.screen_shake(4,5)
-# 	var angle = (pos - global_position).angle()
-# 	if angle >= 0   && angle < PI/2: velocity = Vector2(-20,-60)
-# 	elif angle > PI/2 && angle <= PI: velocity = Vector2(20,-60)
-# 	elif angle > -PI/2 && angle <= 0: velocity = Vector2(-60,20)
-# 	elif angle >= -PI && angle < -PI/2: velocity = Vector2(60,20)
-	
 
 var prev_vel : Vector2 = Vector2.ZERO
 var prev_scale : Vector2 = Vector2(1,1)
