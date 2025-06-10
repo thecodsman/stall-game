@@ -138,17 +138,17 @@ func load_game(game_scene_path):
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
 	if multiplayer.is_server():
-		print("player loaded")
 		players_loaded += 1
-		if players_loaded == players.size():
-			$/root/stage.start_game()
-			players_loaded = 0
-			print("all players loaded!")
+		if players_loaded != players.size(): return
+		$/root/stage.start_game()
+		players_loaded = 0
+		print("all players loaded!")
 
 
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_peer_connected(id):
+	print("PEER CONNECTED, ID: %s" % id)
 	_register_player.rpc_id(id, player_info)
 
 
