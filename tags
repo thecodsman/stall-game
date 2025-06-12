@@ -468,7 +468,7 @@ add_terrain_entry	addons/better-terrain/editor/Dock.gd	/^func add_terrain_entry(
 add_tile_peering_type	addons/better-terrain/BetterTerrain.gd	/^func add_tile_peering_type(ts: TileSet, td: TileData, peering: int, type: int) -> bool:$/;"	m	typeref:typename:bool
 alternate_lookup	addons/better-terrain/editor/TileView.gd	/^var alternate_lookup := []$/;"	v	typeref:typename:=[]
 alternate_size	addons/better-terrain/editor/TileView.gd	/^var alternate_size : Vector2$/;"	v	typeref:typename:Vector2
-anim	scripts/player.gd	/^@onready var anim = $AnimationPlayer$/;"	v	annotations:onready
+anim	scripts/player.gd	/^@onready var anim : AnimationPlayer = $AnimationPlayer$/;"	v	typeref:typename:AnimationPlayer	annotations:onready
 animateProgress	build/v0.8.1/windows/stall.js	/^	const animateProgress = function () {$/;"	f	class:Preloader
 anonymousFunction1799aa230200	build/v0.8.1/windows/stall.js	/^			return reader.read().then(function (result) {$/;"	f
 anonymousFunction1799aa230400	build/v0.8.1/windows/stall.js	/^				onloadprogress(reader, controller).then(function () {$/;"	f
@@ -505,11 +505,11 @@ apply_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func apply_terr
 args	build/v0.8.1/windows/stall.js	/^		args: [],$/;"	p	variable:InternalConfig.cfg
 array_has_data	build/v0.8.1/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
-ball_holder	scripts/player.gd	/^@onready var ball_holder = $Sprite2D\/ball_holder$/;"	v	annotations:onready
+ball_holder	scripts/player.gd	/^@onready var ball_holder : Node2D = $Sprite2D\/ball_holder$/;"	v	typeref:typename:Node2D	annotations:onready
 basic_stage	scripts/carousel_select.gd	/^const basic_stage = "res:\/\/worlds\/basic_stage.tscn"$/;"	C
 betterTerrain	addons/better-terrain/BetterTerrain.cs	/^    private readonly Node betterTerrain;$/;"	f	class:BetterTerrain	file:
 bonk	scripts/bonk_box.gd	/^func bonk(ball:Ball) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
-bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	annotations:onready
+bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider : CollisionShape2D = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	typeref:typename:CollisionShape2D	annotations:onready
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
 buffer	build/v0.8.1/windows/stall.js	/^					buffer: buf,$/;"	p	variable:anonymousObject1799aa230f05
@@ -678,7 +678,7 @@ jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations
 kick	scripts/ball_hitter.gd	/^func kick(ball : Ball, dir : Vector2) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 lastProgress	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
-launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball(ball:Ball, dir):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
+launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball(ball:Ball):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
 layer_grid	addons/better-terrain/editor/Dock.gd	/^@onready var layer_grid: Button = $VBox\/Toolbar\/LayerGrid$/;"	v	typeref:typename:Button	annotations:onready
 layer_highlight	addons/better-terrain/editor/Dock.gd	/^@onready var layer_highlight: Button = $VBox\/Toolbar\/LayerHighlight$/;"	v	typeref:typename:Button	annotations:onready
@@ -871,7 +871,7 @@ space_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	space_left() {$/;"	m	c
 spawn_stage_icons	scripts/carousel_select.gd	/^func spawn_stage_icons():$/;"	m
 spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite := $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready
-sprite	scripts/player.gd	/^@onready var sprite = $Sprite2D$/;"	v	annotations:onready
+sprite	scripts/player.gd	/^@onready var sprite : Sprite2D = $Sprite2D$/;"	v	typeref:typename:Sprite2D	annotations:onready
 stage_name	scripts/stage.gd	/^@export var stage_name : String$/;"	v	typeref:typename:String	annotations:export
 stage_title	scripts/carousel_select.gd	/^@onready var stage_title = $stage_title$/;"	v	annotations:onready
 staged_paste_tile_states	addons/better-terrain/editor/TileView.gd	/^var staged_paste_tile_states : Array[Dictionary] = []$/;"	v	typeref:typename:Array[Dictionary]

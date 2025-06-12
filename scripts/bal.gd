@@ -25,11 +25,11 @@ func _ready():
 
 func _physics_process(delta : float) -> void:
 	var raw_vel = velocity
+	if owner_level > 2: owner_level = 2
 	sprite.rotation += (spin * delta) * 20
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
-	if owner_level > 2: owner_level = 2
 	if stalled: return
 	if owner_index != -1: velocity.y += gravity * delta
 	move_and_slide()

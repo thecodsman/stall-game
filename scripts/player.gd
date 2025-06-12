@@ -26,10 +26,10 @@ var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
 var process_state : bool = false
 @onready var input : PlayerInput = $Input
-@onready var ball_holder = $Sprite2D/ball_holder
-@onready var anim = $AnimationPlayer
-@onready var sprite = $Sprite2D
-@onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
+@onready var ball_holder : Node2D = $Sprite2D/ball_holder
+@onready var anim : AnimationPlayer = $AnimationPlayer
+@onready var sprite : Sprite2D = $Sprite2D
+@onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
 @onready var jump_sfx = $jump_sfx
 @onready var stall_box = $Sprite2D/stall_box
 
@@ -114,11 +114,11 @@ func enter_state():
 		State.STALL:
 			anim.play("stall")
 			set_collision_mask_value(3, false)
-			bonk_box_collider.disabled = true
+			bonk_box_collider.set_deferred("disabled", true)
 		State.STALL_KICK:
 			anim.play("stall_kick")
 			set_collision_mask_value(3, false)
-			bonk_box_collider.disabled = true
+			bonk_box_collider.set_deferred("disabled", true)
 
 
 var turned_around : bool = false
@@ -227,7 +227,6 @@ func update_state(delta : float):
 			check_for_dash()
 			check_for_special()
 			apply_gravity(delta)
-
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0: set_state.rpc(State.IDLE)
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state.rpc(State.WALL)
@@ -301,12 +300,15 @@ func update_state(delta : float):
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
 			if ball_holder.get_child_count() < 1 && is_ball_stalled:
+				is_ball_stalled = false
 				set_state.rpc(State.AIR)
 				return
+			if ball_holder.get_child_count() < 1: return
 			var ball : Ball = ball_holder.get_child(0)
-			if is_ball_stalled && ball.velocity.length() > 0:
+			if (is_ball_stalled && not ball.stalled) || ball.velocity.length() > 2:
 				ball.stalled = false
-				ball.set_deferred("disabled", false)
+				is_ball_stalled = false
+				ball.collision_shape.set_deferred("disabled", false)
 				ball.call_deferred("reparent", get_parent())
 				set_state.rpc(State.AIR)
 				return
@@ -352,15 +354,6 @@ func check_for_special():
 	var is_special_pressed = input.is_joy_button_pressed(JOY_BUTTON_B)
 	if is_special_pressed:
 		set_state.rpc(State.STALL)
-
-
-# func check_for_jump():
-# 	var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
-# 	if is_jump_pressed && not j_prev_frame:
-# 		if can_jump: set_state.rpc(State.JUMP)
-# 		j_prev_frame = true
-# 	elif not is_jump_pressed:
-# 		j_prev_frame = false
 
 
 func check_for_jump():
@@ -416,23 +409,29 @@ func check_for_drop_through():
 func _anim_launch_stalled_ball():
 	if ball_holder.get_child_count() <= 0: return
 	var ball = ball_holder.get_child(0)
-	launch_stalled_ball.rpc(ball, input.direction)
+	launch_stalled_ball.rpc(ball)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func launch_stalled_ball(ball:Ball, dir):
+func launch_stalled_ball(ball:Ball):
 	is_ball_stalled = false
 	if not ball: return
-	ball.velocity = Vector2(100,0).rotated(dir.angle())
+	ball.velocity = Vector2(0,-100)
 	ball.stalled = false
+	ball.collision_shape.set_deferred("disabled", false)
 	ball.reparent(get_parent())
 	ball.update_color(self_modulate, player_index)
 
 
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball:Ball):
-	if ball.owner_index == -1:
+	if ball.owner_index != player_index:
+		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
+	elif ball.owner_index == player_index:
+		ball.owner_level = 2
+	if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
+	ball.update_color(self_modulate, player_index)
 
 
 func _on_stall_box_body_entered(ball : Ball) -> void:
@@ -442,11 +441,12 @@ func _on_stall_box_body_entered(ball : Ball) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func stall_ball(ball : Ball):
-	is_ball_stalled = true
 	apply_ball_ownership.rpc(ball)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
 	ball.global_position = ball_holder.global_position
-	ball.reparent(ball_holder)
-
+	ball.collision_shape.set_deferred("disabled", true)
+	ball.call_deferred("reparent", ball_holder)
+	await ball_holder.child_order_changed
+	is_ball_stalled = true
