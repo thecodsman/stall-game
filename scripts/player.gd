@@ -427,6 +427,7 @@ func launch_stalled_ball(ball_path : NodePath):
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
+	if not ball: return
 	if ball.owner_index != player_index:
 		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
