@@ -10,13 +10,14 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var dir = input.direction
 	if dir.length() < input.dead_zone: dir = Vector2.UP
-	apply_ball_ownership.rpc(ball)
+	apply_ball_ownership.rpc(ball.get_path())
 	ball.update_color.rpc(owner.self_modulate, owner.player_index)
-	kick.rpc(ball,dir)
+	kick.rpc(ball.get_path(),dir)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func kick(ball : Ball, dir : Vector2) -> void:
+func kick(ball_path : NodePath, dir : Vector2) -> void:
+	var ball : Ball = get_node(ball_path)
 	collider.set_deferred("disabled", true)
 	Globals.freeze_frame(0.05)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
@@ -25,7 +26,8 @@ func kick(ball : Ball, dir : Vector2) -> void:
 
 
 @rpc("any_peer", "call_local", "reliable")
-func apply_ball_ownership(ball : Ball):
+func apply_ball_ownership(ball_path : NodePath):
+	var ball : Ball = get_node(ball_path)
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 	else:
