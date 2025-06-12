@@ -25,7 +25,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	ball.velocity = Vector2(ball.velocity.length() + 140,0).rotated(dir.angle())
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
