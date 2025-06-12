@@ -508,7 +508,7 @@ associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func
 ball_holder	scripts/player.gd	/^@onready var ball_holder : Node2D = $Sprite2D\/ball_holder$/;"	v	typeref:typename:Node2D	annotations:onready
 basic_stage	scripts/carousel_select.gd	/^const basic_stage = "res:\/\/worlds\/basic_stage.tscn"$/;"	C
 betterTerrain	addons/better-terrain/BetterTerrain.cs	/^    private readonly Node betterTerrain;$/;"	f	class:BetterTerrain	file:
-bonk	scripts/bonk_box.gd	/^func bonk(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "reliable")
+bonk	scripts/bonk_box.gd	/^func bonk(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
 bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider : CollisionShape2D = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	typeref:typename:CollisionShape2D	annotations:onready
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
