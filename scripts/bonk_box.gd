@@ -28,7 +28,7 @@ func bonk(ball_path : NodePath) -> void:
 	owner.velocity.x += ball.spin * 85
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
