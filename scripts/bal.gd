@@ -12,7 +12,7 @@ const MaxOwnerLevel : int = 2
 @onready var scale_node := $rotate_node/scale_node
 @onready var sprite := $rotate_node/scale_node/Sprite2D
 @onready var bounce_sfx := $bounce_sfx
-@onready var collision_shape := $CollisionShape2D
+@onready var collision_shape : CollisionShape2D = $CollisionShape2D
 
 
 func _enter_tree():
