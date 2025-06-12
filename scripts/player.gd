@@ -445,6 +445,7 @@ func _on_stall_box_body_entered(ball : Ball) -> void:
 @rpc("authority", "call_local", "reliable")
 func stall_ball(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
+	if not ball: return
 	apply_ball_ownership.rpc(ball_path)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
