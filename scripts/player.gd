@@ -409,11 +409,12 @@ func check_for_drop_through():
 func _anim_launch_stalled_ball():
 	if ball_holder.get_child_count() <= 0: return
 	var ball = ball_holder.get_child(0)
-	launch_stalled_ball.rpc(ball)
+	launch_stalled_ball.rpc(ball.get_path())
 
 
 @rpc("any_peer", "call_local", "reliable")
-func launch_stalled_ball(ball:Ball):
+func launch_stalled_ball(ball_path : NodePath):
+	var ball : Ball = get_node(ball_path)
 	is_ball_stalled = false
 	if not ball: return
 	ball.velocity = Vector2(0,-100)
@@ -424,7 +425,8 @@ func launch_stalled_ball(ball:Ball):
 
 
 @rpc("any_peer", "call_local", "reliable")
-func apply_ball_ownership(ball:Ball):
+func apply_ball_ownership(ball_path : NodePath):
+	var ball : Ball = get_node(ball_path)
 	if ball.owner_index != player_index:
 		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
@@ -441,8 +443,8 @@ func _on_stall_box_body_entered(ball : Ball) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func stall_ball(ball_path : NodePath):
-	var ball = get_node(ball_path)
-	apply_ball_ownership.rpc(ball)
+	var ball : Ball = get_node(ball_path)
+	apply_ball_ownership.rpc(ball_path)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
