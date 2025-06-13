@@ -590,7 +590,6 @@ region_rect = Rect2(0, 0, 372, 12)
 position = Vector2(4, 0)
 
 [node name="kick_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("input", "player")]
-visible = false
 position = Vector2(2, 0)
 collision_layer = 256
 collision_mask = 4
@@ -610,6 +609,7 @@ visible = false
 position = Vector2(1, -2)
 collision_layer = 512
 collision_mask = 4
+monitoring = false
 script = ExtResource("5_pbn0x")
 player = NodePath("../..")
 
@@ -617,6 +617,7 @@ player = NodePath("../..")
 shape = SubResource("CircleShape2D_pbn0x")
 
 [node name="stall_box" type="Area2D" parent="Sprite2D"]
+visible = false
 collision_layer = 0
 collision_mask = 4
 

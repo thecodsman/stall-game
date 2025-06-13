@@ -40,7 +40,6 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			#rpc("force_update_ownership", owner_index, owner_level)
 			if tile.get_custom_data("floor") && is_multiplayer_authority(): rpc("end_game", owner_index)
 		else:
 			bounce(raw_vel,collision)
@@ -108,9 +107,3 @@ func update_color(color : Color, index : int):
 			modulate = color * 1.75
 		2:
 			modulate = color
-
-
-@rpc("authority", "call_remote", "reliable")
-func force_update_ownership(index, level):
-	owner_level = level
-	owner_index = index

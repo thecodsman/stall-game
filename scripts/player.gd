@@ -415,8 +415,8 @@ func _anim_launch_stalled_ball():
 @rpc("any_peer", "call_local", "reliable")
 func launch_stalled_ball(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
-	is_ball_stalled = false
 	if not ball: return
+	is_ball_stalled = false
 	ball.velocity = Vector2(0,-100)
 	ball.stalled = false
 	ball.collision_shape.set_deferred("disabled", false)
@@ -437,7 +437,7 @@ func apply_ball_ownership(ball_path : NodePath):
 
 
 func _on_stall_box_body_entered(ball : Ball) -> void:
-	if ball.stalled: return
+	if ball.stalled || not is_multiplayer_authority(): return
 	stall_ball.rpc(ball.get_path())
 
 
