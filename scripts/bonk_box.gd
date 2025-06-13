@@ -14,7 +14,7 @@ func _on_body_entered(ball:Ball) -> void:
 	rpc_id(1, "bonk", ball.get_path())
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func bonk(ball_path : NodePath) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return

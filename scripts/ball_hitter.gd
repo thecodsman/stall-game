@@ -15,7 +15,7 @@ func _on_body_entered(ball:Ball) -> void:
 	rpc_id(1, "kick", ball.get_path(),dir)
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func kick(ball_path : NodePath, dir : Vector2) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
