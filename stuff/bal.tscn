@@ -42,8 +42,8 @@ properties/7/path = NodePath(".:velocity")
 properties/7/spawn = true
 properties/7/replication_mode = 1
 properties/8/path = NodePath(".:stalled")
-properties/8/spawn = false
-properties/8/replication_mode = 0
+properties/8/spawn = true
+properties/8/replication_mode = 2
 
 [node name="bal" type="CharacterBody2D"]
 collision_layer = 4
