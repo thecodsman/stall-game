@@ -420,8 +420,8 @@ func launch_stalled_ball(ball_path : NodePath):
 	ball.velocity = Vector2(0,-100)
 	ball.stalled = false
 	ball.collision_shape.set_deferred("disabled", false)
-	ball.reparent(get_parent())
 	ball.update_color(self_modulate, player_index)
+	ball.reparent(get_parent())
 
 
 @rpc("any_peer", "call_local", "reliable")
