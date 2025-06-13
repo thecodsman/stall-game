@@ -200,12 +200,12 @@ MATCH_VERTICES	addons/better-terrain/BetterTerrain.gd	/^	MATCH_VERTICES, ## Sele
 MAX	addons/better-terrain/BetterTerrain.gd	/^	MAX,$/;"	e	enum:TerrainType	file:
 MAX_CANVAS_RENDER_TILES	addons/better-terrain/editor/Dock.gd	/^const MAX_CANVAS_RENDER_TILES = 1500$/;"	C
 MAX_CONNECTIONS	singletons/lobby.gd	/^const MAX_CONNECTIONS = 10$/;"	C
-MAX_OWNER_LEVEL	scripts/bal.gd	/^const MAX_OWNER_LEVEL : int = 2$/;"	C	typeref:typename:int
 MAX_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MAX_ZOOM_SETTING := "editor\/better_terrain\/max_zoom_amount"$/;"	C
 MIN_ZOOM_SETTING	addons/better-terrain/editor/Dock.gd	/^const MIN_ZOOM_SETTING := "editor\/better_terrain\/min_zoom_amount"$/;"	C
 MIRROR	addons/better-terrain/BetterTerrain.gd	/^	MIRROR, ## Horizontally mirror$/;"	e	enum:SymmetryType	file:
 MatchTiles	addons/better-terrain/BetterTerrain.cs	/^        MatchTiles = 0,$/;"	e	enum:BetterTerrain.TerrainType	file:
 MatchVertices	addons/better-terrain/BetterTerrain.cs	/^        MatchVertices = 1,$/;"	e	enum:BetterTerrain.TerrainType	file:
+MaxOwnerLevel	scripts/bal.gd	/^const MaxOwnerLevel : int = 2$/;"	C	typeref:typename:int
 MethodName	addons/better-terrain/BetterTerrain.cs	/^    private static class MethodName$/;"	c	class:BetterTerrain
 Mirror	addons/better-terrain/BetterTerrain.cs	/^        Mirror = 1, \/\/ Horizontally mirror$/;"	e	enum:BetterTerrain.SymmetryType	file:
 NONE	addons/better-terrain/BetterTerrain.gd	/^	NONE,$/;"	e	enum:SymmetryType	file:
@@ -497,9 +497,9 @@ anonymousObject1799aa231b05	build/v0.8.1/windows/stall.js	/^							const cloned 
 anonymousObject35070cb90105	build/v0.8.1/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	v
 anonymousObject35070cb90205	build/v0.8.1/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	v
 anonymousObject48a4eabc0105	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	v
-apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
+apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
-apply_ball_ownership	scripts/player.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m
+apply_ball_ownership	scripts/player.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
 apply_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func apply_terrain_changeset(change: Dictionary) -> void:$/;"	m	typeref:typename:void
 args	build/v0.8.1/windows/stall.js	/^		args: [],$/;"	p	variable:InternalConfig.cfg
@@ -625,7 +625,6 @@ fill_button	addons/better-terrain/editor/Dock.gd	/^@onready var fill_button: But
 finish_action	addons/better-terrain/editor/TerrainUndo.gd	/^func finish_action():$/;"	m
 focusCanvas	build/v0.8.1/windows/stall.js	/^		focusCanvas: true,$/;"	p	variable:InternalConfig.cfg
 force_show_terrains	addons/better-terrain/editor/Dock.gd	/^signal force_show_terrains$/;"	s
-force_update_ownership	scripts/bal.gd	/^func force_update_ownership(index, level):$/;"	m	annotations:rpc("authority", "call_remote", "reliable")
 freeze_frame	singletons/globals.gd	/^func freeze_frame(time : float, time_scale : float = 0.1):$/;"	m
 gdextensionLibs	build/v0.8.1/windows/stall.js	/^		gdextensionLibs: [],$/;"	p	variable:InternalConfig.cfg
 getGodotConfig	build/v0.8.1/windows/stall.js	/^	Config.prototype.getGodotConfig = function (cleanup) {$/;"	m	class:Config
