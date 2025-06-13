@@ -10,6 +10,7 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var dir = input.direction
 	if dir.length() < input.dead_zone: dir = Vector2.UP
+	print("authority: %s | client: %s" % [get_multiplayer_authority(), multiplayer.get_unique_id()])
 	rpc_id(1, "apply_ball_ownership", ball.get_path())
 	ball.rpc("update_color", owner.self_modulate, owner.player_index)
 	rpc_id(1, "kick", ball.get_path(), dir)
