@@ -424,7 +424,7 @@ func launch_stalled_ball(ball_path : NodePath):
 	ball.reparent(get_parent())
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
@@ -446,7 +446,7 @@ func _on_stall_box_body_entered(ball : Ball) -> void:
 func stall_ball(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
-	apply_ball_ownership.rpc(ball_path)
+	apply_ball_ownership(ball_path)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
