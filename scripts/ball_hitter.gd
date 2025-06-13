@@ -18,6 +18,7 @@ func _on_body_entered(ball:Ball) -> void:
 @rpc("authority", "call_local", "reliable")
 func kick(ball_path : NodePath, dir : Vector2) -> void:
 	var ball : Ball = get_node(ball_path)
+	if not ball: return
 	collider.set_deferred("disabled", true)
 	Globals.freeze_frame(0.05)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
@@ -28,6 +29,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 @rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
+	if not ball: return
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 	else:
