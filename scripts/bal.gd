@@ -7,7 +7,7 @@ var owner_color : Color
 var spin : float = 0
 var colliding_prev_frame : bool = false
 var stalled : bool = false
-const MaxOwnerLevel : int = 2
+const MAX_OWNER_LEVEL : int = 2
 @onready var rotate_node := $rotate_node
 @onready var scale_node := $rotate_node/scale_node
 @onready var sprite := $rotate_node/scale_node/Sprite2D
@@ -40,7 +40,8 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			if tile.get_custom_data("floor") && multiplayer.is_server(): end_game.rpc(owner_index)
+			#rpc("force_update_ownership", owner_index, owner_level)
+			if tile.get_custom_data("floor") && is_multiplayer_authority(): rpc("end_game", owner_index)
 		else:
 			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0
@@ -48,15 +49,19 @@ func _physics_process(delta : float) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func end_game(winner : int):
-	if not owner_level > 1: return
+	if owner_level < MAX_OWNER_LEVEL: return
 	if GameText.visible: return
 	var tree : SceneTree = null
 	GameText.text = str("P%s Won!" % winner)
 	GameText.visible = true
-	while not tree: tree = get_tree()
+	if not is_inside_tree():
+		await tree_entered
+		tree = get_tree()
+	else:
+		tree = get_tree()
 	await tree.create_timer(2).timeout
 	GameText.visible = false
-	get_tree().reload_current_scene()
+	tree.reload_current_scene()
 
 
 func bounce(raw_vel, collision):
@@ -103,3 +108,9 @@ func update_color(color : Color, index : int):
 			modulate = color * 1.75
 		2:
 			modulate = color
+
+
+@rpc("authority", "call_remote", "reliable")
+func force_update_ownership(index, level):
+	owner_level = level
+	owner_index = index

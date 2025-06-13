@@ -424,7 +424,6 @@ func launch_stalled_ball(ball_path : NodePath):
 	ball.reparent(get_parent())
 
 
-@rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
@@ -433,7 +432,7 @@ func apply_ball_ownership(ball_path : NodePath):
 		ball.owner_index = player_index
 	elif ball.owner_index == player_index:
 		ball.owner_level = 2
-	if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
+	if ball.owner_level > Ball.MAX_OWNER_LEVEL: ball.owner_level = Ball.MAX_OWNER_LEVEL
 	ball.update_color(self_modulate, player_index)
 
 
