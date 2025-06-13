@@ -9,7 +9,7 @@ func _ready():
 
 func _on_body_entered(ball:Ball) -> void:
 	if ball.owner_level == 0:
-		rpc_id(1,"apply_ball_ownership", ball.get_path())
+		rpc("apply_ball_ownership", ball.get_path())
 		ball.rpc("update_color", owner.self_modulate, owner.player_index)
 	rpc_id(1, "bonk", ball.get_path())
 

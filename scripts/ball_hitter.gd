@@ -12,7 +12,7 @@ func _on_body_entered(ball:Ball) -> void:
 	if dir.length() < input.dead_zone: dir = Vector2.UP
 	rpc("apply_ball_ownership", ball.get_path())
 	ball.rpc("update_color", owner.self_modulate, owner.player_index)
-	rpc_id(1, "kick", ball.get_path(),dir)
+	rpc_id(1, "kick", ball.get_path(), dir)
 
 
 @rpc("any_peer", "call_local", "reliable")
