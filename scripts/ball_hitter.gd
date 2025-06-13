@@ -10,7 +10,7 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var dir = input.direction
 	if dir.length() < input.dead_zone: dir = Vector2.UP
-	rpc("apply_ball_ownership", ball.get_path())
+	rpc_id(1, "apply_ball_ownership", ball.get_path())
 	ball.rpc("update_color", owner.self_modulate, owner.player_index)
 	rpc_id(1, "kick", ball.get_path(), dir)
 
@@ -26,7 +26,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	ball.velocity = Vector2(ball.velocity.length() + 140,0).rotated(dir.angle())
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
