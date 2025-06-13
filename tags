@@ -675,7 +675,7 @@ j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:t
 join_game	singletons/lobby.gd	/^func join_game(address : String = "", port : int = 0):$/;"	m
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
-kick	scripts/ball_hitter.gd	/^func kick(ball_path : NodePath, dir : Vector2) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
+kick	scripts/ball_hitter.gd	/^func kick(ball_path : NodePath, dir : Vector2) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "reliable")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 lastProgress	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball(ball_path : NodePath):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")

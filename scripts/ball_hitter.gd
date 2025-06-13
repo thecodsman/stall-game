@@ -12,10 +12,10 @@ func _on_body_entered(ball:Ball) -> void:
 	if dir.length() < input.dead_zone: dir = Vector2.UP
 	apply_ball_ownership.rpc(ball.get_path())
 	ball.update_color.rpc(owner.self_modulate, owner.player_index)
-	kick.rpc(ball.get_path(),dir)
+	rpc_id(1, "kick", ball.get_path(),dir)
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func kick(ball_path : NodePath, dir : Vector2) -> void:
 	var ball : Ball = get_node(ball_path)
 	collider.set_deferred("disabled", true)
