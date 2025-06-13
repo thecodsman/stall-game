@@ -8,13 +8,11 @@ func _ready():
 
 
 func _on_body_entered(ball:Ball) -> void:
-	if ball.owner_level == 0:
-		rpc("apply_ball_ownership", ball.get_path())
-		ball.rpc("update_color", owner.self_modulate, owner.player_index)
+	rpc_id(1, "apply_ball_ownership", ball.get_path())
 	rpc_id(1, "bonk", ball.get_path())
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func bonk(ball_path : NodePath) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
@@ -31,6 +29,7 @@ func bonk(ball_path : NodePath) -> void:
 @rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
+	if ball.owner_level != 0: return
 	if not ball: return
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
@@ -38,3 +37,4 @@ func apply_ball_ownership(ball_path : NodePath):
 		ball.owner_index = player.player_index
 		ball.owner_level += 1
 		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
+	ball.update_color(player.self_modulate, player.player_index)

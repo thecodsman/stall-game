@@ -3,16 +3,28 @@ class_name Stage extends Node2D
 @export var thumb_nail : Texture2D
 @export var stage_name : String
 var player_scene = preload("res://stuff/player.tscn")
+var ball_scene = preload("res://stuff/bal.tscn")
 @onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn]
+@onready var ball_spawn : Node2D = $ball_spawn
 
 
 func _ready():
 	Lobby.player_loaded.rpc()
-	if not Globals.is_online: local_spawn_players()
+	if not Globals.is_online:
+		local_spawn_players()
+		spawn_ball()
 
 
 func start_game(): # is only called in online lobbies
 	online_spawn_players()
+	spawn_ball()
+
+
+func spawn_ball():
+	if not is_multiplayer_authority(): return
+	var ball : Ball = ball_scene.instantiate()
+	ball.global_position = ball_spawn.global_position
+	$SubViewportContainer/game.add_child(ball, true)
 
 
 func online_spawn_players():

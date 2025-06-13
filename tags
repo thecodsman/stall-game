@@ -497,7 +497,7 @@ anonymousObject1799aa231b05	build/v0.8.1/windows/stall.js	/^							const cloned 
 anonymousObject35070cb90105	build/v0.8.1/windows/stall.audio.worklet.js	/^				this.port.postMessage({ 'cmd': 'input', 'data': this.input_buffer });$/;"	v
 anonymousObject35070cb90205	build/v0.8.1/windows/stall.audio.worklet.js	/^					this.port.postMessage({ 'cmd': 'read', 'data': chunk });$/;"	v
 anonymousObject48a4eabc0105	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	v
-apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
+apply_ball_ownership	scripts/ball_hitter.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 apply_ball_ownership	scripts/bonk_box.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 apply_ball_ownership	scripts/player.gd	/^func apply_ball_ownership(ball_path : NodePath):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
 apply_gravity	scripts/player.gd	/^func apply_gravity(delta):$/;"	m
@@ -506,9 +506,11 @@ args	build/v0.8.1/windows/stall.js	/^		args: [],$/;"	p	variable:InternalConfig.c
 array_has_data	build/v0.8.1/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
 ball_holder	scripts/player.gd	/^@onready var ball_holder : Node2D = $Sprite2D\/ball_holder$/;"	v	typeref:typename:Node2D	annotations:onready
+ball_scene	scripts/stage.gd	/^var ball_scene = preload("res:\/\/stuff\/bal.tscn")$/;"	v
+ball_spawn	scripts/stage.gd	/^@onready var ball_spawn : Node2D = $ball_spawn$/;"	v	typeref:typename:Node2D	annotations:onready
 basic_stage	scripts/carousel_select.gd	/^const basic_stage = "res:\/\/worlds\/basic_stage.tscn"$/;"	C
 betterTerrain	addons/better-terrain/BetterTerrain.cs	/^    private readonly Node betterTerrain;$/;"	f	class:BetterTerrain	file:
-bonk	scripts/bonk_box.gd	/^func bonk(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("any_peer", "call_local", "reliable")
+bonk	scripts/bonk_box.gd	/^func bonk(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "reliable")
 bonk_box_collider	scripts/player.gd	/^@onready var bonk_box_collider : CollisionShape2D = $Sprite2D\/bonk_box\/CollisionShape2D$/;"	v	typeref:typename:CollisionShape2D	annotations:onready
 bounce	scripts/bal.gd	/^func bounce(raw_vel, collision):$/;"	m
 bounce_sfx	scripts/bal.gd	/^@onready var bounce_sfx := $bounce_sfx$/;"	v	annotations:onready
@@ -868,6 +870,7 @@ shuffle_random	addons/better-terrain/editor/Dock.gd	/^@onready var shuffle_rando
 source_selector	addons/better-terrain/editor/Dock.gd	/^@onready var source_selector: MenuBar = $VBox\/Toolbar\/Sources$/;"	v	typeref:typename:MenuBar	annotations:onready
 source_selector_popup	addons/better-terrain/editor/Dock.gd	/^@onready var source_selector_popup: PopupMenu = $VBox\/Toolbar\/Sources\/Sources$/;"	v	typeref:typename:PopupMenu	annotations:onready
 space_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	space_left() {$/;"	m	class:RingBuffer
+spawn_ball	scripts/stage.gd	/^func spawn_ball():$/;"	m
 spawn_stage_icons	scripts/carousel_select.gd	/^func spawn_stage_icons():$/;"	m
 spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite := $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready

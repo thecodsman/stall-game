@@ -12,22 +12,21 @@ func _on_body_entered(ball:Ball) -> void:
 	if dir.length() < input.dead_zone: dir = Vector2.UP
 	print("authority: %s | client: %s" % [get_multiplayer_authority(), multiplayer.get_unique_id()])
 	rpc_id(1, "apply_ball_ownership", ball.get_path())
-	ball.rpc("update_color", owner.self_modulate, owner.player_index)
-	rpc_id(1, "kick", ball.get_path(), dir)
+	rpc("kick", ball.get_path(), dir)
 
 
 @rpc("any_peer", "call_local", "reliable")
 func kick(ball_path : NodePath, dir : Vector2) -> void:
+	collider.set_deferred("disabled", true)
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
-	collider.set_deferred("disabled", true)
 	Globals.freeze_frame(0.05)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
 	if ball.velocity.length() > 0: ball.spin = (abs(ball.spin) * sign(angle_diff)) + (angle_diff) * clampf(ball.velocity.length() * 0.0145, 0.5, 3)
 	ball.velocity = Vector2(ball.velocity.length() + 140,0).rotated(dir.angle())
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
@@ -37,3 +36,4 @@ func apply_ball_ownership(ball_path : NodePath):
 		ball.owner_index = player.player_index
 		ball.owner_level += 1
 		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
+	ball.update_color(player.self_modulate, player.player_index)
