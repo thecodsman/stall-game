@@ -107,6 +107,7 @@ func enter_state():
 			if ball: # in enter air state because thats where you go after stall to avoid coyote time
 				ball.stalled = false
 				ball.staller = null
+				ball.collision_shape.set_deferred("disabled", false)
 				ball = null
 		State.KICK:
 			anim.play("kick_charge")
