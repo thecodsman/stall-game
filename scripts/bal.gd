@@ -7,6 +7,7 @@ var owner_color : Color
 var spin : float = 0
 var colliding_prev_frame : bool = false
 var stalled : bool = false
+var staller : Player
 const MAX_OWNER_LEVEL : int = 2
 @onready var rotate_node := $rotate_node
 @onready var scale_node := $rotate_node/scale_node
@@ -30,7 +31,9 @@ func _physics_process(delta : float) -> void:
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
-	if stalled: return
+	if stalled:
+		global_position = staller.ball_holder.global_position
+		return
 	if owner_index != -1: velocity.y += gravity * delta
 	move_and_slide()
 	for i in get_slide_collision_count():

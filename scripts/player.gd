@@ -25,6 +25,7 @@ var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
 var process_state : bool = false
+var ball : Ball
 @onready var input : PlayerInput = $Input
 @onready var ball_holder : Node2D = $Sprite2D/ball_holder
 @onready var anim : AnimationPlayer = $AnimationPlayer
@@ -299,17 +300,16 @@ func update_state(delta : float):
 			apply_gravity(delta)
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
-			if ball_holder.get_child_count() < 1 && is_ball_stalled:
+			if not ball && is_ball_stalled:
 				is_ball_stalled = false
 				set_state.rpc(State.AIR)
 				return
-			if ball_holder.get_child_count() < 1: return
-			var ball : Ball = ball_holder.get_child(0)
+			if not ball: return
 			if (is_ball_stalled && not ball.stalled) || ball.velocity.length() > 2:
 				ball.stalled = false
 				is_ball_stalled = false
 				ball.collision_shape.set_deferred("disabled", false)
-				ball.call_deferred("reparent", get_parent())
+				ball = null
 				set_state.rpc(State.AIR)
 				return
 			if not is_ball_stalled: return
@@ -338,6 +338,7 @@ func exit_state():
 			set_collision_mask_value(3, true)
 			bonk_box_collider.disabled = false
 			is_ball_stalled = false
+			ball = null
 
 
 func _on_animation_finished(animation):
@@ -407,25 +408,24 @@ func check_for_drop_through():
 
 
 func _anim_launch_stalled_ball():
-	if ball_holder.get_child_count() <= 0: return
-	var ball = ball_holder.get_child(0)
+	if not ball || not is_multiplayer_authority(): return
 	launch_stalled_ball.rpc(ball.get_path())
 
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable")
 func launch_stalled_ball(ball_path : NodePath):
-	var ball : Ball = get_node(ball_path)
+	ball = get_node(ball_path)
 	if not ball: return
 	is_ball_stalled = false
 	ball.velocity = Vector2(0,-100)
 	ball.stalled = false
 	ball.collision_shape.set_deferred("disabled", false)
 	ball.update_color(self_modulate, player_index)
-	ball.reparent(get_parent())
+	ball = null
 
 
 func apply_ball_ownership(ball_path : NodePath):
-	var ball : Ball = get_node(ball_path)
+	ball = get_node(ball_path)
 	if not ball: return
 	if ball.owner_index != player_index:
 		ball.owner_level = abs(ball.owner_level - 2)
@@ -436,21 +436,21 @@ func apply_ball_ownership(ball_path : NodePath):
 	ball.update_color(self_modulate, player_index)
 
 
-func _on_stall_box_body_entered(ball : Ball) -> void:
+func _on_stall_box_body_entered(_ball : Ball) -> void:
+	ball = _ball
 	if ball.stalled || not is_multiplayer_authority(): return
 	stall_ball.rpc(ball.get_path())
 
 
 @rpc("authority", "call_local", "reliable")
 func stall_ball(ball_path : NodePath):
-	var ball : Ball = get_node(ball_path)
+	ball = get_node(ball_path)
 	if not ball: return
 	apply_ball_ownership(ball_path)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
+	ball.staller = self
 	ball.global_position = ball_holder.global_position
 	ball.collision_shape.set_deferred("disabled", true)
-	ball.call_deferred("reparent", ball_holder)
-	await ball_holder.child_order_changed
 	is_ball_stalled = true

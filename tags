@@ -381,7 +381,7 @@ _on_quick_mode_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_quick_mod
 _on_remove_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_remove_terrain_pressed() -> void:$/;"	m	typeref:typename:void
 _on_server_disconnected	singletons/lobby.gd	/^func _on_server_disconnected():$/;"	m
 _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuffle_random_pressed():$/;"	m
-_on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(ball : Ball) -> void:$/;"	m	typeref:typename:void
+_on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(_ball : Ball) -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/lobby_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/local_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
 _on_start_pressed	scripts/main_menu.gd	/^func _on_start_pressed() -> void:$/;"	m	typeref:typename:void
@@ -505,6 +505,7 @@ apply_terrain_changeset	addons/better-terrain/BetterTerrain.gd	/^func apply_terr
 args	build/v0.8.1/windows/stall.js	/^		args: [],$/;"	p	variable:InternalConfig.cfg
 array_has_data	build/v0.8.1/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
+ball	scripts/player.gd	/^var ball : Ball$/;"	v	typeref:typename:Ball
 ball_holder	scripts/player.gd	/^@onready var ball_holder : Node2D = $Sprite2D\/ball_holder$/;"	v	typeref:typename:Node2D	annotations:onready
 ball_scene	scripts/stage.gd	/^var ball_scene = preload("res:\/\/stuff\/bal.tscn")$/;"	v
 ball_spawn	scripts/stage.gd	/^@onready var ball_spawn : Node2D = $ball_spawn$/;"	v	typeref:typename:Node2D	annotations:onready
@@ -680,7 +681,7 @@ jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations
 kick	scripts/ball_hitter.gd	/^func kick(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "unreliable_ordered")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 lastProgress	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
-launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball(ball_path : NodePath):$/;"	m	annotations:rpc("any_peer", "call_local", "reliable")
+launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 layer_down	addons/better-terrain/editor/Dock.gd	/^@onready var layer_down: Button = $VBox\/Toolbar\/LayerDown$/;"	v	typeref:typename:Button	annotations:onready
 layer_grid	addons/better-terrain/editor/Dock.gd	/^@onready var layer_grid: Button = $VBox\/Toolbar\/LayerGrid$/;"	v	typeref:typename:Button	annotations:onready
 layer_highlight	addons/better-terrain/editor/Dock.gd	/^@onready var layer_highlight: Button = $VBox\/Toolbar\/LayerHighlight$/;"	v	typeref:typename:Button	annotations:onready
@@ -882,6 +883,7 @@ stages	scripts/carousel_select.gd	/^@export_file("*.tscn") var stages : Array[St
 stall_ball	scripts/player.gd	/^func stall_ball(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
 stall_box	scripts/player.gd	/^@onready var stall_box = $Sprite2D\/stall_box$/;"	v	annotations:onready
 stalled	scripts/bal.gd	/^var stalled : bool = false$/;"	v	typeref:typename:bool
+staller	scripts/bal.gd	/^var staller : Player$/;"	v	typeref:typename:Player
 start	build/v0.8.1/windows/stall.js	/^			start: function (controller) {$/;"	m	variable:Preloader.getTrackedResponse.anonymousObject1799aa230305
 start	build/v0.8.1/windows/stall.js	/^			start: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
 startGame	build/v0.8.1/windows/stall.js	/^			startGame: function (override) {$/;"	m	variable:Engine.SafeEngine.proto
