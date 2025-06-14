@@ -104,11 +104,11 @@ func enter_state():
 			anim.play("jump")
 		State.AIR:
 			can_jump = false
-			if ball: # in enter air state because thats where you go after stall to avoid coyote time
-				ball.stalled = false
-				ball.staller = null
-				ball.collision_shape.set_deferred("disabled", false)
-				ball = null
+			# if ball: # in enter air state because thats where you go after stall to avoid coyote time
+			# 	ball.stalled = false
+			# 	ball.staller = null
+			# 	ball.collision_shape.set_deferred("disabled", false)
+			# 	ball = null
 		State.KICK:
 			anim.play("kick_charge")
 			bonk_box_collider.disabled = true
@@ -120,11 +120,10 @@ func enter_state():
 		State.STALL:
 			anim.play("stall")
 			set_collision_mask_value(3, false)
-			bonk_box_collider.set_deferred("disabled", true)
+			is_ball_stalled = (ball != null)
 		State.STALL_KICK:
 			anim.play("stall_kick")
 			set_collision_mask_value(3, false)
-			bonk_box_collider.set_deferred("disabled", true)
 
 
 var turned_around : bool = false
@@ -338,13 +337,10 @@ func exit_state():
 			charged_kick = false
 		State.STALL:
 			set_collision_mask_value(3, true)
-			bonk_box_collider.disabled = false
 			is_ball_stalled = false
 		State.STALL_KICK:
 			set_collision_mask_value(3, true)
-			bonk_box_collider.disabled = false
 			is_ball_stalled = false
-			ball = null
 
 
 func _on_animation_finished(animation):
@@ -359,7 +355,7 @@ func _on_animation_finished(animation):
 
 func check_for_special():
 	var is_special_pressed = input.is_joy_button_pressed(JOY_BUTTON_B)
-	if is_special_pressed:
+	if is_special_pressed || ball:
 		set_state.rpc(State.STALL)
 
 
