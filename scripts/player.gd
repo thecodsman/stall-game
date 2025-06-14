@@ -104,6 +104,10 @@ func enter_state():
 			anim.play("jump")
 		State.AIR:
 			can_jump = false
+			if ball: # in enter air state because thats where you go after stall to avoid coyote time
+				ball.stalled = false
+				ball.staller = null
+				ball = null
 		State.KICK:
 			anim.play("kick_charge")
 			bonk_box_collider.disabled = true
@@ -302,6 +306,7 @@ func update_state(delta : float):
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
 			if not ball && is_ball_stalled:
 				is_ball_stalled = false
+				ball = null # just in case
 				set_state.rpc(State.AIR)
 				return
 			if not ball: return
@@ -419,6 +424,7 @@ func launch_stalled_ball(ball_path : NodePath):
 	is_ball_stalled = false
 	ball.velocity = Vector2(0,-100)
 	ball.stalled = false
+	ball.staller = null
 	ball.collision_shape.set_deferred("disabled", false)
 	ball.update_color(self_modulate, player_index)
 	ball = null
