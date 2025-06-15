@@ -31,8 +31,8 @@ var ball : Ball
 @onready var anim : AnimationPlayer = $AnimationPlayer
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
-@onready var jump_sfx = $jump_sfx
-@onready var stall_box = $Sprite2D/stall_box
+@onready var jump_sfx : AudioStreamPlayer = $jump_sfx
+@onready var stall_box : Area2D = $Sprite2D/stall_box
 
 enum State {
 	IDLE,
@@ -431,7 +431,7 @@ func launch_stalled_ball(ball_path : NodePath):
 
 func apply_ball_ownership(ball_path : NodePath):
 	ball = get_node(ball_path)
-	if not ball: return
+	if not ball || GameText.visible: return
 	if ball.owner_index != player_index:
 		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
@@ -451,13 +451,13 @@ func _on_stall_box_body_entered(_ball : Ball) -> void:
 func stall_ball(ball_path : NodePath):
 	ball = get_node(ball_path)
 	if not ball: return
-	apply_ball_ownership(ball_path)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
 	ball.staller = self
 	ball.global_position = ball_holder.global_position
 	ball.collision_shape.set_deferred("disabled", true)
+	apply_ball_ownership(ball_path)
 	is_ball_stalled = true
 
 

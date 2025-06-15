@@ -12,13 +12,13 @@ func _on_body_entered(ball:Ball) -> void:
 	rpc_id(1, "kick", ball.get_path())
 
 
-@rpc("authority", "call_local", "unreliable_ordered")
+@rpc("authority", "call_local", "reliable")
 func kick(ball_path : NodePath) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
 	var dir = input.direction
 	if dir.length() < input.dead_zone: dir = Vector2.UP
-	#collider.set_deferred("disabled", true)
+	collider.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)
 	#Globals.freeze_frame(0.05)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()

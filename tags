@@ -677,8 +677,8 @@ is_tile_in_source	addons/better-terrain/editor/TileView.gd	/^func is_tile_in_sou
 j_prev_frame	scripts/player.gd	/^var j_prev_frame : bool = false$/;"	v	typeref:typename:bool
 join_game	singletons/lobby.gd	/^func join_game(address : String = "", port : int = 0):$/;"	m
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
-jump_sfx	scripts/player.gd	/^@onready var jump_sfx = $jump_sfx$/;"	v	annotations:onready
-kick	scripts/ball_hitter.gd	/^func kick(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "unreliable_ordered")
+jump_sfx	scripts/player.gd	/^@onready var jump_sfx : AudioStreamPlayer = $jump_sfx$/;"	v	typeref:typename:AudioStreamPlayer	annotations:onready
+kick	scripts/ball_hitter.gd	/^func kick(ball_path : NodePath) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "reliable")
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 lastProgress	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
 launch_stalled_ball	scripts/player.gd	/^func launch_stalled_ball(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
@@ -882,7 +882,7 @@ stage_title	scripts/carousel_select.gd	/^@onready var stage_title = $stage_title
 staged_paste_tile_states	addons/better-terrain/editor/TileView.gd	/^var staged_paste_tile_states : Array[Dictionary] = []$/;"	v	typeref:typename:Array[Dictionary]
 stages	scripts/carousel_select.gd	/^@export_file("*.tscn") var stages : Array[String]$/;"	v	typeref:typename:Array[String]	annotations:export_file("*.tscn")
 stall_ball	scripts/player.gd	/^func stall_ball(ball_path : NodePath):$/;"	m	annotations:rpc("authority", "call_local", "reliable")
-stall_box	scripts/player.gd	/^@onready var stall_box = $Sprite2D\/stall_box$/;"	v	annotations:onready
+stall_box	scripts/player.gd	/^@onready var stall_box : Area2D = $Sprite2D\/stall_box$/;"	v	typeref:typename:Area2D	annotations:onready
 stalled	scripts/bal.gd	/^var stalled : bool = false$/;"	v	typeref:typename:bool
 staller	scripts/bal.gd	/^var staller : Player$/;"	v	typeref:typename:Player
 start	build/v0.8.1/windows/stall.js	/^			start: function (controller) {$/;"	m	variable:Preloader.getTrackedResponse.anonymousObject1799aa230305
