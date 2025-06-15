@@ -551,12 +551,6 @@ properties/1/replication_mode = 0
 properties/2/path = NodePath(".:player_index")
 properties/2/spawn = true
 properties/2/replication_mode = 0
-properties/3/path = NodePath(".:ball")
-properties/3/spawn = false
-properties/3/replication_mode = 2
-properties/4/path = NodePath(".:is_ball_stalled")
-properties/4/spawn = false
-properties/4/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b0gpc"]
 properties/0/path = NodePath(".:position")
@@ -575,10 +569,10 @@ properties/4/path = NodePath(".:velocity")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 properties/5/path = NodePath(".:player_index")
-properties/5/spawn = true
-properties/5/replication_mode = 2
+properties/5/spawn = false
+properties/5/replication_mode = 0
 properties/6/path = NodePath(".:id")
-properties/6/spawn = true
+properties/6/spawn = false
 properties/6/replication_mode = 0
 properties/7/path = NodePath("Input:buttons")
 properties/7/spawn = true
@@ -610,6 +604,7 @@ region_rect = Rect2(0, 0, 372, 12)
 position = Vector2(4, 0)
 
 [node name="kick_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("input", "player")]
+visible = false
 position = Vector2(2, 0)
 collision_layer = 256
 collision_mask = 4

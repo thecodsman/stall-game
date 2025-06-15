@@ -308,11 +308,10 @@ func update_state(delta : float):
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
 			if not ball && is_ball_stalled:
 				is_ball_stalled = false
-				ball = null # just in case
 				set_state.rpc(State.AIR)
 				return
 			if not ball: return
-			if (is_ball_stalled && not ball.stalled) || ball.velocity.length() > 2:
+			if (is_ball_stalled && not ball.stalled):
 				ball.stalled = false
 				is_ball_stalled = false
 				ball.collision_shape.set_deferred("disabled", false)
@@ -444,21 +443,24 @@ func apply_ball_ownership(ball_path : NodePath):
 func _on_stall_box_body_entered(_ball : Ball) -> void:
 	ball = _ball
 	if ball.stalled || not is_multiplayer_authority(): return
+	print("id: %s | ball.stalled: %s | frame: %s" % [multiplayer.get_unique_id(), ball.stalled, Engine.get_physics_frames()])
 	stall_ball.rpc(ball.get_path())
 
 
 @rpc("authority", "call_local", "reliable")
 func stall_ball(ball_path : NodePath):
 	ball = get_node(ball_path)
-	if not ball: return
+	if not ball || ball.stalled: return
+	var stall_box_collider : CollisionShape2D = stall_box.get_child(0)
+	stall_box_collider.set_deferred("disabled", true)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
 	ball.staller = self
+	is_ball_stalled = true
 	ball.global_position = ball_holder.global_position
 	ball.collision_shape.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)
-	is_ball_stalled = true
 
 
 @rpc("authority", "call_local", "unreliable")

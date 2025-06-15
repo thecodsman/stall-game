@@ -32,6 +32,10 @@ func _physics_process(delta : float) -> void:
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
 	if stalled:
+		if velocity.length() > 2:
+			stalled = false
+			staller.ball = null
+			staller.is_ball_stalled = false
 		global_position = staller.ball_holder.global_position
 		return
 	if owner_index != -1: velocity.y += gravity * delta
