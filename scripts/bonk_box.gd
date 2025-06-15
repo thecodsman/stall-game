@@ -1,5 +1,6 @@
 extends Area2D
 
+@export var player : Player
 var player_index : int = -1
 
 func _ready():
@@ -7,14 +8,14 @@ func _ready():
 
 
 func _on_body_entered(ball:Ball) -> void:
-	if ball.owner_level == 0:
-		apply_ball_ownership.rpc(ball)
-		ball.update_color.rpc(owner.self_modulate, owner.player_index)
-	bonk.rpc_id(1, ball)
+	rpc("bonk", ball.get_path())
 
 
-@rpc("any_peer", "call_local", "reliable")
-func bonk(ball:Ball) -> void:
+@rpc("authority", "call_local", "reliable")
+func bonk(ball_path : NodePath) -> void:
+	var ball : Ball = get_node(ball_path)
+	if not ball: return
+	apply_ball_ownership(ball_path)
 	var velocity : Vector2
 	var angle = (global_position - ball.global_position).angle()
 	if angle >= 0   && angle < PI/2: velocity = Vector2(-20,-60)
@@ -25,11 +26,15 @@ func bonk(ball:Ball) -> void:
 	owner.velocity.x += ball.spin * 85
 
 
-@rpc("any_peer", "call_local", "reliable")
-func apply_ball_ownership(ball:Ball):
-	if ball.owner_index != owner.player_index && ball.owner_level > 0:
+@rpc("authority", "call_local", "reliable")
+func apply_ball_ownership(ball_path : NodePath):
+	var ball : Ball = get_node(ball_path)
+	if not ball: return
+	if ball.owner_level != 0: return
+	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 	else:
-		ball.owner_index = owner.player_index
+		ball.owner_index = player.player_index
 		ball.owner_level += 1
-		if ball.owner_level > Ball.MaxOwnerLevel: ball.owner_level = Ball.MaxOwnerLevel
+		if ball.owner_level > Ball.MAX_OWNER_LEVEL: ball.owner_level = Ball.MAX_OWNER_LEVEL
+	ball.update_color(player.self_modulate, player.player_index)

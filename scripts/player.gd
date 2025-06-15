@@ -25,11 +25,12 @@ var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
 var process_state : bool = false
+var ball : Ball
 @onready var input : PlayerInput = $Input
-@onready var ball_holder = $Sprite2D/ball_holder
-@onready var anim = $AnimationPlayer
-@onready var sprite = $Sprite2D
-@onready var bonk_box_collider = $Sprite2D/bonk_box/CollisionShape2D
+@onready var ball_holder : Node2D = $Sprite2D/ball_holder
+@onready var anim : AnimationPlayer = $AnimationPlayer
+@onready var sprite : Sprite2D = $Sprite2D
+@onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
 @onready var jump_sfx = $jump_sfx
 @onready var stall_box = $Sprite2D/stall_box
 
@@ -103,6 +104,11 @@ func enter_state():
 			anim.play("jump")
 		State.AIR:
 			can_jump = false
+			# if ball: # in enter air state because thats where you go after stall to avoid coyote time
+			# 	ball.stalled = false
+			# 	ball.staller = null
+			# 	ball.collision_shape.set_deferred("disabled", false)
+			# 	ball = null
 		State.KICK:
 			anim.play("kick_charge")
 			bonk_box_collider.disabled = true
@@ -114,11 +120,10 @@ func enter_state():
 		State.STALL:
 			anim.play("stall")
 			set_collision_mask_value(3, false)
-			bonk_box_collider.disabled = true
+			is_ball_stalled = (ball != null)
 		State.STALL_KICK:
 			anim.play("stall_kick")
 			set_collision_mask_value(3, false)
-			bonk_box_collider.disabled = true
 
 
 var turned_around : bool = false
@@ -227,9 +232,10 @@ func update_state(delta : float):
 			check_for_dash()
 			check_for_special()
 			apply_gravity(delta)
-
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
-			if is_on_floor() && velocity.y >= 0: set_state.rpc(State.IDLE)
+			if is_on_floor() && velocity.y >= 0:
+				spawn_smoke.rpc(Vector2(0,4))
+				set_state.rpc(State.IDLE)
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state.rpc(State.WALL)
 
 		State.WALL:
@@ -300,14 +306,17 @@ func update_state(delta : float):
 			apply_gravity(delta)
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
-			if ball_holder.get_child_count() < 1 && is_ball_stalled:
+			if not ball && is_ball_stalled:
+				is_ball_stalled = false
+				ball = null # just in case
 				set_state.rpc(State.AIR)
 				return
-			var ball : Ball = ball_holder.get_child(0)
-			if is_ball_stalled && ball.velocity.length() > 0:
+			if not ball: return
+			if (is_ball_stalled && not ball.stalled) || ball.velocity.length() > 2:
 				ball.stalled = false
-				ball.set_deferred("disabled", false)
-				ball.call_deferred("reparent", get_parent())
+				is_ball_stalled = false
+				ball.collision_shape.set_deferred("disabled", false)
+				ball = null
 				set_state.rpc(State.AIR)
 				return
 			if not is_ball_stalled: return
@@ -330,11 +339,9 @@ func exit_state():
 			charged_kick = false
 		State.STALL:
 			set_collision_mask_value(3, true)
-			bonk_box_collider.disabled = false
 			is_ball_stalled = false
 		State.STALL_KICK:
 			set_collision_mask_value(3, true)
-			bonk_box_collider.disabled = false
 			is_ball_stalled = false
 
 
@@ -350,17 +357,8 @@ func _on_animation_finished(animation):
 
 func check_for_special():
 	var is_special_pressed = input.is_joy_button_pressed(JOY_BUTTON_B)
-	if is_special_pressed:
+	if is_special_pressed || ball:
 		set_state.rpc(State.STALL)
-
-
-# func check_for_jump():
-# 	var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
-# 	if is_jump_pressed && not j_prev_frame:
-# 		if can_jump: set_state.rpc(State.JUMP)
-# 		j_prev_frame = true
-# 	elif not is_jump_pressed:
-# 		j_prev_frame = false
 
 
 func check_for_jump():
@@ -413,29 +411,63 @@ func check_for_drop_through():
 		set_collision_mask_value(4, true)
 
 
-@rpc("any_peer", "call_local", "reliable")
-func launch_stalled_ball():
-	is_ball_stalled = false
-	var ball : Ball = ball_holder.get_child(0)
+func _anim_launch_stalled_ball():
+	if not ball || not is_multiplayer_authority(): return
+	launch_stalled_ball.rpc(ball.get_path())
+
+
+@rpc("authority", "call_local", "reliable")
+func launch_stalled_ball(ball_path : NodePath):
+	ball = get_node(ball_path)
 	if not ball: return
-	var dir = Vector2( input.direction.x, input.direction.y )
-	ball.velocity = Vector2(100,0).rotated(dir.angle())
+	is_ball_stalled = false
+	ball.velocity = Vector2(0,-100)
 	ball.stalled = false
-	ball.reparent(get_parent())
+	ball.staller = null
+	ball.collision_shape.set_deferred("disabled", false)
+	ball.update_color(self_modulate, player_index)
+	ball = null
+
+
+func apply_ball_ownership(ball_path : NodePath):
+	ball = get_node(ball_path)
+	if not ball: return
+	if ball.owner_index != player_index:
+		ball.owner_level = abs(ball.owner_level - 2)
+		ball.owner_index = player_index
+	elif ball.owner_index == player_index:
+		ball.owner_level = 2
+	if ball.owner_level > Ball.MAX_OWNER_LEVEL: ball.owner_level = Ball.MAX_OWNER_LEVEL
 	ball.update_color(self_modulate, player_index)
 
 
-@rpc("any_peer", "call_local", "reliable")
-func apply_ball_ownership(ball:Ball):
-	if ball.owner_index == -1:
-		ball.owner_index = player_index
+func _on_stall_box_body_entered(_ball : Ball) -> void:
+	ball = _ball
+	if ball.stalled || not is_multiplayer_authority(): return
+	stall_ball.rpc(ball.get_path())
 
 
-func _on_stall_box_body_entered(ball : Ball) -> void:
-	is_ball_stalled = true
-	apply_ball_ownership.rpc(ball)
+@rpc("authority", "call_local", "reliable")
+func stall_ball(ball_path : NodePath):
+	ball = get_node(ball_path)
+	if not ball: return
+	apply_ball_ownership(ball_path)
 	ball.velocity = Vector2.ZERO
 	ball.spin = 0
 	ball.stalled = true
+	ball.staller = self
 	ball.global_position = ball_holder.global_position
-	ball.reparent(ball_holder)
+	ball.collision_shape.set_deferred("disabled", true)
+	is_ball_stalled = true
+
+
+@rpc("authority", "call_local", "unreliable")
+func spawn_smoke(pos : Vector2 = Vector2.ZERO):
+	var smoke_scene : PackedScene = preload("res://particles/smoke.tscn")
+	var smoke : GPUParticles2D = smoke_scene.instantiate()
+	add_child(smoke)
+	smoke.emitting = true
+	smoke.process_material.direction.x = sign(velocity.x)
+	smoke.position = pos
+	await smoke.finished
+	smoke.queue_free()

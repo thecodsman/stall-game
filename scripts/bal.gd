@@ -4,29 +4,36 @@ var gravity : float = 70
 var owner_index : int = -1 ## player index of the owner of the ball
 var owner_level : int = 0 ## level of ownership
 var owner_color : Color 
-const MaxOwnerLevel : int = 2
 var spin : float = 0
 var colliding_prev_frame : bool = false
 var stalled : bool = false
+var staller : Player
+const MAX_OWNER_LEVEL : int = 2
 @onready var rotate_node := $rotate_node
 @onready var scale_node := $rotate_node/scale_node
 @onready var sprite := $rotate_node/scale_node/Sprite2D
 @onready var bounce_sfx := $bounce_sfx
-@onready var collision_shape := $CollisionShape2D
+@onready var collision_shape : CollisionShape2D = $CollisionShape2D
+
+
+func _enter_tree():
+	set_multiplayer_authority(1)
 
 
 func _ready():
-	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	set_physics_process(multiplayer.get_unique_id() == 1)
 
 
 func _physics_process(delta : float) -> void:
 	var raw_vel = velocity
+	if owner_level > 2: owner_level = 2
 	sprite.rotation += (spin * delta) * 20
 	spin = lerpf(spin, 0, 0.5*delta)
 	velocity = velocity.rotated((spin * delta))
 	juice_it_up()
-	if owner_level > 2: owner_level = 2
-	if stalled: return
+	if stalled:
+		global_position = staller.ball_holder.global_position
+		return
 	if owner_index != -1: velocity.y += gravity * delta
 	move_and_slide()
 	for i in get_slide_collision_count():
@@ -36,7 +43,7 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			if tile.get_custom_data("floor") && multiplayer.is_server(): end_game.rpc(owner_index)
+			if tile.get_custom_data("floor") && is_multiplayer_authority(): rpc("end_game", owner_index)
 		else:
 			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0
@@ -44,15 +51,19 @@ func _physics_process(delta : float) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func end_game(winner : int):
-	if not owner_level > 1: return
+	if owner_level < MAX_OWNER_LEVEL: return
 	if GameText.visible: return
 	var tree : SceneTree = null
 	GameText.text = str("P%s Won!" % winner)
 	GameText.visible = true
-	while not tree: tree = get_tree()
+	if not is_inside_tree():
+		await tree_entered
+		tree = get_tree()
+	else:
+		tree = get_tree()
 	await tree.create_timer(2).timeout
 	GameText.visible = false
-	get_tree().reload_current_scene()
+	tree.reload_current_scene()
 
 
 func bounce(raw_vel, collision):

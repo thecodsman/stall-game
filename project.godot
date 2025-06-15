@@ -12,7 +12,7 @@ config_version=5
 
 config/name="stall"
 config/description="stall the ball"
-config/version="0.9.0.1"
+config/version="0.9.1"
 config/tags=PackedStringArray("small")
 run/main_scene="uid://dqrhx4hoehkkl"
 config/features=PackedStringArray("4.4", "Forward Plus")
@@ -34,6 +34,11 @@ window/size/viewport_height=96
 window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
+
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
 
 [editor_plugins]
 
