@@ -872,6 +872,7 @@ source_selector	addons/better-terrain/editor/Dock.gd	/^@onready var source_selec
 source_selector_popup	addons/better-terrain/editor/Dock.gd	/^@onready var source_selector_popup: PopupMenu = $VBox\/Toolbar\/Sources\/Sources$/;"	v	typeref:typename:PopupMenu	annotations:onready
 space_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	space_left() {$/;"	m	class:RingBuffer
 spawn_ball	scripts/stage.gd	/^func spawn_ball():$/;"	m
+spawn_smoke	scripts/player.gd	/^func spawn_smoke(pos : Vector2 = Vector2.ZERO):$/;"	m	annotations:rpc("authority", "call_local", "unreliable")
 spawn_stage_icons	scripts/carousel_select.gd	/^func spawn_stage_icons():$/;"	m
 spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite := $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready

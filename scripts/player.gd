@@ -233,7 +233,9 @@ func update_state(delta : float):
 			check_for_special()
 			apply_gravity(delta)
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
-			if is_on_floor() && velocity.y >= 0: set_state.rpc(State.IDLE)
+			if is_on_floor() && velocity.y >= 0:
+				spawn_smoke.rpc(Vector2(0,4))
+				set_state.rpc(State.IDLE)
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state.rpc(State.WALL)
 
 		State.WALL:
@@ -457,3 +459,15 @@ func stall_ball(ball_path : NodePath):
 	ball.global_position = ball_holder.global_position
 	ball.collision_shape.set_deferred("disabled", true)
 	is_ball_stalled = true
+
+
+@rpc("authority", "call_local", "unreliable")
+func spawn_smoke(pos : Vector2 = Vector2.ZERO):
+	var smoke_scene : PackedScene = preload("res://particles/smoke.tscn")
+	var smoke : GPUParticles2D = smoke_scene.instantiate()
+	add_child(smoke)
+	smoke.emitting = true
+	smoke.process_material.direction.x = sign(velocity.x)
+	smoke.position = pos
+	await smoke.finished
+	smoke.queue_free()
