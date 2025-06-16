@@ -197,7 +197,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_y8sy2")
-stages = Array[String](["uid://wgaroelgg0e7", "uid://dk63esv5x4rpx"])
+stages = Array[String](["uid://wgaroelgg0e7", "uid://dk63esv5x4rpx", "uid://b47uyyvrihodn", "uid://ipucrvo5i3kh"])
 
 [node name="stage_title" type="RichTextLabel" parent="SubViewportContainer2/game/Control"]
 layout_mode = 0
@@ -219,13 +219,10 @@ vertical_alignment = 1
 
 [node name="Carousel" type="Control" parent="SubViewportContainer2/game/Control"]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -6.0
-offset_top = -44.0
-offset_right = -6.0
-offset_bottom = -44.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer2/game"]

@@ -20,12 +20,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SteamWorks="*res://singletons/steamworks.gd"
+SteamWorks="*res://scripts/steamworks.gd"
 GameText="*res://stuff/label.tscn"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 MusicPlayer="*res://stuff/music_player.tscn"
-Lobby="*res://singletons/lobby.gd"
+Lobby="*res://scripts/lobby.gd"
 Globals="*res://singletons/globals.tscn"
+UI="*res://singletons/ui.tscn"
 
 [display]
 

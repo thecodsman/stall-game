@@ -47,27 +47,29 @@ func _physics_process(delta : float) -> void:
 		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
 		if is_on_floor_only():
 			bounce(raw_vel,collision)
-			if tile.get_custom_data("floor") && is_multiplayer_authority(): rpc("end_game", owner_index)
+			if tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
 		else:
 			bounce(raw_vel,collision)
 	colliding_prev_frame = get_slide_collision_count() > 0
 
 
-@rpc("authority", "call_local", "reliable")
-func end_game(winner : int):
+func check_for_winner():
 	if owner_level < MAX_OWNER_LEVEL: return
 	if GameText.visible: return
-	var tree : SceneTree = null
-	GameText.text = str("P%s Won!" % winner)
-	GameText.visible = true
-	if not is_inside_tree():
-		await tree_entered
-		tree = get_tree()
+	give_point_to_winner.rpc(owner_index)
+	var highest_score : int = 0
+	for i in range(Globals.scores.size()):
+		var score = Globals.scores[i]
+		if score > highest_score: highest_score = score
+	if highest_score >= Globals.points_to_win:
+		Globals.end_match.rpc(owner_index)
 	else:
-		tree = get_tree()
-	await tree.create_timer(2).timeout
-	GameText.visible = false
-	tree.reload_current_scene()
+		Globals.end_round.rpc(owner_index)
+
+@rpc("authority", "call_local", "reliable")
+func give_point_to_winner(winner : int):
+	Globals.scores[winner - 1] += 1
+	Globals.scores_changed.emit(Globals.scores)
 
 
 func bounce(raw_vel, collision):

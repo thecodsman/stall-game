@@ -1,35 +1,24 @@
-[gd_scene load_steps=21 format=4 uid="uid://dk63esv5x4rpx"]
+[gd_scene load_steps=14 format=4 uid="uid://b47uyyvrihodn"]
 
-[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_pjgop"]
-[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_likaa"]
-[ext_resource type="Texture2D" uid="uid://ccp88q0expo2v" path="res://sprites/stage_select_icons/platform-stage-thumbnail.png" id="2_ybuv6"]
-[ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_ybuv6"]
-[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="4_o4h0l"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_vujsw"]
-[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_0y6ho"]
-[ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="8_bolxr"]
-[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_78wr1"]
-[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="10_l2sf4"]
+[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_hxjd6"]
+[ext_resource type="Texture2D" uid="uid://dh5t7wih0mh44" path="res://sprites/stage_select_icons/double-platform-stage-thumbnail.png" id="2_hxjd6"]
+[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_jkar1"]
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="3_r0a0j"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_a8lit"]
+[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="6_j1jft"]
+[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="7_oslyl"]
+[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="8_rp651"]
 
-[sub_resource type="Gradient" id="Gradient_iw727"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.5, 1)
-colors = PackedColorArray(0.741176, 0.0627451, 0.321569, 1, 1, 0, 0.290196, 1, 0.741176, 0.0627451, 0.321569, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_kbcbp"]
-gradient = SubResource("Gradient_iw727")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iw727"]
-shader = ExtResource("2_likaa")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hxjd6"]
+shader = ExtResource("3_r0a0j")
 shader_parameter/snes_transparency = false
-shader_parameter/gba_transparency = true
+shader_parameter/gba_transparency = false
 shader_parameter/horizontal_scan_line = false
 shader_parameter/vertical_scan_line = false
 shader_parameter/enable_palette_cycling = true
-shader_parameter/sprite_scroll_direction = Vector2(0.5, 0.5)
-shader_parameter/sprite_scroll_speed = 1.0
-shader_parameter/gba_transparency_scroll_direction = Vector2(0.45, 0)
+shader_parameter/sprite_scroll_direction = Vector2(1, 0)
+shader_parameter/sprite_scroll_speed = 0.205
+shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
 shader_parameter/gba_transparency_scroll_speed = 0.01
 shader_parameter/gba_transparency_value = 0.5
 shader_parameter/horizontal_wave_amplitude = 0.0
@@ -38,65 +27,31 @@ shader_parameter/horizontal_wave_speed = 1.0
 shader_parameter/vertical_wave_amplitude = 0.0
 shader_parameter/vertical_wave_frequency = 0.0
 shader_parameter/vertical_wave_speed = 1.0
-shader_parameter/horizontal_deform_amplitude = -1.0
-shader_parameter/horizontal_deform_frequency = 5.0
+shader_parameter/horizontal_deform_amplitude = 0.0
+shader_parameter/horizontal_deform_frequency = 0.0
 shader_parameter/horizontal_deform_speed = 1.0
-shader_parameter/vertical_deform_amplitude = -1.0
-shader_parameter/vertical_deform_frequency = 5.0
-shader_parameter/vertical_deform_speed = 1.0
-shader_parameter/width = 0.0
-shader_parameter/height = 0.0
-shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_kbcbp")
-
-[sub_resource type="Gradient" id="Gradient_kbcbp"]
-interpolation_mode = 2
-interpolation_color_space = 1
-offsets = PackedFloat32Array(0, 0.49061, 1)
-colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
-metadata/_snap_count = 7
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
-gradient = SubResource("Gradient_kbcbp")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbcbp"]
-shader = ExtResource("2_likaa")
-shader_parameter/snes_transparency = true
-shader_parameter/gba_transparency = false
-shader_parameter/horizontal_scan_line = false
-shader_parameter/vertical_scan_line = false
-shader_parameter/enable_palette_cycling = true
-shader_parameter/sprite_scroll_direction = Vector2(0, 0)
-shader_parameter/sprite_scroll_speed = 0.01
-shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
-shader_parameter/gba_transparency_scroll_speed = 0.01
-shader_parameter/gba_transparency_value = 0.5
-shader_parameter/horizontal_wave_amplitude = 1.21
-shader_parameter/horizontal_wave_frequency = 0.705
-shader_parameter/horizontal_wave_speed = 1.0
-shader_parameter/vertical_wave_amplitude = -0.37
-shader_parameter/vertical_wave_frequency = 4.72
-shader_parameter/vertical_wave_speed = 1.0
-shader_parameter/horizontal_deform_amplitude = 2.51
-shader_parameter/horizontal_deform_frequency = 0.7
-shader_parameter/horizontal_deform_speed = 0.5
-shader_parameter/vertical_deform_amplitude = 1.62
-shader_parameter/vertical_deform_frequency = 0.54
-shader_parameter/vertical_deform_speed = 0.1
+shader_parameter/vertical_deform_amplitude = 0.2
+shader_parameter/vertical_deform_frequency = 4.0
+shader_parameter/vertical_deform_speed = 2.0
 shader_parameter/width = 96.0
 shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okiaf"]
-shader = ExtResource("5_vujsw")
+shader = ExtResource("5_a8lit")
 shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kbcbp"]
-texture = ExtResource("9_78wr1")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fg3hj"]
+shader = ExtResource("6_j1jft")
+shader_parameter/background_color = Color(0, 1, 0, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/offset_in_pixels = Vector2(1, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4k7gv"]
+texture = ExtResource("8_rp651")
 texture_region_size = Vector2i(4, 4)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -2, 2, 2, -2, 2)
@@ -365,7 +320,7 @@ physics_layer_1/collision_layer = 8
 physics_layer_1/collision_mask = 0
 custom_data_layer_0/name = "floor"
 custom_data_layer_0/type = 1
-sources/1 = SubResource("TileSetAtlasSource_kbcbp")
+sources/1 = SubResource("TileSetAtlasSource_4k7gv")
 metadata/_better_terrain = {
 &"decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
 &"path": "res://addons/better-terrain/icons/Decoration.svg"
@@ -378,22 +333,19 @@ metadata/_better_terrain = {
 &"version": "0.2"
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fg3hj"]
-shader = ExtResource("10_l2sf4")
-shader_parameter/background_color = Color(0, 1, 0, 1)
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/offset_in_pixels = Vector2(1, 1)
-
 [node name="stage" type="Node2D"]
-script = ExtResource("1_pjgop")
-thumb_nail = ExtResource("2_ybuv6")
-stage_name = "Platform"
+script = ExtResource("1_hxjd6")
+thumb_nail = ExtResource("2_hxjd6")
+stage_name = "Double Platform"
 
 [node name="p1_spawn" type="Node2D" parent="."]
 position = Vector2(12, 83)
 
 [node name="p2_spawn" type="Node2D" parent="."]
 position = Vector2(84, 83)
+
+[node name="ball_spawn" type="Node2D" parent="."]
+position = Vector2(49, 81)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -402,26 +354,17 @@ layer = -1
 z_index = -1
 offset_right = 96.0
 offset_bottom = 96.0
-color = Color(1, 0.505882, 0.67451, 1)
+color = Color(1, 0.631373, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
 z_index = -1
 texture_repeat = 3
-material = SubResource("ShaderMaterial_iw727")
+material = SubResource("ShaderMaterial_hxjd6")
 offset_right = 96.0
 offset_bottom = 96.0
-texture = ExtResource("3_ybuv6")
-metadata/_edit_lock_ = true
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-visible = false
-z_index = -1
-texture_repeat = 3
-material = SubResource("ShaderMaterial_kbcbp")
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("4_o4h0l")
+texture = ExtResource("3_jkar1")
+stretch_mode = 1
 metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
@@ -432,12 +375,14 @@ offset_top = -8.0
 offset_right = 19.0
 offset_bottom = 24.0
 scale = Vector2(4.08393, 3.43716)
+color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_okiaf")
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="game" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
@@ -446,22 +391,12 @@ size = Vector2i(96, 96)
 render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
+z_index = -5
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
-
-[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/game"]
-position = Vector2(48, 48)
-script = ExtResource("6_0y6ho")
-
-[node name="bal" parent="SubViewportContainer/game" instance=ExtResource("8_bolxr")]
-position = Vector2(48, 48)
-
-[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]
-tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAAAAAACAP//AQABAAAAAAADAP//AQABAAAAAAAEAP//AQABAAAAAAAFAP//AQABAAAAAAAGAP//AQABAAAAAAAHAP//AQABAAAAAAAIAP//AQABAAAAAAAJAP//AQABAAAAAAD//wsAAQAAAAEAAAD//woAAQAAAAEAAAD//wgAAQAAAAEAAAD//wcAAQAAAAEAAAD//wYAAQAAAAEAAAD//wUAAQAAAAEAAAD//wQAAQAAAAEAAAD//wMAAQAAAAEAAAD//wIAAQAAAAEAAAD//wEAAQAAAAEAAAD//wAAAQAAAAEAAAAQAP//AQABAAAAAAARAP//AQABAAAAAAASAP//AQABAAAAAAATAP//AQABAAAAAAAUAP//AQABAAAAAAAVAP//AQABAAAAAAAWAP//AQABAAAAAAAXAP//AQABAAAAAAAKAP//AQABAAAAAAANAP//AQABAAAAAAAOAP//AQABAAAAAAAPAP//AQABAAAAAAAYAP//AQACAAAAAAAYAAAAAQACAAEAAAAYAAEAAQACAAEAAAAYAAIAAQACAAEAAAAYAAMAAQACAAEAAAAYAAQAAQACAAEAAAAYABgAAQACAAIAAAAYAAUAAQACAAEAAAAYAAYAAQACAAEAAAAYAAcAAQACAAEAAAAYAAgAAQACAAEAAAAYAAkAAQACAAEAAAAYAAoAAQACAAEAAAAYAAsAAQACAAEAAAAYAAwAAQACAAEAAAAYAA0AAQACAAEAAAAYAA4AAQACAAEAAAAYAA8AAQACAAEAAAAYABAAAQACAAEAAAAYABEAAQACAAEAAAAYABIAAQACAAEAAAAYABMAAQACAAEAAAAYABQAAQACAAEAAAAYABUAAQACAAEAAAAYABYAAQACAAEAAAAYABcAAQACAAEAAAAXABgAAQABAAIAAAAWABgAAQABAAIAAAAVABgAAQABAAIAAAAUABgAAQABAAIAAAATABgAAQABAAIAAAASABgAAQABAAIAAAARABgAAQABAAIAAAAQABgAAQABAAIAAAAPABgAAQABAAIAAAAOABgAAQABAAIAAAANABgAAQABAAIAAAAMABgAAQABAAIAAAALABgAAQABAAIAAAAKABgAAQABAAIAAAAJABgAAQABAAIAAAAIABgAAQABAAIAAAAHABgAAQABAAIAAAAGABgAAQABAAIAAAAFABgAAQABAAIAAAAEABgAAQABAAIAAAADABgAAQABAAIAAAACABgAAQABAAIAAAABABgAAQABAAIAAAAAABgAAQABAAIAAAD//xgAAQAAAAIAAAD//wwAAQAAAAEAAAD//w0AAQAAAAEAAAD//w4AAQAAAAEAAAD//w8AAQAAAAEAAAD//xAAAQAAAAEAAAD//xEAAQAAAAEAAAD//xIAAQAAAAEAAAD//xMAAQAAAAEAAAD//xQAAQAAAAEAAAD//xUAAQAAAAEAAAD//xYAAQAAAAEAAAD//xcAAQAAAAEAAAAXAAAAAQABAAEAAAAXAAEAAQABAAEAAAAXAAIAAQAAAAEAAAAXAAMAAQAAAAEAAAAXAAQAAQAAAAEAAAAXAAUAAQAAAAEAAAAXAAYAAQAAAAEAAAAXAAcAAQAAAAEAAAAXAAgAAQAAAAEAAAAXAAkAAQAAAAEAAAAXAAoAAQAAAAEAAAAXAAsAAQAAAAEAAAAXAAwAAQAAAAEAAAAXAA0AAQAAAAEAAAAXAA4AAQAAAAEAAAAXAA8AAQAAAAEAAAAXABAAAQAAAAEAAAAXABEAAQAAAAEAAAAXABIAAQAAAAEAAAAXABMAAQAAAAEAAAAXABQAAQAAAAEAAAAXABUAAQAAAAEAAAAXABYAAQABAAEAAAAXABcAAQABAAEAAAAWABcAAQABAAEAAAAVABcAAQABAAAAAAAUABcAAQABAAAAAAATABcAAQABAAAAAAASABcAAQABAAAAAAARABcAAQABAAAAAAAQABcAAQABAAAAAAAPABcAAQABAAAAAAAOABcAAQABAAAAAAANABcAAQABAAAAAAAMABcAAQABAAAAAAALABcAAQABAAAAAAAKABcAAQABAAAAAAAJABcAAQABAAAAAAAIABcAAQABAAAAAAAHABcAAQABAAAAAAAGABcAAQABAAAAAAAFABcAAQABAAAAAAAEABcAAQABAAAAAAADABcAAQABAAAAAAACABcAAQABAAAAAAABABcAAQABAAEAAAAAABcAAQABAAEAAAAAABYAAQABAAEAAAAAABUAAQACAAEAAAAAABQAAQACAAEAAAAAABMAAQACAAEAAAAAABIAAQACAAEAAAAAABEAAQACAAEAAAAAABAAAQACAAEAAAAAAA8AAQACAAEAAAAAAA4AAQACAAEAAAAAAA0AAQACAAEAAAAAAAwAAQACAAEAAAAAAAsAAQACAAEAAAAAAAoAAQACAAEAAAAAAAkAAQACAAEAAAAAAAgAAQACAAEAAAAAAAYAAQACAAEAAAAAAAUAAQACAAEAAAAAAAQAAQACAAEAAAAAAAMAAQACAAEAAAAAAAIAAQACAAEAAAAAAAEAAQABAAEAAAAAAAAAAQABAAEAAAABAAAAAQABAAEAAAACAAAAAQABAAIAAAADAAAAAQABAAIAAAAEAAAAAQABAAIAAAAFAAAAAQABAAIAAAAGAAAAAQABAAIAAAAHAAAAAQABAAIAAAAIAAAAAQABAAIAAAAJAAAAAQABAAIAAAAKAAAAAQABAAIAAAALAAAAAQABAAIAAAAMAAAAAQABAAIAAAANAAAAAQABAAIAAAAOAAAAAQABAAIAAAAPAAAAAQABAAIAAAAQAAAAAQABAAIAAAARAAAAAQABAAIAAAASAAAAAQABAAIAAAATAAAAAQABAAIAAAAUAAAAAQABAAIAAAAVAAAAAQABAAIAAAAWAAAAAQABAAEAAAALAP//AQABAAAAAAAMAP//AQABAAAAAAD//wkAAQAAAAEAAAAAAAcAAQACAAEAAAAWAAEAAQAAAAIAAAABAAEAAQACAAIAAAABABYAAQACAAAAAAAWABYAAQAAAAAAAAAKAA0AAQAFAAMAAAALAA0AAQAFAAMAAAAMAA0AAQAFAAMAAAANAA0AAQAFAAMAAAAOAA0AAQAFAAMAAAAPAA0AAQAGAAMAAAAJAA0AAQAFAAMAAAAIAA0AAQAEAAMAAAA=")
-tile_set = SubResource("TileSet_aprxe")
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = 20
@@ -472,6 +407,14 @@ offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
+[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/game"]
+position = Vector2(48, 48)
+script = ExtResource("7_oslyl")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]
+tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAAAAAACAP//AQABAAAAAAADAP//AQABAAAAAAAEAP//AQABAAAAAAAFAP//AQABAAAAAAAGAP//AQABAAAAAAAHAP//AQABAAAAAAAIAP//AQABAAAAAAAJAP//AQABAAAAAAD//wsAAQAAAAEAAAD//woAAQAAAAEAAAD//wgAAQAAAAEAAAD//wcAAQAAAAEAAAD//wYAAQAAAAEAAAD//wUAAQAAAAEAAAD//wQAAQAAAAEAAAD//wMAAQAAAAEAAAD//wIAAQAAAAEAAAD//wEAAQAAAAEAAAD//wAAAQAAAAEAAAAQAP//AQABAAAAAAARAP//AQABAAAAAAASAP//AQABAAAAAAATAP//AQABAAAAAAAUAP//AQABAAAAAAAVAP//AQABAAAAAAAWAP//AQABAAAAAAAXAP//AQABAAAAAAAKAP//AQABAAAAAAANAP//AQABAAAAAAAOAP//AQABAAAAAAAPAP//AQABAAAAAAAYAP//AQACAAAAAAAYAAAAAQACAAEAAAAYAAEAAQACAAEAAAAYAAIAAQACAAEAAAAYAAMAAQACAAEAAAAYAAQAAQACAAEAAAAYABgAAQACAAIAAAAYAAUAAQACAAEAAAAYAAYAAQACAAEAAAAYAAcAAQACAAEAAAAYAAgAAQACAAEAAAAYAAkAAQACAAEAAAAYAAoAAQACAAEAAAAYAAsAAQACAAEAAAAYAAwAAQACAAEAAAAYAA0AAQACAAEAAAAYAA4AAQACAAEAAAAYAA8AAQACAAEAAAAYABAAAQACAAEAAAAYABEAAQACAAEAAAAYABIAAQACAAEAAAAYABMAAQACAAEAAAAYABQAAQACAAEAAAAYABUAAQACAAEAAAAYABYAAQACAAEAAAAYABcAAQACAAEAAAAXABgAAQABAAIAAAAWABgAAQABAAIAAAAVABgAAQABAAIAAAAUABgAAQABAAIAAAATABgAAQABAAIAAAASABgAAQABAAIAAAARABgAAQABAAIAAAAQABgAAQABAAIAAAAPABgAAQABAAIAAAAOABgAAQABAAIAAAANABgAAQABAAIAAAAMABgAAQABAAIAAAALABgAAQABAAIAAAAKABgAAQABAAIAAAAJABgAAQABAAIAAAAIABgAAQABAAIAAAAHABgAAQABAAIAAAAGABgAAQABAAIAAAAFABgAAQABAAIAAAAEABgAAQABAAIAAAADABgAAQABAAIAAAACABgAAQABAAIAAAABABgAAQABAAIAAAAAABgAAQABAAIAAAD//xgAAQAAAAIAAAD//wwAAQAAAAEAAAD//w0AAQAAAAEAAAD//w4AAQAAAAEAAAD//w8AAQAAAAEAAAD//xAAAQAAAAEAAAD//xEAAQAAAAEAAAD//xIAAQAAAAEAAAD//xMAAQAAAAEAAAD//xQAAQAAAAEAAAD//xUAAQAAAAEAAAD//xYAAQAAAAEAAAD//xcAAQAAAAEAAAAXAAAAAQABAAEAAAAXAAEAAQABAAEAAAAXAAIAAQAAAAEAAAAXAAMAAQAAAAEAAAAXAAQAAQAAAAEAAAAXAAUAAQAAAAEAAAAXAAYAAQAAAAEAAAAXAAcAAQAAAAEAAAAXAAgAAQAAAAEAAAAXAAkAAQAAAAEAAAAXAAoAAQAAAAEAAAAXAAsAAQAAAAEAAAAXAAwAAQAAAAEAAAAXAA0AAQAAAAEAAAAXAA4AAQAAAAEAAAAXAA8AAQAAAAEAAAAXABAAAQABAAEAAAAXABEAAQAAAAEAAAAXABIAAQAAAAEAAAAXABMAAQAAAAEAAAAXABQAAQAAAAEAAAAXABUAAQAAAAEAAAAXABYAAQABAAEAAAAXABcAAQABAAEAAAAWABcAAQABAAEAAAAVABcAAQABAAAAAAAUABcAAQABAAAAAAATABcAAQABAAAAAAASABcAAQABAAAAAAARABcAAQABAAAAAAAQABcAAQABAAAAAAAPABcAAQABAAAAAAAOABcAAQABAAAAAAANABcAAQABAAAAAAAMABcAAQABAAAAAAALABcAAQABAAAAAAAKABcAAQABAAAAAAAJABcAAQABAAAAAAAIABcAAQABAAAAAAAHABcAAQABAAAAAAAGABcAAQABAAAAAAAFABcAAQABAAAAAAAEABcAAQABAAAAAAADABcAAQABAAAAAAACABcAAQABAAAAAAABABcAAQABAAEAAAAAABcAAQABAAEAAAAAABYAAQABAAEAAAAAABUAAQACAAEAAAAAABQAAQACAAEAAAAAABMAAQACAAEAAAAAABIAAQACAAEAAAAAABEAAQACAAEAAAAAABAAAQABAAEAAAAAAA8AAQACAAEAAAAAAA4AAQACAAEAAAAAAA0AAQACAAEAAAAAAAwAAQACAAEAAAAAAAsAAQACAAEAAAAAAAoAAQACAAEAAAAAAAkAAQACAAEAAAAAAAgAAQACAAEAAAAAAAYAAQACAAEAAAAAAAUAAQACAAEAAAAAAAQAAQACAAEAAAAAAAMAAQACAAEAAAAAAAIAAQACAAEAAAAAAAEAAQABAAEAAAAAAAAAAQABAAEAAAABAAAAAQABAAEAAAACAAAAAQABAAIAAAADAAAAAQABAAIAAAAEAAAAAQABAAIAAAAFAAAAAQABAAIAAAAGAAAAAQABAAIAAAAHAAAAAQABAAIAAAAIAAAAAQABAAIAAAAJAAAAAQABAAIAAAAKAAAAAQABAAIAAAALAAAAAQABAAIAAAAMAAAAAQABAAIAAAANAAAAAQABAAIAAAAOAAAAAQABAAIAAAAPAAAAAQABAAIAAAAQAAAAAQABAAIAAAARAAAAAQABAAIAAAASAAAAAQABAAIAAAATAAAAAQABAAIAAAAUAAAAAQABAAIAAAAVAAAAAQABAAIAAAAWAAAAAQABAAEAAAALAP//AQABAAAAAAAMAP//AQABAAAAAAD//wkAAQAAAAEAAAAAAAcAAQACAAEAAAAWAAEAAQAAAAIAAAABAAEAAQACAAIAAAABABYAAQACAAAAAAAWABYAAQAAAAAAAAABABAAAQAFAAMAAAACABAAAQAFAAMAAAADABAAAQAFAAMAAAAEABAAAQAFAAMAAAAFABAAAQAFAAMAAAAGABAAAQAFAAMAAAAWABAAAQAFAAMAAAAVABAAAQAFAAMAAAAUABAAAQAFAAMAAAATABAAAQAFAAMAAAASABAAAQAFAAMAAAARABAAAQAFAAMAAAAHABAAAQAGAAMAAAAQABAAAQAEAAMAAAA=")
+tile_set = SubResource("TileSet_aprxe")
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="SubViewportContainer/game"]
-_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d")
+_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d", "uid://cg0f1u4swchxb")
 spawn_path = NodePath("..")

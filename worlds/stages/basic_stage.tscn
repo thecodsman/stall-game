@@ -1,10 +1,9 @@
-[gd_scene load_steps=18 format=4 uid="uid://wgaroelgg0e7"]
+[gd_scene load_steps=14 format=4 uid="uid://wgaroelgg0e7"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_whqxm"]
-[ext_resource type="Texture2D" uid="uid://87gtsmkks4hp" path="res://sprites/stage_select_icons/stage-2-thumbnail.png" id="2_u5dd5"]
+[ext_resource type="Texture2D" uid="uid://87gtsmkks4hp" path="res://sprites/stage_select_icons/basic-stage-thumbnail.png" id="2_u5dd5"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_vph35"]
 [ext_resource type="Texture2D" uid="uid://6hx0evm466o4" path="res://sprites/background3.png" id="3_u5dd5"]
-[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="4_8ykyl"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_s63q7"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_1i8il"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_u3m2j"]
@@ -37,45 +36,6 @@ shader_parameter/vertical_deform_speed = 0.1
 shader_parameter/width = 0.0
 shader_parameter/height = 0.0
 shader_parameter/palette_cycling_speed = 0.1
-
-[sub_resource type="Gradient" id="Gradient_kbcbp"]
-interpolation_mode = 2
-interpolation_color_space = 1
-offsets = PackedFloat32Array(0, 0.49061, 1)
-colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
-metadata/_snap_count = 7
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
-gradient = SubResource("Gradient_kbcbp")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbcbp"]
-shader = ExtResource("2_vph35")
-shader_parameter/snes_transparency = true
-shader_parameter/gba_transparency = false
-shader_parameter/horizontal_scan_line = false
-shader_parameter/vertical_scan_line = false
-shader_parameter/enable_palette_cycling = true
-shader_parameter/sprite_scroll_direction = Vector2(0, 0)
-shader_parameter/sprite_scroll_speed = 0.01
-shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
-shader_parameter/gba_transparency_scroll_speed = 0.01
-shader_parameter/gba_transparency_value = 0.5
-shader_parameter/horizontal_wave_amplitude = 1.21
-shader_parameter/horizontal_wave_frequency = 0.705
-shader_parameter/horizontal_wave_speed = 1.0
-shader_parameter/vertical_wave_amplitude = -0.37
-shader_parameter/vertical_wave_frequency = 4.72
-shader_parameter/vertical_wave_speed = 1.0
-shader_parameter/horizontal_deform_amplitude = 2.51
-shader_parameter/horizontal_deform_frequency = 0.7
-shader_parameter/horizontal_deform_speed = 0.5
-shader_parameter/vertical_deform_amplitude = 1.62
-shader_parameter/vertical_deform_frequency = 0.54
-shader_parameter/vertical_deform_speed = 0.1
-shader_parameter/width = 96.0
-shader_parameter/height = 96.0
-shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okiaf"]
 shader = ExtResource("5_s63q7")
@@ -407,16 +367,6 @@ texture = ExtResource("3_u5dd5")
 stretch_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-visible = false
-z_index = -1
-texture_repeat = 3
-material = SubResource("ShaderMaterial_kbcbp")
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("4_8ykyl")
-metadata/_edit_lock_ = true
-
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0.345098)
 z_index = -1
@@ -431,6 +381,7 @@ metadata/_edit_lock_ = true
 material = SubResource("ShaderMaterial_okiaf")
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
 
 [node name="game" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false

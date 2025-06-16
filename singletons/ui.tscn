@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2qi1c8yve5kk"]
+
+[ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
+[ext_resource type="PackedScene" uid="uid://1dqh2msfw6nt" path="res://stuff/point.tscn" id="1_8s55o"]
+
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays")]
+visible = false
+z_index = 20
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0q5dl")
+point_displays = [NodePath("p1"), NodePath("p2")]
+
+[node name="p1" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 32.0
+offset_bottom = 8.0
+theme_override_constants/separation = 1
+
+[node name="point" parent="p1" instance=ExtResource("1_8s55o")]
+layout_mode = 2
+
+[node name="point2" parent="p1" instance=ExtResource("1_8s55o")]
+layout_mode = 2
+
+[node name="point3" parent="p1" instance=ExtResource("1_8s55o")]
+layout_mode = 2
+
+[node name="p2" type="HBoxContainer" parent="."]
+layout_direction = 3
+layout_mode = 1
+offset_right = 26.0
+offset_bottom = 8.0
+theme_override_constants/separation = 1
+
+[node name="point" parent="p2" instance=ExtResource("1_8s55o")]
+layout_mode = 2
+
+[node name="point2" parent="p2" instance=ExtResource("1_8s55o")]
+layout_mode = 2
+
+[node name="point3" parent="p2" instance=ExtResource("1_8s55o")]
+layout_mode = 2

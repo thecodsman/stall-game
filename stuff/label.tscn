@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://b2mcleuwl8qr0" path="res://font/miaow font.ttf" id="1_7u7cd"]
 [ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="2_wpwpf"]
-[ext_resource type="Script" uid="uid://bhbydvcise355" path="res://singletons/game_text.gd" id="3_rgdae"]
+[ext_resource type="Script" uid="uid://bhbydvcise355" path="res://scripts/game_text.gd" id="3_rgdae"]
 
 [node name="Label" type="Label"]
 visible = false

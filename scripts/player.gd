@@ -443,7 +443,6 @@ func apply_ball_ownership(ball_path : NodePath):
 func _on_stall_box_body_entered(_ball : Ball) -> void:
 	ball = _ball
 	if ball.stalled || not is_multiplayer_authority(): return
-	print("id: %s | ball.stalled: %s | frame: %s" % [multiplayer.get_unique_id(), ball.stalled, Engine.get_physics_frames()])
 	stall_ball.rpc(ball.get_path())
 
 

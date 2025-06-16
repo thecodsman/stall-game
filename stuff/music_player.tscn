@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://bfqrto1yy6gj7" path="res://music/stall_menu_main_loop.mp3" id="2_0o21y"]
 [ext_resource type="AudioStream" uid="uid://d2qxnp60mli7i" path="res://music/stall_menu_transition.mp3" id="2_ht52q"]
 [ext_resource type="AudioStream" uid="uid://b51qm2lc7o3gc" path="res://music/stall_battle.mp3" id="3_ht52q"]
-[ext_resource type="Script" uid="uid://d38pncvjs3g6t" path="res://singletons/music_player.gd" id="4_0o21y"]
+[ext_resource type="Script" uid="uid://d38pncvjs3g6t" path="res://scripts/music_player.gd" id="4_0o21y"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_vl365"]
 clip_count = 4

@@ -7,10 +7,10 @@ extends Control
 @export_file("*.tscn") var stages : Array[String]
 
 const ANIM_DURATION = 0.4
-const SCALE_FRONT = Vector2(1.0, 1.0)
-const SCALE_SIDE = Vector2(0.8, 0.8)
-const POSITION_OFFSET_X = 14
-const POSITION_OFFSET_Y = -3
+const SCALE_FRONT = Vector2(2.0, 2.0)
+const SCALE_SIDE = Vector2(1.0, 1.0)
+const POSITION_OFFSET_X = 24
+const POSITION_OFFSET_Y = -6
 
 const basic_stage = "res://worlds/basic_stage.tscn"
 const platform_stage = "res://worlds/platform_stage.tscn"
@@ -54,11 +54,11 @@ func spawn_stage_icons():
 		var stage : Stage = load(stages[i]).instantiate()
 		var icon : Texture2D = stage.thumb_nail
 		var stage_name : String = stage.stage_name
-		var texture_rect : TextureRect = TextureRect.new()
-		texture_rect.texture = icon
-		texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
-		texture_rect.name = stage_name
-		carousel.add_child(texture_rect)
+		var sprite : Sprite2D = Sprite2D.new()
+		sprite.texture = icon
+		sprite.centered = true
+		sprite.name = stage_name
+		carousel.add_child(sprite)
 
 
 func go_to_stage():
@@ -83,21 +83,20 @@ func scroll_left():
 @rpc("call_local", "reliable")
 func update_carousel():
 	for i in range(child_count):
-		var child = carousel.get_child(i)
+		var child : Sprite2D = carousel.get_child(i)
 		var offset = i - current_index
-		if offset > child_count / 2: offset -= child_count
-		elif offset < -child_count / 2: offset += child_count
-		var target_pos = Vector2(
-			get_viewport_rect().size.x / 2 + offset * POSITION_OFFSET_X,
-			get_viewport_rect().size.y / 2 + abs(offset) * POSITION_OFFSET_Y
-			)
+		if offset > child_count / 2.0: offset -= child_count
+		elif offset < -child_count / 2.0: offset += child_count
 		var target_scale = SCALE_FRONT if offset == 0 else SCALE_SIDE
 		var target_color = Color(1,1,1,1) if offset == 0 else Color(0.5,0.5,0.5,1)
+		var target_pos = Vector2(
+			get_viewport_rect().size.x / 2 + offset * POSITION_OFFSET_X,
+			(get_viewport_rect().size.y / 2 + 16) + abs(offset) * POSITION_OFFSET_Y
+			)
 		var tween = create_tween()
 		tween.set_parallel()
 		tween.tween_property(child, "position", target_pos, ANIM_DURATION).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(child, "scale", target_scale, ANIM_DURATION).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(child, "modulate", target_color, ANIM_DURATION).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
 	var selected_stage = carousel.get_child(current_index)
 	stage_title.text = selected_stage.name
