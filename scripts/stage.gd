@@ -53,4 +53,3 @@ func local_spawn_players():
 		player.controller_index = device
 		$SubViewportContainer/game.add_child(player)
 		player.global_position = player_spawns[i].global_position
-
