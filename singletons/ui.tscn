@@ -22,12 +22,15 @@ offset_bottom = 8.0
 theme_override_constants/separation = 1
 
 [node name="point" parent="p1" instance=ExtResource("1_8s55o")]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
 [node name="point2" parent="p1" instance=ExtResource("1_8s55o")]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
 [node name="point3" parent="p1" instance=ExtResource("1_8s55o")]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
 [node name="p2" type="HBoxContainer" parent="."]
@@ -38,10 +41,13 @@ offset_bottom = 8.0
 theme_override_constants/separation = 1
 
 [node name="point" parent="p2" instance=ExtResource("1_8s55o")]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
 [node name="point2" parent="p2" instance=ExtResource("1_8s55o")]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
 [node name="point3" parent="p2" instance=ExtResource("1_8s55o")]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2

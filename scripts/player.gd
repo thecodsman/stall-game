@@ -1,23 +1,19 @@
 class_name Player extends CharacterBody2D
 
 @export var dead_zone : float = 0.09
-const SPEED : float = 100.0
-const ACCEL : float = 20.0
-const JUMP_VELOCITY : float = -230.0
-const BASE_GRAVITY : float = 700.0
-const FRICTION : float = 20
-const COYOTE_TIME : float = 0.05
+@export var SPEED : float = 100.0
+@export var ACCEL : float = 20.0
+@export var JUMP_VELOCITY : float = -230.0
+@export var BASE_GRAVITY : float = 700.0
+@export var FRICTION : float = 20
+@export var COYOTE_TIME : float = 0.05
 var player_index : int = 0
 var controller_index : int = 0
 var id : int = 1
-	# set(new_id):
-	# 	id = new_id
-	# 	$sync.set_multiplayer_authority(new_id)
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
 var can_jump : bool = false
-var j_prev_frame : bool = false
 var wall_jump_dir : float = 0
 var dash_speed : float = 200.0
 var dashes : int = 1
@@ -31,6 +27,8 @@ var ball : Ball
 @onready var anim : AnimationPlayer = $AnimationPlayer
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
+@onready var kick_collider : CollisionShape2D = $Sprite2D/kick_box/CollisionShape2D
+@onready var kick_box : Area2D = $Sprite2D/kick_box
 @onready var jump_sfx : AudioStreamPlayer = $jump_sfx
 @onready var stall_box : Area2D = $Sprite2D/stall_box
 
@@ -42,6 +40,7 @@ enum State {
 	JUMP,
 	AIR,
 	KICK,
+	SLIDE_KICK,
 	WALL,
 	DASH,
 	STALL,
@@ -49,9 +48,11 @@ enum State {
 	}
 var state : State
 
+
 @rpc("any_peer", "call_local", "reliable") # any peer so the host can set peers settings
 func set_location(pos : Vector2):
 	global_position = pos
+
 
 func _enter_tree():
 	if Globals.is_online:
@@ -88,39 +89,51 @@ func enter_state():
 	match state:
 		State.IDLE:
 			anim.play("idle")
+
 		State.WALK:
 			anim.play("walk")
+
 		State.RUN:
 			anim.play("run")
+
 		State.RUN_DASH:
 			anim.play("run_dash")
 			velocity.x = sign(direction) * SPEED
+
 		State.DASH:
 			anim.play("dash")
 			velocity = input.direction * dash_speed
 			await get_tree().create_timer(0.1).timeout
 			set_state.rpc(State.AIR)
+
 		State.JUMP:
 			anim.play("jump")
+
 		State.AIR:
 			can_jump = false
-			# if ball: # in enter air state because thats where you go after stall to avoid coyote time
-			# 	ball.stalled = false
-			# 	ball.staller = null
-			# 	ball.collision_shape.set_deferred("disabled", false)
-			# 	ball = null
+
 		State.KICK:
 			anim.play("kick_charge")
 			bonk_box_collider.disabled = true
+
+		State.SLIDE_KICK:
+			anim.play("slide_kick")
+			kick_box.direction = Vector2.UP
+			kick_box.power = 100.0
+			kick_collider.set_deferred("disabled", false)
+			velocity.x += 100 * sprite.scale.x
+
 		State.WALL:
 			anim.play("on_wall")
 			can_jump = true
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
+
 		State.STALL:
 			anim.play("stall")
 			set_collision_mask_value(3, false)
 			is_ball_stalled = (ball != null)
+
 		State.STALL_KICK:
 			anim.play("stall_kick")
 			set_collision_mask_value(3, false)
@@ -135,12 +148,13 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
+			check_for_slide_kick()
 			check_for_special()
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
 				await get_tree().create_timer(0.03).timeout
-				if abs(direction) > 0.5: set_state.rpc(State.RUN_DASH)
+				if abs(direction) > 0.6: set_state.rpc(State.RUN_DASH)
 				else: set_state.rpc(State.WALK)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
@@ -154,6 +168,7 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
+			check_for_slide_kick()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
@@ -181,6 +196,7 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
+			check_for_slide_kick()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(0.1).timeout
@@ -194,31 +210,28 @@ func update_state(delta : float):
 			direction = input.direction.x
 			if abs(direction) < dead_zone: direction = 0
 			if direction:
-				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.5*delta)
+				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.75*delta)
 			if anim.current_animation != "run_dash":
 				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
 			check_for_kick()
+			check_for_slide_kick()
 			check_for_special()
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
-			anim.play("run_dash")
+			anim.play()
 			velocity.x = sign(direction) * SPEED
 
 		State.JUMP:
+			check_for_kick()
 			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
-			if is_jump_pressed:
-				if not j_prev_frame && can_jump:
-					j_prev_frame = true
-			elif not is_jump_pressed && j_prev_frame && can_jump:
-				j_prev_frame = false
-				if anim.current_animation == "jump":
-					velocity.y = JUMP_VELOCITY * 0.66
-					anim.play("rise")
-					jump_sfx.play()
-					set_state.rpc(State.AIR)
-			if anim.current_animation == "":
+			if not is_jump_pressed && can_jump && anim.current_animation == "jump":
+				velocity.y = JUMP_VELOCITY * 0.66
+				anim.play("rise")
+				jump_sfx.play()
+				set_state.rpc(State.AIR)
+			if anim.current_animation == "" && can_jump:
 				velocity.y = JUMP_VELOCITY
 				anim.play("rise")
 				jump_sfx.play()
@@ -260,11 +273,14 @@ func update_state(delta : float):
 				set_state.rpc(State.AIR)
 
 		State.KICK:
+			check_for_jump()
 			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
+			var target_velocity = velocity * 0.1
 			if input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
 				delta *= 0.1
 				if not charged_kick:
-					velocity *= 0.1
+					var tween : Tween = create_tween()
+					tween.tween_property(self, ^"velocity", target_velocity, 0.2).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
 					sprite.scale = Vector2(1,1)
 				charged_kick = true
 				apply_gravity(delta)
@@ -277,13 +293,18 @@ func update_state(delta : float):
 				anim.play("kick")
 				if not charged_kick: return
 				var tween = create_tween()
-				tween.tween_property(self, "velocity", velocity * 10, 0.1)
+				tween.tween_property(self, "velocity", velocity.normalized() * target_velocity.length() * 10, 0.1)
 			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				charged_kick = false
 			elif anim.current_animation == "kick" || anim.current_animation == "kick_charge":
 				apply_gravity(delta)
 				move(delta, 2)
+
+		State.SLIDE_KICK:
+			check_for_jump()
+			velocity.x = lerpf(velocity.x, 0, 2*delta)
+			if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 
 		State.DASH:
 			check_for_kick()
@@ -332,13 +353,21 @@ func exit_state():
 	match state:
 		State.WALL:
 			gravity = BASE_GRAVITY
+
 		State.KICK:
 			bonk_box_collider.disabled = false
 			sprite.scale.y = 1
 			charged_kick = false
+
+		State.SLIDE_KICK:
+			kick_box.direction = Vector2.ZERO
+			kick_box.power = 140.0
+			kick_collider.set_deferred("disabled", true)
+
 		State.STALL:
 			set_collision_mask_value(3, true)
 			is_ball_stalled = false
+
 		State.STALL_KICK:
 			set_collision_mask_value(3, true)
 			is_ball_stalled = false
@@ -371,15 +400,20 @@ func check_for_wall_jump():
 		velocity.x = (JUMP_VELOCITY * wall_jump_dir) * 0.65
 		set_state.rpc(State.AIR)
 		gravity = BASE_GRAVITY
-		j_prev_frame = true
 	
 
 func check_for_kick():
 	if input.is_button_just_pressed(JOY_BUTTON_X):
 		set_state.rpc(State.KICK)
+		return true
+	return false
 
 
-var dash_pressed_prev_frame : bool = false
+func check_for_slide_kick():
+	if input.direction.y < 0.9 || not input.is_button_just_pressed(JOY_BUTTON_X): return
+	set_state.rpc(State.SLIDE_KICK)
+
+
 func check_for_dash():
 	if input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER) && dashes > 0:
 		dashes -= 1

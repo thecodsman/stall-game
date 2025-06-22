@@ -5,6 +5,7 @@ extends Control
 
 func _ready():
 	Globals.scores_changed.connect(_on_scores_changed)
+	_on_scores_changed(Globals.scores)
 
 
 func _on_scores_changed(scores : Array[int]):
@@ -13,4 +14,4 @@ func _on_scores_changed(scores : Array[int]):
 		for j in range(point_displays[i].get_child_count()):
 			var point : TextureRect = point_displays[i].get_child(j)
 			if j < score: point.self_modulate = Globals.player_colors[i]
-			else: point.self_modulate = Color.WHITE
+			else: point.self_modulate = Color.BLACK

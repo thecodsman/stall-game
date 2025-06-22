@@ -8,6 +8,9 @@ var spin : float = 0
 var colliding_prev_frame : bool = false
 var stalled : bool = false
 var staller : Player
+var damage : float = 0.8
+var prev_vel : Vector2 = Vector2.ZERO
+var prev_scale : Vector2 = Vector2(1,1)
 const MAX_OWNER_LEVEL : int = 2
 @onready var rotate_node := $rotate_node
 @onready var scale_node := $rotate_node/scale_node
@@ -66,6 +69,7 @@ func check_for_winner():
 	else:
 		Globals.end_round.rpc(owner_index)
 
+
 @rpc("authority", "call_local", "reliable")
 func give_point_to_winner(winner : int):
 	Globals.scores[winner - 1] += 1
@@ -80,9 +84,6 @@ func bounce(raw_vel, collision):
 		bounce_sfx.play()
 		velocity *= 0.60
 
-
-var prev_vel : Vector2 = Vector2.ZERO
-var prev_scale : Vector2 = Vector2(1,1)
 
 func juice_it_up():
 	var width : float = clampf(velocity.length() * 0.01, 1, 2)

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="stall"
 config/description="stall the ball"
-config/version="0.9.1"
+config/version="0.9.1.2"
 config/tags=PackedStringArray("small")
 run/main_scene="uid://dqrhx4hoehkkl"
 config/features=PackedStringArray("4.4", "Forward Plus")
@@ -82,6 +82,7 @@ common/physics_ticks_per_second=144
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 anti_aliasing/screen_space_roughness_limiter/enabled=false
 2d/snap/snap_2d_transforms_to_pixel=true
 
