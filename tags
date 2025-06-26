@@ -114,6 +114,7 @@ ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public st
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public void ApplyTerrainChangeset(Godot.Collections.Dictionary<Variant, Variant> changeset)$/;"	m	class:BetterTerrain
 AudioContext	build/v0.8.1/windows/stall.js	/^		return 'AudioContext' in window && 'audioWorklet' in AudioContext.prototype;$/;"	c
 Authors	addons/steam-multiplayer-peer/README.md	/^## Authors$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
+BACKFLIP	scripts/player.gd	/^	BACKFLIP,$/;"	e	enum:State	file:
 BASE_GRAVITY	scripts/player.gd	/^@export var BASE_GRAVITY : float = 700.0$/;"	v	typeref:typename:float	annotations:export
 Ball	scripts/bal.gd	/^class_name Ball extends CharacterBody2D$/;"	c
 BetterTerrain	addons/better-terrain/BetterTerrain.cs	/^    public BetterTerrain(TileMapLayer tileMapLayer)$/;"	m	class:BetterTerrain
@@ -356,6 +357,7 @@ TERRAIN_ENTRY_SCENE	addons/better-terrain/editor/Dock.gd	/^const TERRAIN_ENTRY_S
 TERRAIN_META	addons/better-terrain/BetterTerrain.gd	/^const TERRAIN_META = &"_better_terrain"$/;"	C
 TERRAIN_PROPERTIES_SCENE	addons/better-terrain/editor/Dock.gd	/^const TERRAIN_PROPERTIES_SCENE := preload("res:\/\/addons\/better-terrain\/editor\/TerrainProper/;"	C
 TERRAIN_SYSTEM_VERSION	addons/better-terrain/BetterTerrain.gd	/^const TERRAIN_SYSTEM_VERSION = "0.2"$/;"	C
+TURN_AROUND	scripts/player.gd	/^	TURN_AROUND,$/;"	e	enum:State	file:
 TerrainCount	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName TerrainCount = "terrain_count";$/;"	f	class:BetterTerrain.MethodName
 TerrainCount	addons/better-terrain/BetterTerrain.cs	/^    public int TerrainCount()$/;"	m	class:BetterTerrain
 TerrainType	addons/better-terrain/BetterTerrain.cs	/^    public enum TerrainType$/;"	g	class:BetterTerrain
@@ -611,6 +613,7 @@ cells_adjacent_for_fill	addons/better-terrain/BetterTerrainData.gd	/^static func
 cfg	build/v0.8.1/windows/stall.js	/^	const cfg = \/** @lends {InternalConfig.prototype} *\/ {$/;"	v	class:InternalConfig
 change_zoom_level	addons/better-terrain/editor/TileView.gd	/^signal change_zoom_level(value)$/;"	s
 charged_kick	scripts/player.gd	/^var charged_kick : bool = false$/;"	v	typeref:typename:bool
+check_for_backflip	scripts/player.gd	/^func check_for_backflip():$/;"	m
 check_for_dash	scripts/player.gd	/^func check_for_dash():$/;"	m
 check_for_drop_through	scripts/player.gd	/^func check_for_drop_through():$/;"	m
 check_for_jump	scripts/player.gd	/^func check_for_jump():$/;"	m
@@ -956,7 +959,7 @@ source_selector	addons/better-terrain/editor/Dock.gd	/^@onready var source_selec
 source_selector_popup	addons/better-terrain/editor/Dock.gd	/^@onready var source_selector_popup: PopupMenu = $VBox\/Toolbar\/Sources\/Sources$/;"	v	typeref:typename:PopupMenu	annotations:onready
 space_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	space_left() {$/;"	m	class:RingBuffer
 spawn_ball	scripts/stage.gd	/^func spawn_ball():$/;"	m
-spawn_smoke	scripts/player.gd	/^func spawn_smoke(pos : Vector2 = Vector2.ZERO):$/;"	m	annotations:rpc("authority", "call_local", "unreliable")
+spawn_smoke	scripts/player.gd	/^func spawn_smoke(pos : Vector2 = Vector2(0, 4)):$/;"	m	annotations:rpc("authority", "call_local", "unreliable")
 spawn_stage_icons	scripts/carousel_select.gd	/^func spawn_stage_icons():$/;"	m
 spin	scripts/bal.gd	/^var spin : float = 0$/;"	v	typeref:typename:float
 sprite	scripts/bal.gd	/^@onready var sprite := $rotate_node\/scale_node\/Sprite2D$/;"	v	annotations:onready
@@ -1032,7 +1035,6 @@ total	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 
 tracker	build/v0.8.1/windows/stall.js	/^		tracker[file] = {$/;"	v	function:Preloader.loadFetch
 trigger	addons/better-terrain/Watcher.gd	/^signal trigger$/;"	s
 ttt	addons/better-terrain/BetterTerrainData.gd	/^	const ttt := 3.0 * t$/;"	C	method:_peering_polygon_isometric_vertices	file:
-turned_around	scripts/player.gd	/^var turned_around : bool = false$/;"	v	typeref:typename:bool
 type	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	p	variable:anonymousObject48a4eabc0105
 type_icon_panel	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_icon_panel := %TerrainIconPanel$/;"	v	annotations:onready
 type_icon_slot	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var type_icon_slot := %TypeIcon$/;"	v	annotations:onready

@@ -37,7 +37,9 @@ enum State {
 	WALK,
 	RUN,
 	RUN_DASH,
+	TURN_AROUND,
 	JUMP,
+	BACKFLIP,
 	AIR,
 	KICK,
 	SLIDE_KICK,
@@ -101,6 +103,10 @@ func enter_state():
 			spawn_smoke(Vector2(0,4))
 			velocity.x = sign(direction) * SPEED
 
+		State.TURN_AROUND:
+			anim.play("turn_around")
+			spawn_smoke(Vector2(0,4))
+
 		State.DASH:
 			anim.play("dash")
 			velocity = input.direction * dash_speed
@@ -109,6 +115,10 @@ func enter_state():
 			set_state.rpc(State.AIR)
 
 		State.JUMP:
+			anim.play("jump")
+
+		State.BACKFLIP:
+			sprite.scale.x *= -1
 			anim.play("jump")
 
 		State.AIR:
@@ -141,7 +151,6 @@ func enter_state():
 			set_collision_mask_value(3, false)
 
 
-var turned_around : bool = false
 func update_state(delta : float):
 	match state:
 		State.IDLE:
@@ -184,17 +193,13 @@ func update_state(delta : float):
 			direction = input.direction.x
 			if abs(direction) < dead_zone: direction = 0
 			if not direction && abs(velocity.x) < 1: set_state.rpc(State.IDLE)
-			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1 && not turned_around: 
-				turned_around = true
-				anim.play("turn_around")
+			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1: 
+				set_state.rpc(State.TURN_AROUND)
 			elif anim.current_animation == "":
 				anim.play("run")
 				move(delta)
 			elif anim.current_animation == "run":
 				move(delta)
-				turned_around = false
-			elif anim.current_animation == "turn_around":
-				velocity.x = lerpf(velocity.x, 0, 10*delta)
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
@@ -227,6 +232,12 @@ func update_state(delta : float):
 			spawn_smoke(Vector2(0,4))
 			velocity.x = sign(direction) * SPEED
 
+		State.TURN_AROUND:
+			check_for_backflip()
+			check_for_kick()
+			velocity.x = lerpf(velocity.x, 0, 10*delta)
+			if anim.current_animation == "": set_state.rpc(State.RUN)
+
 		State.JUMP:
 			if check_for_kick():
 				velocity.y = JUMP_VELOCITY * 0.66
@@ -245,6 +256,12 @@ func update_state(delta : float):
 				jump_sfx.play()
 				set_state.rpc(State.AIR)
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
+
+		State.BACKFLIP:
+			if anim.current_animation == "":
+				velocity = Vector2(65 * sprite.scale.x, JUMP_VELOCITY)
+				set_state.rpc(State.AIR)
+				anim.play("backflip")
 		
 		State.AIR:
 			move(delta, 2)
@@ -404,6 +421,14 @@ func check_for_jump():
 	return false
 
 
+func check_for_backflip():
+	if input.is_button_just_pressed(JOY_BUTTON_A):
+		if not can_jump: return false
+		set_state.rpc(State.BACKFLIP)
+		return true
+	return false
+
+
 func check_for_wall_jump():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
 		velocity.y = JUMP_VELOCITY
@@ -507,7 +532,7 @@ func stall_ball(ball_path : NodePath):
 
 
 @rpc("authority", "call_local", "unreliable")
-func spawn_smoke(pos : Vector2 = Vector2.ZERO):
+func spawn_smoke(pos : Vector2 = Vector2(0, 4)):
 	var smoke_scene : PackedScene = preload("res://particles/smoke.tscn")
 	var smoke : GPUParticles2D = smoke_scene.instantiate()
 	add_child(smoke)
