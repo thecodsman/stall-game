@@ -98,12 +98,14 @@ func enter_state():
 
 		State.RUN_DASH:
 			anim.play("run_dash")
+			spawn_smoke(Vector2(0,4))
 			velocity.x = sign(direction) * SPEED
 
 		State.DASH:
 			anim.play("dash")
 			velocity = input.direction * dash_speed
 			await get_tree().create_timer(0.1).timeout
+			if state != State.DASH: return
 			set_state.rpc(State.AIR)
 
 		State.JUMP:
@@ -220,11 +222,17 @@ func update_state(delta : float):
 			check_for_special()
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
-			anim.play()
+			anim.play("RESET")
+			anim.play("run_dash")
+			spawn_smoke(Vector2(0,4))
 			velocity.x = sign(direction) * SPEED
 
 		State.JUMP:
-			check_for_kick()
+			if check_for_kick():
+				velocity.y = JUMP_VELOCITY * 0.66
+				jump_sfx.play()
+				print("aa")
+				return
 			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
 			if not is_jump_pressed && can_jump && anim.current_animation == "jump":
 				velocity.y = JUMP_VELOCITY * 0.66
@@ -273,27 +281,26 @@ func update_state(delta : float):
 				set_state.rpc(State.AIR)
 
 		State.KICK:
-			check_for_jump()
+			if check_for_jump():
+				return
 			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
-			var target_velocity = velocity * 0.1
+			#var target_velocity = velocity * 0.1
 			if input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
-				delta *= 0.1
+				#delta *= 0.1
 				if not charged_kick:
-					var tween : Tween = create_tween()
-					tween.tween_property(self, ^"velocity", target_velocity, 0.2).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+					# var tween : Tween = create_tween()
+					# tween.tween_property(self, ^"velocity", target_velocity, 0.2).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
 					sprite.scale = Vector2(1,1)
 				charged_kick = true
 				apply_gravity(delta)
 				sprite.rotation = input.direction.angle()
-				if sprite.rotation >= PI/2 || sprite.rotation <= -PI/2:
-					sprite.scale = Vector2(1,-1)
-				else:
-					sprite.scale = Vector2(1,1)
+				if sprite.rotation >= PI/2 || sprite.rotation <= -PI/2: sprite.scale = Vector2(1,-1)
+				else: sprite.scale = Vector2(1,1)
 			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
 				anim.play("kick")
 				if not charged_kick: return
-				var tween = create_tween()
-				tween.tween_property(self, "velocity", velocity.normalized() * target_velocity.length() * 10, 0.1)
+				# var tween = create_tween()
+				# tween.tween_property(self, "velocity", velocity.normalized() * target_velocity.length() * 10, 0.1)
 			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "kick_charge":
 				anim.play("kick")
 				charged_kick = false
@@ -391,7 +398,10 @@ func check_for_special():
 
 func check_for_jump():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
-		if can_jump: set_state.rpc(State.JUMP)
+		if not can_jump: return false
+		set_state.rpc(State.JUMP)
+		return true
+	return false
 
 
 func check_for_wall_jump():
