@@ -20,6 +20,7 @@ func _physics_process(_delta: float) -> void:
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_X),
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_Y)
 		)
+	if direction.length() < dead_zone: direction = Vector2.ZERO
 
 
 @rpc("authority", "call_local", "unreliable_ordered")

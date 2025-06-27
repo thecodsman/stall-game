@@ -104,6 +104,7 @@ ALL	addons/better-terrain/BetterTerrain.gd	/^	ALL ## All rotated and reflected f
 ALL	addons/better-terrain/editor/Dock.gd	/^	ALL = 1000000,$/;"	e	enum:SourceSelectors	file:
 ALTERNATE_TILE_MARGIN	addons/better-terrain/editor/TileView.gd	/^const ALTERNATE_TILE_MARGIN := 18$/;"	C
 ANIM_DURATION	scripts/carousel_select.gd	/^const ANIM_DURATION = 0.4$/;"	C
+ATTACK	scripts/player.gd	/^	ATTACK,$/;"	e	enum:State	file:
 AUTOLOAD_NAME	addons/better-terrain/TerrainPlugin.gd	/^const AUTOLOAD_NAME = "BetterTerrain"$/;"	C
 AddTerrain	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName AddTerrain = "add_terrain";$/;"	f	class:BetterTerrain.MethodName
 AddTerrain	addons/better-terrain/BetterTerrain.cs	/^    public bool AddTerrain(string name, Color color, TerrainType type, Array<int> categories = n/;"	m	class:BetterTerrain
@@ -112,6 +113,7 @@ AddTilePeeringType	addons/better-terrain/BetterTerrain.cs	/^    public bool AddT
 All	addons/better-terrain/BetterTerrain.cs	/^        All = 8 \/\/ All rotated and reflected forms$/;"	e	enum:BetterTerrain.SymmetryType	file:
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName ApplyTerrainChangeset = "apply_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 ApplyTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public void ApplyTerrainChangeset(Godot.Collections.Dictionary<Variant, Variant> changeset)$/;"	m	class:BetterTerrain
+Attack	scripts/player.gd	/^enum Attack {$/;"	g
 AudioContext	build/v0.8.1/windows/stall.js	/^		return 'AudioContext' in window && 'audioWorklet' in AudioContext.prototype;$/;"	c
 Authors	addons/steam-multiplayer-peer/README.md	/^## Authors$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 BACKFLIP	scripts/player.gd	/^	BACKFLIP,$/;"	e	enum:State	file:
@@ -183,10 +185,12 @@ Config	build/v0.8.1/windows/stall.js	/^	Config.prototype = cfg;$/;"	c
 Config	build/v0.8.1/windows/stall.js	/^	function Config(opts) {$/;"	c	class:InternalConfig
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName CreateTerrainChangeset = "create_terrain_changeset";$/;"	f	class:BetterTerrain.MethodName
 CreateTerrainChangeset	addons/better-terrain/BetterTerrain.cs	/^    public Godot.Collections.Dictionary<Variant, Variant> CreateTerrainChangeset(Godot.Collectio/;"	m	class:BetterTerrain
+DAIR	scripts/player.gd	/^	DAIR,$/;"	e	enum:Attack	file:
 DASH	scripts/player.gd	/^	DASH,$/;"	e	enum:State	file:
 DECORATION	addons/better-terrain/BetterTerrain.gd	/^	DECORATION, ## Fills empty tiles by matching adjacent tiles$/;"	e	enum:TerrainType	file:
 DEFAULT_SERVER_IP	scripts/lobby.gd	/^const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost$/;"	C
 DEFAULT_SERVER_PORT	scripts/lobby.gd	/^const DEFAULT_SERVER_PORT = 5835$/;"	C
+DOWN	scripts/player.gd	/^	DOWN,$/;"	e	enum:Attack	file:
 DRAW_PEERING	addons/better-terrain/editor/TileView.gd	/^	DRAW_PEERING,$/;"	e	enum:PaintAction	file:
 DRAW_SYMMETRY	addons/better-terrain/editor/TileView.gd	/^	DRAW_SYMMETRY,$/;"	e	enum:PaintAction	file:
 DRAW_TYPE	addons/better-terrain/editor/TileView.gd	/^	DRAW_TYPE,$/;"	e	enum:PaintAction	file:
@@ -244,7 +248,7 @@ IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^        public 
 IsTerrainChangesetReady	addons/better-terrain/BetterTerrain.cs	/^    public bool IsTerrainChangesetReady(Godot.Collections.Dictionary<Variant, Variant> changeset/;"	m	class:BetterTerrain
 JUMP	scripts/player.gd	/^	JUMP,$/;"	e	enum:State	file:
 JUMP_VELOCITY	scripts/player.gd	/^@export var JUMP_VELOCITY : float = -230.0$/;"	v	typeref:typename:float	annotations:export
-KICK	scripts/player.gd	/^	KICK,$/;"	e	enum:State	file:
+KickBox	scripts/ball_hitter.gd	/^class_name KickBox extends Area2D$/;"	c
 Known issues	addons/steam-multiplayer-peer/README.md	/^## Known issues$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
 LINE	addons/better-terrain/editor/Dock.gd	/^	LINE,$/;"	e	enum:PaintAction	file:
 LSApplicationCategoryType	build/current_build/macos/stall.app/Contents/Info.plist	/^	<key>LSApplicationCategoryType<\/key>$/;"	k
@@ -271,6 +275,8 @@ MatchTiles	addons/better-terrain/BetterTerrain.cs	/^        MatchTiles = 0,$/;"	
 MatchVertices	addons/better-terrain/BetterTerrain.cs	/^        MatchVertices = 1,$/;"	e	enum:BetterTerrain.TerrainType	file:
 MethodName	addons/better-terrain/BetterTerrain.cs	/^    private static class MethodName$/;"	c	class:BetterTerrain
 Mirror	addons/better-terrain/BetterTerrain.cs	/^        Mirror = 1, \/\/ Horizontally mirror$/;"	e	enum:BetterTerrain.SymmetryType	file:
+NAIR	scripts/player.gd	/^	NAIR,$/;"	e	enum:Attack	file:
+NEUTRAL	scripts/player.gd	/^	NEUTRAL,$/;"	e	enum:Attack	file:
 NONE	addons/better-terrain/BetterTerrain.gd	/^	NONE,$/;"	e	enum:SymmetryType	file:
 NONE	addons/better-terrain/editor/Dock.gd	/^	NONE = 1000001,$/;"	e	enum:SourceSelectors	file:
 NON_TERRAIN	addons/better-terrain/BetterTerrain.gd	/^	NON_TERRAIN = -2, ## A non-empty cell that does not contain a terrain tile$/;"	e	enum:TileCategory	file:
@@ -371,6 +377,8 @@ TilePeeringKeys	addons/better-terrain/BetterTerrain.cs	/^    public Array<TileSe
 TilePeeringTypes	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName TilePeeringTypes = "tile_peering_types";$/;"	f	class:BetterTerrain.MethodName
 TilePeeringTypes	addons/better-terrain/BetterTerrain.cs	/^    public Array<int> TilePeeringTypes(TileData tileData, TileSet.CellNeighbor peering)$/;"	m	class:BetterTerrain
 Tutorial and Learnings (How to use)	addons/steam-multiplayer-peer/README.md	/^## Tutorial and Learnings (How to use)$/;"	s	chapter:<img src="https://raw.githubusercontent.com/expressobits/steam-multiplayer-peer/main/icon.png" alt= “icon” width="32" height="32"> Welcome to Expresso Steam Multiplayer Peer 👋
+UP	scripts/player.gd	/^	UP,$/;"	e	enum:Attack	file:
+UPAIR	scripts/player.gd	/^	UPAIR,$/;"	e	enum:Attack	file:
 UpdateTerrainArea	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName UpdateTerrainArea = "update_terrain_area";$/;"	f	class:BetterTerrain.MethodName
 UpdateTerrainArea	addons/better-terrain/BetterTerrain.cs	/^    public void UpdateTerrainArea(Rect2I area, bool updateSurroundingCells = true)$/;"	m	class:BetterTerrain
 UpdateTerrainCell	addons/better-terrain/BetterTerrain.cs	/^        public static readonly StringName UpdateTerrainCell = "update_terrain_cell";$/;"	f	class:BetterTerrain.MethodName
@@ -580,6 +588,7 @@ arm64	build/current_build/macos/stall.app/Contents/Info.plist	/^		<key>arm64<\/k
 arm64	build/v0.9.1.1/macos/stall.app/Contents/Info.plist	/^		<key>arm64<\/key>$/;"	k	key:LSMinimumSystemVersionByArchitecture
 array_has_data	build/v0.8.1/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
+attack	scripts/player.gd	/^var attack : Attack$/;"	v	typeref:typename:Attack
 ball	scripts/player.gd	/^var ball : Ball$/;"	v	typeref:typename:Ball
 ball_holder	scripts/player.gd	/^@onready var ball_holder : Node2D = $Sprite2D\/ball_holder$/;"	v	typeref:typename:Node2D	annotations:onready
 ball_scene	scripts/stage.gd	/^var ball_scene = preload("res:\/\/stuff\/bal.tscn")$/;"	v
@@ -759,7 +768,7 @@ join_game	scripts/lobby.gd	/^func join_game(address : String = "", port : int = 
 juice_it_up	scripts/bal.gd	/^func juice_it_up():$/;"	m
 jump_sfx	scripts/player.gd	/^@onready var jump_sfx : AudioStreamPlayer = $jump_sfx$/;"	v	typeref:typename:AudioStreamPlayer	annotations:onready
 kick	scripts/ball_hitter.gd	/^func kick(ball_path : NodePath, dir : Vector2) -> void:$/;"	m	typeref:typename:void	annotations:rpc("authority", "call_local", "reliable")
-kick_box	scripts/player.gd	/^@onready var kick_box : Area2D = $Sprite2D\/kick_box$/;"	v	typeref:typename:Area2D	annotations:onready
+kick_box	scripts/player.gd	/^@onready var kick_box : KickBox = $Sprite2D\/kick_box$/;"	v	typeref:typename:KickBox	annotations:onready
 kick_collider	scripts/player.gd	/^@onready var kick_collider : CollisionShape2D = $Sprite2D\/kick_box\/CollisionShape2D$/;"	v	typeref:typename:CollisionShape2D	annotations:onready
 kick_sfx	scripts/ball_hitter.gd	/^@onready var kick_sfx = $kick_sfx$/;"	v	annotations:onready
 lastProgress	build/v0.8.1/windows/stall.js	/^	const lastProgress = { loaded: 0, total: 0 };$/;"	v	class:Preloader
@@ -782,7 +791,7 @@ lobby_id	scripts/lobby.gd	/^var lobby_id : int$/;"	v	typeref:typename:int
 local_spawn_players	scripts/stage.gd	/^func local_spawn_players():$/;"	m
 locale	build/v0.8.1/windows/stall.js	/^		locale: null,$/;"	p	variable:InternalConfig.cfg
 mainPack	build/v0.8.1/windows/stall.js	/^		mainPack: null,$/;"	p	variable:InternalConfig.cfg
-move	scripts/player.gd	/^func move(delta : float, accel : float = ACCEL, speed : float = SPEED):$/;"	m
+move	scripts/player.gd	/^func move(delta : float, accel : float = ACCEL, speed : float = SPEED, flip : bool = true):$/;"	m
 move_down_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_down_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveDo/;"	v	typeref:typename:Button	annotations:onready
 move_up_button	addons/better-terrain/editor/Dock.gd	/^@onready var move_up_button: Button = $VBox\/HSplit\/Terrains\/LowerToolbar\/EditTools\/MoveUp$/;"	v	typeref:typename:Button	annotations:onready
 name_label	addons/better-terrain/editor/TerrainEntry.gd	/^@onready var name_label := %Name$/;"	v	annotations:onready

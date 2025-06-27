@@ -28,7 +28,7 @@ var ball : Ball
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
 @onready var kick_collider : CollisionShape2D = $Sprite2D/kick_box/CollisionShape2D
-@onready var kick_box : Area2D = $Sprite2D/kick_box
+@onready var kick_box : KickBox = $Sprite2D/kick_box
 @onready var jump_sfx : AudioStreamPlayer = $jump_sfx
 @onready var stall_box : Area2D = $Sprite2D/stall_box
 
@@ -41,7 +41,7 @@ enum State {
 	JUMP,
 	BACKFLIP,
 	AIR,
-	KICK,
+	ATTACK,
 	SLIDE_KICK,
 	WALL,
 	DASH,
@@ -50,6 +50,15 @@ enum State {
 	}
 var state : State
 
+enum Attack {
+	UPAIR,
+	NAIR,
+	DAIR,
+	UP,
+	NEUTRAL,
+	DOWN,
+	}
+var attack : Attack
 
 @rpc("any_peer", "call_local", "reliable") # any peer so the host can set peers settings
 func set_location(pos : Vector2):
@@ -124,12 +133,53 @@ func enter_state():
 		State.AIR:
 			can_jump = false
 
-		State.KICK:
-			anim.play("kick_charge")
-			bonk_box_collider.disabled = true
+		State.ATTACK:
+			if is_on_floor():
+				if input.direction.y > 0.8: # slide kick
+					attack = Attack.DOWN
+					kick_box.direction = Vector2.UP
+					kick_box.power = 50
+				elif input.direction.y < -0.8:
+					attack = Attack.UP
+					kick_box.direction = Vector2.UP
+					kick_box.power = 35
+				else:
+					attack = Attack.NEUTRAL
+					kick_box.direction = Vector2.ZERO
+					kick_box.power = 70
+			else:
+				if input.direction.y > 0.8:
+					attack = Attack.DAIR
+					kick_box.direction = Vector2.DOWN
+					kick_box.power = 87.5
+				elif input.direction.y < -0.8:
+					attack = Attack.UPAIR
+					kick_box.direction = Vector2.UP
+					kick_box.power = 75
+				else:
+					attack = Attack.NAIR
+					kick_box.direction = Vector2.ZERO
+					kick_box.power = 70
+			# -----
+			match attack:
+				Attack.UP:
+					anim.play("up_attack")
+				Attack.NEUTRAL:
+					anim.play("neutral_attack")
+				Attack.DOWN:
+					anim.play("down_attack")
+					kick_box.direction = Vector2.UP
+					kick_box.power = 100.0
+					kick_collider.set_deferred("disabled", false)
+					velocity.x += 100 * sprite.scale.x
+				Attack.UPAIR:
+					anim.play("upair")
+				Attack.NAIR:
+					anim.play("neutral_attack")
+				Attack.DAIR:
+					anim.play("dair")
 
 		State.SLIDE_KICK:
-			anim.play("slide_kick")
 			kick_box.direction = Vector2.UP
 			kick_box.power = 100.0
 			kick_collider.set_deferred("disabled", false)
@@ -159,7 +209,6 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
-			check_for_slide_kick()
 			check_for_special()
 			apply_gravity(delta)
 			if abs(direction) < dead_zone: direction = 0
@@ -179,7 +228,6 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
-			check_for_slide_kick()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
@@ -203,7 +251,6 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_drop_through()
 			check_for_kick()
-			check_for_slide_kick()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(0.1).timeout
@@ -223,7 +270,6 @@ func update_state(delta : float):
 				return
 			check_for_jump()
 			check_for_kick()
-			check_for_slide_kick()
 			check_for_special()
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
@@ -239,10 +285,10 @@ func update_state(delta : float):
 			if anim.current_animation == "": set_state.rpc(State.RUN)
 
 		State.JUMP:
-			if check_for_kick():
+			if input.is_button_just_pressed(JOY_BUTTON_X):
 				velocity.y = JUMP_VELOCITY * 0.66
 				jump_sfx.play()
-				print("aa")
+				set_state.rpc(State.ATTACK)
 				return
 			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
 			if not is_jump_pressed && can_jump && anim.current_animation == "jump":
@@ -297,33 +343,32 @@ func update_state(delta : float):
 				if state != State.WALL: return
 				set_state.rpc(State.AIR)
 
-		State.KICK:
-			if check_for_jump():
-				return
-			if is_on_floor(): velocity.x = lerpf(velocity.x, 0, 8*delta)
-			#var target_velocity = velocity * 0.1
-			if input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
-				#delta *= 0.1
-				if not charged_kick:
-					# var tween : Tween = create_tween()
-					# tween.tween_property(self, ^"velocity", target_velocity, 0.2).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
-					sprite.scale = Vector2(1,1)
-				charged_kick = true
-				apply_gravity(delta)
-				sprite.rotation = input.direction.angle()
-				if sprite.rotation >= PI/2 || sprite.rotation <= -PI/2: sprite.scale = Vector2(1,-1)
-				else: sprite.scale = Vector2(1,1)
-			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "":
-				anim.play("kick")
-				if not charged_kick: return
-				# var tween = create_tween()
-				# tween.tween_property(self, "velocity", velocity.normalized() * target_velocity.length() * 10, 0.1)
-			elif not input.is_joy_button_pressed(JOY_BUTTON_X) && anim.current_animation == "kick_charge":
-				anim.play("kick")
-				charged_kick = false
-			elif anim.current_animation == "kick" || anim.current_animation == "kick_charge":
-				apply_gravity(delta)
-				move(delta, 2)
+		State.ATTACK:
+			match attack:
+				Attack.UP:
+					check_for_jump()
+					velocity.x = lerpf(velocity.x, 0, 7*delta)
+					if not is_on_floor(): set_state.rpc(State.AIR)
+				Attack.NEUTRAL:
+					check_for_jump()
+					velocity.x = lerpf(velocity.x, 0, 7*delta)
+					if not is_on_floor(): set_state.rpc(State.AIR)
+				Attack.DOWN:
+					check_for_jump()
+					velocity.x = lerpf(velocity.x, 0, 2*delta)
+					if abs(velocity.x) < 20: set_state.rpc(State.AIR)
+					if not is_on_floor(): set_state.rpc(State.AIR)
+				Attack.UPAIR:
+					move(delta, 8, SPEED, false)
+					apply_gravity(delta)
+				Attack.NAIR:
+					move(delta, 8, SPEED, false)
+					apply_gravity(delta)
+				Attack.DAIR:
+					move(delta, 8, SPEED, false)
+					apply_gravity(delta)
+			if anim.current_animation == "":
+				set_state.rpc(State.AIR)
 
 		State.SLIDE_KICK:
 			check_for_jump()
@@ -378,14 +423,9 @@ func exit_state():
 		State.WALL:
 			gravity = BASE_GRAVITY
 
-		State.KICK:
-			bonk_box_collider.disabled = false
+		State.ATTACK:
 			sprite.scale.y = 1
 			charged_kick = false
-
-		State.SLIDE_KICK:
-			kick_box.direction = Vector2.ZERO
-			kick_box.power = 140.0
 			kick_collider.set_deferred("disabled", true)
 
 		State.STALL:
@@ -439,7 +479,7 @@ func check_for_wall_jump():
 
 func check_for_kick():
 	if input.is_button_just_pressed(JOY_BUTTON_X):
-		set_state.rpc(State.KICK)
+		set_state.rpc(State.ATTACK)
 		return true
 	return false
 
@@ -455,10 +495,9 @@ func check_for_dash():
 		set_state.rpc(State.DASH)
 
 
-func move(delta : float, accel : float = ACCEL, speed : float = SPEED):
+func move(delta : float, accel : float = ACCEL, speed : float = SPEED, flip : bool = true):
 	direction = input.direction.x
-	if abs(direction) < dead_zone: direction = 0
-	if velocity.x: sprite.scale.x = sign(velocity.x)
+	if velocity.x && flip: sprite.scale.x = sign(velocity.x)
 	velocity.x = lerpf(velocity.x, direction * speed, accel*delta)
 	return direction
 	

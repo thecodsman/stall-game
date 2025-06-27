@@ -1,4 +1,4 @@
-extends Area2D
+class_name KickBox extends Area2D
 
 @export var input : PlayerInput
 @export var player : Player
