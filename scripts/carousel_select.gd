@@ -67,7 +67,7 @@ func go_to_stage():
 		Lobby.load_game.rpc(stage)
 	else:
 		var stage = stages[current_index]
-		get_tree().change_scene_to_file(stage)	
+		UI.transition_to_scene(stage)
 
 
 func scroll_right():

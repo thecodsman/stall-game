@@ -1,6 +1,10 @@
 extends Control
 
+signal on_transition
+
 @export var point_displays : Array[HBoxContainer]
+@onready var scores = $scores
+@onready var anim = $AnimationPlayer
 
 
 func _ready():
@@ -15,3 +19,20 @@ func _on_scores_changed(scores : Array[int]):
 			var point : TextureRect = point_displays[i].get_child(j)
 			if j < score: point.self_modulate = Globals.player_colors[i]
 			else: point.self_modulate = Color.BLACK
+
+
+func transition_to_scene(scene : String):
+	anim.play("transition_close")
+	await anim.animation_finished
+	get_tree().change_scene_to_file(scene)
+	anim.play("transition_open")
+
+
+func start_transition():
+	anim.play("transition_close")
+	await anim.animation_finished
+	on_transition.emit()
+
+
+func continue_transition():
+	anim.play("transition_open")

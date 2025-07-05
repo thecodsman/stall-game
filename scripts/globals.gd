@@ -29,7 +29,7 @@ func end_match(winner : int):
 	await get_tree().create_timer(2.5).timeout
 	for i in range(scores.size()): scores[i] = 0
 	GameText.hide()
-	UI.hide()
+	UI.scores.hide()
 	scores_changed.emit(scores)
 	get_tree().change_scene_to_file("res://worlds/stage_select.tscn")
 

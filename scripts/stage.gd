@@ -9,7 +9,7 @@ var ball_scene = preload("res://stuff/bal.tscn")
 
 
 func _ready():
-	UI.show()
+	UI.scores.show()
 	Lobby.player_loaded.rpc()
 	if not Globals.is_online:
 		local_spawn_players()

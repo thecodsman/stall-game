@@ -3,12 +3,12 @@ extends Control
 
 func _on_start_pressed() -> void:
 	Globals.is_online = false
-	get_tree().change_scene_to_file("res://worlds/local_menu.tscn")
+	UI.transition_to_scene("res://worlds/local_menu.tscn")
 
 
 func _on_online_pressed() -> void:
 	Globals.is_online = true
-	get_tree().change_scene_to_file("res://worlds/connect_menu.tscn")
+	UI.transition_to_scene("res://worlds/connect_menu.tscn")
 
 
 func _ready():

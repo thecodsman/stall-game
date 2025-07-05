@@ -1,21 +1,24 @@
 class_name Player extends CharacterBody2D
 
-@export var dead_zone : float = 0.09
+@export var DEAD_ZONE : float = 0.09
 @export var SPEED : float = 100.0
+@export var DASH_SPEED : float = 200.0
 @export var ACCEL : float = 20.0
-@export var JUMP_VELOCITY : float = -230.0
+@export var FULL_JUMP_VELOCITY : float = -200
+@export var SHORT_JUMP_VELOCITY : float = -150
 @export var BASE_GRAVITY : float = 700.0
 @export var FRICTION : float = 20
 @export var COYOTE_TIME : float = 0.05
+@export var MAX_JUMPS : int = 2
 var player_index : int = 0
 var controller_index : int = 0
 var id : int = 1
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
+var jumps = MAX_JUMPS
 var can_jump : bool = false
 var wall_jump_dir : float = 0
-var dash_speed : float = 200.0
 var dashes : int = 1
 var on_wall_prev_frame : bool = false
 var run_dash_timer : Timer = Timer.new()
@@ -118,7 +121,7 @@ func enter_state():
 
 		State.DASH:
 			anim.play("dash")
-			velocity = input.direction * dash_speed
+			velocity = input.direction * DASH_SPEED
 			await get_tree().create_timer(0.1).timeout
 			if state != State.DASH: return
 			set_state.rpc(State.AIR)
@@ -130,16 +133,13 @@ func enter_state():
 			sprite.scale.x *= -1
 			anim.play("jump")
 
-		State.AIR:
-			can_jump = false
-
 		State.ATTACK:
 			if is_on_floor():
-				if input.direction.y > 0.8: # slide kick
+				if input.direction.y > 0.5: # slide kick
 					attack = Attack.DOWN
 					kick_box.direction = Vector2.UP
 					kick_box.power = 50
-				elif input.direction.y < -0.8:
+				elif input.direction.y < -0.5:
 					attack = Attack.UP
 					kick_box.direction = Vector2.UP
 					kick_box.power = 35
@@ -148,11 +148,11 @@ func enter_state():
 					kick_box.direction = Vector2.ZERO
 					kick_box.power = 70
 			else:
-				if input.direction.y > 0.8:
+				if input.direction.y > 0.5:
 					attack = Attack.DAIR
 					kick_box.direction = Vector2.DOWN
 					kick_box.power = 87.5
-				elif input.direction.y < -0.8:
+				elif input.direction.y < -0.5:
 					attack = Attack.UPAIR
 					kick_box.direction = Vector2.UP
 					kick_box.power = 75
@@ -187,7 +187,7 @@ func enter_state():
 
 		State.WALL:
 			anim.play("on_wall")
-			can_jump = true
+			jumps = MAX_JUMPS
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
 
@@ -211,17 +211,18 @@ func update_state(delta : float):
 			check_for_kick()
 			check_for_special()
 			apply_gravity(delta)
-			if abs(direction) < dead_zone: direction = 0
+			if abs(direction) < DEAD_ZONE: direction = 0
 			if direction:
 				await get_tree().create_timer(0.03).timeout
 				if abs(direction) > 0.6: set_state.rpc(State.RUN_DASH)
 				else: set_state.rpc(State.WALK)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
+				jumps -= 1
 				set_state.rpc(State.AIR)
 			else:
 				dashes = 1
-				can_jump = true
+				jumps = MAX_JUMPS
 
 		State.WALK:
 			if not move(delta, ACCEL, SPEED * 0.65): set_state.rpc(State.IDLE)
@@ -234,12 +235,12 @@ func update_state(delta : float):
 				set_state.rpc(State.AIR)
 			else:
 				dashes = 1
-				can_jump = true
+				jumps = MAX_JUMPS
 			apply_gravity(delta)
 
 		State.RUN:
 			direction = input.direction.x
-			if abs(direction) < dead_zone: direction = 0
+			if abs(direction) < DEAD_ZONE: direction = 0
 			if not direction && abs(velocity.x) < 1: set_state.rpc(State.IDLE)
 			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1: 
 				set_state.rpc(State.TURN_AROUND)
@@ -253,16 +254,16 @@ func update_state(delta : float):
 			check_for_kick()
 			check_for_special()
 			if not is_on_floor():
-				await get_tree().create_timer(0.1).timeout
+				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state.rpc(State.AIR)
 			else:
 				dashes = 1
-				can_jump = true
+				jumps = MAX_JUMPS
 			apply_gravity(delta)
 
 		State.RUN_DASH:
 			direction = input.direction.x
-			if abs(direction) < dead_zone: direction = 0
+			if abs(direction) < DEAD_ZONE: direction = 0
 			if direction:
 				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.75*delta)
 			if anim.current_animation != "run_dash":
@@ -285,27 +286,30 @@ func update_state(delta : float):
 			if anim.current_animation == "": set_state.rpc(State.RUN)
 
 		State.JUMP:
+			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
 			if input.is_button_just_pressed(JOY_BUTTON_X):
-				velocity.y = JUMP_VELOCITY * 0.66
+				velocity.y = SHORT_JUMP_VELOCITY
 				jump_sfx.play()
+				jumps -= 1
 				set_state.rpc(State.ATTACK)
 				return
-			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
-			if not is_jump_pressed && can_jump && anim.current_animation == "jump":
-				velocity.y = JUMP_VELOCITY * 0.66
+			elif not is_jump_pressed && jumps > 0 && anim.current_animation == "jump":
+				velocity.y = SHORT_JUMP_VELOCITY
 				anim.play("rise")
+				jumps -= 1
 				jump_sfx.play()
 				set_state.rpc(State.AIR)
-			if anim.current_animation == "" && can_jump:
-				velocity.y = JUMP_VELOCITY
+			elif anim.current_animation == "" && jumps > 0:
+				velocity.y = FULL_JUMP_VELOCITY
 				anim.play("rise")
 				jump_sfx.play()
+				jumps -= 1
 				set_state.rpc(State.AIR)
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 
 		State.BACKFLIP:
 			if anim.current_animation == "":
-				velocity = Vector2(65 * sprite.scale.x, JUMP_VELOCITY)
+				velocity = Vector2(65 * sprite.scale.x, FULL_JUMP_VELOCITY)
 				set_state.rpc(State.AIR)
 				anim.play("backflip")
 		
@@ -314,6 +318,7 @@ func update_state(delta : float):
 			check_for_drop_through()
 			check_for_kick()
 			check_for_dash()
+			check_for_jump()
 			check_for_special()
 			apply_gravity(delta)
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
@@ -331,7 +336,7 @@ func update_state(delta : float):
 			var wall_dir : float = 0
 			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
 			wall_jump_dir = wall_dir
-			if abs(direction) < dead_zone: direction = 0
+			if abs(direction) < DEAD_ZONE: direction = 0
 			if is_on_wall_only() && sign(direction) != wall_dir && on_wall_prev_frame:
 				on_wall_prev_frame = false
 				await get_tree().create_timer(0.075).timeout
@@ -455,7 +460,7 @@ func check_for_special():
 
 func check_for_jump():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
-		if not can_jump: return false
+		if jumps <= 0: return false
 		set_state.rpc(State.JUMP)
 		return true
 	return false
@@ -463,7 +468,7 @@ func check_for_jump():
 
 func check_for_backflip():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
-		if not can_jump: return false
+		if jumps <= 0: return false
 		set_state.rpc(State.BACKFLIP)
 		return true
 	return false
@@ -471,8 +476,8 @@ func check_for_backflip():
 
 func check_for_wall_jump():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
-		velocity.y = JUMP_VELOCITY
-		velocity.x = (JUMP_VELOCITY * wall_jump_dir) * 0.65
+		velocity.y = FULL_JUMP_VELOCITY
+		velocity.x = (FULL_JUMP_VELOCITY * wall_jump_dir) * 0.65
 		set_state.rpc(State.AIR)
 		gravity = BASE_GRAVITY
 	

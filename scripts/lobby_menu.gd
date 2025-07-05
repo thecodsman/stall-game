@@ -4,10 +4,18 @@ extends Control
 
 func _ready():
 	Lobby.player_connected.connect(_on_player_connected)
+	if Lobby.players.size() > 1:
+		show_player_2_sprite()
+		$start.hide()
 
 
-func _on_player_connected(peer_id, player_info):
+
+func show_player_2_sprite():
 	player_sprites[1].show()
+
+func _on_player_connected(_peer_id, _player_info):
+	print("player connected")
+	show_player_2_sprite()
 	if is_multiplayer_authority():
 		$start.disabled = false
 	else:
