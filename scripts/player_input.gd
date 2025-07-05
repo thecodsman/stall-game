@@ -5,8 +5,22 @@ var button_state : Dictionary[String,int] = {
 	"held":0,
 	"frame_pressed":-1,
 	"frame_released":-1,
+	"buffer":0,
 	}
-var buttons : Dictionary[JoyButton,Dictionary] ## button states
+var buttons : Dictionary[JoyButton,Dictionary] = {
+	JOY_BUTTON_A:{
+		"held":0,
+		"frame_pressed":-1,
+		"frame_released":-1,
+		"buffer":6
+			},
+	JOY_BUTTON_X:{
+		"held":0,
+		"frame_pressed":-1,
+		"frame_released":-1,
+		"buffer":6
+			},
+		} ## button states
 var direction : Vector2
 var dead_zone : float = 0.09
 
@@ -37,8 +51,13 @@ func set_action_state(button : int):
 		buttons[button].frame_released = Engine.get_process_frames()
 
 
-func is_button_just_pressed(button : JoyButton) -> bool:
+func is_button_just_pressed(button : JoyButton, buffer_override : int = -1) -> bool: ## set `buffer_override` to -1 to use default buffer for `button`
+	var buffer : int
 	set_action_state(button)
+	if buffer_override > -1: buffer = buffer_override
+	else: buffer = buttons[button].buffer
+	if buffer > 0:
+		return (buttons[button].frame_pressed + buffer >= Engine.get_process_frames())
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_process_frames())
 
 

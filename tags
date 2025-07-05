@@ -608,7 +608,7 @@ buffer	build/v0.8.1/windows/stall.js	/^					buffer: buf,$/;"	p	variable:anonymou
 buffer	build/v0.8.1/windows/stall.js	/^				buffer: pathOrBuffer,$/;"	p	variable:anonymousObject1799aa231005
 button	addons/better-terrain/TerrainPlugin.gd	/^var button : Button$/;"	v	typeref:typename:Button
 button_state	scripts/player_input.gd	/^var button_state : Dictionary[String,int] = {$/;"	v	typeref:typename:Dictionary[String,int]
-buttons	scripts/player_input.gd	/^var buttons : Dictionary[JoyButton,Dictionary] ## button states$/;"	v	typeref:typename:Dictionary[JoyButton,Dictionary]
+buttons	scripts/player_input.gd	/^var buttons : Dictionary[JoyButton,Dictionary] = {$/;"	v	typeref:typename:Dictionary[JoyButton,Dictionary]
 camera	scripts/globals.gd	/^var camera : Camera2D$/;"	v	typeref:typename:Camera2D
 can_jump	scripts/player.gd	/^var can_jump : bool = false$/;"	v	typeref:typename:bool
 can_scroll	scripts/carousel_select.gd	/^var can_scroll : bool = true$/;"	v	typeref:typename:bool
@@ -762,7 +762,7 @@ isSecureContext	build/v0.8.1/windows/stall.js	/^	isSecureContext: function () {$
 isSharedArrayBufferAvailable	build/v0.8.1/windows/stall.js	/^	isSharedArrayBufferAvailable: function () {$/;"	m	variable:Features
 isWebGLAvailable	build/v0.8.1/windows/stall.js	/^	isWebGLAvailable: function (majorVersion = 1) {$/;"	m	variable:Features
 is_ball_stalled	scripts/player.gd	/^var is_ball_stalled : bool = false$/;"	v	typeref:typename:bool
-is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
+is_button_just_pressed	scripts/player_input.gd	/^func is_button_just_pressed(button : JoyButton, buffer_override : int = -1) -> bool: ## set `buf/;"	m	typeref:typename:bool
 is_joy_button_pressed	scripts/player_input.gd	/^func is_joy_button_pressed(button : JoyButton) -> bool:$/;"	m	typeref:typename:bool
 is_online	scripts/globals.gd	/^var is_online : bool = false$/;"	v	typeref:typename:bool
 is_terrain_changeset_ready	addons/better-terrain/BetterTerrain.gd	/^func is_terrain_changeset_ready(change: Dictionary) -> bool:$/;"	m	typeref:typename:bool

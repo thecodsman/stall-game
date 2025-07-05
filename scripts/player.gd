@@ -287,13 +287,7 @@ func update_state(delta : float):
 
 		State.JUMP:
 			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
-			if input.is_button_just_pressed(JOY_BUTTON_X):
-				velocity.y = SHORT_JUMP_VELOCITY
-				jump_sfx.play()
-				jumps -= 1
-				set_state.rpc(State.ATTACK)
-				return
-			elif not is_jump_pressed && jumps > 0 && anim.current_animation == "jump":
+			if not is_jump_pressed && jumps > 0 && anim.current_animation == "jump":
 				velocity.y = SHORT_JUMP_VELOCITY
 				anim.play("rise")
 				jumps -= 1
