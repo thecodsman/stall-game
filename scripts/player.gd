@@ -145,7 +145,7 @@ func enter_state():
 					kick_box.power = 35
 				else:
 					attack = Attack.NEUTRAL
-					kick_box.direction = Vector2.ZERO
+					kick_box.direction = Vector2.from_angle(-0.261)
 					kick_box.power = 70
 			else:
 				if input.direction.y > 0.5:
@@ -158,7 +158,7 @@ func enter_state():
 					kick_box.power = 75
 				else:
 					attack = Attack.NAIR
-					kick_box.direction = Vector2.ZERO
+					kick_box.direction = Vector2.from_angle(-0.261)
 					kick_box.power = 70
 			# -----
 			match attack:

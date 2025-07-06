@@ -680,6 +680,7 @@ current_index	scripts/carousel_select.gd	/^@onready var current_index = 0$/;"	v	
 current_position	addons/better-terrain/editor/Dock.gd	/^var current_position : Vector2i$/;"	v	typeref:typename:Vector2i
 current_position	addons/better-terrain/editor/TileView.gd	/^var current_position : Vector2i$/;"	v	typeref:typename:Vector2i
 damage	scripts/bal.gd	/^var damage : float = 0.8$/;"	v	typeref:typename:float
+damage	scripts/ball_hitter.gd	/^@export var damage : float = 0.05$/;"	v	typeref:typename:float	annotations:export
 dashes	scripts/player.gd	/^var dashes : int = 1$/;"	v	typeref:typename:int
 data	addons/better-terrain/BetterTerrain.gd	/^var data := load("res:\/\/addons\/better-terrain\/BetterTerrainData.gd"):$/;"	v
 data	build/v0.8.1/windows/stall.audio.position.worklet.js	/^			this.port.postMessage({ type: 'position', data: this.position });$/;"	p	variable:anonymousObject48a4eabc0105
@@ -689,8 +690,9 @@ data_left	build/v0.8.1/windows/stall.audio.worklet.js	/^	data_left() {$/;"	m	cla
 dead_zone	scripts/player_input.gd	/^var dead_zone : float = 0.09$/;"	v	typeref:typename:float
 delete_selection	addons/better-terrain/editor/TileView.gd	/^func delete_selection():$/;"	m
 device_index	scripts/player_input.gd	/^var device_index : int = 0$/;"	v	typeref:typename:int
+di_power	scripts/ball_hitter.gd	/^@export var di_power : float = 0.25$/;"	v	typeref:typename:float	annotations:export
 dir_prev_frame	scripts/player.gd	/^var dir_prev_frame : float = 0$/;"	v	typeref:typename:float
-direction	scripts/ball_hitter.gd	/^var direction : Vector2 = Vector2.ZERO$/;"	v	typeref:typename:Vector2
+direction	scripts/ball_hitter.gd	/^@export var direction : Vector2 = Vector2.ZERO$/;"	v	typeref:typename:Vector2	annotations:export
 direction	scripts/player.gd	/^var direction : float = 0$/;"	v	typeref:typename:float
 direction	scripts/player_input.gd	/^var direction : Vector2$/;"	v	typeref:typename:Vector2
 disabled_sources	addons/better-terrain/editor/TileView.gd	/^var disabled_sources: Array[int] = []: set = set_disabled_sources$/;"	v	typeref:typename:Array[int]
@@ -894,7 +896,7 @@ points_to_win	scripts/globals.gd	/^var points_to_win : int = 3$/;"	v	typeref:typ
 port	build/v0.8.1/windows/stall.audio.position.worklet.js	/^		this.port.onmessage = (event) => {$/;"	f
 port	build/v0.8.1/windows/stall.audio.worklet.js	/^		this.port.onmessage = (event) => {$/;"	f
 port	scripts/connect_menu.gd	/^@onready var port = $Tabs\/IP\/IP\/port$/;"	v	annotations:onready
-power	scripts/ball_hitter.gd	/^var power : float = 140.0$/;"	v	typeref:typename:float
+power	scripts/ball_hitter.gd	/^@export var power : float = 140.0$/;"	v	typeref:typename:float	annotations:export
 preload	build/v0.8.1/windows/stall.js	/^	this.preload = function (pathOrBuffer, destPath, fileSize) {$/;"	m	class:Preloader
 preloadFile	build/v0.8.1/windows/stall.js	/^			preloadFile: function (file, path) {$/;"	m	variable:Engine.SafeEngine.proto
 preloadedFiles	build/v0.8.1/windows/stall.js	/^	this.preloadedFiles = [];$/;"	p	class:Preloader
