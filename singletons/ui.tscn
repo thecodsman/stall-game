@@ -1,8 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=12 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="PackedScene" uid="uid://1dqh2msfw6nt" path="res://stuff/point.tscn" id="1_8s55o"]
+[ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
+[ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_1l7ac"]
 [ext_resource type="Shader" uid="uid://boud6vjsa0v2e" path="res://shaders/transition.gdshader" id="3_kow1n"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ftfax"]
+shader = ExtResource("2_1l7ac")
+shader_parameter/thickness = 1.0
+shader_parameter/ring_count = 4
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = false
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1rrlu"]
 shader = ExtResource("3_kow1n")
@@ -64,8 +78,8 @@ _data = {
 &"transition_open": SubResource("Animation_1rrlu")
 }
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays")]
-z_index = 20
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "bal_percent")]
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,49 +87,66 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0q5dl")
-point_displays = [NodePath("scores/p1"), NodePath("scores/p2")]
+point_displays = [NodePath("in-game/p1"), NodePath("in-game/p2")]
+bal_percent = NodePath("in-game/bal-percent/Label")
 
-[node name="scores" type="Control" parent="."]
+[node name="in-game" type="Control" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="p1" type="HBoxContainer" parent="scores"]
+[node name="bal-percent" type="VBoxContainer" parent="in-game"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="in-game/bal-percent"]
+material = SubResource("ShaderMaterial_ftfax")
+layout_mode = 2
+theme = ExtResource("3_1l7ac")
+text = "0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="p1" type="HBoxContainer" parent="in-game"]
 layout_mode = 1
 offset_right = 32.0
 offset_bottom = 8.0
 theme_override_constants/separation = 1
 
-[node name="point" parent="scores/p1" instance=ExtResource("1_8s55o")]
+[node name="point" parent="in-game/p1" instance=ExtResource("1_8s55o")]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
-[node name="point2" parent="scores/p1" instance=ExtResource("1_8s55o")]
+[node name="point2" parent="in-game/p1" instance=ExtResource("1_8s55o")]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
-[node name="point3" parent="scores/p1" instance=ExtResource("1_8s55o")]
+[node name="point3" parent="in-game/p1" instance=ExtResource("1_8s55o")]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
-[node name="p2" type="HBoxContainer" parent="scores"]
+[node name="p2" type="HBoxContainer" parent="in-game"]
 layout_direction = 3
 layout_mode = 1
 offset_right = 26.0
 offset_bottom = 8.0
 theme_override_constants/separation = 1
 
-[node name="point" parent="scores/p2" instance=ExtResource("1_8s55o")]
+[node name="point" parent="in-game/p2" instance=ExtResource("1_8s55o")]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
-[node name="point2" parent="scores/p2" instance=ExtResource("1_8s55o")]
+[node name="point2" parent="in-game/p2" instance=ExtResource("1_8s55o")]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
-[node name="point3" parent="scores/p2" instance=ExtResource("1_8s55o")]
+[node name="point3" parent="in-game/p2" instance=ExtResource("1_8s55o")]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 

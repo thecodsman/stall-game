@@ -8,7 +8,7 @@ var spin : float = 0
 var colliding_prev_frame : bool = false
 var stalled : bool = false
 var staller : Player
-var damage : float = 0.8
+var damage : float = 1
 var prev_vel : Vector2 = Vector2.ZERO
 var prev_scale : Vector2 = Vector2(1,1)
 const MAX_OWNER_LEVEL : int = 2

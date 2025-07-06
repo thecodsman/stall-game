@@ -3,7 +3,8 @@ extends Control
 signal on_transition
 
 @export var point_displays : Array[HBoxContainer]
-@onready var scores = $scores
+@export var bal_percent : Label
+@onready var scores = $"in-game"
 @onready var anim = $AnimationPlayer
 
 
@@ -12,13 +13,17 @@ func _ready():
 	_on_scores_changed(Globals.scores)
 
 
-func _on_scores_changed(scores : Array[int]):
-	for i in range(scores.size()):
-		var score : int = scores[i]
+func _on_scores_changed(_scores : Array[int]):
+	for i in range(_scores.size()):
+		var score : int = _scores[i]
 		for j in range(point_displays[i].get_child_count()):
 			var point : TextureRect = point_displays[i].get_child(j)
 			if j < score: point.self_modulate = Globals.player_colors[i]
 			else: point.self_modulate = Color.BLACK
+
+
+func _on_bal_percent_change(percent : float):
+	bal_percent.text = str("%1.1f%%" % (percent * 100 - 100))
 
 
 func transition_to_scene(scene : String):

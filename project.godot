@@ -21,7 +21,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 SteamWorks="*res://scripts/steamworks.gd"
-GameText="*res://stuff/label.tscn"
+GameText="*res://stuff/game_text.tscn"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 MusicPlayer="*res://stuff/music_player.tscn"
 Lobby="*res://scripts/lobby.gd"

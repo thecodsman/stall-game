@@ -432,6 +432,7 @@ _make_visible	addons/better-terrain/TerrainPlugin.gd	/^func _make_visible(visibl
 _on_add_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_add_terrain_pressed() -> void:$/;"	m	typeref:typename:void
 _on_adjust_settings	addons/better-terrain/editor/Dock.gd	/^func _on_adjust_settings():$/;"	m
 _on_animation_finished	scripts/player.gd	/^func _on_animation_finished(animation):$/;"	m
+_on_bal_percent_change	scripts/ui.gd	/^func _on_bal_percent_change(percent : float):$/;"	m
 _on_bit_button_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_bit_button_pressed(button: BaseButton) -> void:$/;"	m	typeref:typename:void
 _on_body_entered	scripts/ball_hitter.gd	/^func _on_body_entered(ball:Ball) -> void:$/;"	m	typeref:typename:void
 _on_body_entered	scripts/bonk_box.gd	/^func _on_body_entered(ball:Ball) -> void:$/;"	m	typeref:typename:void
@@ -462,7 +463,7 @@ _on_pick_icon_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_pick_icon_
 _on_player_connected	scripts/lobby_menu.gd	/^func _on_player_connected(_peer_id, _player_info):$/;"	m
 _on_quick_mode_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_quick_mode_pressed() -> void:$/;"	m	typeref:typename:void
 _on_remove_terrain_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_remove_terrain_pressed() -> void:$/;"	m	typeref:typename:void
-_on_scores_changed	scripts/ui.gd	/^func _on_scores_changed(scores : Array[int]):$/;"	m
+_on_scores_changed	scripts/ui.gd	/^func _on_scores_changed(_scores : Array[int]):$/;"	m
 _on_server_disconnected	scripts/lobby.gd	/^func _on_server_disconnected():$/;"	m
 _on_shuffle_random_pressed	addons/better-terrain/editor/Dock.gd	/^func _on_shuffle_random_pressed():$/;"	m
 _on_stall_box_body_entered	scripts/player.gd	/^func _on_stall_box_body_entered(_ball : Ball) -> void:$/;"	m	typeref:typename:void
@@ -594,6 +595,7 @@ arm64	build/v0.9.1.1/macos/stall.app/Contents/Info.plist	/^		<key>arm64<\/key>$/
 array_has_data	build/v0.8.1/windows/stall.audio.worklet.js	/^	static array_has_data(arr) {$/;"	m	class:GodotProcessor
 associated_vertex_cells	addons/better-terrain/BetterTerrainData.gd	/^static func associated_vertex_cells(tm: TileMapLayer, coord: Vector2i, corner: int) -> Array:$/;"	m	typeref:typename:Array	annotations:static
 attack	scripts/player.gd	/^var attack : Attack$/;"	v	typeref:typename:Attack
+bal_percent	scripts/ui.gd	/^@export var bal_percent : Label$/;"	v	typeref:typename:Label	annotations:export
 ball	scripts/player.gd	/^var ball : Ball$/;"	v	typeref:typename:Ball
 ball_holder	scripts/player.gd	/^@onready var ball_holder : Node2D = $Sprite2D\/ball_holder$/;"	v	typeref:typename:Node2D	annotations:onready
 ball_scene	scripts/stage.gd	/^var ball_scene = preload("res:\/\/stuff\/bal.tscn")$/;"	v
@@ -679,7 +681,7 @@ create_tile_restore_point_area	addons/better-terrain/editor/TerrainUndo.gd	/^fun
 current_index	scripts/carousel_select.gd	/^@onready var current_index = 0$/;"	v	annotations:onready
 current_position	addons/better-terrain/editor/Dock.gd	/^var current_position : Vector2i$/;"	v	typeref:typename:Vector2i
 current_position	addons/better-terrain/editor/TileView.gd	/^var current_position : Vector2i$/;"	v	typeref:typename:Vector2i
-damage	scripts/bal.gd	/^var damage : float = 0.8$/;"	v	typeref:typename:float
+damage	scripts/bal.gd	/^var damage : float = 1$/;"	v	typeref:typename:float
 damage	scripts/ball_hitter.gd	/^@export var damage : float = 0.05$/;"	v	typeref:typename:float	annotations:export
 dashes	scripts/player.gd	/^var dashes : int = 1$/;"	v	typeref:typename:int
 data	addons/better-terrain/BetterTerrain.gd	/^var data := load("res:\/\/addons\/better-terrain\/BetterTerrainData.gd"):$/;"	v
@@ -939,7 +941,7 @@ s	addons/better-terrain/BetterTerrainData.gd	/^	const s := 1.0 \/ 8.0$/;"	C	meth
 s	addons/better-terrain/BetterTerrainData.gd	/^	const s := 1.0 \/ 8.0$/;"	C	method:_peering_polygon_vertical_vertices	file:
 scale_node	scripts/bal.gd	/^@onready var scale_node := $rotate_node\/scale_node$/;"	v	annotations:onready
 scores	scripts/globals.gd	/^var scores : Array[int] = [0, 0] ## scores for the match$/;"	v	typeref:typename:Array[int]
-scores	scripts/ui.gd	/^@onready var scores = $scores$/;"	v	annotations:onready
+scores	scripts/ui.gd	/^@onready var scores = $"in-game"$/;"	v	annotations:onready
 scores_changed	scripts/globals.gd	/^signal scores_changed$/;"	s
 screen_shake	scripts/camera.gd	/^func screen_shake(frames : int, intensity : float, frequency : int = 1):$/;"	m
 scroll_container	addons/better-terrain/editor/Dock.gd	/^@onready var scroll_container: ScrollContainer = $VBox\/HSplit\/Terrains\/Panel\/ScrollContainer$/;"	v	typeref:typename:ScrollContainer	annotations:onready

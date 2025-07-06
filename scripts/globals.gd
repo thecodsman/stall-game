@@ -12,6 +12,7 @@ var points_to_win : int = 3
 @rpc("authority", "call_local", "reliable")
 func end_round(winner : int):
 	var tree : SceneTree = null
+	UI.scores.hide()
 	GameText.text = str("P%s scored!" % winner)
 	GameText.visible = true
 	if not is_inside_tree(): return
