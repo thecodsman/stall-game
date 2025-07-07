@@ -1,6 +1,7 @@
 class_name Ball extends CharacterBody2D
 
-var gravity : float = 70
+const MAX_OWNER_LEVEL : int = 2
+var gravity : float = 75
 var owner_index : int = -1 ## player index of the owner of the ball
 var owner_level : int = 0 ## level of ownership
 var owner_color : Color 
@@ -11,12 +12,17 @@ var staller : Player
 var damage : float = 1
 var prev_vel : Vector2 = Vector2.ZERO
 var prev_scale : Vector2 = Vector2(1,1)
-const MAX_OWNER_LEVEL : int = 2
 @onready var rotate_node := $rotate_node
 @onready var scale_node := $rotate_node/scale_node
 @onready var sprite := $rotate_node/scale_node/Sprite2D
 @onready var bounce_sfx := $bounce_sfx
 @onready var collision_shape : CollisionShape2D = $CollisionShape2D
+
+enum State {
+	NORMAL,
+	WALL_ROLL
+	}
+var state : State
 
 
 func _enter_tree():
@@ -58,7 +64,7 @@ func _physics_process(delta : float) -> void:
 
 func check_for_winner():
 	if owner_level < MAX_OWNER_LEVEL: return
-	if GameText.visible: return
+	if UI.game_text.visible: return
 	give_point_to_winner.rpc(owner_index)
 	var highest_score : int = 0
 	for i in range(Globals.scores.size()):
@@ -77,7 +83,7 @@ func give_point_to_winner(winner : int):
 
 
 func bounce(raw_vel, collision):
-	velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/2,PI/2)))
+	velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/3,PI/3)))
 	if not colliding_prev_frame:
 		spin *= -0.75
 		bounce_sfx.volume_linear = raw_vel.length() * 0.1

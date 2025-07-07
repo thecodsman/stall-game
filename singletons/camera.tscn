@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://be55m560lc7pe"]
+
+[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="1_aal7t"]
+
+[node name="camera" type="Camera2D"]
+drag_top_margin = 0.8
+drag_bottom_margin = 0.8
+editor_draw_drag_margin = true
+script = ExtResource("1_aal7t")

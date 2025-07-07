@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://bhbydvcise355" path="res://scripts/game_text.gd" id="3_vv15l"]
 
 [node name="Label" type="Label"]
-visible = false
 z_index = 11
 texture_filter = 1
 offset_right = 96.0

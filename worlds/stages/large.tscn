@@ -1,66 +1,24 @@
-[gd_scene load_steps=20 format=4 uid="uid://dk63esv5x4rpx"]
+[gd_scene load_steps=19 format=4 uid="uid://b342bi6qybkak"]
 
-[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_pjgop"]
-[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_likaa"]
-[ext_resource type="Texture2D" uid="uid://ccp88q0expo2v" path="res://sprites/stage_select_icons/platform-stage-thumbnail.png" id="2_ybuv6"]
-[ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_ybuv6"]
-[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="4_o4h0l"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_vujsw"]
-[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_0y6ho"]
-[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_78wr1"]
-[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="10_l2sf4"]
+[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_vp4jk"]
+[ext_resource type="Texture2D" uid="uid://87gtsmkks4hp" path="res://sprites/stage_select_icons/basic-stage-thumbnail.png" id="2_8mu18"]
+[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="4_4f64l"]
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="4_8mu18"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_4kbcb"]
+[ext_resource type="Texture2D" uid="uid://be5wtgkkitxgh" path="res://sprites/background4.png" id="5_xpsia"]
+[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="6_4sqsn"]
+[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="7_lrx8b"]
 
-[sub_resource type="Gradient" id="Gradient_iw727"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.5, 1)
-colors = PackedColorArray(0.741176, 0.0627451, 0.321569, 1, 1, 0, 0.290196, 1, 0.741176, 0.0627451, 0.321569, 1)
-metadata/_snap_enabled = true
+[sub_resource type="Gradient" id="Gradient_xpsia"]
+offsets = PackedFloat32Array(0, 0.494545, 1)
+colors = PackedColorArray(1, 0.631373, 0, 1, 1, 0.854902, 0.12549, 1, 1, 0.631373, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_kbcbp"]
-gradient = SubResource("Gradient_iw727")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4f64l"]
+gradient = SubResource("Gradient_xpsia")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iw727"]
-shader = ExtResource("2_likaa")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kbcb"]
+shader = ExtResource("4_8mu18")
 shader_parameter/snes_transparency = false
-shader_parameter/gba_transparency = true
-shader_parameter/horizontal_scan_line = false
-shader_parameter/vertical_scan_line = false
-shader_parameter/enable_palette_cycling = true
-shader_parameter/sprite_scroll_direction = Vector2(0.5, 0.5)
-shader_parameter/sprite_scroll_speed = 1.0
-shader_parameter/gba_transparency_scroll_direction = Vector2(0.45, 0)
-shader_parameter/gba_transparency_scroll_speed = 0.01
-shader_parameter/gba_transparency_value = 0.5
-shader_parameter/horizontal_wave_amplitude = 0.0
-shader_parameter/horizontal_wave_frequency = 0.0
-shader_parameter/horizontal_wave_speed = 1.0
-shader_parameter/vertical_wave_amplitude = 0.0
-shader_parameter/vertical_wave_frequency = 0.0
-shader_parameter/vertical_wave_speed = 1.0
-shader_parameter/horizontal_deform_amplitude = -1.0
-shader_parameter/horizontal_deform_frequency = 5.0
-shader_parameter/horizontal_deform_speed = 1.0
-shader_parameter/vertical_deform_amplitude = -1.0
-shader_parameter/vertical_deform_frequency = 5.0
-shader_parameter/vertical_deform_speed = 1.0
-shader_parameter/width = 0.0
-shader_parameter/height = 0.0
-shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_kbcbp")
-
-[sub_resource type="Gradient" id="Gradient_kbcbp"]
-interpolation_mode = 2
-interpolation_color_space = 1
-offsets = PackedFloat32Array(0, 0.49061, 1)
-colors = PackedColorArray(0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 0.505882, 0.92549, 1, 1)
-metadata/_snap_count = 7
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_fg3hj"]
-gradient = SubResource("Gradient_kbcbp")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbcbp"]
-shader = ExtResource("2_likaa")
-shader_parameter/snes_transparency = true
 shader_parameter/gba_transparency = false
 shader_parameter/horizontal_scan_line = false
 shader_parameter/vertical_scan_line = false
@@ -70,32 +28,74 @@ shader_parameter/sprite_scroll_speed = 0.01
 shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
 shader_parameter/gba_transparency_scroll_speed = 0.01
 shader_parameter/gba_transparency_value = 0.5
-shader_parameter/horizontal_wave_amplitude = 1.21
-shader_parameter/horizontal_wave_frequency = 0.705
+shader_parameter/horizontal_wave_amplitude = 0.0
+shader_parameter/horizontal_wave_frequency = 0.0
 shader_parameter/horizontal_wave_speed = 1.0
-shader_parameter/vertical_wave_amplitude = -0.37
-shader_parameter/vertical_wave_frequency = 4.72
+shader_parameter/vertical_wave_amplitude = 0.0
+shader_parameter/vertical_wave_frequency = 0.0
 shader_parameter/vertical_wave_speed = 1.0
-shader_parameter/horizontal_deform_amplitude = 2.51
-shader_parameter/horizontal_deform_frequency = 0.7
-shader_parameter/horizontal_deform_speed = 0.5
-shader_parameter/vertical_deform_amplitude = 1.62
-shader_parameter/vertical_deform_frequency = 0.54
-shader_parameter/vertical_deform_speed = 0.1
+shader_parameter/horizontal_deform_amplitude = 0.0
+shader_parameter/horizontal_deform_frequency = 0.0
+shader_parameter/horizontal_deform_speed = 1.0
+shader_parameter/vertical_deform_amplitude = 0.0
+shader_parameter/vertical_deform_frequency = 0.0
+shader_parameter/vertical_deform_speed = 1.0
+shader_parameter/width = 96.0
+shader_parameter/height = 96.0
+shader_parameter/palette_cycling_speed = 0.2
+shader_parameter/palette = SubResource("GradientTexture1D_4f64l")
+
+[sub_resource type="Gradient" id="Gradient_8mu18"]
+offsets = PackedFloat32Array(0, 0.498182, 1)
+colors = PackedColorArray(1, 0.505882, 0.67451, 1, 1, 0, 0.290196, 1, 1, 0.505882, 0.67451, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xpsia"]
+gradient = SubResource("Gradient_8mu18")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4f64l"]
+shader = ExtResource("4_8mu18")
+shader_parameter/snes_transparency = true
+shader_parameter/gba_transparency = false
+shader_parameter/horizontal_scan_line = false
+shader_parameter/vertical_scan_line = false
+shader_parameter/enable_palette_cycling = true
+shader_parameter/sprite_scroll_direction = Vector2(-1, 0)
+shader_parameter/sprite_scroll_speed = 0.1
+shader_parameter/gba_transparency_scroll_direction = Vector2(0, 0)
+shader_parameter/gba_transparency_scroll_speed = 0.01
+shader_parameter/gba_transparency_value = 0.5
+shader_parameter/horizontal_wave_amplitude = 0.03
+shader_parameter/horizontal_wave_frequency = 0.045
+shader_parameter/horizontal_wave_speed = 1.035
+shader_parameter/vertical_wave_amplitude = 0.0
+shader_parameter/vertical_wave_frequency = 0.0
+shader_parameter/vertical_wave_speed = 1.0
+shader_parameter/horizontal_deform_amplitude = 0.11
+shader_parameter/horizontal_deform_frequency = 0.635
+shader_parameter/horizontal_deform_speed = 1.68
+shader_parameter/vertical_deform_amplitude = 0.125
+shader_parameter/vertical_deform_frequency = 0.915
+shader_parameter/vertical_deform_speed = 1.215
 shader_parameter/width = 96.0
 shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
-shader_parameter/palette = SubResource("GradientTexture1D_fg3hj")
+shader_parameter/palette = SubResource("GradientTexture1D_xpsia")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okiaf"]
-shader = ExtResource("5_vujsw")
+shader = ExtResource("5_4kbcb")
 shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kbcbp"]
-texture = ExtResource("9_78wr1")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fg3hj"]
+shader = ExtResource("6_4sqsn")
+shader_parameter/background_color = Color(0, 1, 0, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/offset_in_pixels = Vector2(1, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4k7gv"]
+texture = ExtResource("4_4f64l")
 texture_region_size = Vector2i(4, 4)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -2, 2, 2, -2, 2)
@@ -364,7 +364,7 @@ physics_layer_1/collision_layer = 8
 physics_layer_1/collision_mask = 0
 custom_data_layer_0/name = "floor"
 custom_data_layer_0/type = 1
-sources/1 = SubResource("TileSetAtlasSource_kbcbp")
+sources/1 = SubResource("TileSetAtlasSource_4k7gv")
 metadata/_better_terrain = {
 &"decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
 &"path": "res://addons/better-terrain/icons/Decoration.svg"
@@ -377,104 +377,100 @@ metadata/_better_terrain = {
 &"version": "0.2"
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fg3hj"]
-shader = ExtResource("10_l2sf4")
-shader_parameter/background_color = Color(0, 1, 0, 1)
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/offset_in_pixels = Vector2(1, 1)
-
 [node name="stage" type="Node2D"]
-script = ExtResource("1_pjgop")
-thumb_nail = ExtResource("2_ybuv6")
-stage_name = "Platform"
+script = ExtResource("1_vp4jk")
+thumb_nail = ExtResource("2_8mu18")
+stage_name = "Big Basic"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(48, 48)
+position = Vector2(104, 48)
 limit_left = 0
-limit_top = 0
-limit_right = 96
-limit_bottom = 96
-script = ExtResource("6_0y6ho")
+limit_right = 212
+drag_left_margin = 1.0
+drag_top_margin = 1.0
+drag_right_margin = 1.0
+drag_bottom_margin = 1.0
+editor_draw_drag_margin = true
+script = ExtResource("7_lrx8b")
+min_zoom = Vector2(0.5, 0.5)
+inner_margin = 40
+outer_margin = 12
 
 [node name="p1_spawn" type="Node2D" parent="."]
-position = Vector2(12, 83)
+position = Vector2(68, 83)
 
 [node name="p2_spawn" type="Node2D" parent="."]
-position = Vector2(84, 83)
+position = Vector2(140, 83)
 
 [node name="ball_spawn" type="Node2D" parent="."]
-position = Vector2(48, 48)
+position = Vector2(105, 81)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="background" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect2" type="ColorRect" parent="background"]
 z_index = -1
+material = SubResource("ShaderMaterial_4kbcb")
 offset_right = 96.0
 offset_bottom = 96.0
-color = Color(1, 0.505882, 0.67451, 1)
 metadata/_edit_lock_ = true
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
-z_index = -1
-texture_repeat = 3
-material = SubResource("ShaderMaterial_iw727")
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("3_ybuv6")
-metadata/_edit_lock_ = true
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-visible = false
+[node name="TextureRect2" type="TextureRect" parent="background"]
 z_index = -1
 texture_repeat = 3
-material = SubResource("ShaderMaterial_kbcbp")
+material = SubResource("ShaderMaterial_4f64l")
 offset_right = 96.0
 offset_bottom = 96.0
-texture = ExtResource("4_o4h0l")
+texture = ExtResource("5_xpsia")
+stretch_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="background"]
 modulate = Color(1, 1, 1, 0.345098)
 z_index = -1
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 19.0
-offset_bottom = 24.0
-scale = Vector2(4.08393, 3.43716)
-metadata/_edit_lock_ = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.879344, 0.879344, 0.879344, 1)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_okiaf")
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 96.0
+offset_bottom = 96.0
+metadata/_edit_use_anchors_ = true
 
 [node name="game" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(96, 96)
+size = Vector2i(212, 96)
 render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 104.0
-offset_bottom = 103.0
+z_index = -5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
-
-[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]
-tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAAAAAACAP//AQABAAAAAAADAP//AQABAAAAAAAEAP//AQABAAAAAAAFAP//AQABAAAAAAAGAP//AQABAAAAAAAHAP//AQABAAAAAAAIAP//AQABAAAAAAAJAP//AQABAAAAAAD//wsAAQAAAAEAAAD//woAAQAAAAEAAAD//wgAAQAAAAEAAAD//wcAAQAAAAEAAAD//wYAAQAAAAEAAAD//wUAAQAAAAEAAAD//wQAAQAAAAEAAAD//wMAAQAAAAEAAAD//wIAAQAAAAEAAAD//wEAAQAAAAEAAAD//wAAAQAAAAEAAAAQAP//AQABAAAAAAARAP//AQABAAAAAAASAP//AQABAAAAAAATAP//AQABAAAAAAAUAP//AQABAAAAAAAVAP//AQABAAAAAAAWAP//AQABAAAAAAAXAP//AQABAAAAAAAKAP//AQABAAAAAAANAP//AQABAAAAAAAOAP//AQABAAAAAAAPAP//AQABAAAAAAAYAP//AQACAAAAAAAYAAAAAQACAAEAAAAYAAEAAQACAAEAAAAYAAIAAQACAAEAAAAYAAMAAQACAAEAAAAYAAQAAQACAAEAAAAYABgAAQACAAIAAAAYAAUAAQACAAEAAAAYAAYAAQACAAEAAAAYAAcAAQACAAEAAAAYAAgAAQACAAEAAAAYAAkAAQACAAEAAAAYAAoAAQACAAEAAAAYAAsAAQACAAEAAAAYAAwAAQACAAEAAAAYAA0AAQACAAEAAAAYAA4AAQACAAEAAAAYAA8AAQACAAEAAAAYABAAAQACAAEAAAAYABEAAQACAAEAAAAYABIAAQACAAEAAAAYABMAAQACAAEAAAAYABQAAQACAAEAAAAYABUAAQACAAEAAAAYABYAAQACAAEAAAAYABcAAQACAAEAAAAXABgAAQABAAIAAAAWABgAAQABAAIAAAAVABgAAQABAAIAAAAUABgAAQABAAIAAAATABgAAQABAAIAAAASABgAAQABAAIAAAARABgAAQABAAIAAAAQABgAAQABAAIAAAAPABgAAQABAAIAAAAOABgAAQABAAIAAAANABgAAQABAAIAAAAMABgAAQABAAIAAAALABgAAQABAAIAAAAKABgAAQABAAIAAAAJABgAAQABAAIAAAAIABgAAQABAAIAAAAHABgAAQABAAIAAAAGABgAAQABAAIAAAAFABgAAQABAAIAAAAEABgAAQABAAIAAAADABgAAQABAAIAAAACABgAAQABAAIAAAABABgAAQABAAIAAAAAABgAAQABAAIAAAD//xgAAQAAAAIAAAD//wwAAQAAAAEAAAD//w0AAQAAAAEAAAD//w4AAQAAAAEAAAD//w8AAQAAAAEAAAD//xAAAQAAAAEAAAD//xEAAQAAAAEAAAD//xIAAQAAAAEAAAD//xMAAQAAAAEAAAD//xQAAQAAAAEAAAD//xUAAQAAAAEAAAD//xYAAQAAAAEAAAD//xcAAQAAAAEAAAAXAAAAAQABAAEAAAAXAAEAAQABAAEAAAAXAAIAAQAAAAEAAAAXAAMAAQAAAAEAAAAXAAQAAQAAAAEAAAAXAAUAAQAAAAEAAAAXAAYAAQAAAAEAAAAXAAcAAQAAAAEAAAAXAAgAAQAAAAEAAAAXAAkAAQAAAAEAAAAXAAoAAQAAAAEAAAAXAAsAAQAAAAEAAAAXAAwAAQAAAAEAAAAXAA0AAQAAAAEAAAAXAA4AAQAAAAEAAAAXAA8AAQAAAAEAAAAXABAAAQAAAAEAAAAXABEAAQAAAAEAAAAXABIAAQAAAAEAAAAXABMAAQAAAAEAAAAXABQAAQAAAAEAAAAXABUAAQAAAAEAAAAXABYAAQABAAEAAAAXABcAAQABAAEAAAAWABcAAQABAAEAAAAVABcAAQABAAAAAAAUABcAAQABAAAAAAATABcAAQABAAAAAAASABcAAQABAAAAAAARABcAAQABAAAAAAAQABcAAQABAAAAAAAPABcAAQABAAAAAAAOABcAAQABAAAAAAANABcAAQABAAAAAAAMABcAAQABAAAAAAALABcAAQABAAAAAAAKABcAAQABAAAAAAAJABcAAQABAAAAAAAIABcAAQABAAAAAAAHABcAAQABAAAAAAAGABcAAQABAAAAAAAFABcAAQABAAAAAAAEABcAAQABAAAAAAADABcAAQABAAAAAAACABcAAQABAAAAAAABABcAAQABAAEAAAAAABcAAQABAAEAAAAAABYAAQABAAEAAAAAABUAAQACAAEAAAAAABQAAQACAAEAAAAAABMAAQACAAEAAAAAABIAAQACAAEAAAAAABEAAQACAAEAAAAAABAAAQACAAEAAAAAAA8AAQACAAEAAAAAAA4AAQACAAEAAAAAAA0AAQACAAEAAAAAAAwAAQACAAEAAAAAAAsAAQACAAEAAAAAAAoAAQACAAEAAAAAAAkAAQACAAEAAAAAAAgAAQACAAEAAAAAAAYAAQACAAEAAAAAAAUAAQACAAEAAAAAAAQAAQACAAEAAAAAAAMAAQACAAEAAAAAAAIAAQACAAEAAAAAAAEAAQABAAEAAAAAAAAAAQABAAEAAAABAAAAAQABAAEAAAACAAAAAQABAAIAAAADAAAAAQABAAIAAAAEAAAAAQABAAIAAAAFAAAAAQABAAIAAAAGAAAAAQABAAIAAAAHAAAAAQABAAIAAAAIAAAAAQABAAIAAAAJAAAAAQABAAIAAAAKAAAAAQABAAIAAAALAAAAAQABAAIAAAAMAAAAAQABAAIAAAANAAAAAQABAAIAAAAOAAAAAQABAAIAAAAPAAAAAQABAAIAAAAQAAAAAQABAAIAAAARAAAAAQABAAIAAAASAAAAAQABAAIAAAATAAAAAQABAAIAAAAUAAAAAQABAAIAAAAVAAAAAQABAAIAAAAWAAAAAQABAAEAAAALAP//AQABAAAAAAAMAP//AQABAAAAAAD//wkAAQAAAAEAAAAAAAcAAQACAAEAAAAWAAEAAQAAAAIAAAABAAEAAQACAAIAAAABABYAAQACAAAAAAAWABYAAQAAAAAAAAAKAA0AAQAFAAMAAAALAA0AAQAFAAMAAAAMAA0AAQAFAAMAAAANAA0AAQAFAAMAAAAOAA0AAQAFAAMAAAAPAA0AAQAGAAMAAAAJAA0AAQAFAAMAAAAIAA0AAQAEAAMAAAA=")
-tile_set = SubResource("TileSet_aprxe")
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = 20
 material = SubResource("ShaderMaterial_fg3hj")
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 104.0
-offset_bottom = 103.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="SubViewportContainer/game"]
-_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d")
+_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d", "uid://cg0f1u4swchxb")
 spawn_path = NodePath("..")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]
+position = Vector2(56, 0)
+tile_map_data = PackedByteArray("AAD//wAAAQABAAMAAAAXAAAAAQABAAMAAAAAAAAAAQABAAMAAAABAAAAAQABAAIAAAACAAAAAQABAAIAAAADAAAAAQABAAIAAAAEAAAAAQABAAIAAAAFAAAAAQABAAIAAAAGAAAAAQABAAIAAAAHAAAAAQABAAIAAAAIAAAAAQABAAIAAAAJAAAAAQABAAIAAAAKAAAAAQABAAIAAAALAAAAAQABAAIAAAAMAAAAAQABAAIAAAANAAAAAQABAAIAAAAOAAAAAQABAAIAAAAPAAAAAQABAAIAAAAQAAAAAQABAAIAAAARAAAAAQABAAIAAAASAAAAAQABAAIAAAATAAAAAQABAAIAAAAUAAAAAQABAAIAAAAVAAAAAQABAAIAAAAWAAAAAQABAAMAAAAXABcAAQABAAMAAAAWABcAAQABAAMAAAAVABcAAQABAAMAAAAUABcAAQABAAAAAAATABcAAQABAAAAAAASABcAAQABAAAAAAARABcAAQABAAAAAAAQABcAAQABAAAAAAAPABcAAQABAAAAAAAOABcAAQABAAAAAAANABcAAQABAAAAAAAMABcAAQABAAAAAAALABcAAQABAAAAAAAKABcAAQABAAAAAAAEABcAAQABAAAAAAADABcAAQABAAAAAAACABcAAQABAAAAAAABABcAAQABAAAAAAAAABcAAQABAAMAAAD//xcAAQABAAMAAAAFABcAAQABAAAAAAAGABcAAQABAAAAAAAHABcAAQABAAAAAAAIABcAAQABAAAAAAAJABcAAQABAAAAAAAYAAAAAQABAAMAAAAZAAAAAQABAAMAAAAaAAAAAQABAAMAAAAbAAAAAQABAAMAAAAcAAAAAQABAAMAAAAdAAAAAQABAAMAAAAeAAAAAQABAAMAAAAfAAAAAQABAAMAAAAgAAAAAQABAAMAAAAhAAAAAQABAAMAAAAiAAAAAQABAAMAAAAjAAAAAQABAAMAAAAkAAAAAQABAAMAAAAYABcAAQABAAMAAAAZABcAAQABAAMAAAAaABcAAQABAAMAAAAbABcAAQABAAMAAAAcABcAAQABAAMAAAAdABcAAQABAAMAAAAeABcAAQABAAMAAAAfABcAAQABAAMAAAAgABcAAQABAAMAAAAhABcAAQABAAMAAAAiABcAAQABAAMAAAAjABcAAQABAAMAAAAkABcAAQABAAMAAAD+/wAAAQABAAMAAAD9/wAAAQABAAMAAAD8/wAAAQABAAMAAAD7/wAAAQABAAMAAAD6/wAAAQABAAMAAAD5/wAAAQABAAMAAAD4/wAAAQABAAMAAAD3/wAAAQABAAMAAAD2/wAAAQABAAMAAAD1/wAAAQABAAMAAAD0/wAAAQABAAMAAADz/wAAAQABAAAAAADy/wAAAQAAAAEAAADy/wEAAQAAAAEAAADy/wIAAQADAAEAAADy/wMAAQADAAEAAADy/wQAAQADAAEAAADy/wUAAQADAAEAAADy/wYAAQADAAEAAADy/wcAAQADAAEAAADy/wgAAQADAAEAAADy/wkAAQADAAEAAADy/woAAQADAAEAAADy/wsAAQADAAEAAADy/wwAAQADAAEAAADy/w0AAQADAAEAAADy/w4AAQADAAEAAADy/w8AAQADAAEAAADy/xAAAQADAAEAAADy/xEAAQADAAEAAADy/xIAAQADAAEAAADy/xMAAQADAAEAAADy/xQAAQADAAEAAADy/xUAAQADAAEAAADy/xYAAQAAAAEAAADy/xcAAQAAAAEAAADz/xcAAQABAAIAAAD0/xcAAQABAAMAAAD1/xcAAQABAAMAAAD2/xcAAQABAAMAAAD3/xcAAQABAAMAAAD4/xcAAQABAAMAAAD5/xcAAQABAAMAAAD6/xcAAQABAAMAAAD7/xcAAQABAAMAAAD8/xcAAQABAAMAAAD9/xcAAQABAAMAAAD+/xcAAQABAAMAAAAmAAAAAQACAAEAAAAlAAAAAQABAAAAAAAmAAEAAQACAAEAAAAmAAIAAQADAAEAAAAmAAMAAQADAAEAAAAmAAQAAQADAAEAAAAmAAUAAQADAAEAAAAmAAYAAQADAAEAAAAmAAcAAQADAAEAAAAmAAgAAQADAAEAAAAmAAkAAQADAAEAAAAmAAoAAQADAAEAAAAmAAsAAQADAAEAAAAmAAwAAQADAAEAAAAmAA0AAQADAAEAAAAmAA4AAQADAAEAAAAmAA8AAQADAAEAAAAmABAAAQADAAEAAAAmABEAAQADAAEAAAAmABIAAQADAAEAAAAmABMAAQADAAEAAAAmABQAAQADAAEAAAAmABUAAQADAAEAAAAmABYAAQADAAEAAAAmABcAAQACAAEAAAAlABcAAQABAAMAAAAlAAEAAQAAAAIAAAAmAP//AQADAAAAAAAmABgAAQADAAIAAADy/xgAAQADAAIAAADz/xYAAQACAAAAAADz/wEAAQACAAIAAADy////AQADAAAAAAA=")
+tile_set = SubResource("TileSet_aprxe")

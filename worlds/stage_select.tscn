@@ -195,7 +195,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_y8sy2")
-stages = Array[String](["uid://wgaroelgg0e7", "uid://dk63esv5x4rpx", "uid://b47uyyvrihodn", "uid://ipucrvo5i3kh"])
+stages = Array[String](["uid://b342bi6qybkak", "uid://wgaroelgg0e7", "uid://dk63esv5x4rpx", "uid://b47uyyvrihodn", "uid://ipucrvo5i3kh"])
 
 [node name="stage_title" type="RichTextLabel" parent="SubViewportContainer2/game/Control"]
 layout_mode = 0

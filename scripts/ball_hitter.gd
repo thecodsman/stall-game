@@ -35,7 +35,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath):
 	var ball : Ball = get_node(ball_path)
-	if not ball || GameText.visible: return
+	if not ball || UI.game_text.visible: return
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 	else:

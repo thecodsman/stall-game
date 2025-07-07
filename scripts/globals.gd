@@ -13,23 +13,23 @@ var points_to_win : int = 3
 func end_round(winner : int):
 	var tree : SceneTree = null
 	UI.scores.hide()
-	GameText.text = str("P%s scored!" % winner)
-	GameText.visible = true
+	UI.game_text.text = str("P%s scored!" % winner)
+	UI.game_text.visible = true
 	if not is_inside_tree(): return
 	tree = get_tree()
 	await tree.create_timer(2).timeout
-	GameText.visible = false
+	UI.game_text.visible = false
 	tree.reload_current_scene()
 
 
 @rpc("authority", "call_local", "reliable")
 func end_match(winner : int):
-	GameText.text = str("P%s won!" % winner)
-	GameText.visible = true
+	UI.game_text.text = str("P%s won!" % winner)
+	UI.game_text.visible = true
 	if not is_inside_tree(): return
 	await get_tree().create_timer(2.5).timeout
 	for i in range(scores.size()): scores[i] = 0
-	GameText.hide()
+	UI.game_text.hide()
 	UI.scores.hide()
 	scores_changed.emit(scores)
 	get_tree().change_scene_to_file("res://worlds/stage_select.tscn")

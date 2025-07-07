@@ -4,8 +4,9 @@ signal on_transition
 
 @export var point_displays : Array[HBoxContainer]
 @export var bal_percent : Label
-@onready var scores = $"in-game"
-@onready var anim = $AnimationPlayer
+@export var game_text : Label
+@onready var scores = $"CanvasLayer/in-game"
+@onready var anim = $CanvasLayer/AnimationPlayer
 
 
 func _ready():
