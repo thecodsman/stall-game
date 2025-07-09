@@ -17,6 +17,7 @@ var prev_scale : Vector2 = Vector2(1,1)
 @onready var sprite := $rotate_node/scale_node/Sprite2D
 @onready var bounce_sfx := $bounce_sfx
 @onready var collision_shape : CollisionShape2D = $CollisionShape2D
+@export var spin_rollout_threshold : float = PI ## if the ball has more spin than this when it hits a wall it will roll along it
 
 enum State {
 	NORMAL,
@@ -34,35 +35,11 @@ func _ready():
 
 
 func _physics_process(delta : float) -> void:
-	var raw_vel = velocity
-	if owner_level > 2: owner_level = 2
-	sprite.rotation += (spin * delta) * 20
-	spin = lerpf(spin, 0, 0.5*delta)
-	velocity = velocity.rotated((spin * delta))
-	juice_it_up()
-	if stalled:
-		if velocity.length() > 2:
-			stalled = false
-			staller.ball = null
-			staller.is_ball_stalled = false
-		global_position = staller.ball_holder.global_position
-		return
-	if owner_index != -1: velocity.y += gravity * delta
-	move_and_slide()
-	for i in get_slide_collision_count():
-		var collision : KinematicCollision2D = get_slide_collision(i)
-		if not collision: return
-		var collider : TileMapLayer = collision.get_collider()
-		var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
-		if is_on_floor_only():
-			bounce(raw_vel,collision)
-			if tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
-		else:
-			bounce(raw_vel,collision)
-	colliding_prev_frame = get_slide_collision_count() > 0
+	_update_state(delta)
 
 
 func check_for_winner():
+	return
 	if owner_level < MAX_OWNER_LEVEL: return
 	if UI.game_text.visible: return
 	give_point_to_winner.rpc(owner_index)
@@ -83,9 +60,16 @@ func give_point_to_winner(winner : int):
 
 
 func bounce(raw_vel, collision):
-	velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/3,PI/3)))
+	if spin > spin_rollout_threshold:
+		set_state(State.WALL_ROLL)
+		velocity = raw_vel
+		return
+	velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.25, -PI/4,PI/4)))
 	if not colliding_prev_frame:
 		spin *= -0.75
+		if velocity.length() > 90:
+			Globals.freeze_frame(0.05)
+			Globals.camera.screen_shake(velocity.length() * 0.05, velocity.length() * 0.02, 5)
 		bounce_sfx.volume_linear = raw_vel.length() * 0.1
 		bounce_sfx.play()
 		velocity *= 0.60
@@ -95,14 +79,11 @@ func juice_it_up():
 	var width : float = clampf(velocity.length() * 0.01, 1, 2)
 	var height : float = 1/width
 	var angle : float = wrapf(velocity.angle(), -PI/2, PI/2)
-	if get_slide_collision_count() > 0 && prev_vel.length() > 20: 
+	if get_slide_collision_count() > 0 && prev_vel.length() > 20 && state == State.NORMAL: 
 		width = prev_scale.y
 		height = prev_scale.x
 		scale_node.scale = Vector2(width,height)
 		rotate_node.rotation = angle
-		if velocity.length() > 90:
-			Globals.freeze_frame(0.05)
-			Globals.camera.screen_shake(velocity.length() * 0.05, velocity.length() * 0.02, 5)
 		prev_vel = velocity
 		prev_scale = Vector2(width,height)
 		return
@@ -123,3 +104,92 @@ func update_color(color : Color, index : int):
 			modulate = color * 1.75
 		2:
 			modulate = color
+
+
+func spawn_smoke(pos : Vector2):
+	var smoke_scene : PackedScene = preload("res://particles/smoke.tscn")
+	var smoke : GPUParticles2D = smoke_scene.instantiate()
+	add_child(smoke)
+	smoke.position = pos
+	smoke.emitting = true
+	await smoke.finished
+	smoke.queue_free()
+
+
+func set_state(new_state : State):
+	if state == new_state: return
+	_exit_state()
+	state = new_state
+	_enter_state()
+
+
+func _enter_state():
+	match state:
+		State.WALL_ROLL:
+			floor_snap_length = 5
+			motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+
+
+func _update_state(delta : float):
+	match state:
+		State.NORMAL:
+			var raw_vel = velocity
+			if owner_level > 2: owner_level = 2
+			sprite.rotation += (spin * delta) * 20
+			spin = lerpf(spin, 0, 0.5*delta)
+			velocity = velocity.rotated((spin * delta))
+			juice_it_up()
+			if stalled:
+				if velocity.length() > 2:
+					stalled = false
+					staller.ball = null
+					staller.is_ball_stalled = false
+				global_position = staller.ball_holder.global_position
+				return
+			if owner_index != -1: velocity.y += gravity * delta
+			move_and_slide()
+			for i in get_slide_collision_count():
+				var collision : KinematicCollision2D = get_slide_collision(i)
+				if not collision: return
+				var collider : TileMapLayer = collision.get_collider()
+				var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
+				if is_on_floor_only():
+					bounce(raw_vel,collision)
+					if tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
+				else:
+					bounce(raw_vel,collision)
+			colliding_prev_frame = get_slide_collision_count() > 0
+		
+		State.WALL_ROLL:
+			if abs(spin) < spin_rollout_threshold / 2: set_state(State.NORMAL)
+			const WALL_RIDE_SPEED : float = 75
+			var collision_info : KinematicCollision2D = get_last_slide_collision()
+			var normal = collision_info.get_normal()
+			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
+			up_direction = normal
+			apply_floor_snap()
+			juice_it_up()
+			sprite.rotation += (spin * delta) * 20
+			spin = move_toward(spin, 0, PI/4*delta)
+			if spin > spin_rollout_threshold * 1.5:
+				velocity = Vector2.ZERO
+				spawn_smoke(to_local(collision_info.get_position()))
+				Globals.camera.screen_shake(3, 2, 3)
+			else:
+				velocity = velocity.lerp(move_dir * spin * WALL_RIDE_SPEED, 8*delta)
+				if not Engine.get_physics_frames() % 10: spawn_smoke(to_local(collision_info.get_position()))
+			move_and_slide()
+
+
+
+func _exit_state():
+	match state:
+		State.WALL_ROLL:
+			var wall_exit_velocity : float = spin * 200
+			var collision_info : KinematicCollision2D = get_last_slide_collision()
+			floor_snap_length = 1
+			motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED
+			up_direction = Vector2.UP
+			if not collision_info: return
+			var normal : Vector2 = collision_info.get_normal()
+			velocity = wall_exit_velocity * normal

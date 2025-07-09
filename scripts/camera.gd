@@ -44,7 +44,6 @@ func _physics_process(delta : float):
 		zoom_direction = 1
 	else:
 		zoom_direction = 0
-	print(zoom_direction)
 	match zoom_direction:
 		-1:
 			if player_distance2edge.x < outer_margin * 0.75:

@@ -52,6 +52,7 @@ slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_68n8j")
+spin_rollout_threshold = 2.093
 
 [node name="rotate_node" type="Node2D" parent="."]
 
@@ -63,7 +64,6 @@ position = Vector2(0, 7.15256e-07)
 texture = ExtResource("2_nvnwp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_e3n6g")
 
 [node name="bounce_sfx" type="AudioStreamPlayer" parent="."]
