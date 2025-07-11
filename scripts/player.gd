@@ -1,23 +1,29 @@
 class_name Player extends CharacterBody2D
 
 @export var DEAD_ZONE : float = 0.09
+@export_category("movement")
 @export var SPEED : float = 100.0
 @export var DASH_SPEED : float = 200.0
+@export var SLIDE_SPEED : float = 100.0
+@export var MAX_SLIDE_BOOST_SPEED : float = 300.0
 @export var ACCEL : float = 20.0
 @export var FULL_JUMP_VELOCITY : float = -200
+@export var BACKFLIP_VELOCITY : float = -300
 @export var SHORT_JUMP_VELOCITY : float = -150
 @export var BASE_GRAVITY : float = 700.0
 @export var FRICTION : float = 20
 @export var COYOTE_TIME : float = 0.05
 @export var MAX_JUMPS : int = 2
-var player_index : int = 0
-var controller_index : int = 0
-var id : int = 1
+@export_category("misc")
+@export var player_index : int = 0
+@export var controller_index : int = 0
+@export var id : int = 1
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
 var jumps = MAX_JUMPS
 var can_jump : bool = false
+var slide_boost_strength : float = 0
 var wall_jump_dir : float = 0
 var dashes : int = 1
 var on_wall_prev_frame : bool = false
@@ -44,6 +50,7 @@ enum State {
 	JUMP,
 	BACKFLIP,
 	AIR,
+	LANDING,
 	ATTACK,
 	SLIDE_KICK,
 	WALL,
@@ -52,6 +59,7 @@ enum State {
 	STALL_KICK
 	}
 var state : State
+var prev_state : State
 
 enum Attack {
 	UPAIR,
@@ -94,6 +102,7 @@ func _physics_process(delta: float) -> void:
 func set_state(new_state : State):
 	if state == new_state: return
 	exit_state()
+	prev_state = state
 	state = new_state
 	enter_state()
 
@@ -103,6 +112,8 @@ func enter_state():
 	match state:
 		State.IDLE:
 			anim.play("idle")
+			slide_boost_strength = 0
+			if not is_on_floor(): set_state.rpc(State.AIR) ## DONT DO COYOTE TIME WHEN SETTING STATE TO IDLE
 
 		State.WALK:
 			anim.play("walk")
@@ -133,12 +144,16 @@ func enter_state():
 			sprite.scale.x *= -1
 			anim.play("jump")
 
+		State.LANDING:
+			anim.play("landing")
+			slide_boost_strength = 1
+
 		State.ATTACK:
 			if is_on_floor():
 				if input.direction.y > 0.5: # slide kick
 					attack = Attack.DOWN
 					kick_box.direction = Vector2.UP
-					kick_box.power = 50
+					kick_box.power = 100
 				elif input.direction.y < -0.5:
 					attack = Attack.UP
 					kick_box.direction = Vector2.UP
@@ -151,11 +166,11 @@ func enter_state():
 				if input.direction.y > 0.5:
 					attack = Attack.DAIR
 					kick_box.direction = Vector2.DOWN
-					kick_box.power = 87.5
+					kick_box.power = 90
 				elif input.direction.y < -0.5:
 					attack = Attack.UPAIR
 					kick_box.direction = Vector2.UP
-					kick_box.power = 75
+					kick_box.power = 80
 				else:
 					attack = Attack.NAIR
 					kick_box.direction = Vector2.from_angle(-0.261)
@@ -169,9 +184,13 @@ func enter_state():
 				Attack.DOWN:
 					anim.play("down_attack")
 					kick_box.direction = Vector2.UP
-					kick_box.power = 100.0
 					kick_collider.set_deferred("disabled", false)
-					velocity.x += 100 * sprite.scale.x
+					if slide_boost_strength > 0:
+						print("slide boosted with %s%% strength" % (slide_boost_strength * 100))
+						velocity.x += MAX_SLIDE_BOOST_SPEED * slide_boost_strength * sprite.scale.x
+						slide_boost_strength = 0
+					else:
+						velocity.x += SLIDE_SPEED * sprite.scale.x
 				Attack.UPAIR:
 					anim.play("upair")
 				Attack.NAIR:
@@ -208,7 +227,7 @@ func update_state(delta : float):
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 			check_for_jump()
 			check_for_drop_through()
-			check_for_kick()
+			check_for_attack()
 			check_for_special()
 			apply_gravity(delta)
 			if abs(direction) < DEAD_ZONE: direction = 0
@@ -228,7 +247,7 @@ func update_state(delta : float):
 			if not move(delta, ACCEL, SPEED * 0.65): set_state.rpc(State.IDLE)
 			check_for_jump()
 			check_for_drop_through()
-			check_for_kick()
+			check_for_attack()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
@@ -251,7 +270,7 @@ func update_state(delta : float):
 				move(delta)
 			check_for_jump()
 			check_for_drop_through()
-			check_for_kick()
+			check_for_attack()
 			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
@@ -270,7 +289,7 @@ func update_state(delta : float):
 				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
-			check_for_kick()
+			check_for_attack()
 			check_for_special()
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
@@ -281,7 +300,7 @@ func update_state(delta : float):
 
 		State.TURN_AROUND:
 			check_for_backflip()
-			check_for_kick()
+			check_for_attack()
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 			if anim.current_animation == "": set_state.rpc(State.RUN)
 
@@ -303,14 +322,14 @@ func update_state(delta : float):
 
 		State.BACKFLIP:
 			if anim.current_animation == "":
-				velocity = Vector2(65 * sprite.scale.x, FULL_JUMP_VELOCITY)
+				velocity = Vector2(65 * sprite.scale.x, BACKFLIP_VELOCITY)
 				set_state.rpc(State.AIR)
 				anim.play("backflip")
 		
 		State.AIR:
 			move(delta, 2)
 			check_for_drop_through()
-			check_for_kick()
+			check_for_attack()
 			check_for_dash()
 			check_for_jump()
 			check_for_special()
@@ -318,8 +337,18 @@ func update_state(delta : float):
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0:
 				spawn_smoke.rpc(Vector2(0,4))
-				set_state.rpc(State.IDLE)
+				set_state.rpc(State.LANDING)
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state.rpc(State.WALL)
+
+		State.LANDING:
+			var landing_friction : float = 9
+			check_for_attack()
+			check_for_jump()
+			slide_boost_strength = lerpf(slide_boost_strength, 0, 30*delta)
+			if is_on_floor():
+				velocity = velocity.lerp(Vector2.ZERO, landing_friction*delta)
+			if anim.current_animation == "":
+				set_state.rpc(State.IDLE)
 
 		State.WALL:
 			on_wall_prev_frame = true
@@ -355,19 +384,22 @@ func update_state(delta : float):
 				Attack.DOWN:
 					check_for_jump()
 					velocity.x = lerpf(velocity.x, 0, 2*delta)
-					if abs(velocity.x) < 20: set_state.rpc(State.AIR)
+					if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.UPAIR:
 					move(delta, 8, SPEED, false)
 					apply_gravity(delta)
+					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.NAIR:
 					move(delta, 8, SPEED, false)
 					apply_gravity(delta)
+					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.DAIR:
 					move(delta, 8, SPEED, false)
 					apply_gravity(delta)
+					if is_on_floor(): set_state.rpc(State.LANDING)
 			if anim.current_animation == "":
-				set_state.rpc(State.AIR)
+				set_state.rpc(State.IDLE)
 
 		State.SLIDE_KICK:
 			check_for_jump()
@@ -375,7 +407,7 @@ func update_state(delta : float):
 			if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 
 		State.DASH:
-			check_for_kick()
+			check_for_attack()
 			if Engine.get_physics_frames() % 3: return
 			var after_image : Sprite2D = Sprite2D.new()
 			after_image.texture = sprite.texture
@@ -394,10 +426,10 @@ func update_state(delta : float):
 			var anim_finished = (anim.current_animation == "")
 			apply_gravity(delta)
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
-			if anim_finished && not is_ball_stalled: set_state.rpc(State.AIR) # set the state to air to avoid coyote time
+			if anim_finished && not is_ball_stalled: set_state.rpc(State.IDLE)
 			if not ball && is_ball_stalled:
 				is_ball_stalled = false
-				set_state.rpc(State.AIR)
+				set_state.rpc(State.IDLE)
 				return
 			if not ball: return
 			if (is_ball_stalled && not ball.stalled):
@@ -405,7 +437,7 @@ func update_state(delta : float):
 				is_ball_stalled = false
 				ball.collision_shape.set_deferred("disabled", false)
 				ball = null
-				set_state.rpc(State.AIR)
+				set_state.rpc(State.IDLE)
 				return
 			if not is_ball_stalled: return
 			if not anim_finished: return
@@ -421,6 +453,9 @@ func exit_state():
 	match state:
 		State.WALL:
 			gravity = BASE_GRAVITY
+
+		# State.LANDING:
+		# 	slide_boost_strength = 0
 
 		State.ATTACK:
 			sprite.scale.y = 1
@@ -439,11 +474,11 @@ func exit_state():
 func _on_animation_finished(animation):
 	match animation:
 		"kick":
-			set_state.rpc(State.AIR)
+			set_state.rpc(State.IDLE)
 			sprite.rotation = 0
 			sprite.scale = Vector2(1,1)
 		"stall_kick":
-			set_state.rpc(State.AIR)
+			set_state.rpc(State.IDLE)
 
 
 func check_for_special():
@@ -476,7 +511,7 @@ func check_for_wall_jump():
 		gravity = BASE_GRAVITY
 	
 
-func check_for_kick():
+func check_for_attack():
 	if input.is_button_just_pressed(JOY_BUTTON_X):
 		set_state.rpc(State.ATTACK)
 		return true

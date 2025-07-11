@@ -57,7 +57,9 @@ func is_button_just_pressed(button : JoyButton, buffer_override : int = -1) -> b
 	if buffer_override > -1: buffer = buffer_override
 	else: buffer = buttons[button].buffer
 	if buffer > 0:
-		return (buttons[button].frame_pressed + buffer >= Engine.get_process_frames())
+		var button_pressed = (buttons[button].frame_pressed + buffer >= Engine.get_process_frames())
+		if button_pressed: buttons[button].frame_pressed -= buffer ## stop the same input being buffered for multiple actions
+		return button_pressed
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_process_frames())
 
 

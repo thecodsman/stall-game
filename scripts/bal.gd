@@ -18,6 +18,7 @@ var prev_scale : Vector2 = Vector2(1,1)
 @onready var bounce_sfx := $bounce_sfx
 @onready var collision_shape : CollisionShape2D = $CollisionShape2D
 @export var spin_rollout_threshold : float = PI ## if the ball has more spin than this when it hits a wall it will roll along it
+@export var scorrable : bool = true
 
 enum State {
 	NORMAL,
@@ -39,7 +40,7 @@ func _physics_process(delta : float) -> void:
 
 
 func check_for_winner():
-	return
+	if not scorrable: return
 	if owner_level < MAX_OWNER_LEVEL: return
 	if UI.game_text.visible: return
 	give_point_to_winner.rpc(owner_index)
@@ -126,7 +127,7 @@ func set_state(new_state : State):
 func _enter_state():
 	match state:
 		State.WALL_ROLL:
-			floor_snap_length = 5
+			floor_snap_length = 10
 			motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
 
@@ -161,7 +162,6 @@ func _update_state(delta : float):
 			colliding_prev_frame = get_slide_collision_count() > 0
 		
 		State.WALL_ROLL:
-			if abs(spin) < spin_rollout_threshold / 2: set_state(State.NORMAL)
 			const WALL_RIDE_SPEED : float = 75
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
 			var normal = collision_info.get_normal()
@@ -170,7 +170,8 @@ func _update_state(delta : float):
 			apply_floor_snap()
 			juice_it_up()
 			sprite.rotation += (spin * delta) * 20
-			spin = move_toward(spin, 0, PI/4*delta)
+			#spin = move_toward(spin, 0, PI/4*delta)
+			spin = lerpf(spin, 0, 2*delta)
 			if spin > spin_rollout_threshold * 1.5:
 				velocity = Vector2.ZERO
 				spawn_smoke(to_local(collision_info.get_position()))
@@ -179,7 +180,7 @@ func _update_state(delta : float):
 				velocity = velocity.lerp(move_dir * spin * WALL_RIDE_SPEED, 8*delta)
 				if not Engine.get_physics_frames() % 10: spawn_smoke(to_local(collision_info.get_position()))
 			move_and_slide()
-
+			if abs(spin) < spin_rollout_threshold / 2: set_state(State.NORMAL)
 
 
 func _exit_state():
