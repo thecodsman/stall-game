@@ -166,11 +166,11 @@ func _update_state(delta : float):
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
 			var normal = collision_info.get_normal()
 			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
+			var gravity_dir : Vector2 = normal.rotated(PI)
 			up_direction = normal
 			apply_floor_snap()
 			juice_it_up()
 			sprite.rotation += (spin * delta) * 20
-			#spin = move_toward(spin, 0, PI/4*delta)
 			spin = lerpf(spin, 0, 2*delta)
 			if spin > spin_rollout_threshold * 1.5:
 				velocity = Vector2.ZERO
@@ -180,6 +180,7 @@ func _update_state(delta : float):
 				velocity = velocity.lerp(move_dir * spin * WALL_RIDE_SPEED, 8*delta)
 				if not Engine.get_physics_frames() % 10: spawn_smoke(to_local(collision_info.get_position()))
 			move_and_slide()
+			velocity += gravity_dir
 			if abs(spin) < spin_rollout_threshold / 2: set_state(State.NORMAL)
 
 

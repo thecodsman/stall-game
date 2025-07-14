@@ -147,6 +147,8 @@ func enter_state():
 		State.LANDING:
 			anim.play("landing")
 			slide_boost_strength = 1
+			jumps = MAX_JUMPS
+			dashes = 1
 
 		State.ATTACK:
 			if is_on_floor():
@@ -225,14 +227,11 @@ func update_state(delta : float):
 		State.IDLE:
 			direction = input.direction.x
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
-			check_for_jump()
-			check_for_drop_through()
-			check_for_attack()
-			check_for_special()
 			apply_gravity(delta)
 			if abs(direction) < DEAD_ZONE: direction = 0
 			if direction:
 				await get_tree().create_timer(0.03).timeout
+				if state != State.IDLE: return
 				if abs(direction) > 0.6: set_state.rpc(State.RUN_DASH)
 				else: set_state.rpc(State.WALK)
 			if not is_on_floor():
@@ -242,13 +241,13 @@ func update_state(delta : float):
 			else:
 				dashes = 1
 				jumps = MAX_JUMPS
-
-		State.WALK:
-			if not move(delta, ACCEL, SPEED * 0.65): set_state.rpc(State.IDLE)
 			check_for_jump()
 			check_for_drop_through()
 			check_for_attack()
 			check_for_special()
+
+		State.WALK:
+			if not move(delta, ACCEL, SPEED * 0.65): set_state.rpc(State.IDLE)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state.rpc(State.AIR)
@@ -256,6 +255,10 @@ func update_state(delta : float):
 				dashes = 1
 				jumps = MAX_JUMPS
 			apply_gravity(delta)
+			check_for_jump()
+			check_for_drop_through()
+			check_for_attack()
+			check_for_special()
 
 		State.RUN:
 			direction = input.direction.x
@@ -268,10 +271,6 @@ func update_state(delta : float):
 				move(delta)
 			elif anim.current_animation == "run":
 				move(delta)
-			check_for_jump()
-			check_for_drop_through()
-			check_for_attack()
-			check_for_special()
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state.rpc(State.AIR)
@@ -279,6 +278,10 @@ func update_state(delta : float):
 				dashes = 1
 				jumps = MAX_JUMPS
 			apply_gravity(delta)
+			check_for_jump()
+			check_for_drop_through()
+			check_for_attack()
+			check_for_special()
 
 		State.RUN_DASH:
 			direction = input.direction.x
@@ -289,8 +292,6 @@ func update_state(delta : float):
 				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
-			check_for_attack()
-			check_for_special()
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
 			anim.play("RESET")
@@ -341,14 +342,14 @@ func update_state(delta : float):
 			elif is_on_wall_only() && sign(velocity.x) == -get_slide_collision(0).get_normal().x: set_state.rpc(State.WALL)
 
 		State.LANDING:
-			var landing_friction : float = 9
-			check_for_attack()
-			check_for_jump()
+			var landing_friction : float = 7
 			slide_boost_strength = lerpf(slide_boost_strength, 0, 30*delta)
 			if is_on_floor():
 				velocity = velocity.lerp(Vector2.ZERO, landing_friction*delta)
 			if anim.current_animation == "":
 				set_state.rpc(State.IDLE)
+			check_for_attack()
+			check_for_jump()
 
 		State.WALL:
 			on_wall_prev_frame = true
@@ -408,6 +409,7 @@ func update_state(delta : float):
 
 		State.DASH:
 			check_for_attack()
+			if is_on_floor(): set_state.rpc(State.LANDING)
 			if Engine.get_physics_frames() % 3: return
 			var after_image : Sprite2D = Sprite2D.new()
 			after_image.texture = sprite.texture
@@ -453,9 +455,6 @@ func exit_state():
 	match state:
 		State.WALL:
 			gravity = BASE_GRAVITY
-
-		# State.LANDING:
-		# 	slide_boost_strength = 0
 
 		State.ATTACK:
 			sprite.scale.y = 1
