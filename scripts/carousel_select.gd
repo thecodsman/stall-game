@@ -12,9 +12,6 @@ const SCALE_SIDE = Vector2(1.0, 1.0)
 const POSITION_OFFSET_X = 24
 const POSITION_OFFSET_Y = -6
 
-const basic_stage = "res://worlds/basic_stage.tscn"
-const platform_stage = "res://worlds/platform_stage.tscn"
-
 var child_count : int
 var can_scroll : bool = true
 var can_select : bool = false
