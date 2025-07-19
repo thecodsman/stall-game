@@ -614,7 +614,7 @@ func check_for_drop_through():
 	var threshold : float = 0.85
 	if input.direction.y > threshold && not is_on_floor():
 		set_collision_mask_value(4, false)
-	elif input.direction.y > threshold && is_on_floor():
+	elif input.just_smashed() && (input.direction.angle() > PI*0.25 && input.direction.angle() < PI*0.75) && is_on_floor():
 		set_collision_mask_value(4, false)
 		velocity.y = 10
 	else:
