@@ -7,6 +7,7 @@ class_name Player extends CharacterBody2D
 @export var SLIDE_SPEED : float = 100.0
 @export var MAX_SLIDE_BOOST_SPEED : float = 300.0
 @export var ACCEL : float = 20.0
+@export var AIR_ACCEL : float = 8.0
 @export var FULL_JUMP_VELOCITY : float = -200
 @export var BACKFLIP_VELOCITY : float = -300
 @export var SHORT_JUMP_VELOCITY : float = -150
@@ -62,12 +63,16 @@ var state : State
 var prev_state : State
 
 enum Attack {
-	UPAIR,
 	NAIR,
+	BAIR,
+	UPAIR,
+	FAIR,
 	DAIR,
 	UP,
 	NEUTRAL,
+	SIDE,
 	DOWN,
+	DASH
 	}
 var attack : Attack
 
@@ -124,7 +129,7 @@ func enter_state():
 		State.RUN_DASH:
 			anim.play("run_dash")
 			spawn_smoke(Vector2(0,4))
-			velocity.x = sign(direction) * SPEED
+			velocity.x += sign(direction) * SPEED
 
 		State.TURN_AROUND:
 			anim.play("turn_around")
@@ -151,54 +156,79 @@ func enter_state():
 			dashes = 1
 
 		State.ATTACK:
-			if is_on_floor():
-				if input.direction.y > 0.5: # slide kick
-					attack = Attack.DOWN
-					kick_box.direction = Vector2.UP
-					kick_box.power = 100
-				elif input.direction.y < -0.5:
-					attack = Attack.UP
-					kick_box.direction = Vector2.UP
-					kick_box.power = 35
-				else:
+			var input_dir : float = (input.direction * Vector2(sprite.scale.x, 1)).angle()
+			if prev_state == State.RUN || prev_state == State.RUN_DASH:
+				attack = Attack.DASH
+				kick_box.direction = Vector2(0.6,-0.4)
+				kick_box.power = 120
+			elif is_on_floor():
+				if input.direction.length() == 0:
 					attack = Attack.NEUTRAL
 					kick_box.direction = Vector2.from_angle(-0.261)
 					kick_box.power = 70
+				elif input_dir > PI * 0.25 && input_dir < PI * 0.75: # slide kick
+					attack = Attack.DOWN
+					kick_box.direction = Vector2.UP
+					kick_box.power = 100
+				elif input_dir < -PI * 0.25 && input_dir > -PI * 0.75:
+					attack = Attack.UP
+					kick_box.direction = Vector2.UP
+					kick_box.power = 40
+				else:
+					attack = Attack.SIDE
+					kick_box.direction = Vector2(0.8,-0.2)
 			else:
-				if input.direction.y > 0.5:
+				if input.direction.length() == 0:
+					attack = Attack.NAIR
+					kick_box.direction = Vector2.ZERO
+					kick_box.power = 70
+				elif input_dir > PI * 0.25 && input_dir < PI * 0.75:
 					attack = Attack.DAIR
 					kick_box.direction = Vector2.DOWN
-					kick_box.power = 90
-				elif input.direction.y < -0.5:
+					kick_box.power = 100
+				elif input_dir < PI * -0.25 && input_dir > PI * -0.75:
 					attack = Attack.UPAIR
 					kick_box.direction = Vector2.UP
 					kick_box.power = 80
-				else:
-					attack = Attack.NAIR
-					kick_box.direction = Vector2.from_angle(-0.261)
-					kick_box.power = 70
+				elif input_dir >= PI * -0.25 && input_dir <= PI * 0.25:
+					attack = Attack.FAIR
+					kick_box.power = 115
+					kick_box.direction = Vector2(0.9,0.1)
+				elif input_dir >= PI * 0.75 || input_dir <= PI * -0.75:
+					attack = Attack.BAIR
+					kick_box.power = 135
+					kick_box.direction = Vector2(-0.8,0.2)
 			# -----
 			match attack:
-				Attack.UP:
-					anim.play("up_attack")
 				Attack.NEUTRAL:
 					anim.play("neutral_attack")
+				Attack.UP:
+					anim.play("up_attack")
+				Attack.SIDE:
+					anim.play("side_attack")
 				Attack.DOWN:
 					anim.play("down_attack")
 					kick_box.direction = Vector2.UP
 					kick_collider.set_deferred("disabled", false)
 					if slide_boost_strength > 0:
-						print("slide boosted with %s%% strength" % (slide_boost_strength * 100))
 						velocity.x += MAX_SLIDE_BOOST_SPEED * slide_boost_strength * sprite.scale.x
 						slide_boost_strength = 0
 					else:
 						velocity.x += SLIDE_SPEED * sprite.scale.x
+				Attack.DASH:
+					const DASH_ATTACK_SPEED_BOOST : float = 40
+					anim.play("dash_attack")
+					velocity.x += DASH_ATTACK_SPEED_BOOST * sprite.scale.x
 				Attack.UPAIR:
 					anim.play("upair")
 				Attack.NAIR:
-					anim.play("neutral_attack")
+					anim.play("nair")
 				Attack.DAIR:
 					anim.play("dair")
+				Attack.BAIR:
+					anim.play("bair")
+				Attack.FAIR:
+					anim.play("fair")
 
 		State.SLIDE_KICK:
 			kick_box.direction = Vector2.UP
@@ -292,6 +322,8 @@ func update_state(delta : float):
 				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
+			if check_for_attack():
+				attack = Attack.DASH
 			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
 			sprite.scale.x = sign(direction)
 			anim.play("RESET")
@@ -328,7 +360,7 @@ func update_state(delta : float):
 				anim.play("backflip")
 		
 		State.AIR:
-			move(delta, 2)
+			move(delta, 2, SPEED, false)
 			check_for_drop_through()
 			check_for_attack()
 			check_for_dash()
@@ -387,16 +419,28 @@ func update_state(delta : float):
 					velocity.x = lerpf(velocity.x, 0, 2*delta)
 					if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 					if not is_on_floor(): set_state.rpc(State.AIR)
+				Attack.DASH:
+					velocity.x = lerpf(velocity.x, 0, delta)
+					if anim.current_animation == "": set_state.rpc(State.IDLE)
+					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.UPAIR:
-					move(delta, 8, SPEED, false)
+					move(delta, AIR_ACCEL, SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.NAIR:
-					move(delta, 8, SPEED, false)
+					move(delta, AIR_ACCEL, SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.DAIR:
-					move(delta, 8, SPEED, false)
+					move(delta, AIR_ACCEL, SPEED, false)
+					apply_gravity(delta)
+					if is_on_floor(): set_state.rpc(State.LANDING)
+				Attack.BAIR:
+					move(delta, AIR_ACCEL, SPEED, false)
+					apply_gravity(delta)
+					if is_on_floor(): set_state.rpc(State.LANDING)
+				Attack.FAIR:
+					move(delta, AIR_ACCEL, SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 			if anim.current_animation == "":
@@ -530,7 +574,7 @@ func check_for_dash():
 
 func move(delta : float, accel : float = ACCEL, speed : float = SPEED, flip : bool = true):
 	direction = input.direction.x
-	if velocity.x && flip: sprite.scale.x = sign(velocity.x)
+	if velocity.x && flip == true: sprite.scale.x = sign(velocity.x)
 	velocity.x = lerpf(velocity.x, direction * speed, accel*delta)
 	return direction
 	

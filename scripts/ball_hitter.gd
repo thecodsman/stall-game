@@ -13,7 +13,9 @@ class_name KickBox extends Area2D
 func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	if not is_multiplayer_authority(): return
-	if direction == Vector2.ZERO: kick.rpc_id(1, ball.get_path(), input.direction)
+	if direction == Vector2.ZERO:
+		var dir2ball = get_angle_to(ball.global_position)
+		kick.rpc_id(1, ball.get_path(), Vector2.from_angle(dir2ball))
 	else: kick.rpc_id(1, ball.get_path(), direction * global_scale.rotated(global_rotation))
 
 
