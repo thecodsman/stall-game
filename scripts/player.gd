@@ -303,6 +303,7 @@ func update_state(delta : float):
 			check_for_attack()
 			check_for_jump()
 			check_for_special()
+			check_for_drop_through()
 
 		State.RUN:
 			direction = input.direction.x
