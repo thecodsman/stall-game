@@ -14,7 +14,7 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	if not is_multiplayer_authority(): return
 	if direction == Vector2.ZERO:
-		var dir2ball = get_angle_to(ball.global_position)
+		var dir2ball = global_position.angle_to_point((ball.global_position))
 		kick.rpc_id(1, ball.get_path(), Vector2.from_angle(dir2ball))
 	else: kick.rpc_id(1, ball.get_path(), direction * global_scale.rotated(global_rotation))
 
@@ -23,7 +23,7 @@ func _on_body_entered(ball:Ball) -> void:
 func kick(ball_path : NodePath, dir : Vector2) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
-	if dir.length() < input.dead_zone: dir = Vector2.UP
+	if dir.length() < input.DeadZone: dir = Vector2.UP
 	ball.set_state(ball.State.NORMAL)
 	collider.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)

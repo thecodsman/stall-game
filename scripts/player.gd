@@ -1,6 +1,5 @@
 class_name Player extends CharacterBody2D
 
-@export var DEAD_ZONE : float = 0.09
 @export_category("movement")
 @export var SPEED : float = 100.0
 @export var DASH_SPEED : float = 200.0
@@ -45,8 +44,9 @@ var ball : Ball
 enum State {
 	IDLE,
 	WALK,
+	CROUCH,
 	RUN,
-	RUN_DASH,
+	INITIAL_SPRINT,
 	TURN_AROUND,
 	JUMP,
 	BACKFLIP,
@@ -126,10 +126,14 @@ func enter_state():
 		State.RUN:
 			anim.play("run")
 
-		State.RUN_DASH:
+		State.CROUCH:
+			anim.play("crouch")
+
+		State.INITIAL_SPRINT:
 			anim.play("run_dash")
 			spawn_smoke(Vector2(0,4))
 			velocity.x += sign(direction) * SPEED
+			sprite.scale.x = sign(velocity.x)
 
 		State.TURN_AROUND:
 			anim.play("turn_around")
@@ -146,7 +150,6 @@ func enter_state():
 			anim.play("jump")
 
 		State.BACKFLIP:
-			sprite.scale.x *= -1
 			anim.play("jump")
 
 		State.LANDING:
@@ -157,12 +160,12 @@ func enter_state():
 
 		State.ATTACK:
 			var input_dir : float = (input.direction * Vector2(sprite.scale.x, 1)).angle()
-			if prev_state == State.RUN || prev_state == State.RUN_DASH:
+			if prev_state == State.RUN || prev_state == State.INITIAL_SPRINT:
 				attack = Attack.DASH
 				kick_box.direction = Vector2(0.6,-0.4)
 				kick_box.power = 120
 			elif is_on_floor():
-				if input.direction.length() == 0:
+				if input.direction.length() <= input.NeutralZone:
 					attack = Attack.NEUTRAL
 					kick_box.direction = Vector2.from_angle(-0.261)
 					kick_box.power = 70
@@ -178,7 +181,7 @@ func enter_state():
 					attack = Attack.SIDE
 					kick_box.direction = Vector2(0.8,-0.2)
 			else:
-				if input.direction.length() == 0:
+				if input.direction.length() <= input.NeutralZone:
 					attack = Attack.NAIR
 					kick_box.direction = Vector2.ZERO
 					kick_box.power = 70
@@ -258,12 +261,11 @@ func update_state(delta : float):
 			direction = input.direction.x
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 			apply_gravity(delta)
-			if abs(direction) < DEAD_ZONE: direction = 0
-			if direction:
-				await get_tree().create_timer(0.03).timeout
-				if state != State.IDLE: return
-				if abs(direction) > 0.6: set_state.rpc(State.RUN_DASH)
-				else: set_state.rpc(State.WALK)
+			var side_input : bool = (((input.direction).angle() > -PI*0.25 && input.direction.angle() < PI*0.25) || (input.direction.angle() > PI*0.75 || input.direction.angle() < -PI*0.75))
+			if input.just_smashed() && side_input:
+				set_state.rpc(State.INITIAL_SPRINT)
+			elif direction && side_input:
+				set_state.rpc(State.WALK)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
 				jumps -= 1
@@ -275,6 +277,7 @@ func update_state(delta : float):
 			check_for_drop_through()
 			check_for_attack()
 			check_for_special()
+			check_for_crouch()
 
 		State.WALK:
 			if not move(delta, ACCEL, SPEED * 0.65): set_state.rpc(State.IDLE)
@@ -284,23 +287,33 @@ func update_state(delta : float):
 			else:
 				dashes = 1
 				jumps = MAX_JUMPS
+			if input.just_smashed():
+				set_state.rpc(State.INITIAL_SPRINT)
 			apply_gravity(delta)
 			check_for_jump()
 			check_for_drop_through()
 			check_for_attack()
 			check_for_special()
+			check_for_crouch()
+
+		State.CROUCH:
+			velocity.x = lerpf(velocity.x, 0, 4*delta)
+			if not check_for_crouch(): set_state.rpc(State.IDLE)
+			if not is_on_floor(): set_state.rpc(State.AIR)
+			check_for_attack()
+			check_for_jump()
+			check_for_special()
 
 		State.RUN:
 			direction = input.direction.x
-			if abs(direction) < DEAD_ZONE: direction = 0
-			if not direction && abs(velocity.x) < 1: set_state.rpc(State.IDLE)
-			elif abs(velocity.x) > 10 && sign(direction) == sign(velocity.x) * -1: 
+			if not direction && abs(velocity.x) < 10: set_state.rpc(State.IDLE)
+			elif sign(direction) == -sprite.scale.x: 
 				set_state.rpc(State.TURN_AROUND)
 			elif anim.current_animation == "":
 				anim.play("run")
-				move(delta)
+				move(delta, ACCEL, SPEED, false)
 			elif anim.current_animation == "run":
-				move(delta)
+				move(delta, ACCEL, SPEED, false)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state.rpc(State.AIR)
@@ -312,19 +325,19 @@ func update_state(delta : float):
 			check_for_drop_through()
 			check_for_attack()
 			check_for_special()
+			check_for_crouch()
 
-		State.RUN_DASH:
+		State.INITIAL_SPRINT:
 			direction = input.direction.x
-			if abs(direction) < DEAD_ZONE: direction = 0
-			if direction:
-				velocity.x = lerpf(velocity.x, direction * SPEED, ACCEL*0.75*delta)
+			var _accel = ACCEL * 0.66
+			move(delta, _accel, SPEED, false)
 			if anim.current_animation != "run_dash":
 				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
-			if check_for_attack():
-				attack = Attack.DASH
-			if not (direction * -sprite.scale.x > 0.9 && abs(dir_prev_frame) < 0.6): return
+			check_for_crouch()
+			if check_for_attack(): attack = Attack.DASH
+			if not input.just_smashed(): return
 			sprite.scale.x = sign(direction)
 			anim.play("RESET")
 			anim.play("run_dash")
@@ -335,7 +348,9 @@ func update_state(delta : float):
 			check_for_backflip()
 			check_for_attack()
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
-			if anim.current_animation == "": set_state.rpc(State.RUN)
+			if anim.current_animation == "":
+				sprite.scale.x *= -1
+				set_state.rpc(State.RUN)
 
 		State.JUMP:
 			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
@@ -392,7 +407,6 @@ func update_state(delta : float):
 			var wall_dir : float = 0
 			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
 			wall_jump_dir = wall_dir
-			if abs(direction) < DEAD_ZONE: direction = 0
 			if is_on_wall_only() && sign(direction) != wall_dir && on_wall_prev_frame:
 				on_wall_prev_frame = false
 				await get_tree().create_timer(0.075).timeout
@@ -418,6 +432,10 @@ func update_state(delta : float):
 					check_for_jump()
 					velocity.x = lerpf(velocity.x, 0, 2*delta)
 					if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
+					if not is_on_floor(): set_state.rpc(State.AIR)
+				Attack.SIDE:
+					check_for_jump()
+					velocity.x = lerpf(velocity.x, 0, 7*delta)
 					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.DASH:
 					velocity.x = lerpf(velocity.x, 0, delta)
@@ -503,6 +521,7 @@ func exit_state():
 		State.ATTACK:
 			sprite.scale.y = 1
 			charged_kick = false
+			anim.play("RESET")
 			kick_collider.set_deferred("disabled", true)
 
 		State.STALL:
@@ -537,6 +556,12 @@ func check_for_jump():
 		return true
 	return false
 
+
+func check_for_crouch():
+	if input.direction.angle() < PI * 0.75 && input.direction.angle() > PI * 0.25 && input.neutral:
+		set_state.rpc(State.CROUCH)
+		return true
+	return false
 
 func check_for_backflip():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
