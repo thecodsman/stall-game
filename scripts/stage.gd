@@ -25,9 +25,19 @@ func start_game(): # is only called in online lobbies
 func spawn_ball():
 	if not is_multiplayer_authority(): return
 	var ball : Ball = ball_scene.instantiate()
-	Globals.camera.ball = ball
 	ball.global_position = ball_spawn.global_position
 	$SubViewportContainer/game.add_child(ball, true)
+	set_camera_target_ball.rpc(ball.get_path())
+
+
+@rpc("authority", "call_local", "reliable")
+func set_camera_target_ball(ball_path : NodePath):
+	Globals.camera.ball = get_node(ball_path)
+
+
+@rpc("authority", "call_local", "reliable")
+func set_camera_target_player(player_path : NodePath):
+	Globals.camera.players.append(get_node(player_path))
 
 
 func online_spawn_players():
@@ -42,7 +52,7 @@ func online_spawn_players():
 		player.controller_index = 0
 		$SubViewportContainer/game.add_child(player, true)
 		player.set_location.rpc_id(id, player_spawns[i].global_position)
-		Globals.camera.players.append(player)
+		set_camera_target_player.rpc(player.get_path())
 
 
 func local_spawn_players():

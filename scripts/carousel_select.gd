@@ -24,17 +24,22 @@ func _ready():
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.get_joy_axis(Globals.registered_controllers[0], JOY_AXIS_LEFT_X) > 0.95 && can_scroll:
+	var controller : int
+	if Globals.is_online:
+		controller = 0
+	else:
+		controller = Globals.registered_controllers[0]
+	if Input.get_joy_axis(controller, JOY_AXIS_LEFT_X) > 0.95 && can_scroll:
 		scroll_right()
 		can_scroll = false
-	elif Input.get_joy_axis(Globals.registered_controllers[0], JOY_AXIS_LEFT_X) < -0.95 && can_scroll:
+	elif Input.get_joy_axis(controller, JOY_AXIS_LEFT_X) < -0.95 && can_scroll:
 		scroll_left()
 		can_scroll = false
-	elif Input.get_joy_axis(Globals.registered_controllers[0], JOY_AXIS_LEFT_X) > -0.95 && Input.get_joy_axis(Globals.registered_controllers[0], JOY_AXIS_LEFT_X) < 0.95:
+	elif Input.get_joy_axis(controller, JOY_AXIS_LEFT_X) > -0.95 && Input.get_joy_axis(controller, JOY_AXIS_LEFT_X) < 0.95:
 		can_scroll = true
-	if Input.is_joy_button_pressed(Globals.registered_controllers[0], JOY_BUTTON_A) && can_select:
+	if Input.is_joy_button_pressed(controller, JOY_BUTTON_A) && can_select:
 		go_to_stage()
-	elif not Input.is_joy_button_pressed(Globals.registered_controllers[0], JOY_BUTTON_A) :
+	elif not Input.is_joy_button_pressed(controller, JOY_BUTTON_A) :
 		can_select = true
 
 	if event is InputEventKey:
