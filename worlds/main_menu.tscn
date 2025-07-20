@@ -95,17 +95,25 @@ grow_vertical = 2
 [node name="local" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 focus_next = NodePath("../online")
-focus_previous = NodePath("../online")
+focus_previous = NodePath("../quit")
 theme = ExtResource("6_inn1b")
 text = "Local
 "
 
 [node name="online" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-focus_next = NodePath("../local")
+focus_next = NodePath("../quit")
 focus_previous = NodePath("../local")
 theme = ExtResource("6_inn1b")
 text = "Online
+"
+
+[node name="quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_next = NodePath("../local")
+focus_previous = NodePath("../online")
+theme = ExtResource("6_inn1b")
+text = "Quit
 "
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
