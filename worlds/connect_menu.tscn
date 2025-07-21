@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://jhomeys3bfhg"]
+[gd_scene load_steps=5 format=3 uid="uid://jhomeys3bfhg"]
 
 [ext_resource type="Script" uid="uid://u46bcxk0kgsh" path="res://scripts/connect_menu.gd" id="1_7571w"]
 [ext_resource type="PackedScene" uid="uid://dga37kf5dchc3" path="res://shaders/backgrounds/online.tscn" id="2_kvax6"]
 [ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="3_kvax6"]
+[ext_resource type="Texture2D" uid="uid://qajfx3mm4330" path="res://sprites/ui/back_arrow.png" id="4_7571w"]
 
 [node name="connect_menu" type="Control"]
 layout_mode = 3
@@ -16,16 +17,64 @@ script = ExtResource("1_7571w")
 [node name="online_background" parent="." instance=ExtResource("2_kvax6")]
 
 [node name="Tabs" type="TabContainer" parent="."]
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 97.0
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("3_kvax6")
-tab_alignment = 1
+tab_alignment = 2
 current_tab = 0
 
-[node name="IP" type="Control" parent="Tabs"]
+[node name="Steam" type="Control" parent="Tabs"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../back")
+focus_neighbor_top = NodePath("buttons/steam_host")
+focus_neighbor_right = NodePath("../IP")
+focus_neighbor_bottom = NodePath("buttons/steam_host")
+focus_next = NodePath("buttons/steam_host")
+focus_previous = NodePath("../../back")
+focus_mode = 2
 metadata/_tab_index = 0
+
+[node name="buttons" type="VBoxContainer" parent="Tabs/Steam"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 76.0
+offset_bottom = 58.0
+
+[node name="steam_host" type="Button" parent="Tabs/Steam/buttons"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+focus_neighbor_top = NodePath("../../../../back")
+focus_neighbor_bottom = NodePath("../../../../back")
+focus_next = NodePath("../..")
+focus_previous = NodePath("../../../../back")
+text = "Host"
+
+[node name="steam_quick_match" type="Button" parent="Tabs/Steam/buttons"]
+layout_mode = 2
+disabled = true
+text = "Quick Match"
+
+[node name="steam_server_list" type="Button" parent="Tabs/Steam/buttons"]
+layout_mode = 2
+disabled = true
+text = "Server List"
+
+[node name="IP" type="Control" parent="Tabs"]
+visible = false
+layout_mode = 2
+focus_neighbor_left = NodePath("../Steam")
+focus_neighbor_top = NodePath("buttons/host")
+focus_neighbor_right = NodePath("../../back")
+focus_neighbor_bottom = NodePath("IP/ip")
+focus_next = NodePath("IP/ip")
+focus_mode = 2
+metadata/_tab_index = 1
 
 [node name="IP" type="VBoxContainer" parent="Tabs/IP"]
 layout_mode = 2
@@ -37,12 +86,18 @@ theme_override_constants/separation = 1
 
 [node name="ip" type="LineEdit" parent="Tabs/IP/IP"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../../back")
+focus_neighbor_bottom = NodePath("../port")
+focus_next = NodePath("../port")
 theme = ExtResource("3_kvax6")
 text = "127.0.0.1"
 placeholder_text = "ip address"
 
 [node name="port" type="LineEdit" parent="Tabs/IP/IP"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../ip")
+focus_neighbor_bottom = NodePath("../../buttons/connect")
+focus_next = NodePath("../../buttons/connect")
 theme = ExtResource("3_kvax6")
 text = "5835"
 placeholder_text = "port"
@@ -58,42 +113,41 @@ alignment = 1
 [node name="connect" type="Button" parent="Tabs/IP/buttons"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+focus_neighbor_left = NodePath("../host")
+focus_neighbor_top = NodePath("../../IP/port")
+focus_neighbor_right = NodePath("../host")
+focus_neighbor_bottom = NodePath("../..")
+focus_next = NodePath("../host")
+focus_previous = NodePath("../../IP/port")
 theme = ExtResource("3_kvax6")
 text = "CONNECT"
 
 [node name="host" type="Button" parent="Tabs/IP/buttons"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
+focus_neighbor_left = NodePath("../connect")
+focus_neighbor_top = NodePath("../../IP/port")
+focus_neighbor_right = NodePath("../connect")
+focus_neighbor_bottom = NodePath("../..")
+focus_next = NodePath("../..")
+focus_previous = NodePath("../connect")
 theme = ExtResource("3_kvax6")
 text = "HOST"
 
-[node name="Steam" type="Control" parent="Tabs"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
+[node name="back" type="Button" parent="."]
+layout_mode = 1
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 13.0
+offset_bottom = 14.0
+focus_neighbor_left = NodePath("../Tabs/IP")
+focus_neighbor_right = NodePath("../Tabs/Steam")
+focus_next = NodePath("../Tabs/Steam")
+focus_previous = NodePath("../Tabs/IP")
+theme = ExtResource("3_kvax6")
+icon = ExtResource("4_7571w")
 
-[node name="buttons" type="VBoxContainer" parent="Tabs/Steam"]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 18.0
-offset_right = 76.0
-offset_bottom = 58.0
-
-[node name="steam_host" type="Button" parent="Tabs/Steam/buttons"]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-text = "Host"
-
-[node name="steam_quick_match" type="Button" parent="Tabs/Steam/buttons"]
-layout_mode = 2
-disabled = true
-text = "Quick Match"
-
-[node name="steam_server_list" type="Button" parent="Tabs/Steam/buttons"]
-layout_mode = 2
-disabled = true
-text = "Server List"
-
+[connection signal="pressed" from="Tabs/Steam/buttons/steam_host" to="." method="_on_steam_host_pressed"]
 [connection signal="pressed" from="Tabs/IP/buttons/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="Tabs/IP/buttons/host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="Tabs/Steam/buttons/steam_host" to="." method="_on_steam_host_pressed"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]

@@ -163,43 +163,44 @@ func enter_state():
 			if prev_state == State.RUN || prev_state == State.INITIAL_SPRINT:
 				attack = Attack.DASH
 				kick_box.direction = Vector2(0.6,-0.4)
-				kick_box.power = 120
+				kick_box.power = 60
 			elif is_on_floor():
 				if input.direction.length() <= input.NeutralZone:
 					attack = Attack.NEUTRAL
 					kick_box.direction = Vector2.from_angle(-0.261)
-					kick_box.power = 70
+					kick_box.power = 45
 				elif input_dir > PI * 0.25 && input_dir < PI * 0.75: # slide kick
 					attack = Attack.DOWN
 					kick_box.direction = Vector2.UP
-					kick_box.power = 100
+					kick_box.power = 60
 				elif input_dir < -PI * 0.25 && input_dir > -PI * 0.75:
 					attack = Attack.UP
 					kick_box.direction = Vector2.UP
-					kick_box.power = 40
+					kick_box.power = 30
 				else:
 					attack = Attack.SIDE
 					kick_box.direction = Vector2(0.8,-0.2)
+					kick_box.power = 75
 			else:
 				if input.direction.length() <= input.NeutralZone:
 					attack = Attack.NAIR
 					kick_box.direction = Vector2.ZERO
-					kick_box.power = 70
+					kick_box.power = 60
 				elif input_dir > PI * 0.25 && input_dir < PI * 0.75:
 					attack = Attack.DAIR
 					kick_box.direction = Vector2.DOWN
-					kick_box.power = 100
+					kick_box.power = 80
 				elif input_dir < PI * -0.25 && input_dir > PI * -0.75:
 					attack = Attack.UPAIR
 					kick_box.direction = Vector2.UP
-					kick_box.power = 80
+					kick_box.power = 60
 				elif input_dir >= PI * -0.25 && input_dir <= PI * 0.25:
 					attack = Attack.FAIR
-					kick_box.power = 115
-					kick_box.direction = Vector2(0.9,0.1)
+					kick_box.power = 70
+					kick_box.direction = Vector2(0.9,-0.1)
 				elif input_dir >= PI * 0.75 || input_dir <= PI * -0.75:
 					attack = Attack.BAIR
-					kick_box.power = 135
+					kick_box.power = 100
 					kick_box.direction = Vector2(-0.8,0.2)
 			# -----
 			match attack:
@@ -219,9 +220,9 @@ func enter_state():
 					else:
 						velocity.x += SLIDE_SPEED * sprite.scale.x
 				Attack.DASH:
-					const DASH_ATTACK_SPEED_BOOST : float = 40
+					const DASH_ATTACK_SPEED_BOOST : float = 120
 					anim.play("dash_attack")
-					velocity.x += DASH_ATTACK_SPEED_BOOST * sprite.scale.x
+					velocity.x = DASH_ATTACK_SPEED_BOOST * sprite.scale.x
 				Attack.UPAIR:
 					anim.play("upair")
 				Attack.NAIR:
@@ -336,7 +337,6 @@ func update_state(delta : float):
 				set_state.rpc(State.RUN)
 				return
 			check_for_jump()
-			check_for_crouch()
 			if check_for_attack(): attack = Attack.DASH
 			if not input.just_smashed(): return
 			sprite.scale.x = sign(direction)

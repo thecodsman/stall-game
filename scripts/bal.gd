@@ -164,6 +164,9 @@ func _update_state(delta : float):
 		State.WALL_ROLL:
 			const WALL_RIDE_SPEED : float = 75
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
+			if not collision_info:
+				set_state(State.NORMAL)
+				return
 			var normal = collision_info.get_normal()
 			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
 			var gravity_dir : Vector2 = normal.rotated(PI)
@@ -187,7 +190,7 @@ func _update_state(delta : float):
 func _exit_state():
 	match state:
 		State.WALL_ROLL:
-			var wall_exit_velocity : float = spin * 200
+			var wall_exit_velocity : float = spin * 130
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
 			floor_snap_length = 1
 			motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED

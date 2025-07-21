@@ -7,7 +7,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventJoypadButton: return
 	match event.button_index:
 		JOY_BUTTON_START:
-			$start.pressed.emit()
+			var start : Button = $start
+			if start.disabled: return
 		_:
 			if Globals.registered_controllers.has(event.device) || Globals.registered_controllers.size() >= player_sprites.size(): return
 			player_sprites[Globals.registered_controllers.size()].show()
