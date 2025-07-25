@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b50ix7x5w7txc"]
+[gd_scene load_steps=11 format=3 uid="uid://b50ix7x5w7txc"]
 
 [ext_resource type="Script" uid="uid://8j488tv0n520" path="res://scripts/local_menu.gd" id="1_0qupg"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="1_kf885"]
@@ -19,6 +19,14 @@ shader = ExtResource("2_0qupg")
 shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
+
+[sub_resource type="InputEventJoypadButton" id="InputEventJoypadButton_0qupg"]
+device = -1
+button_index = 6
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_xv4p8"]
+events = [SubResource("InputEventJoypadButton_0qupg")]
 
 [node name="local_menu" type="Control" node_paths=PackedStringArray("player_sprites")]
 layout_mode = 3
@@ -80,6 +88,8 @@ offset_right = 71.0
 offset_bottom = 92.0
 theme = ExtResource("5_kf885")
 disabled = true
+shortcut = SubResource("Shortcut_xv4p8")
+shortcut_in_tooltip = false
 text = "start"
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]

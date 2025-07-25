@@ -11,6 +11,11 @@ func _on_online_pressed() -> void:
 	UI.transition_to_scene("res://worlds/connect_menu.tscn")
 
 
+func _on_quit_pressed() -> void:
+	get_tree().quit()
+
+
 func _ready():
 	$VBoxContainer/local.call_deferred("grab_focus")
+
 

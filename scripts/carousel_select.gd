@@ -102,3 +102,7 @@ func update_carousel():
 		tween.tween_property(child, "modulate", target_color, ANIM_DURATION).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	var selected_stage = carousel.get_child(current_index)
 	stage_title.text = selected_stage.name
+
+
+func _on_back_pressed() -> void:
+	UI.transition_to_scene("res://worlds/main_menu.tscn")

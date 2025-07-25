@@ -153,3 +153,4 @@ vertical_alignment = 2
 
 [connection signal="pressed" from="VBoxContainer/local" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/online" to="." method="_on_online_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]

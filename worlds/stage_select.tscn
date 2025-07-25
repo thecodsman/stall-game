@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://0v71744dqy0u"]
+[gd_scene load_steps=22 format=3 uid="uid://0v71744dqy0u"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_hwrfj"]
 [ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_1dnoh"]
@@ -8,6 +8,8 @@
 [ext_resource type="FontFile" uid="uid://dsvndvksm8333" path="res://font/miaow-italic.ttf" id="6_1dnoh"]
 [ext_resource type="FontFile" uid="uid://b87q8kt3xpixp" path="res://font/miaow-bold.ttf" id="7_n0kpk"]
 [ext_resource type="Script" uid="uid://slj0q2g5pgbm" path="res://scripts/carousel_select.gd" id="8_y8sy2"]
+[ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="10_6v0ux"]
+[ext_resource type="Texture2D" uid="uid://qajfx3mm4330" path="res://sprites/ui/back_arrow.png" id="11_y8sy2"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="12_mrdiy"]
 
 [sub_resource type="Gradient" id="Gradient_2cpqk"]
@@ -99,6 +101,14 @@ shader = ExtResource("12_mrdiy")
 shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
+
+[sub_resource type="InputEventJoypadButton" id="InputEventJoypadButton_6v0ux"]
+device = -1
+button_index = 1
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_y8sy2"]
+events = [SubResource("InputEventJoypadButton_6v0ux")]
 
 [node name="stage_select" type="Control"]
 layout_mode = 3
@@ -233,3 +243,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
 metadata/_edit_lock_ = true
+
+[node name="back" type="Button" parent="."]
+layout_mode = 0
+offset_top = 81.0
+offset_right = 12.0
+offset_bottom = 94.0
+focus_neighbor_left = NodePath("../Tabs/IP")
+focus_neighbor_right = NodePath("../Tabs/Steam")
+focus_next = NodePath("../Tabs/Steam")
+focus_previous = NodePath("../Tabs/IP")
+theme = ExtResource("10_6v0ux")
+shortcut = SubResource("Shortcut_y8sy2")
+icon = ExtResource("11_y8sy2")
+
+[connection signal="pressed" from="back" to="SubViewportContainer2/game/Control" method="_on_back_pressed"]

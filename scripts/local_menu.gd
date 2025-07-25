@@ -3,6 +3,10 @@ extends Control
 @export var player_sprites : Array[Sprite2D]
 
 
+func _ready():
+	Globals.registered_controllers = []
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventJoypadButton: return
 	match event.button_index:
@@ -18,5 +22,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://worlds/stage_select.tscn")
+	UI.transition_to_scene("res://worlds/stage_select.tscn")
 
