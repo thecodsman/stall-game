@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=16 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="PackedScene" uid="uid://1dqh2msfw6nt" path="res://stuff/point.tscn" id="1_8s55o"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
 [ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_1l7ac"]
 [ext_resource type="Shader" uid="uid://boud6vjsa0v2e" path="res://shaders/transition.gdshader" id="3_kow1n"]
+[ext_resource type="Script" uid="uid://c70mp7qxgh1pb" path="res://scripts/pause_menu.gd" id="5_qmigx"]
 [ext_resource type="Shader" uid="uid://djgf67gdkokt7" path="res://shaders/single_shadow.gdshader" id="6_xrklg"]
 [ext_resource type="FontFile" uid="uid://b2mcleuwl8qr0" path="res://font/miaow font.ttf" id="7_qmigx"]
 
@@ -104,7 +105,6 @@ bal_percent = NodePath("CanvasLayer/in-game/bal-percent/Label")
 game_text = NodePath("CanvasLayer/game_text")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 0
 
 [node name="in-game" type="Control" parent="CanvasLayer"]
 visible = false
@@ -112,6 +112,7 @@ layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+mouse_filter = 2
 
 [node name="bal-percent" type="VBoxContainer" parent="CanvasLayer/in-game"]
 layout_mode = 1
@@ -166,6 +167,60 @@ layout_mode = 2
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
+[node name="pause-menu" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_qmigx")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/pause-menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -24.0
+offset_right = 33.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_1l7ac")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/pause-menu/Panel"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_right = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="resume" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_1l7ac")
+text = "Resume"
+
+[node name="main-menu" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="quit" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_1l7ac")
+text = "Quit"
+
 [node name="transition" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_1rrlu")
 anchors_preset = 15
@@ -173,6 +228,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
@@ -195,3 +251,6 @@ text = "player 2 scored"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[connection signal="pressed" from="CanvasLayer/pause-menu/Panel/VBoxContainer/resume" to="CanvasLayer/pause-menu" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/pause-menu/Panel/VBoxContainer/main-menu" to="CanvasLayer/pause-menu" method="_on_mainmenu_pressed"]

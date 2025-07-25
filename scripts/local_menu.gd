@@ -24,3 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_start_pressed() -> void:
 	UI.transition_to_scene("res://worlds/stage_select.tscn")
 
+
+func _on_back_pressed() -> void:
+	UI.transition_to_scene("res://worlds/main_menu.tscn")
+
