@@ -5,6 +5,7 @@ signal on_transition
 @export var point_displays : Array[HBoxContainer]
 @export var bal_percent : Label
 @export var game_text : Label
+@export var pause_menu : Control
 @onready var scores = $"CanvasLayer/in-game"
 @onready var anim = $CanvasLayer/AnimationPlayer
 

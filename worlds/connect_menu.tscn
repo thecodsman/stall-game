@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://jhomeys3bfhg"]
+[gd_scene load_steps=6 format=3 uid="uid://jhomeys3bfhg"]
 
 [ext_resource type="Script" uid="uid://u46bcxk0kgsh" path="res://scripts/connect_menu.gd" id="1_7571w"]
 [ext_resource type="PackedScene" uid="uid://dga37kf5dchc3" path="res://shaders/backgrounds/online.tscn" id="2_kvax6"]
 [ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="3_kvax6"]
 [ext_resource type="Texture2D" uid="uid://qajfx3mm4330" path="res://sprites/ui/back_arrow.png" id="4_7571w"]
+[ext_resource type="Script" uid="uid://nwak2u0atp4m" path="res://scripts/ip_menu.gd" id="4_bblat"]
 
 [node name="connect_menu" type="Control"]
 layout_mode = 3
@@ -26,9 +27,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_kvax6")
 tab_alignment = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Steam" type="Control" parent="Tabs"]
+visible = false
 layout_mode = 2
 focus_neighbor_left = NodePath("../../back")
 focus_neighbor_top = NodePath("buttons/steam_host")
@@ -66,7 +68,6 @@ disabled = true
 text = "Server List"
 
 [node name="IP" type="Control" parent="Tabs"]
-visible = false
 layout_mode = 2
 focus_neighbor_left = NodePath("../Steam")
 focus_neighbor_top = NodePath("buttons/host")
@@ -74,6 +75,7 @@ focus_neighbor_right = NodePath("../../back")
 focus_neighbor_bottom = NodePath("IP/ip")
 focus_next = NodePath("IP/ip")
 focus_mode = 2
+script = ExtResource("4_bblat")
 metadata/_tab_index = 1
 
 [node name="IP" type="VBoxContainer" parent="Tabs/IP"]
@@ -148,6 +150,8 @@ theme = ExtResource("3_kvax6")
 icon = ExtResource("4_7571w")
 
 [connection signal="pressed" from="Tabs/Steam/buttons/steam_host" to="." method="_on_steam_host_pressed"]
+[connection signal="focus_entered" from="Tabs/IP/IP/ip" to="Tabs/IP" method="_on_text_box_focused"]
+[connection signal="focus_entered" from="Tabs/IP/IP/port" to="Tabs/IP" method="_on_text_box_focused"]
 [connection signal="pressed" from="Tabs/IP/buttons/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="Tabs/IP/buttons/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]

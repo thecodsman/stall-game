@@ -91,7 +91,7 @@ shader_parameter/blur_amount = 0.0
 shader_parameter/shadow_scale = 1.0
 shader_parameter/disable_rotating = false
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "bal_percent", "game_text")]
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "bal_percent", "game_text", "pause_menu")]
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -103,6 +103,7 @@ script = ExtResource("1_0q5dl")
 point_displays = [NodePath("CanvasLayer/in-game/p1"), NodePath("CanvasLayer/in-game/p2")]
 bal_percent = NodePath("CanvasLayer/in-game/bal-percent/Label")
 game_text = NodePath("CanvasLayer/game_text")
+pause_menu = NodePath("CanvasLayer/pause-menu")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -167,7 +168,7 @@ layout_mode = 2
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 
-[node name="pause-menu" type="Control" parent="CanvasLayer"]
+[node name="pause-menu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("resume_button")]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -178,6 +179,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_qmigx")
+resume_button = NodePath("Panel/VBoxContainer/resume")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/pause-menu"]
 layout_mode = 1
@@ -209,15 +211,27 @@ alignment = 1
 
 [node name="resume" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../quit")
+focus_neighbor_bottom = NodePath("../main-menu")
+focus_next = NodePath("../main-menu")
+focus_previous = NodePath("../quit")
 theme = ExtResource("3_1l7ac")
 text = "Resume"
 
 [node name="main-menu" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../resume")
+focus_neighbor_bottom = NodePath("../quit")
+focus_next = NodePath("../quit")
+focus_previous = NodePath("../resume")
 text = "Main Menu"
 
 [node name="quit" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../main-menu")
+focus_neighbor_bottom = NodePath("../resume")
+focus_next = NodePath("../resume")
+focus_previous = NodePath("../main-menu")
 theme = ExtResource("3_1l7ac")
 text = "Quit"
 
@@ -252,5 +266,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[connection signal="visibility_changed" from="CanvasLayer/pause-menu" to="CanvasLayer/pause-menu" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/pause-menu/Panel/VBoxContainer/resume" to="CanvasLayer/pause-menu" method="_on_resume_pressed"]
 [connection signal="pressed" from="CanvasLayer/pause-menu/Panel/VBoxContainer/main-menu" to="CanvasLayer/pause-menu" method="_on_mainmenu_pressed"]

@@ -67,3 +67,14 @@ func local_spawn_players():
 		$SubViewportContainer/game.add_child(player)
 		player.global_position = player_spawns[i].global_position
 		Globals.camera.players.append(player)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventJoypadButton: return
+	if not event.button_index == JOY_BUTTON_START: return
+	pause()
+
+
+func pause():
+	UI.pause_menu.show()
+	get_tree().paused = true
