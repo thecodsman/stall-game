@@ -1241,6 +1241,12 @@ XBuffer = 12
 RShoulderBuffer = 12
 MaxTimeToSmash = 0.08
 NeutralZone = 0.3
+KeyboardToController = Dictionary[int, int]({
+67: 10,
+86: 1,
+88: 2,
+90: 0
+})
 
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="area_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_area_entered"]
