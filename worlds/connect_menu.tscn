@@ -150,8 +150,6 @@ theme = ExtResource("3_kvax6")
 icon = ExtResource("4_7571w")
 
 [connection signal="pressed" from="Tabs/Steam/buttons/steam_host" to="." method="_on_steam_host_pressed"]
-[connection signal="focus_entered" from="Tabs/IP/IP/ip" to="Tabs/IP" method="_on_text_box_focused"]
-[connection signal="focus_entered" from="Tabs/IP/IP/port" to="Tabs/IP" method="_on_text_box_focused"]
 [connection signal="pressed" from="Tabs/IP/buttons/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="Tabs/IP/buttons/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]

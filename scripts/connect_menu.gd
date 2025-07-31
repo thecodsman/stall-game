@@ -39,6 +39,7 @@ func _input(event: InputEvent) -> void:
 		if not event.pressed: return
 		match event.button_index:
 			JOY_BUTTON_B:
+				if UI.onscreen_keyboard.visible: return
 				_on_back_pressed()
 
 			JOY_BUTTON_RIGHT_SHOULDER:

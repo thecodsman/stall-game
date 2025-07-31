@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=24 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="PackedScene" uid="uid://1dqh2msfw6nt" path="res://stuff/point.tscn" id="1_8s55o"]
@@ -6,8 +6,12 @@
 [ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_1l7ac"]
 [ext_resource type="Shader" uid="uid://boud6vjsa0v2e" path="res://shaders/transition.gdshader" id="3_kow1n"]
 [ext_resource type="Script" uid="uid://c70mp7qxgh1pb" path="res://scripts/pause_menu.gd" id="5_qmigx"]
+[ext_resource type="Theme" uid="uid://dbaxmp1eaeure" path="res://themes/onscreen_keyboard_theme.tres" id="6_7ywke"]
+[ext_resource type="Script" uid="uid://c4hotdlcc3w6u" path="res://scripts/onscreen_keyboard.gd" id="6_xhub8"]
 [ext_resource type="Shader" uid="uid://djgf67gdkokt7" path="res://shaders/single_shadow.gdshader" id="6_xrklg"]
 [ext_resource type="FontFile" uid="uid://b2mcleuwl8qr0" path="res://font/miaow font.ttf" id="7_qmigx"]
+[ext_resource type="Texture2D" uid="uid://c84w0m8okb2db" path="res://sprites/backdeletebutton.png" id="7_xhub8"]
+[ext_resource type="Texture2D" uid="uid://bfoexwetrfck4" path="res://sprites/checkenterbutton.png" id="8_mbtk0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ftfax"]
 shader = ExtResource("2_1l7ac")
@@ -20,6 +24,96 @@ shader_parameter/aspect_ratio = 1.0
 shader_parameter/square_border = false
 shader_parameter/offset = Vector2(0, 0)
 shader_parameter/max_or_add = false
+
+[sub_resource type="Animation" id="Animation_xhub8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_7ywke"]
+resource_name = "close"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_mbtk0"]
+resource_name = "open"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.214123),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 60), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mbtk0"]
+_data = {
+&"RESET": SubResource("Animation_xhub8"),
+&"close": SubResource("Animation_7ywke"),
+&"open": SubResource("Animation_mbtk0")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1rrlu"]
 shader = ExtResource("3_kow1n")
@@ -91,7 +185,7 @@ shader_parameter/blur_amount = 0.0
 shader_parameter/shadow_scale = 1.0
 shader_parameter/disable_rotating = false
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "bal_percent", "game_text", "pause_menu")]
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard")]
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -104,6 +198,7 @@ point_displays = [NodePath("CanvasLayer/in-game/p1"), NodePath("CanvasLayer/in-g
 bal_percent = NodePath("CanvasLayer/in-game/bal-percent/Label")
 game_text = NodePath("CanvasLayer/game_text")
 pause_menu = NodePath("CanvasLayer/pause-menu")
+onscreen_keyboard = NodePath("CanvasLayer/onscreen_keyboard")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -235,6 +330,384 @@ focus_previous = NodePath("../main-menu")
 theme = ExtResource("3_1l7ac")
 text = "Quit"
 
+[node name="onscreen_keyboard" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_xhub8")
+
+[node name="tabs" type="TabContainer" parent="CanvasLayer/onscreen_keyboard"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("6_7ywke")
+current_tab = 1
+clip_tabs = false
+tabs_visible = false
+
+[node name="qwerty" type="PanelContainer" parent="CanvasLayer/onscreen_keyboard/tabs"]
+visible = false
+layout_mode = 2
+focus_neighbor_left = NodePath("VBoxContainer/controls/123")
+focus_neighbor_top = NodePath("VBoxContainer/row_4/v")
+focus_neighbor_right = NodePath("VBoxContainer/controls/enter")
+focus_neighbor_bottom = NodePath("VBoxContainer/controls/back")
+focus_next = NodePath("VBoxContainer/controls/123")
+focus_mode = 2
+theme = ExtResource("6_7ywke")
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="controls" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="123" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "123"
+
+[node name="back" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+icon = ExtResource("7_xhub8")
+
+[node name="enter" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+icon = ExtResource("8_mbtk0")
+
+[node name="row_1" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="q" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "q"
+
+[node name="w" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "w"
+
+[node name="e" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "e"
+
+[node name="r" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "r
+"
+
+[node name="t" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "t"
+
+[node name="y" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "y
+"
+
+[node name="u" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "u
+"
+
+[node name="row_2" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="i" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "i
+"
+
+[node name="o" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "o"
+
+[node name="p" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "p"
+
+[node name="a" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "a"
+
+[node name="s" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "s"
+
+[node name="d" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "d"
+
+[node name="f" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "f"
+
+[node name="row_3" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="g" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "g"
+
+[node name="h" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "h"
+
+[node name="j" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "j
+"
+
+[node name="k" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "k"
+
+[node name="l" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "l"
+
+[node name="z" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "z"
+
+[node name="x" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "x"
+
+[node name="row_4" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="c" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "c"
+
+[node name="v" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "v"
+
+[node name="b" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "b"
+
+[node name="n" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "n"
+
+[node name="m" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "m"
+
+[node name="123" type="PanelContainer" parent="CanvasLayer/onscreen_keyboard/tabs"]
+layout_mode = 2
+focus_neighbor_left = NodePath("VBoxContainer/row_2/dot")
+focus_neighbor_top = NodePath("VBoxContainer/row_1/8")
+focus_neighbor_right = NodePath("VBoxContainer/row_2/enter")
+focus_neighbor_bottom = NodePath("VBoxContainer/row_2/back")
+focus_next = NodePath("VBoxContainer/row_2/dot")
+focus_mode = 2
+theme = ExtResource("6_7ywke")
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="row_2" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="dot" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "."
+
+[node name="abc" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "abc"
+
+[node name="back" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+icon = ExtResource("7_xhub8")
+
+[node name="enter" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+icon = ExtResource("8_mbtk0")
+
+[node name="controls" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="1" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "1"
+
+[node name="2" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "2"
+
+[node name="3" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "3"
+
+[node name="4" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "4"
+
+[node name="5" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "5"
+
+[node name="row_1" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="6" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "6"
+
+[node name="7" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "7"
+
+[node name="8" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "8"
+
+[node name="9" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "9"
+
+[node name="0" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+text = "0"
+
+[node name="row_3" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="row_4" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("6_7ywke")
+alignment = 1
+
+[node name="anim" type="AnimationPlayer" parent="CanvasLayer/onscreen_keyboard"]
+libraries = {
+&"": SubResource("AnimationLibrary_mbtk0")
+}
+
 [node name="transition" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_1rrlu")
 anchors_preset = 15
@@ -269,3 +742,6 @@ autowrap_mode = 2
 [connection signal="visibility_changed" from="CanvasLayer/pause-menu" to="CanvasLayer/pause-menu" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/pause-menu/Panel/VBoxContainer/resume" to="CanvasLayer/pause-menu" method="_on_resume_pressed"]
 [connection signal="pressed" from="CanvasLayer/pause-menu/Panel/VBoxContainer/main-menu" to="CanvasLayer/pause-menu" method="_on_mainmenu_pressed"]
+[connection signal="pressed" from="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls/back" to="CanvasLayer/onscreen_keyboard" method="_on_back_pressed"]
+[connection signal="pressed" from="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2/dot" to="CanvasLayer/onscreen_keyboard" method="_on_dot_pressed"]
+[connection signal="pressed" from="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2/back" to="CanvasLayer/onscreen_keyboard" method="_on_back_pressed"]

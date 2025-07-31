@@ -1,346 +1,366 @@
-[gd_scene load_steps=4 format=3 uid="uid://dblrl5etkd0o6"]
+[gd_scene load_steps=5 format=3 uid="uid://dblrl5etkd0o6"]
 
 [ext_resource type="Theme" uid="uid://dbaxmp1eaeure" path="res://themes/onscreen_keyboard_theme.tres" id="1_ggdiq"]
+[ext_resource type="Script" uid="uid://c4hotdlcc3w6u" path="res://scripts/onscreen_keyboard.gd" id="1_m0ees"]
 [ext_resource type="Texture2D" uid="uid://c84w0m8okb2db" path="res://sprites/backdeletebutton.png" id="2_0pfd5"]
 [ext_resource type="Texture2D" uid="uid://bfoexwetrfck4" path="res://sprites/checkenterbutton.png" id="3_4740h"]
 
-[node name="onscreen_keyboard" type="Node2D"]
+[node name="onscreen_keyboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m0ees")
 
-[node name="qwerty" type="PanelContainer" parent="."]
-offset_top = 36.0
-offset_right = 96.0
-offset_bottom = 94.0
+[node name="tabs" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
 theme = ExtResource("1_ggdiq")
+current_tab = 0
+clip_tabs = false
+tabs_visible = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="qwerty"]
+[node name="qwerty" type="PanelContainer" parent="tabs"]
+layout_mode = 2
+focus_neighbor_left = NodePath("VBoxContainer/controls/enter")
+focus_neighbor_top = NodePath("VBoxContainer/row_4/b")
+focus_neighbor_right = NodePath("VBoxContainer/controls/123")
+focus_neighbor_bottom = NodePath("VBoxContainer/controls/back")
+focus_next = NodePath("VBoxContainer/controls/back")
+focus_mode = 2
+theme = ExtResource("1_ggdiq")
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="tabs/qwerty"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="controls" type="HBoxContainer" parent="qwerty/VBoxContainer"]
+[node name="controls" type="HBoxContainer" parent="tabs/qwerty/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="123" type="Button" parent="qwerty/VBoxContainer/controls"]
+[node name="123" type="Button" parent="tabs/qwerty/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "123"
 
-[node name="back" type="Button" parent="qwerty/VBoxContainer/controls"]
+[node name="back" type="Button" parent="tabs/qwerty/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 icon = ExtResource("2_0pfd5")
 
-[node name="enter" type="Button" parent="qwerty/VBoxContainer/controls"]
+[node name="enter" type="Button" parent="tabs/qwerty/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 icon = ExtResource("3_4740h")
 
-[node name="row_1" type="HBoxContainer" parent="qwerty/VBoxContainer"]
+[node name="row_1" type="HBoxContainer" parent="tabs/qwerty/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="q" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="q" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "q"
 
-[node name="w" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="w" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "w"
 
-[node name="e" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="e" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "e"
 
-[node name="r" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="r" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
-text = "r
-"
+text = "r"
 
-[node name="t" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="t" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "t"
 
-[node name="y" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="y" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
-text = "y
-"
+text = "y"
 
-[node name="u" type="Button" parent="qwerty/VBoxContainer/row_1"]
+[node name="u" type="Button" parent="tabs/qwerty/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
-text = "u
-"
+text = "u"
 
-[node name="row_2" type="HBoxContainer" parent="qwerty/VBoxContainer"]
+[node name="row_2" type="HBoxContainer" parent="tabs/qwerty/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="i" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="i" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
-text = "i
-"
+text = "i"
 
-[node name="o" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="o" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "o"
 
-[node name="p" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="p" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "p"
 
-[node name="a" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="a" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "a"
 
-[node name="s" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="s" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "s"
 
-[node name="d" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="d" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "d"
 
-[node name="f" type="Button" parent="qwerty/VBoxContainer/row_2"]
+[node name="f" type="Button" parent="tabs/qwerty/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "f"
 
-[node name="row_3" type="HBoxContainer" parent="qwerty/VBoxContainer"]
+[node name="row_3" type="HBoxContainer" parent="tabs/qwerty/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="g" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="g" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "g"
 
-[node name="h" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="h" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "h"
 
-[node name="j" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="j" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
-text = "j
-"
+text = "j"
 
-[node name="k" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="k" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "k"
 
-[node name="l" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="l" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "l"
 
-[node name="z" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="z" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "z"
 
-[node name="x" type="Button" parent="qwerty/VBoxContainer/row_3"]
+[node name="x" type="Button" parent="tabs/qwerty/VBoxContainer/row_3"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "x"
 
-[node name="row_4" type="HBoxContainer" parent="qwerty/VBoxContainer"]
+[node name="row_4" type="HBoxContainer" parent="tabs/qwerty/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="c" type="Button" parent="qwerty/VBoxContainer/row_4"]
+[node name="c" type="Button" parent="tabs/qwerty/VBoxContainer/row_4"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "c"
 
-[node name="v" type="Button" parent="qwerty/VBoxContainer/row_4"]
+[node name="v" type="Button" parent="tabs/qwerty/VBoxContainer/row_4"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "v"
 
-[node name="b" type="Button" parent="qwerty/VBoxContainer/row_4"]
+[node name="b" type="Button" parent="tabs/qwerty/VBoxContainer/row_4"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "b"
 
-[node name="n" type="Button" parent="qwerty/VBoxContainer/row_4"]
+[node name="n" type="Button" parent="tabs/qwerty/VBoxContainer/row_4"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "n"
 
-[node name="m" type="Button" parent="qwerty/VBoxContainer/row_4"]
+[node name="m" type="Button" parent="tabs/qwerty/VBoxContainer/row_4"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "m"
 
-[node name="123" type="PanelContainer" parent="."]
+[node name="123" type="PanelContainer" parent="tabs"]
 visible = false
-offset_top = 60.0
-offset_right = 96.0
-offset_bottom = 94.0
+layout_mode = 2
 theme = ExtResource("1_ggdiq")
+metadata/_tab_index = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="123"]
+[node name="VBoxContainer" type="VBoxContainer" parent="tabs/123"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="row_2" type="HBoxContainer" parent="123/VBoxContainer"]
+[node name="row_2" type="HBoxContainer" parent="tabs/123/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="dot" type="Button" parent="123/VBoxContainer/row_2"]
+[node name="dot" type="Button" parent="tabs/123/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "."
 
-[node name="abc" type="Button" parent="123/VBoxContainer/row_2"]
+[node name="abc" type="Button" parent="tabs/123/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "abc"
 
-[node name="back" type="Button" parent="123/VBoxContainer/row_2"]
+[node name="back" type="Button" parent="tabs/123/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 icon = ExtResource("2_0pfd5")
 
-[node name="enter" type="Button" parent="123/VBoxContainer/row_2"]
+[node name="enter" type="Button" parent="tabs/123/VBoxContainer/row_2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 icon = ExtResource("3_4740h")
 
-[node name="controls" type="HBoxContainer" parent="123/VBoxContainer"]
+[node name="controls" type="HBoxContainer" parent="tabs/123/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="1" type="Button" parent="123/VBoxContainer/controls"]
+[node name="1" type="Button" parent="tabs/123/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "1"
 
-[node name="2" type="Button" parent="123/VBoxContainer/controls"]
+[node name="2" type="Button" parent="tabs/123/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "2"
 
-[node name="3" type="Button" parent="123/VBoxContainer/controls"]
+[node name="3" type="Button" parent="tabs/123/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "3"
 
-[node name="4" type="Button" parent="123/VBoxContainer/controls"]
+[node name="4" type="Button" parent="tabs/123/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "4
 "
 
-[node name="5" type="Button" parent="123/VBoxContainer/controls"]
+[node name="5" type="Button" parent="tabs/123/VBoxContainer/controls"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "5"
 
-[node name="row_1" type="HBoxContainer" parent="123/VBoxContainer"]
+[node name="row_1" type="HBoxContainer" parent="tabs/123/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="6" type="Button" parent="123/VBoxContainer/row_1"]
+[node name="6" type="Button" parent="tabs/123/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "6
 "
 
-[node name="7" type="Button" parent="123/VBoxContainer/row_1"]
+[node name="7" type="Button" parent="tabs/123/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "7"
 
-[node name="8" type="Button" parent="123/VBoxContainer/row_1"]
+[node name="8" type="Button" parent="tabs/123/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "8"
 
-[node name="9" type="Button" parent="123/VBoxContainer/row_1"]
+[node name="9" type="Button" parent="tabs/123/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "9"
 
-[node name="0" type="Button" parent="123/VBoxContainer/row_1"]
+[node name="0" type="Button" parent="tabs/123/VBoxContainer/row_1"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 text = "0"
 
-[node name="row_3" type="HBoxContainer" parent="123/VBoxContainer"]
+[node name="row_3" type="HBoxContainer" parent="tabs/123/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme = ExtResource("1_ggdiq")
 alignment = 1
 
-[node name="row_4" type="HBoxContainer" parent="123/VBoxContainer"]
+[node name="row_4" type="HBoxContainer" parent="tabs/123/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme = ExtResource("1_ggdiq")

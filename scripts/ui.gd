@@ -6,6 +6,7 @@ signal on_transition
 @export var bal_percent : Label
 @export var game_text : Label
 @export var pause_menu : Control
+@export var onscreen_keyboard : Control
 @onready var scores = $"CanvasLayer/in-game"
 @onready var anim = $CanvasLayer/AnimationPlayer
 
