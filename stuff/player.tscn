@@ -1,9 +1,11 @@
-[gd_scene load_steps=51 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=53 format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
+[ext_resource type="Script" uid="uid://c5bvosgoqnxv4" path="res://scripts/sprite.gd" id="3_5hghs"]
 [ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/ball_hitter.gd" id="3_xc1ee"]
 [ext_resource type="AudioStream" uid="uid://dckhqsnsynhwp" path="res://sounds/kick.wav" id="4_pbn0x"]
+[ext_resource type="PackedScene" uid="uid://cg4flosl1w4qt" path="res://stuff/hit_fx.tscn" id="4_wvly4"]
 [ext_resource type="Script" uid="uid://bf2gsw8tyk6a5" path="res://scripts/bonk_box.gd" id="5_pbn0x"]
 [ext_resource type="AudioStream" uid="uid://cvy7sd2sqxotu" path="res://sounds/dash.wav" id="6_iqidt"]
 [ext_resource type="AudioStream" uid="uid://dojtu42gvjf7c" path="res://sounds/jump.wav" id="7_28f3j"]
@@ -1167,6 +1169,7 @@ material = SubResource("ShaderMaterial_pbn0x")
 texture = ExtResource("2_4ira2")
 hframes = 93
 region_rect = Rect2(0, 0, 372, 12)
+script = ExtResource("3_5hghs")
 
 [node name="ball_holder" type="Node2D" parent="Sprite2D"]
 position = Vector2(4, 0)
@@ -1181,6 +1184,7 @@ input = NodePath("../../Input")
 player = NodePath("../..")
 direction = Vector2(0.9, 0.1)
 power = 60.0
+hit_fx_scene = ExtResource("4_wvly4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box"]
 shape = SubResource("CircleShape2D_tnfj0")

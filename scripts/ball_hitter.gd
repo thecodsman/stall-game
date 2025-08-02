@@ -1,17 +1,24 @@
 class_name KickBox extends Area2D
 
+signal hit
+
 @export var input : PlayerInput
 @export var player : Player
 @export var direction : Vector2 = Vector2.ZERO
 @export var di_power : float = 0.25
 @export var power : float = 140.0
 @export var damage : float = 0.05
+@export var hit_fx_scene : PackedScene
 @onready var kick_sfx = $kick_sfx
 @onready var collider = $CollisionShape2D
 
 
 func _on_body_entered(ball:Ball) -> void:
+	hit.emit(ball)
 	kick_sfx.play()
+	var hit_fx : Node2D = hit_fx_scene.instantiate()
+	hit_fx.global_position = ball.global_position
+	get_tree().root.add_child(hit_fx)
 	if not is_multiplayer_authority(): return
 	if direction == Vector2.ZERO:
 		var dir2ball = global_position.angle_to_point((ball.global_position))
@@ -27,9 +34,8 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	ball.set_state(ball.State.NORMAL)
 	collider.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)
-	#Globals.freeze_frame(0.05)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
-	if ball.velocity.length() > 0: ball.spin = (abs(ball.spin) * sign(angle_diff)) + (angle_diff) * clampf(ball.velocity.length() * 0.0145, 0.5, 3)
+	if ball.velocity.length() > 0: ball.spin = ((abs(ball.spin) * sign(angle_diff)) + (angle_diff) * clampf(ball.velocity.length() * 0.0145, 0.5, 3))
 	ball.velocity = Vector2(ball.velocity.length() + (power * ball.damage) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
 	ball.damage += damage
 	UI._on_bal_percent_change(ball.damage)

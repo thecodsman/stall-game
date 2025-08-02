@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cg0f1u4swchxb"]
+[gd_scene load_steps=9 format=3 uid="uid://cg0f1u4swchxb"]
 
 [ext_resource type="Script" uid="uid://vcfnl5g05scq" path="res://scripts/bal.gd" id="1_68n8j"]
 [ext_resource type="Texture2D" uid="uid://co27q43o2u5i7" path="res://sprites/ball.png" id="2_nvnwp"]
 [ext_resource type="AudioStream" uid="uid://c23shny3karkj" path="res://sounds/ball bounce.wav" id="3_gssss"]
+[ext_resource type="Script" uid="uid://c5bvosgoqnxv4" path="res://scripts/sprite.gd" id="3_nd7ro"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nd7ro"]
 
@@ -52,7 +53,7 @@ slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_68n8j")
-spin_rollout_threshold = 2.093
+roll_ratio_threshold = 3.6
 
 [node name="rotate_node" type="Node2D" parent="."]
 
@@ -62,6 +63,7 @@ spin_rollout_threshold = 2.093
 material = SubResource("ShaderMaterial_nd7ro")
 position = Vector2(0, 7.15256e-07)
 texture = ExtResource("2_nvnwp")
+script = ExtResource("3_nd7ro")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_e3n6g")

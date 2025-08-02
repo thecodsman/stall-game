@@ -31,6 +31,7 @@ var run_dash_timer : Timer = Timer.new()
 var is_ball_stalled : bool = false
 var process_state : bool = false
 var ball : Ball
+var time_scale : float = 1
 @onready var input : PlayerInput = $Input
 @onready var ball_holder : Node2D = $Sprite2D/ball_holder
 @onready var anim : AnimationPlayer = $AnimationPlayer
@@ -94,13 +95,22 @@ func _ready():
 	sprite.self_modulate = self_modulate
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
+	kick_box.hit.connect(_on_hit)
 	input.device_index = controller_index
 	process_state = (get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
 func _physics_process(delta: float) -> void:
+	delta *= time_scale
 	if process_state: update_state(delta)
+	anim.speed_scale = time_scale
+	var prev_velocity = velocity
+	velocity *= time_scale
 	move_and_slide()
+	if time_scale:
+		velocity /= time_scale
+	else:
+		velocity = prev_velocity
 
 
 @rpc("any_peer", "call_local", "unreliable_ordered")
@@ -262,6 +272,7 @@ func update_state(delta : float):
 			direction = input.direction.x
 			velocity.x = lerpf(velocity.x, 0, 10*delta)
 			apply_gravity(delta)
+			# this is probably really bad code but it works
 			var side_input : bool = (((input.direction).angle() > -PI*0.25 && input.direction.angle() < PI*0.25) || (input.direction.angle() > PI*0.75 || input.direction.angle() < -PI*0.75))
 			if input.just_smashed() && side_input:
 				set_state.rpc(State.INITIAL_SPRINT)
@@ -655,6 +666,17 @@ func _on_stall_box_body_entered(_ball : Ball) -> void:
 	ball = _ball
 	if ball.stalled || not is_multiplayer_authority(): return
 	stall_ball.rpc(ball.get_path())
+
+
+func _on_hit(_ball : Ball):
+	time_scale = 0
+	_ball.time_scale = 0
+	var duration : float = 0.001 * kick_box.power * _ball.damage
+	sprite.shake(1, duration, 1)
+	_ball.sprite.shake(2, duration, 2)
+	await get_tree().create_timer(duration).timeout
+	time_scale = 1
+	_ball.time_scale = 1
 
 
 @rpc("authority", "call_local", "reliable")
