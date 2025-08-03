@@ -193,7 +193,6 @@ func _update_state(delta : float):
 			juice_it_up()
 			sprite.rotation += (spin * delta) * 20
 			if (abs(spin_entering_roll * 100) / velocity_entering_roll.length()) > roll_ratio_threshold * 1.5 && abs(spin) > abs(spin_entering_roll) * 0.5:
-				print("skidding")
 				spin = lerpf(spin, 0, 0.5*delta)
 				velocity = velocity.lerp(Vector2.ZERO, 7*delta)
 				spawn_smoke(to_local(collision_info.get_position()))

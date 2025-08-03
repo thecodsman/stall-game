@@ -14,6 +14,7 @@ class_name Player extends CharacterBody2D
 @export var FRICTION : float = 20
 @export var COYOTE_TIME : float = 0.05
 @export var MAX_JUMPS : int = 2
+@export var FAST_FALL_SPEED : float = 150
 @export_category("misc")
 @export var player_index : int = 0
 @export var controller_index : int = 0
@@ -21,8 +22,8 @@ class_name Player extends CharacterBody2D
 var gravity : float = BASE_GRAVITY
 var direction : float = 0
 var dir_prev_frame : float = 0
-var jumps = MAX_JUMPS
-var can_jump : bool = false
+var jumps : int = MAX_JUMPS
+var fast_falling : bool = false
 var slide_boost_strength : float = 0
 var wall_jump_dir : float = 0
 var dashes : int = 1
@@ -285,6 +286,7 @@ func update_state(delta : float):
 			else:
 				dashes = 1
 				jumps = MAX_JUMPS
+				fast_falling = false
 			check_for_jump()
 			check_for_drop_through()
 			check_for_attack()
@@ -393,6 +395,7 @@ func update_state(delta : float):
 			check_for_dash()
 			check_for_jump()
 			check_for_special()
+			check_for_fastfall()
 			apply_gravity(delta)
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0:
@@ -475,6 +478,7 @@ func update_state(delta : float):
 					if is_on_floor(): set_state.rpc(State.LANDING)
 			if anim.current_animation == "":
 				set_state.rpc(State.IDLE)
+			check_for_fastfall()
 
 		State.SLIDE_KICK:
 			check_for_jump()
@@ -609,6 +613,15 @@ func check_for_dash():
 		set_state.rpc(State.DASH)
 
 
+func check_for_fastfall():
+	if input.just_smashed() && angle_difference(input.direction.angle(), PI/2) && velocity.y > -10 && not fast_falling:
+		velocity.y = FAST_FALL_SPEED
+		fast_falling = true
+		spawn_spark(Vector2(4,-4))
+		return true
+	return false
+
+
 func move(delta : float, accel : float = ACCEL, speed : float = SPEED, flip : bool = true):
 	direction = input.direction.x
 	if velocity.x && flip == true: sprite.scale.x = sign(velocity.x)
@@ -705,3 +718,11 @@ func spawn_smoke(pos : Vector2 = Vector2(0, 4)):
 	smoke.position = pos
 	await smoke.finished
 	smoke.queue_free()
+
+
+@rpc("authority", "call_local", "unreliable")
+func spawn_spark(pos : Vector2):
+	var spark_scene : PackedScene = preload("res://particles/spark.tscn")
+	var spark : Node2D = spark_scene.instantiate()
+	spark.global_position = global_position + pos
+	get_parent().add_child(spark)

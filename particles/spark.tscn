@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyqlvsbi6lkfs"]
+
+[ext_resource type="Texture2D" uid="uid://cm473x6cji1it" path="res://sprites/hit-effect.png" id="1_5ag6g"]
+[ext_resource type="Script" uid="uid://m7vkjyfw2rev" path="res://scripts/spark.gd" id="1_c0pgx"]
+
+[node name="spark" type="Node2D"]
+scale = Vector2(1e-05, 1e-05)
+script = ExtResource("1_c0pgx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 1)
+texture = ExtResource("1_5ag6g")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+skew = -0.00437117
+texture = ExtResource("1_5ag6g")
