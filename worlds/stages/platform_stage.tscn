@@ -402,6 +402,12 @@ position = Vector2(12, 83)
 [node name="p2_spawn" type="Node2D" parent="."]
 position = Vector2(84, 83)
 
+[node name="p3_spawn" type="Node2D" parent="."]
+position = Vector2(21, 83)
+
+[node name="p4_spawn" type="Node2D" parent="."]
+position = Vector2(75, 83)
+
 [node name="ball_spawn" type="Node2D" parent="."]
 position = Vector2(48, 48)
 

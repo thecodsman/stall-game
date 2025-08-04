@@ -4,7 +4,7 @@ class_name Stage extends Node2D
 @export var stage_name : String
 var player_scene = preload("res://stuff/player.tscn")
 var ball_scene = preload("res://stuff/bal.tscn")
-@onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn]
+@onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn, $p3_spawn, $p4_spawn]
 @onready var ball_spawn : Node2D = $ball_spawn
 
 
