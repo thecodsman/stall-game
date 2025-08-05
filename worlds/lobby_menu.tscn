@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cqsdn6h23kr4j"]
 
 [ext_resource type="Script" uid="uid://cckpxvswq4hfy" path="res://scripts/lobby_menu.gd" id="1_ruh0p"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="4_d6oou"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_d6oou"]
 [ext_resource type="Texture2D" uid="uid://3lpa1v5x7e8r" path="res://sprites/ball-portrait.png" id="4_irulu"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_yoe3h"]
 [ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="6_d6oou"]

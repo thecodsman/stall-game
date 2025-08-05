@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ccp88q0expo2v" path="res://sprites/stage_select_icons/platform-stage-thumbnail.png" id="2_ybuv6"]
 [ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_ybuv6"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="4_o4h0l"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_vujsw"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="5_vujsw"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_0y6ho"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_78wr1"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="10_l2sf4"]

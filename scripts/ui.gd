@@ -19,10 +19,10 @@ func _ready():
 func _on_scores_changed(_scores : Array[int]):
 	for i in range(_scores.size()):
 		var score : int = _scores[i]
-		for j in range(point_displays[i].get_child_count()):
-			var point : TextureRect = point_displays[i].get_child(j)
+		for j in range(point_displays[i].tallys.get_child_count()):
+			var point : TextureRect = point_displays[i].tallys.get_child(j)
 			if j < score: point.self_modulate = Globals.player_colors[i]
-			else: point.self_modulate = Color.BLACK
+			else: point.self_modulate = Globals.GRAY
 
 
 func _on_bal_percent_change(percent : float):

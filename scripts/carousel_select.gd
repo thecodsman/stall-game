@@ -42,12 +42,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif not Input.is_joy_button_pressed(controller, JOY_BUTTON_A) :
 		can_select = true
 
-	if event is InputEventKey:
-			if event.is_action_pressed("right") and not event.is_echo():
+	if event is InputEventKey && event.is_pressed():
+			if event.keycode == KEY_LEFT and not event.is_echo():
 				scroll_left()
-			elif event.is_action_pressed("left") and not event.is_echo():
+			elif event.keycode == KEY_RIGHT and not event.is_echo():
 				scroll_right()
-			if event.is_action_pressed("jump") and not event.is_echo():
+			if event.keycode == KEY_SPACE and not event.is_echo():
 				go_to_stage()
 
 

@@ -45,6 +45,12 @@ func online_spawn_players():
 	for i in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
 		var id = Lobby.players.keys()[i]
+		var point_display : HBoxContainer = UI.point_displays[i]
+		var portrait_material : ShaderMaterial = point_display.portrait.material
+		var output_color_array : PackedColorArray = [Globals.player_colors[i]]
+		point_display.show()
+		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
+		point_display.portrait.modulate = Globals.player_colors[i]
 		player.id = id
 		player.name = str(id)
 		player.self_modulate = Globals.player_colors[i]
@@ -59,6 +65,12 @@ func local_spawn_players():
 	for i in range(Globals.registered_controllers.size()):
 		var player : Player = player_scene.instantiate()
 		var device = Globals.registered_controllers[i]
+		var point_display : HBoxContainer = UI.point_displays[i]
+		var portrait_material : ShaderMaterial = point_display.portrait.material
+		var output_color_array : PackedColorArray = [Globals.player_colors[i]]
+		point_display.show()
+		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
+		point_display.portrait.modulate = Globals.player_colors[i]
 		player.id = 1
 		player.name = str(device)
 		player.self_modulate = Globals.player_colors[i]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://b50ix7x5w7txc"]
 
 [ext_resource type="Script" uid="uid://8j488tv0n520" path="res://scripts/local_menu.gd" id="1_0qupg"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="1_kf885"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="1_kf885"]
 [ext_resource type="PackedScene" uid="uid://tp1cpr8b5hba" path="res://shaders/backgrounds/local.tscn" id="1_oheku"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="2_0qupg"]
 [ext_resource type="Texture2D" uid="uid://3lpa1v5x7e8r" path="res://sprites/ball-portrait.png" id="3_xv4p8"]
@@ -29,7 +29,7 @@ pressed = true
 [sub_resource type="Shortcut" id="Shortcut_xv4p8"]
 events = [SubResource("InputEventJoypadButton_0qupg")]
 
-[node name="local_menu" type="Control" node_paths=PackedStringArray("player_sprites")]
+[node name="local_menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,7 +37,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0qupg")
-player_sprites = [NodePath("SubViewportContainer/game/player1"), NodePath("SubViewportContainer/game/player2")]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_68vbw")
@@ -67,17 +66,59 @@ offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="player1" type="Sprite2D" parent="SubViewportContainer/game"]
-visible = false
-modulate = Color(0.160784, 0.682353, 1, 1)
-position = Vector2(17, 34)
-texture = ExtResource("3_xv4p8")
+[node name="players" type="HBoxContainer" parent="SubViewportContainer/game"]
+layout_direction = 2
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = -3
+alignment = 1
 
-[node name="player2" type="Sprite2D" parent="SubViewportContainer/game"]
+[node name="p1" type="Panel" parent="SubViewportContainer/game/players"]
 visible = false
-self_modulate = Color(1, 0, 0.290196, 1)
-position = Vector2(80, 34)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(26, 34)
+layout_mode = 2
+
+[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p1"]
+modulate = Color(0.160784, 0.682353, 1, 1)
 texture = ExtResource("3_xv4p8")
+centered = false
+
+[node name="p2" type="Panel" parent="SubViewportContainer/game/players"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(26, 34)
+layout_mode = 2
+
+[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p2"]
+modulate = Color(1, 0, 0.290196, 1)
+texture = ExtResource("3_xv4p8")
+centered = false
+
+[node name="p3" type="Panel" parent="SubViewportContainer/game/players"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(26, 34)
+layout_mode = 2
+
+[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p3"]
+modulate = Color(1, 0.631373, 0, 1)
+texture = ExtResource("3_xv4p8")
+centered = false
+
+[node name="p4" type="Panel" parent="SubViewportContainer/game/players"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(26, 34)
+layout_mode = 2
+
+[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p4"]
+modulate = Color(0, 0.713726, 0.254902, 1)
+texture = ExtResource("3_xv4p8")
+centered = false
 
 [node name="local_bg" parent="." instance=ExtResource("1_oheku")]
 

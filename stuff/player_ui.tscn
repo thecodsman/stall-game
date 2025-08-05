@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://67kmtct7wlm2"]
+
+[ext_resource type="Script" uid="uid://bsut4563srnqd" path="res://scripts/player_ui.gd" id="1_4troq"]
+[ext_resource type="Texture2D" uid="uid://16lfnax57omw" path="res://sprites/ui/player-portrait-border-ui.png" id="1_5agx8"]
+[ext_resource type="Shader" uid="uid://c4jvghy666igd" path="res://shaders/palette_swap.gdshader" id="2_qfxqi"]
+[ext_resource type="Texture2D" uid="uid://0tonjn311l3h" path="res://sprites/ui/tiny-stall-player-portrait.png" id="2_w3woq"]
+[ext_resource type="Texture2D" uid="uid://cuusim0lvi5au" path="res://sprites/ui/score-tally.png" id="4_e141e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4troq"]
+resource_local_to_scene = true
+shader = ExtResource("2_qfxqi")
+shader_parameter/palette_array_size = 1
+shader_parameter/input_palette_array = PackedColorArray(0, 0, 0, 1)
+shader_parameter/output_palette_array = PackedColorArray(0.160784, 0.682353, 1, 1)
+
+[node name="player-ui" type="HBoxContainer"]
+offset_right = 48.0
+offset_bottom = 11.0
+size_flags_vertical = 0
+script = ExtResource("1_4troq")
+
+[node name="portrait" type="TextureRect" parent="."]
+modulate = Color(0.160784, 0.682353, 1, 1)
+material = SubResource("ShaderMaterial_4troq")
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("1_5agx8")
+stretch_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="portrait"]
+position = Vector2(6, 5)
+texture = ExtResource("2_w3woq")
+
+[node name="tallys" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="TextureRect" type="TextureRect" parent="tallys"]
+self_modulate = Color(0.352941, 0.333333, 0.290196, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("4_e141e")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="tallys"]
+self_modulate = Color(0.352941, 0.333333, 0.290196, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("4_e141e")
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="tallys"]
+self_modulate = Color(0.352941, 0.333333, 0.290196, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("4_e141e")
+stretch_mode = 4

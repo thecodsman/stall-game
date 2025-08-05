@@ -1,11 +1,13 @@
 extends Node
 
 signal scores_changed
+
 @export var player_colors : Array[Color]
+@export var GRAY : Color
 var camera : Camera2D
 var is_online : bool = false
 var registered_controllers : Array[int] ## array of device ids
-var scores : Array[int] = [0, 0] ## scores for the match
+var scores : Array[int] = [0, 0, 0, 0] ## scores for the match
 var points_to_win : int = 3
 
 

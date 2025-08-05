@@ -73,7 +73,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton && buttons.has(event.button_index):
 		is_keyboard = false
 		set_action_state(event.button_index)
-	elif event is InputEventKey && device_index == 0:
+	elif event is InputEventKey && device_index == -1:
 		is_keyboard = true
 		if not KeyboardToController.has(event.keycode): return
 		set_action_state(KeyboardToController.get(event.keycode))

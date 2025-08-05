@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_mmmxe"]
 [ext_resource type="Texture2D" uid="uid://dqtowf126auej" path="res://sprites/background5.png" id="3_akybh"]
 [ext_resource type="Texture2D" uid="uid://be5wtgkkitxgh" path="res://sprites/background4.png" id="4_mmmxe"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/buuh.gdshader" id="5_nk8o2"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="5_nk8o2"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_1wis1"]
 [ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/player.tscn" id="7_yoe6o"]
 [ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="8_rjcor"]
