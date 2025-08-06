@@ -74,8 +74,11 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	Globals.is_online = true
 	var owner_name: String = Steam.getFriendPersonaName(friend_id)
 	print("Joining %s's lobby..." % owner_name)
-	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
+	UI.anim.play("transition_close")
+	await UI.anim.animation_finished
 	steam_join_lobby(new_lobby_id)
+	await multiplayer.connected_to_server
+	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 	#await Steam.lobby_joined
 
 
