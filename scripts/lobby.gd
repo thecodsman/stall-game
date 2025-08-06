@@ -21,6 +21,7 @@ var players : Dictionary = {}
 # entered in a UI scene.
 var player_info : Dictionary = {"name": "Name"}
 var players_loaded : int = 0
+var player_index : int # starts at 0
 var lobby_id : int
 var peer : MultiplayerPeer = null
 

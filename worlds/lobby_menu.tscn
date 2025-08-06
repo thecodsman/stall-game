@@ -7,14 +7,14 @@
 [ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="6_d6oou"]
 [ext_resource type="PackedScene" uid="uid://dga37kf5dchc3" path="res://shaders/backgrounds/online.tscn" id="6_leutj"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_18n3y"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_leutj"]
 shader = ExtResource("4_d6oou")
 shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_thun1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d6oou"]
 shader = ExtResource("5_yoe3h")
 shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
@@ -28,50 +28,98 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ruh0p")
-player_sprites = [NodePath("SubViewportContainer/game/player1"), NodePath("SubViewportContainer/game/player2")]
+player_sprites = NodePath("SubViewportContainer2/game/players")
 
 [node name="online_bg" parent="." instance=ExtResource("6_leutj")]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-material = SubResource("ShaderMaterial_18n3y")
-layout_mode = 0
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_leutj")
 offset_right = 96.0
 offset_bottom = 96.0
 
-[node name="game" type="SubViewport" parent="SubViewportContainer"]
+[node name="game" type="SubViewport" parent="SubViewportContainer2"]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(96, 96)
 render_target_update_mode = 4
 
-[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="green_screen" type="ColorRect" parent="SubViewportContainer2/game"]
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer2/game"]
 z_index = 20
-material = SubResource("ShaderMaterial_thun1")
+material = SubResource("ShaderMaterial_d6oou")
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="player1" type="Sprite2D" parent="SubViewportContainer/game"]
-modulate = Color(0.160784, 0.682353, 1, 1)
-position = Vector2(17, 34)
-texture = ExtResource("4_irulu")
+[node name="players" type="HBoxContainer" parent="SubViewportContainer2/game"]
+layout_direction = 2
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 7.0
+offset_bottom = 41.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -3
+alignment = 1
 
-[node name="player2" type="Sprite2D" parent="SubViewportContainer/game"]
+[node name="p1" type="Panel" parent="SubViewportContainer2/game/players"]
 visible = false
-self_modulate = Color(1, 0, 0.290196, 1)
-position = Vector2(80, 34)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(22, 24)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p1"]
+modulate = Color(0.160784, 0.682353, 1, 1)
 texture = ExtResource("4_irulu")
+centered = false
+
+[node name="p2" type="Panel" parent="SubViewportContainer2/game/players"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(22, 24)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p2"]
+modulate = Color(1, 0, 0.290196, 1)
+texture = ExtResource("4_irulu")
+centered = false
+
+[node name="p3" type="Panel" parent="SubViewportContainer2/game/players"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(22, 24)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p3"]
+modulate = Color(1, 0.631373, 0, 1)
+texture = ExtResource("4_irulu")
+centered = false
+
+[node name="p4" type="Panel" parent="SubViewportContainer2/game/players"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(22, 24)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p4"]
+modulate = Color(0, 0.713726, 0.254902, 1)
+texture = ExtResource("4_irulu")
+centered = false
 
 [node name="start" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 24.0
 offset_top = 76.0
