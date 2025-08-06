@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqrhx4hoehkkl"]
+[gd_scene load_steps=12 format=3 uid="uid://dqrhx4hoehkkl"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_2cpqk"]
 [ext_resource type="Script" uid="uid://drirafignu277" path="res://scripts/main_menu.gd" id="1_7dyyr"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_klc2m"]
-[ext_resource type="Texture2D" uid="uid://clr6ei0d2sc0l" path="res://sprites/stallnew.png" id="4_wxd3g"]
+[ext_resource type="Shader" uid="uid://djgf67gdkokt7" path="res://shaders/single_shadow.gdshader" id="4_inn1b"]
+[ext_resource type="Texture2D" uid="uid://cij4ql412nxmh" path="res://sprites/stall.png" id="5_p8lkq"]
 [ext_resource type="FontFile" uid="uid://dq3ivvjy1lslp" path="res://font/miaow default.ttf" id="6_7dyyr"]
 [ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="6_inn1b"]
 
@@ -46,6 +47,16 @@ shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
 shader_parameter/palette = SubResource("GradientTexture1D_7dyyr")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihq5p"]
+shader = ExtResource("4_inn1b")
+shader_parameter/debug = false
+shader_parameter/border_scale = 1.0
+shader_parameter/shadow_offset = Vector2(-2, -2)
+shader_parameter/color = Color(0.160784, 0.678431, 1, 1)
+shader_parameter/blur_amount = 0.0
+shader_parameter/shadow_scale = 1.0
+shader_parameter/disable_rotating = false
+
 [node name="main_menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -75,8 +86,9 @@ texture = ExtResource("3_klc2m")
 metadata/_edit_lock_ = true
 
 [node name="Stall" type="Sprite2D" parent="."]
-position = Vector2(50, 21)
-texture = ExtResource("4_wxd3g")
+material = SubResource("ShaderMaterial_ihq5p")
+position = Vector2(48, 22)
+texture = ExtResource("5_p8lkq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

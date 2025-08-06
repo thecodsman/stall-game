@@ -70,17 +70,19 @@ color = Color(0, 1, 0, 1)
 layout_direction = 2
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 34.0
+offset_top = 7.0
+offset_bottom = 41.0
 grow_horizontal = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 theme_override_constants/separation = -3
 alignment = 1
 
 [node name="p1" type="Panel" parent="SubViewportContainer/game/players"]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(26, 34)
+custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
+size_flags_horizontal = 6
 
 [node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p1"]
 modulate = Color(0.160784, 0.682353, 1, 1)
@@ -90,8 +92,9 @@ centered = false
 [node name="p2" type="Panel" parent="SubViewportContainer/game/players"]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(26, 34)
+custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
+size_flags_horizontal = 6
 
 [node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p2"]
 modulate = Color(1, 0, 0.290196, 1)
@@ -101,8 +104,9 @@ centered = false
 [node name="p3" type="Panel" parent="SubViewportContainer/game/players"]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(26, 34)
+custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
+size_flags_horizontal = 6
 
 [node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p3"]
 modulate = Color(1, 0.631373, 0, 1)
@@ -112,8 +116,9 @@ centered = false
 [node name="p4" type="Panel" parent="SubViewportContainer/game/players"]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(26, 34)
+custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
+size_flags_horizontal = 6
 
 [node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p4"]
 modulate = Color(0, 0.713726, 0.254902, 1)
