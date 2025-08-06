@@ -8,7 +8,7 @@ signal on_transition
 @export var pause_menu : Control
 @export var onscreen_keyboard : Control
 @onready var scores = $"CanvasLayer/in-game"
-@onready var anim = $CanvasLayer/AnimationPlayer
+@onready var anim : AnimationPlayer = $CanvasLayer/AnimationPlayer
 
 
 func _ready():
@@ -33,6 +33,7 @@ func transition_to_scene(scene : String):
 	anim.play("transition_close")
 	await anim.animation_finished
 	get_tree().change_scene_to_file(scene)
+	on_transition.emit()
 	anim.play("transition_open")
 
 

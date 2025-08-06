@@ -55,7 +55,6 @@ func create_game(port : int):
 	var error = peer.create_server(port, MAX_CONNECTIONS)
 	if error: return error
 	multiplayer.multiplayer_peer = peer
-
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 

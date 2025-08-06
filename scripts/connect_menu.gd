@@ -14,20 +14,23 @@ func _ready() -> void:
 
 
 func _on_host_pressed() -> void:
-	Lobby.create_game(int(port.text))
 	UI.transition_to_scene("res://worlds/lobby_menu.tscn")
+	Lobby.create_game(int(port.text))
 
 
 func _on_connect_pressed() -> void:
+	UI.anim.play("transition_close")
+	await UI.anim.animation_finished
 	Lobby.join_game(ip.text, int(port.text))
 	await multiplayer.connected_to_server
-	UI.transition_to_scene("res://worlds/lobby_menu.tscn")
+	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
+	UI.anim.play("transition_open")
 
 
 func _on_steam_host_pressed() -> void:
-	Lobby.steam_create_lobby()
-	await Steam.lobby_created
 	UI.transition_to_scene("res://worlds/lobby_menu.tscn")
+	await UI.on_transition
+	Lobby.steam_create_lobby()
 
 
 func _on_back_pressed() -> void:
