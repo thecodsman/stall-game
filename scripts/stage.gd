@@ -19,6 +19,7 @@ func _ready():
 
 func start_game(): # is only called in online lobbies
 	online_spawn_players()
+	online_show_ui.rpc()
 	spawn_ball()
 
 
@@ -40,20 +41,26 @@ func set_camera_target_player(player_path : NodePath):
 	Globals.camera.players.append(get_node(player_path))
 
 
+@rpc("authority", "call_local", "reliable")
+func online_show_ui():
+	for i in range(Lobby.players.size()):
+		var point_display : HBoxContainer = UI.point_displays[i]
+		var portrait_material : ShaderMaterial = point_display.portrait.material
+		var output_color_array : PackedColorArray = [Globals.current_player_colors[i]]
+		point_display.show()
+		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
+		point_display.portrait.modulate = Globals.current_player_colors[i]
+
+
+
 func online_spawn_players():
 	if not multiplayer.is_server(): return
 	for i in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
 		var id = Lobby.players.keys()[i]
-		var point_display : HBoxContainer = UI.point_displays[i]
-		var portrait_material : ShaderMaterial = point_display.portrait.material
-		var output_color_array : PackedColorArray = [Globals.player_colors[i]]
-		point_display.show()
-		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
-		point_display.portrait.modulate = Globals.player_colors[i]
 		player.id = id
 		player.name = str(id)
-		player.self_modulate = Globals.player_colors[i]
+		player.self_modulate = Globals.current_player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = 0
 		$SubViewportContainer/game.add_child(player, true)
@@ -67,13 +74,13 @@ func local_spawn_players():
 		var device = Globals.registered_controllers[i]
 		var point_display : HBoxContainer = UI.point_displays[i]
 		var portrait_material : ShaderMaterial = point_display.portrait.material
-		var output_color_array : PackedColorArray = [Globals.player_colors[i]]
+		var output_color_array : PackedColorArray = [Globals.current_player_colors[i]]
 		point_display.show()
 		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
-		point_display.portrait.modulate = Globals.player_colors[i]
+		point_display.portrait.modulate = Globals.current_player_colors[i]
 		player.id = 1
 		player.name = str(device)
-		player.self_modulate = Globals.player_colors[i]
+		player.self_modulate = Globals.current_player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = device
 		$SubViewportContainer/game.add_child(player)

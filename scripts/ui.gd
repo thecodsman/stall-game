@@ -21,7 +21,7 @@ func _on_scores_changed(_scores : Array[int]):
 		var score : int = _scores[i]
 		for j in range(point_displays[i].tallys.get_child_count()):
 			var point : TextureRect = point_displays[i].tallys.get_child(j)
-			if j < score: point.self_modulate = Globals.player_colors[i]
+			if j < score: point.self_modulate = Globals.current_player_colors[i]
 			else: point.self_modulate = Globals.GRAY
 
 

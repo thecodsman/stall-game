@@ -9,7 +9,6 @@ func _ready():
 		$start.hide()
 
 
-
 func show_player_2_sprite():
 	player_sprites[1].show()
 
