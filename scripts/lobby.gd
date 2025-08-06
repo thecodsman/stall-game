@@ -77,8 +77,9 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	UI.anim.play("transition_close")
 	await UI.anim.animation_finished
 	steam_join_lobby(new_lobby_id)
-	await Steam.lobby_joined
+	await multiplayer.connected_to_server
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
+	UI.anim.play("transition_open")
 	#await Steam.lobby_joined
 
 
