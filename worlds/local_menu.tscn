@@ -149,6 +149,7 @@ offset_right = 13.0
 offset_bottom = 94.0
 theme = ExtResource("5_kf885")
 icon = ExtResource("7_xv4p8")
+icon_alignment = 1
 vertical_icon_alignment = 0
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
