@@ -34,6 +34,7 @@ player_sprites = NodePath("SubViewportContainer2/game/players")
 
 [node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_leutj")
+layout_mode = 0
 offset_right = 96.0
 offset_bottom = 96.0
 

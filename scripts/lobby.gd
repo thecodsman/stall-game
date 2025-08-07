@@ -89,11 +89,11 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 		return response
 	lobby_id = new_lobby_id
 	var id = Steam.getLobbyOwner(new_lobby_id)
-	if id != Steam.getSteamID():
-		connect_steam_socket(id)
-		await multiplayer.connected_to_server
-		_register_player.rpc(player_info)
-		#players[multiplayer.get_unique_id()].name = "test"
+	if id == Steam.getSteamID(): return
+	connect_steam_socket(id)
+	#await multiplayer.connected_to_server
+	#_register_player.rpc(player_info)
+	#players[multiplayer.get_unique_id()].name = "test"
 
 
 func _on_steam_lobby_created(response : int, new_lobby_id : int):
@@ -105,8 +105,6 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int):
 	Steam.setLobbyJoinable(lobby_id, true)
 	Steam.setLobbyData(lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
 	Steam.allowP2PPacketRelay(true)
-	players[1] = player_info
-	player_connected.emit(1, player_info)
 
 
 func create_steam_socket():
@@ -116,6 +114,8 @@ func create_steam_socket():
 		print("ERROR CREATING SOCKET, ERROR CODE : %s" % error)
 		return error
 	multiplayer.multiplayer_peer = peer
+	players[1] = player_info
+	player_connected.emit(1, player_info)
 
 
 func connect_steam_socket(steam_id : int):

@@ -51,19 +51,21 @@ size = Vector2i(96, 96)
 render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 104.0
-offset_bottom = 103.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = 20
 material = SubResource("ShaderMaterial_hmccv")
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 104.0
-offset_bottom = 103.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="players" type="HBoxContainer" parent="SubViewportContainer/game"]

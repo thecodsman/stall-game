@@ -15,6 +15,7 @@ func _ready() -> void:
 
 func _on_host_pressed() -> void:
 	UI.transition_to_scene("res://worlds/lobby_menu.tscn")
+	await UI.on_transition
 	Lobby.create_game(int(port.text))
 
 

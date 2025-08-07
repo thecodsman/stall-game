@@ -4,14 +4,10 @@ extends Control
 
 func _ready():
 	Lobby.player_connected.connect(_on_player_connected)
-	if multiplayer.is_server():
-		register_player(0)
-		$start.show()
-	else:
-		Globals.current_player_colors = []
-		Lobby.player_index = Lobby.players.size() - 1
-		for i in range(Lobby.players.size()):
-			register_player(i)
+	Globals.current_player_colors = []
+	Lobby.player_index = Lobby.players.size() - 1
+	for i in range(Lobby.players.size()):
+		register_player(i)
 
 
 func register_player(player : int):
@@ -27,7 +23,8 @@ func register_player(player : int):
 
 
 @rpc("any_peer", "call_local", "reliable")
-func switch_color(player : int, dir : int):
+func switch_color(dir : int):
+	var player = Lobby.player_index
 	if player < 0: return
 	var color : Color = Globals.current_player_colors[player]
 	var new_color : Color = Globals.available_colors[wrapi(Globals.available_colors.find(color) + dir, 0, Globals.available_colors.size())]
@@ -42,27 +39,24 @@ func _unhandled_input(event: InputEvent) -> void:
 		match event.button_index:
 			JOY_BUTTON_RIGHT_SHOULDER:
 				if not event.pressed: return
-				var player : int = Lobby.player_index
-				switch_color.rpc(player, 1)
+				switch_color.rpc(1)
 			JOY_BUTTON_LEFT_SHOULDER:
 				if not event.pressed: return
-				var player : int = Lobby.player_index
-				switch_color.rpc(player, -1)
+				switch_color.rpc(-1)
 	elif event is InputEventKey:
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
-				var player : int = Lobby.player_index
-				switch_color.rpc(player, -1)
+				switch_color.rpc(-1)
 			KEY_RIGHT:
-				var player : int = Lobby.player_index
-				switch_color.rpc(player, 1)
+				switch_color.rpc(1)
 
 
 func _on_player_connected(_peer_id, _player_info):
 	print("player connected")
 	register_player(Lobby.players.size() - 1)
 	if is_multiplayer_authority():
+		$start.show()
 		$start.disabled = false
 	else:
 		$start.hide()

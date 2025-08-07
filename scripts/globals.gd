@@ -6,7 +6,7 @@ signal scores_changed
 @export var available_colors : PackedColorArray
 @export var GRAY : Color
 @onready var current_player_colors : PackedColorArray
-@onready var current_available_colors : PackedColorArray = available_colors
+#@onready var current_available_colors : PackedColorArray = available_colors
 var camera : Camera2D
 var is_online : bool = false
 var registered_controllers : Array[int] ## array of device ids
