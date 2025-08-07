@@ -4,10 +4,8 @@ extends Control
 
 func _ready():
 	Lobby.player_connected.connect(_on_player_connected)
-	if is_multiplayer_authority():
-		Lobby.player_index = 0
-	else:
-		Lobby.player_index = Lobby.players.size() - 1
+	Lobby.player_index = clampi(Lobby.players.size() - 1, 0, 3)
+	print(Lobby.player_index)
 	Globals.current_player_colors = []
 	for i in range(Lobby.players.size()):
 		register_player(i)
@@ -26,8 +24,7 @@ func register_player(player : int):
 
 
 @rpc("any_peer", "call_local", "reliable")
-func switch_color(dir : int):
-	var player = Lobby.player_index
+func switch_color(player : int, dir : int):
 	if player < 0: return
 	var color : Color = Globals.current_player_colors[player]
 	var new_color : Color = Globals.available_colors[wrapi(Globals.available_colors.find(color) + dir, 0, Globals.available_colors.size())]
@@ -42,17 +39,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		match event.button_index:
 			JOY_BUTTON_RIGHT_SHOULDER:
 				if not event.pressed: return
-				switch_color.rpc(1)
+				var player = Lobby.player_index
+				switch_color.rpc(player, 1)
 			JOY_BUTTON_LEFT_SHOULDER:
 				if not event.pressed: return
-				switch_color.rpc(-1)
+				var player = Lobby.player_index
+				switch_color.rpc(player, 1)
 	elif event is InputEventKey:
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
-				switch_color.rpc(-1)
+				var player = Lobby.player_index
+				switch_color.rpc(player, 1)
 			KEY_RIGHT:
-				switch_color.rpc(1)
+				var player = Lobby.player_index
+				switch_color.rpc(player, 1)
 
 
 func _on_player_connected(_peer_id, _player_info):
