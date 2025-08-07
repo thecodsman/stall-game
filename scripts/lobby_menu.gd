@@ -4,8 +4,11 @@ extends Control
 
 func _ready():
 	Lobby.player_connected.connect(_on_player_connected)
+	if is_multiplayer_authority():
+		Lobby.player_index = 0
+	else:
+		Lobby.player_index = Lobby.players.size() - 1
 	Globals.current_player_colors = []
-	Lobby.player_index = Lobby.players.size() - 1
 	for i in range(Lobby.players.size()):
 		register_player(i)
 
