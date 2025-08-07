@@ -44,13 +44,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			JOY_BUTTON_LEFT_SHOULDER:
 				if not event.pressed: return
 				var player = Lobby.player_index
-				switch_color.rpc(player, 1)
+				switch_color.rpc(player, -1)
 	elif event is InputEventKey:
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
 				var player = Lobby.player_index
-				switch_color.rpc(player, 1)
+				switch_color.rpc(player, -1)
 			KEY_RIGHT:
 				var player = Lobby.player_index
 				switch_color.rpc(player, 1)
