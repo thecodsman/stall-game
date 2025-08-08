@@ -9,6 +9,8 @@ class_name Player extends CharacterBody2D
 @export var MAX_SLIDE_BOOST_SPEED : float = 300.0
 @export var ACCEL : float = 20.0
 @export var AIR_ACCEL : float = 8.0
+@export var AIR_FRICTION : float = 2.0
+@export var AIR_SPEED : float = 100.0
 @export var BASE_GRAVITY : float = 700.0
 @export var FRICTION : float = 20
 @export var COYOTE_TIME : float = 0.05
@@ -441,9 +443,10 @@ func update_state(delta : float):
 			velocity.x = lerpf(velocity.x, 0, FRICTION*delta)
 			if not is_jump_pressed && jumps > 0 && anim.current_animation == "jump":
 				if sign(input.direction.x) == -sprite.scale.x:
+					anim.play("backflip")
 					velocity.y = SHORT_FLIP_VELOCITY
 					velocity.x -= 50 * sprite.scale.x
-					anim.play("backflip")
+					jumps -= 1
 					set_state.rpc(State.AIR)
 					return
 				velocity.y = SHORT_HOP_VELOCITY
@@ -453,9 +456,10 @@ func update_state(delta : float):
 				set_state.rpc(State.AIR)
 			elif anim.current_animation == "" && jumps > 0:
 				if sign(input.direction.x) == -sprite.scale.x:
+					anim.play("backflip")
 					velocity.y = BACKFLIP_VELOCITY
 					velocity.x -= 80 * sprite.scale.x
-					anim.play("backflip")
+					jumps -= 1
 					set_state.rpc(State.AIR)
 					return
 				velocity.y = FULL_JUMP_VELOCITY
@@ -465,7 +469,8 @@ func update_state(delta : float):
 				set_state.rpc(State.AIR)
 
 		State.AIR:
-			move(delta, 2, RUN_SPEED, false)
+			if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
+			else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
 			check_for_drop_through()
 			check_for_attack()
 			check_for_dash()
