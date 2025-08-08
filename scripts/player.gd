@@ -51,6 +51,7 @@ enum State {
 	CROUCH,
 	RUN,
 	SUPER_RUN,
+	SUPER_SLIDE,
 	SKIDDING,
 	INITIAL_SPRINT,
 	TURN_AROUND,
@@ -143,6 +144,9 @@ func enter_state():
 
 		State.SUPER_RUN:
 			anim.play("run")
+
+		State.SUPER_SLIDE:
+			anim.play("super_slide")
 		
 		State.SKIDDING:
 			anim.play("skid")
@@ -359,6 +363,7 @@ func update_state(delta : float):
 			elif sign(input.direction.x) == -sprite.scale.x:
 				set_state.rpc(State.SKIDDING)
 			move(delta, ACCEL, SUPER_RUN_SPEED, false)
+			apply_gravity(delta)
 			if not Engine.get_physics_frames() % 6:
 				spawn_smoke(Vector2(-4*sprite.scale.x,4))
 				var after_image : Sprite2D = Sprite2D.new()
@@ -376,7 +381,15 @@ func update_state(delta : float):
 			check_for_jump()
 			check_for_attack()
 			check_for_special()
-			check_for_crouch()
+			check_for_super_slide()
+
+		State.SUPER_SLIDE:
+			if abs(velocity.x) < 30: set_state.rpc(State.IDLE)
+			velocity.x = lerpf(velocity.x, 0, 1*delta)
+			apply_gravity(delta)
+			check_for_jump()
+			check_for_attack()
+			check_for_special()
 
 		State.SKIDDING:
 			check_for_backflip()
@@ -625,6 +638,14 @@ func check_for_crouch():
 		return true
 	return false
 
+
+func check_for_super_slide():
+	if abs(angle_difference(input.direction.angle(), PI/2)) < PI/4:
+		set_state.rpc(State.SUPER_SLIDE)
+		return true
+	return false
+
+
 func check_for_backflip():
 	if input.is_button_just_pressed(JOY_BUTTON_A):
 		if jumps <= 0: return false
@@ -667,7 +688,7 @@ func check_for_super_run():
 	set_state.rpc(State.SUPER_RUN)
 
 func check_for_fastfall():
-	if input.just_smashed() && angle_difference(input.direction.angle(), PI/2) && velocity.y > -10 && not fast_falling:
+	if input.just_smashed() && abs(angle_difference(input.direction.angle(), PI/2)) < PI/4 && velocity.y > -10 && not fast_falling:
 		velocity.y = FAST_FALL_SPEED
 		fast_falling = true
 		spawn_spark(Vector2(4,-4))
