@@ -38,9 +38,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func switch_color(player : int, dir : int):
 	if player < 0: return
 	var color : Color = Globals.current_player_colors[player]
-	var new_color : Color = Globals.current_available_colors[wrapf(Globals.current_available_colors.find(color) + dir, 0, Globals.current_available_colors.size())]
+	var new_color : Color = Globals.available_colors[wrapf(Globals.available_colors.find(color) + dir, 0, Globals.available_colors.size())]
 	while Globals.current_player_colors.has(new_color):
-		new_color = Globals.current_available_colors[wrapf(Globals.current_available_colors.find(new_color) + dir, 0, Globals.current_available_colors.size())]
+		new_color = Globals.available_colors[wrapf(Globals.available_colors.find(new_color) + dir, 0, Globals.available_colors.size())]
 	Globals.current_player_colors[player] = new_color
 	player_sprites.get_child(player).get_child(0).modulate = new_color
 
