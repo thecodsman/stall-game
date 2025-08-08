@@ -9,14 +9,22 @@ class_name Player extends CharacterBody2D
 @export var MAX_SLIDE_BOOST_SPEED : float = 300.0
 @export var ACCEL : float = 20.0
 @export var AIR_ACCEL : float = 8.0
-@export var FULL_JUMP_VELOCITY : float = -200
-@export var BACKFLIP_VELOCITY : float = -300
-@export var SHORT_JUMP_VELOCITY : float = -150
 @export var BASE_GRAVITY : float = 700.0
 @export var FRICTION : float = 20
 @export var COYOTE_TIME : float = 0.05
 @export var MAX_JUMPS : int = 2
 @export var FAST_FALL_SPEED : float = 150
+@export_subgroup("jumps")
+@export var FULL_JUMP_VELOCITY : float = -200
+@export var SUPER_JUMP_VELOCITY : float = -250
+@export var HYPER_JUMP_VELOCITY : float = -300
+@export var ULTRA_JUMP_VELOCITY : float = -400
+@export var SHORT_HOP_VELOCITY : float = -150
+@export var SUPER_HOP_VELOCITY : float = -200
+@export var HYPER_HOP_VELOCITY : float = -250
+@export var ULTRA_HOP_VELOCITY : float = -300
+@export var SHORT_FLIP_VELOCITY : float = -250
+@export var BACKFLIP_VELOCITY : float = -300
 @export_category("misc")
 @export var player_index : int = 0
 @export var controller_index : int = 0
@@ -56,11 +64,14 @@ enum State {
 	INITIAL_SPRINT,
 	TURN_AROUND,
 	JUMP,
+	SUPER_JUMP,
+	HYPER_JUMP,
+	ULTRA_JUMP,
 	BACKFLIP,
 	AIR,
+	SUPER_AIR,
 	LANDING,
 	ATTACK,
-	SLIDE_KICK,
 	WALL,
 	DASH,
 	STALL,
@@ -157,7 +168,7 @@ func enter_state():
 		State.INITIAL_SPRINT:
 			anim.play("run_dash")
 			spawn_smoke(Vector2(0,4))
-			velocity.x += sign(direction) * RUN_SPEED
+			velocity.x += sign(direction) * RUN_SPEED * 0.8
 			sprite.scale.x = sign(velocity.x)
 
 		State.TURN_AROUND:
@@ -259,12 +270,6 @@ func enter_state():
 				Attack.FAIR:
 					anim.play("fair")
 
-		State.SLIDE_KICK:
-			kick_box.direction = Vector2.UP
-			kick_box.power = 100.0
-			kick_collider.set_deferred("disabled", false)
-			velocity.x += 100 * sprite.scale.x
-
 		State.WALL:
 			anim.play("on_wall")
 			jumps = MAX_JUMPS
@@ -285,7 +290,7 @@ func update_state(delta : float):
 	match state:
 		State.IDLE:
 			direction = input.direction.x
-			velocity.x = lerpf(velocity.x, 0, 10*delta)
+			velocity.x = lerpf(velocity.x, 0, FRICTION*delta)
 			apply_gravity(delta)
 			# this is probably really bad code but it works
 			var side_input : bool = (((input.direction).angle() > -PI*0.25 && input.direction.angle() < PI*0.25) || (input.direction.angle() > PI*0.75 || input.direction.angle() < -PI*0.75))
@@ -302,6 +307,7 @@ func update_state(delta : float):
 				jumps = MAX_JUMPS
 				fast_falling = false
 			check_for_jump()
+			check_for_backflip()
 			check_for_drop_through()
 			check_for_attack()
 			check_for_special()
@@ -326,7 +332,8 @@ func update_state(delta : float):
 			check_for_super_run()
 
 		State.CROUCH:
-			velocity.x = lerpf(velocity.x, 0, 4*delta)
+			var crouch_friction : float = 4
+			velocity.x = lerpf(velocity.x, 0, crouch_friction*delta)
 			if not check_for_crouch(): set_state.rpc(State.IDLE)
 			if not is_on_floor(): set_state.rpc(State.AIR)
 			check_for_attack()
@@ -392,7 +399,7 @@ func update_state(delta : float):
 			check_for_special()
 
 		State.SKIDDING:
-			check_for_backflip()
+			check_for_jump()
 			check_for_attack()
 			if not Engine.get_physics_frames() % 10: spawn_smoke()
 			velocity.x = lerpf(velocity.x, 0, 2*delta)
@@ -403,9 +410,13 @@ func update_state(delta : float):
 		State.INITIAL_SPRINT:
 			direction = input.direction.x
 			var _accel = ACCEL * 0.66
-			move(delta, _accel, RUN_SPEED, false)
-			if anim.current_animation != "run_dash":
+			if direction: move(delta, _accel, RUN_SPEED, false)
+			else: velocity.x = lerpf(velocity.x, 0, 1*delta)
+			if anim.current_animation != "run_dash" && sign(input.direction.x) == sprite.scale.x:
 				set_state.rpc(State.RUN)
+				return
+			elif anim.current_animation != "run_dash" && (sign(input.direction.x) == -sprite.scale.x || input.direction.x == 0):
+				set_state.rpc(State.IDLE)
 				return
 			check_for_jump()
 			check_for_super_run()
@@ -418,35 +429,41 @@ func update_state(delta : float):
 			velocity.x = sign(direction) * RUN_SPEED
 
 		State.TURN_AROUND:
-			check_for_backflip()
+			check_for_jump()
 			check_for_attack()
-			velocity.x = lerpf(velocity.x, 0, 10*delta)
+			velocity.x = lerpf(velocity.x, 0, FRICTION*delta)
 			if anim.current_animation == "":
 				sprite.scale.x *= -1
 				set_state.rpc(State.RUN)
 
 		State.JUMP:
 			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
+			velocity.x = lerpf(velocity.x, 0, FRICTION*delta)
 			if not is_jump_pressed && jumps > 0 && anim.current_animation == "jump":
-				velocity.y = SHORT_JUMP_VELOCITY
+				if sign(input.direction.x) == -sprite.scale.x:
+					velocity.y = SHORT_FLIP_VELOCITY
+					velocity.x -= 50 * sprite.scale.x
+					anim.play("backflip")
+					set_state.rpc(State.AIR)
+					return
+				velocity.y = SHORT_HOP_VELOCITY
 				anim.play("rise")
 				jumps -= 1
 				jump_sfx.play()
 				set_state.rpc(State.AIR)
 			elif anim.current_animation == "" && jumps > 0:
+				if sign(input.direction.x) == -sprite.scale.x:
+					velocity.y = BACKFLIP_VELOCITY
+					velocity.x -= 80 * sprite.scale.x
+					anim.play("backflip")
+					set_state.rpc(State.AIR)
+					return
 				velocity.y = FULL_JUMP_VELOCITY
 				anim.play("rise")
 				jump_sfx.play()
 				jumps -= 1
 				set_state.rpc(State.AIR)
-			velocity.x = lerpf(velocity.x, 0, 10*delta)
 
-		State.BACKFLIP:
-			if anim.current_animation == "":
-				velocity = Vector2(65 * sprite.scale.x, BACKFLIP_VELOCITY)
-				set_state.rpc(State.AIR)
-				anim.play("backflip")
-		
 		State.AIR:
 			move(delta, 2, RUN_SPEED, false)
 			check_for_drop_through()
@@ -538,11 +555,6 @@ func update_state(delta : float):
 			if anim.current_animation == "":
 				set_state.rpc(State.IDLE)
 			check_for_fastfall()
-
-		State.SLIDE_KICK:
-			check_for_jump()
-			velocity.x = lerpf(velocity.x, 0, 2*delta)
-			if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 
 		State.DASH:
 			check_for_attack()
@@ -647,8 +659,9 @@ func check_for_super_slide():
 
 
 func check_for_backflip():
-	if input.is_button_just_pressed(JOY_BUTTON_A):
+	if sign(input.direction.x) == -sprite.scale.x && input.is_button_just_pressed(JOY_BUTTON_A):
 		if jumps <= 0: return false
+		print("GUGUH")
 		set_state.rpc(State.BACKFLIP)
 		return true
 	return false
@@ -667,12 +680,6 @@ func check_for_attack():
 		set_state.rpc(State.ATTACK)
 		return true
 	return false
-
-
-func check_for_slide_kick():
-	if input.direction.y < 0.9 || not input.is_button_just_pressed(JOY_BUTTON_X): return false
-	set_state.rpc(State.SLIDE_KICK)
-	return true
 
 
 func check_for_dash():
