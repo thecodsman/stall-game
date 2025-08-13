@@ -15,11 +15,12 @@ var prev_vel : Vector2 = Vector2.ZERO
 var prev_scale : Vector2 = Vector2(1,1)
 var velocity_entering_roll : Vector2
 var spin_entering_roll : float
-@onready var rotate_node := $rotate_node
-@onready var scale_node := $rotate_node/scale_node
-@onready var sprite := $rotate_node/scale_node/Sprite2D
-@onready var bounce_sfx := $bounce_sfx
+@onready var rotate_node : Node2D = $rotate_node
+@onready var scale_node : Node2D = $rotate_node/scale_node
+@onready var sprite : Sprite2D = $rotate_node/scale_node/Sprite2D
+@onready var bounce_sfx : AudioStreamPlayer = $bounce_sfx
 @onready var collision_shape : CollisionShape2D = $CollisionShape2D
+@onready var trail : TrailFX = $trail_fx
 @export var roll_ratio_threshold : float = 2 ## ratio of (spin * 100) to velocity needed to initiate a wall roll
 @export var scorrable : bool = true
 
@@ -30,16 +31,18 @@ enum State {
 var state : State
 
 
-func _enter_tree():
+func _enter_tree() -> void:
 	set_multiplayer_authority(1)
 
 
-func _ready():
+func _ready() -> void:
 	set_physics_process(multiplayer.get_unique_id() == 1)
+	await get_tree().physics_frame
+	trail.start()
 
 
 func _physics_process(delta : float) -> void:
-	var true_velocity = velocity
+	var true_velocity : Vector2 = velocity
 	delta *= time_scale
 	velocity *= time_scale
 	_update_state(delta)
@@ -49,14 +52,14 @@ func _physics_process(delta : float) -> void:
 		velocity /= time_scale
 
 
-func check_for_winner():
+func check_for_winner() -> void:
 	if not scorrable: return
 	if owner_level < MAX_OWNER_LEVEL: return
 	if UI.game_text.visible: return
 	give_point_to_winner.rpc(owner_index)
 	var highest_score : int = 0
-	for i in range(Globals.scores.size()):
-		var score = Globals.scores[i]
+	for i : int in range(Globals.scores.size()):
+		var score : int = Globals.scores[i]
 		if score > highest_score: highest_score = score
 	if highest_score >= Globals.points_to_win:
 		Globals.end_match.rpc(owner_index)
@@ -65,12 +68,12 @@ func check_for_winner():
 
 
 @rpc("authority", "call_local", "reliable")
-func give_point_to_winner(winner : int):
+func give_point_to_winner(winner : int) -> void:
 	Globals.scores[winner - 1] += 1
 	Globals.scores_changed.emit(Globals.scores)
 
 
-func bounce(raw_vel, collision):
+func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
 	if (abs(spin * 100) / raw_vel.length()) > roll_ratio_threshold && not colliding_prev_frame:
 		set_state(State.WALL_ROLL)
 		velocity = raw_vel
@@ -91,7 +94,7 @@ func bounce(raw_vel, collision):
 		velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.1, -PI/4,PI/4)))
 
 
-func juice_it_up():
+func juice_it_up() -> void:
 	var width : float = clampf(velocity.length() * 0.01, 1, 2)
 	var height : float = 1/width
 	var angle : float = wrapf(velocity.angle(), -PI/2, PI/2)
@@ -110,7 +113,7 @@ func juice_it_up():
 
 
 @rpc("any_peer", "call_local", "reliable")
-func update_color(color : Color, index : int):
+func update_color(color : Color, index : int) -> void:
 	if index != owner_index: color = owner_color
 	else: owner_color = color
 	match owner_level:
@@ -120,9 +123,10 @@ func update_color(color : Color, index : int):
 			modulate = color * 1.75
 		2:
 			modulate = color
+	trail.add_new_color(modulate)
 
 
-func spawn_smoke(pos : Vector2):
+func spawn_smoke(pos : Vector2) -> void:
 	var smoke_scene : PackedScene = preload("res://particles/smoke.tscn")
 	var smoke : GPUParticles2D = smoke_scene.instantiate()
 	add_child(smoke)
@@ -132,30 +136,31 @@ func spawn_smoke(pos : Vector2):
 	smoke.queue_free()
 
 
-func freeze_frame(time : float):
+func freeze_frame(time : float) -> void:
+	if not get_tree(): return
 	time_scale = 0
 	await get_tree().create_timer(time).timeout
 	time_scale = 1
 
 
-func set_state(new_state : State):
+func set_state(new_state : State) -> void:
 	if state == new_state: return
 	_exit_state()
 	state = new_state
 	_enter_state()
 
 
-func _enter_state():
+func _enter_state() -> void:
 	match state:
 		State.WALL_ROLL:
 			floor_snap_length = 10
 			motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
 
-func _update_state(delta : float):
+func _update_state(delta : float) -> void:
 	match state:
 		State.NORMAL:
-			var raw_vel = velocity
+			var raw_vel : Vector2 = velocity
 			if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
 			sprite.rotation += (spin * delta) * 20
 			spin = lerpf(spin, 0, 0.5*delta)
@@ -170,7 +175,7 @@ func _update_state(delta : float):
 				return
 			if owner_index != -1: velocity.y += gravity * delta
 			move_and_slide()
-			for i in get_slide_collision_count():
+			for i : int in get_slide_collision_count():
 				var collision : KinematicCollision2D = get_slide_collision(i)
 				if not collision: return
 				var collider : TileMapLayer = collision.get_collider()
@@ -185,7 +190,7 @@ func _update_state(delta : float):
 			if not collision_info:
 				set_state(State.NORMAL)
 				return
-			var normal = collision_info.get_normal()
+			var normal : Vector2 = collision_info.get_normal()
 			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
 			var gravity_dir : Vector2 = normal.rotated(PI)
 			up_direction = normal
@@ -206,7 +211,7 @@ func _update_state(delta : float):
 			if abs(spin) < abs(spin_entering_roll) * 0.25: set_state(State.NORMAL)
 
 
-func _exit_state():
+func _exit_state() -> void:
 	match state:
 		State.WALL_ROLL:
 			var wall_exit_velocity : float = spin * 25 * damage

@@ -27,6 +27,11 @@ Lobby="*res://scripts/lobby.gd"
 Globals="*res://singletons/globals.tscn"
 UI="*res://singletons/ui.tscn"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/inferred_declaration=1
+
 [display]
 
 window/size/viewport_width=96

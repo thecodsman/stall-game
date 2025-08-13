@@ -49,6 +49,7 @@ var time_scale : float = 1
 @onready var ball_holder : Node2D = $Sprite2D/ball_holder
 @onready var anim : AnimationPlayer = $AnimationPlayer
 @onready var sprite : Sprite2D = $Sprite2D
+@onready var trail : TrailFX = $trail_fx
 @onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
 @onready var kick_collider : CollisionShape2D = $Sprite2D/kick_box/CollisionShape2D
 @onready var kick_box : KickBox = $Sprite2D/kick_box
@@ -66,9 +67,6 @@ enum State {
 	INITIAL_SPRINT,
 	TURN_AROUND,
 	JUMP,
-	SUPER_JUMP,
-	HYPER_JUMP,
-	ULTRA_JUMP,
 	BACKFLIP,
 	AIR,
 	SUPER_AIR,
@@ -96,21 +94,29 @@ enum Attack {
 	}
 var attack : Attack
 
+enum Jump {
+	NORMAL,
+	SUPER,
+	HYPER,
+	ULTRA,
+	}
+var jump : Jump
+
 @rpc("any_peer", "call_local", "reliable") # any peer so the host can set peers settings
-func set_location(pos : Vector2):
+func set_location(pos : Vector2) -> void:
 	global_position = pos
 
 
-func _enter_tree():
+func _enter_tree() -> void:
 	if Globals.is_online:
-		var _id = int(name)
+		var _id : int = int(name)
 		set_multiplayer_authority(_id)
 	else:
 		set_multiplayer_authority(1)
 	$server_sync.set_multiplayer_authority(1)
 
 
-func _ready():
+func _ready() -> void:
 	sprite.self_modulate = self_modulate
 	add_child(run_dash_timer)
 	anim.animation_finished.connect(_on_animation_finished)
@@ -123,7 +129,7 @@ func _physics_process(delta: float) -> void:
 	delta *= time_scale
 	if process_state: update_state(delta)
 	anim.speed_scale = time_scale
-	var prev_velocity = velocity
+	var prev_velocity : Vector2 = velocity
 	velocity *= time_scale
 	move_and_slide()
 	if time_scale:
@@ -133,7 +139,7 @@ func _physics_process(delta: float) -> void:
 
 
 @rpc("any_peer", "call_local", "unreliable_ordered")
-func set_state(new_state : State):
+func set_state(new_state : State) -> void:
 	if state == new_state: return
 	exit_state()
 	prev_state = state
@@ -142,12 +148,18 @@ func set_state(new_state : State):
 
 
 var charged_kick : bool = false
-func enter_state():
+func enter_state() -> void:
 	match state:
 		State.IDLE:
 			anim.play("idle")
 			slide_boost_strength = 0
+			jump = Jump.NORMAL
 			if not is_on_floor(): set_state.rpc(State.AIR) ## DONT DO COYOTE TIME WHEN SETTING STATE TO IDLE
+
+		State.AIR:
+			match jump:
+				Jump.ULTRA:
+					trail.start()
 
 		State.WALK:
 			anim.play("walk")
@@ -288,7 +300,7 @@ func enter_state():
 			set_collision_mask_value(3, false)
 
 
-func update_state(delta : float):
+func update_state(delta : float) -> void:
 	match state:
 		State.IDLE:
 			direction = input.direction.x
@@ -309,7 +321,6 @@ func update_state(delta : float):
 				jumps = MAX_JUMPS
 				fast_falling = false
 			check_for_jump()
-			check_for_backflip()
 			check_for_drop_through()
 			check_for_attack()
 			check_for_special()
@@ -334,12 +345,12 @@ func update_state(delta : float):
 			check_for_super_run()
 
 		State.CROUCH:
-			var crouch_friction : float = 4
+			var crouch_friction : float = 6
 			velocity.x = lerpf(velocity.x, 0, crouch_friction*delta)
 			if not check_for_crouch(): set_state.rpc(State.IDLE)
 			if not is_on_floor(): set_state.rpc(State.AIR)
 			check_for_attack()
-			check_for_jump()
+			if check_for_jump(false): jump = Jump.SUPER
 			check_for_special()
 			check_for_drop_through()
 
@@ -374,20 +385,10 @@ func update_state(delta : float):
 			move(delta, ACCEL, SUPER_RUN_SPEED, false)
 			apply_gravity(delta)
 			if not Engine.get_physics_frames() % 6:
-				spawn_smoke(Vector2(-4*sprite.scale.x,4))
-				var after_image : Sprite2D = Sprite2D.new()
-				after_image.texture = sprite.texture
-				after_image.hframes = sprite.hframes
-				after_image.frame = sprite.frame
-				after_image.scale = sprite.scale
-				after_image.rotation = sprite.rotation + rotation
-				after_image.global_position = global_position
-				var tween = after_image.create_tween()
-				get_tree().root.add_child(after_image)
-				after_image.modulate = self_modulate
-				tween.tween_property(after_image, "self_modulate", Color(1,1,1, self_modulate.a), 0.1)
-				tween.tween_callback(after_image.queue_free)
-			check_for_jump()
+				spawn_afterimage.rpc()
+			if not Engine.get_physics_frames() % 20:
+				spawn_smoke.rpc(Vector2(-2*sprite.scale.x,4))
+			if check_for_jump(false): jump = Jump.SUPER
 			check_for_attack()
 			check_for_special()
 			check_for_super_slide()
@@ -396,14 +397,14 @@ func update_state(delta : float):
 			if abs(velocity.x) < 30: set_state.rpc(State.IDLE)
 			velocity.x = lerpf(velocity.x, 0, 1*delta)
 			apply_gravity(delta)
-			check_for_jump()
+			if check_for_jump(false): jump = Jump.ULTRA
 			check_for_attack()
 			check_for_special()
 
 		State.SKIDDING:
 			check_for_jump()
 			check_for_attack()
-			if not Engine.get_physics_frames() % 10: spawn_smoke()
+			if not Engine.get_physics_frames() % 15: spawn_smoke(Vector2(2*sprite.scale.x,4))
 			velocity.x = lerpf(velocity.x, 0, 2*delta)
 			if anim.current_animation == "":
 				sprite.scale.x *= -1
@@ -411,7 +412,7 @@ func update_state(delta : float):
 
 		State.INITIAL_SPRINT:
 			direction = input.direction.x
-			var _accel = ACCEL * 0.66
+			var _accel : float = ACCEL * 0.66
 			if direction: move(delta, _accel, RUN_SPEED, false)
 			else: velocity.x = lerpf(velocity.x, 0, 1*delta)
 			if anim.current_animation != "run_dash" && sign(input.direction.x) == sprite.scale.x:
@@ -420,7 +421,11 @@ func update_state(delta : float):
 			elif anim.current_animation != "run_dash" && (sign(input.direction.x) == -sprite.scale.x || input.direction.x == 0):
 				set_state.rpc(State.IDLE)
 				return
-			check_for_jump()
+			if not is_on_floor(): set_state.rpc(State.AIR)
+			if abs(angle_difference(input.direction.angle(), PI/2)) < PI/4:
+				if check_for_jump(false): jump = Jump.HYPER
+			else:
+				check_for_jump()
 			check_for_super_run()
 			if check_for_attack(): attack = Attack.DASH
 			if not input.just_smashed(): return
@@ -439,38 +444,53 @@ func update_state(delta : float):
 				set_state.rpc(State.RUN)
 
 		State.JUMP:
-			var is_jump_pressed = input.is_joy_button_pressed(JOY_BUTTON_A)
+			var is_jump_pressed : bool = input.is_joy_button_pressed(JOY_BUTTON_A)
 			velocity.x = lerpf(velocity.x, 0, FRICTION*delta)
+			var hop_velocity : float
+			var jump_velocity : float
+			match jump:
+				Jump.NORMAL:
+					hop_velocity = SHORT_HOP_VELOCITY
+					jump_velocity = FULL_JUMP_VELOCITY
+				Jump.SUPER:
+					hop_velocity = SUPER_HOP_VELOCITY
+					jump_velocity = SUPER_JUMP_VELOCITY
+				Jump.HYPER:
+					hop_velocity = HYPER_HOP_VELOCITY
+					jump_velocity = HYPER_JUMP_VELOCITY
+				Jump.ULTRA:
+					hop_velocity = ULTRA_HOP_VELOCITY
+					jump_velocity = ULTRA_JUMP_VELOCITY
+			var dir : Vector2 = input.direction * Vector2(sprite.scale.x, 1)
 			if not is_jump_pressed && jumps > 0 && anim.current_animation == "jump":
-				if sign(input.direction.x) == -sprite.scale.x:
+				if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
 					anim.play("backflip")
 					velocity.y = SHORT_FLIP_VELOCITY
 					velocity.x -= 50 * sprite.scale.x
 					jumps -= 1
 					set_state.rpc(State.AIR)
 					return
-				velocity.y = SHORT_HOP_VELOCITY
+				velocity.y = hop_velocity
+				if jump != Jump.NORMAL: velocity.x += hop_velocity * -sprite.scale.x * 0.5
 				anim.play("rise")
 				jumps -= 1
 				jump_sfx.play()
 				set_state.rpc(State.AIR)
 			elif anim.current_animation == "" && jumps > 0:
-				if sign(input.direction.x) == -sprite.scale.x:
+				if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
 					anim.play("backflip")
 					velocity.y = BACKFLIP_VELOCITY
 					velocity.x -= 80 * sprite.scale.x
 					jumps -= 1
 					set_state.rpc(State.AIR)
 					return
-				velocity.y = FULL_JUMP_VELOCITY
+				velocity.y = jump_velocity
 				anim.play("rise")
 				jump_sfx.play()
 				jumps -= 1
 				set_state.rpc(State.AIR)
 
 		State.AIR:
-			if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
-			else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
 			check_for_drop_through()
 			check_for_attack()
 			check_for_dash()
@@ -478,6 +498,18 @@ func update_state(delta : float):
 			check_for_special()
 			check_for_fastfall()
 			apply_gravity(delta)
+			match jump:
+				Jump.NORMAL:
+					if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
+					else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
+				Jump.SUPER:
+					if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
+					else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
+					if not Engine.get_physics_frames() % 12: spawn_afterimage.rpc()
+				Jump.HYPER:
+					if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
+					else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
+					if not Engine.get_physics_frames() % 3: spawn_afterimage.rpc()
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0:
 				spawn_smoke.rpc(Vector2(0,4))
@@ -565,21 +597,10 @@ func update_state(delta : float):
 			check_for_attack()
 			if is_on_floor(): set_state.rpc(State.LANDING)
 			if Engine.get_physics_frames() % 3: return
-			var after_image : Sprite2D = Sprite2D.new()
-			after_image.texture = sprite.texture
-			after_image.hframes = sprite.hframes
-			after_image.frame = sprite.frame
-			after_image.scale = sprite.scale
-			after_image.rotation = sprite.rotation + rotation
-			after_image.global_position = global_position
-			var tween = after_image.create_tween()
-			get_tree().root.add_child(after_image)
-			after_image.modulate = self_modulate
-			tween.tween_property(after_image, "self_modulate", Color(1,1,1, self_modulate.a), 0.1)
-			tween.tween_callback(after_image.queue_free)
+			spawn_afterimage.rpc()
 
 		State.STALL:
-			var anim_finished = (anim.current_animation == "")
+			var anim_finished : bool = (anim.current_animation == "")
 			apply_gravity(delta)
 			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.IDLE)
@@ -597,7 +618,7 @@ func update_state(delta : float):
 				return
 			if not is_ball_stalled: return
 			if not anim_finished: return
-			var kick_pressed = input.is_joy_button_pressed(JOY_BUTTON_X)
+			var kick_pressed : bool = input.is_joy_button_pressed(JOY_BUTTON_X)
 			if kick_pressed: set_state.rpc(State.STALL_KICK)
 
 		State.STALL_KICK:
@@ -605,8 +626,11 @@ func update_state(delta : float):
 			velocity.lerp(Vector2.ZERO, 10*delta)
 
 
-func exit_state():
+func exit_state() -> void:
 	match state:
+		State.AIR:
+			trail.stop()
+
 		State.WALL:
 			gravity = BASE_GRAVITY
 
@@ -625,7 +649,7 @@ func exit_state():
 			is_ball_stalled = false
 
 
-func _on_animation_finished(animation):
+func _on_animation_finished(animation : String) -> void:
 	match animation:
 		"kick":
 			set_state.rpc(State.IDLE)
@@ -635,59 +659,55 @@ func _on_animation_finished(animation):
 			set_state.rpc(State.IDLE)
 
 
-func check_for_special():
-	var is_special_pressed = input.is_joy_button_pressed(JOY_BUTTON_B)
+func check_for_special() -> bool:
+	var is_special_pressed : bool = input.is_joy_button_pressed(JOY_BUTTON_B)
 	if is_special_pressed || ball:
 		set_state.rpc(State.STALL)
+		return true
+	return false
 
 
-func check_for_jump():
+func check_for_jump(is_normal : bool = true) -> bool:
 	if input.is_button_just_pressed(JOY_BUTTON_A):
 		if jumps <= 0: return false
+		if is_normal: jump = Jump.NORMAL
 		set_state.rpc(State.JUMP)
 		return true
 	return false
 
 
-func check_for_crouch():
+func check_for_crouch() -> bool:
 	if input.direction.angle() < PI * 0.75 && input.direction.angle() > PI * 0.25 && input.neutral:
 		set_state.rpc(State.CROUCH)
 		return true
 	return false
 
 
-func check_for_super_slide():
+func check_for_super_slide() -> bool:
 	if abs(angle_difference(input.direction.angle(), PI/2)) < PI/4:
 		set_state.rpc(State.SUPER_SLIDE)
 		return true
 	return false
 
 
-func check_for_backflip():
-	if sign(input.direction.x) == -sprite.scale.x && input.is_button_just_pressed(JOY_BUTTON_A):
-		if jumps <= 0: return false
-		print("GUGUH")
-		set_state.rpc(State.BACKFLIP)
-		return true
-	return false
-
-
-func check_for_wall_jump():
+func check_for_wall_jump() -> bool:
 	if input.is_button_just_pressed(JOY_BUTTON_A):
 		velocity.y = FULL_JUMP_VELOCITY
 		velocity.x = (FULL_JUMP_VELOCITY * wall_jump_dir) * 0.65
 		set_state.rpc(State.AIR)
 		gravity = BASE_GRAVITY
+		return true
+	return false
 	
 
-func check_for_attack():
+func check_for_attack() -> bool:
 	if input.is_button_just_pressed(JOY_BUTTON_X):
 		set_state.rpc(State.ATTACK)
 		return true
 	return false
 
 
-func check_for_dash():
+func check_for_dash() -> bool:
 	if input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER) && dashes > 0:
 		dashes -= 1
 		set_state.rpc(State.DASH)
@@ -695,11 +715,12 @@ func check_for_dash():
 	return false
 
 
-func check_for_super_run():
+func check_for_super_run() -> bool:
 	if not input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER): return false
 	set_state.rpc(State.SUPER_RUN)
+	return true
 
-func check_for_fastfall():
+func check_for_fastfall() -> bool:
 	if input.just_smashed() && abs(angle_difference(input.direction.angle(), PI/2)) < PI/4 && velocity.y > -10 && not fast_falling:
 		velocity.y = FAST_FALL_SPEED
 		fast_falling = true
@@ -708,36 +729,39 @@ func check_for_fastfall():
 	return false
 
 
-func move(delta : float, accel : float = ACCEL, speed : float = RUN_SPEED, flip : bool = true):
+func move(delta : float, accel : float = ACCEL, speed : float = RUN_SPEED, flip : bool = true) -> float:
 	direction = input.direction.x
 	if velocity.x && flip == true: sprite.scale.x = sign(velocity.x)
 	velocity.x = lerpf(velocity.x, direction * speed, accel*delta)
 	return direction
 	
 
-func apply_gravity(delta):
+func apply_gravity(delta : float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
 
-func check_for_drop_through():
+func check_for_drop_through() -> bool:
 	var threshold : float = 0.85
 	if input.direction.y > threshold && not is_on_floor():
 		set_collision_mask_value(4, false)
+		return true
 	elif input.just_smashed() && (input.direction.angle() > PI*0.25 && input.direction.angle() < PI*0.75) && is_on_floor():
 		set_collision_mask_value(4, false)
 		velocity.y = 10
+		return true
 	else:
 		set_collision_mask_value(4, true)
+		return false
 
 
-func _anim_launch_stalled_ball():
+func _anim_launch_stalled_ball() -> void:
 	if not ball || not is_multiplayer_authority(): return
 	launch_stalled_ball.rpc(ball.get_path())
 
 
 @rpc("authority", "call_local", "reliable")
-func launch_stalled_ball(ball_path : NodePath):
+func launch_stalled_ball(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
 	if not ball: return
 	is_ball_stalled = false
@@ -749,7 +773,7 @@ func launch_stalled_ball(ball_path : NodePath):
 	ball = null
 
 
-func apply_ball_ownership(ball_path : NodePath):
+func apply_ball_ownership(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
 	if not ball || UI.game_text.visible: return
 	if ball.owner_index != player_index:
@@ -767,7 +791,7 @@ func _on_stall_box_body_entered(_ball : Ball) -> void:
 	stall_ball.rpc(ball.get_path())
 
 
-func _on_hit(_ball : Ball):
+func _on_hit(_ball : Ball) -> void:
 	time_scale = 0
 	_ball.time_scale = 0
 	var duration : float = 0.001 * kick_box.power * _ball.damage
@@ -779,7 +803,7 @@ func _on_hit(_ball : Ball):
 
 
 @rpc("authority", "call_local", "reliable")
-func stall_ball(ball_path : NodePath):
+func stall_ball(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
 	if not ball || ball.stalled: return
 	var stall_box_collider : CollisionShape2D = stall_box.get_child(0)
@@ -795,7 +819,7 @@ func stall_ball(ball_path : NodePath):
 
 
 @rpc("authority", "call_local", "unreliable")
-func spawn_smoke(pos : Vector2 = Vector2(0, 4)):
+func spawn_smoke(pos : Vector2 = Vector2(0, 4)) -> void:
 	var smoke_scene : PackedScene = preload("res://particles/smoke.tscn")
 	var smoke : GPUParticles2D = smoke_scene.instantiate()
 	add_child(smoke)
@@ -807,7 +831,23 @@ func spawn_smoke(pos : Vector2 = Vector2(0, 4)):
 
 
 @rpc("authority", "call_local", "unreliable")
-func spawn_spark(pos : Vector2):
+func spawn_afterimage(time : float = 0.1) -> void:
+	var after_image : Sprite2D = Sprite2D.new()
+	after_image.texture = sprite.texture
+	after_image.hframes = sprite.hframes
+	after_image.frame = sprite.frame
+	after_image.scale = sprite.scale
+	after_image.rotation = sprite.rotation + rotation
+	after_image.global_position = global_position
+	var tween : Tween = after_image.create_tween()
+	get_tree().root.add_child(after_image)
+	after_image.modulate = self_modulate
+	tween.tween_property(after_image, "self_modulate", Color(1,1,1, self_modulate.a), time)
+	tween.tween_callback(after_image.queue_free)
+
+
+@rpc("authority", "call_local", "unreliable")
+func spawn_spark(pos : Vector2) -> void:
 	var spark_scene : PackedScene = preload("res://particles/spark.tscn")
 	var spark : Node2D = spark_scene.instantiate()
 	spark.global_position = global_position + pos

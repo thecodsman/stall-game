@@ -1,7 +1,8 @@
-[gd_scene load_steps=55 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=56 format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
+[ext_resource type="PackedScene" uid="uid://ddfslqlgeoypg" path="res://particles/trail_fx.tscn" id="2_yi3w4"]
 [ext_resource type="Script" uid="uid://c5bvosgoqnxv4" path="res://scripts/sprite.gd" id="3_5hghs"]
 [ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/ball_hitter.gd" id="3_xc1ee"]
 [ext_resource type="AudioStream" uid="uid://dckhqsnsynhwp" path="res://sounds/kick.wav" id="4_pbn0x"]
@@ -1196,13 +1197,19 @@ DASH_SPEED = 125.0
 AIR_ACCEL = 4.0
 AIR_FRICTION = 0.1
 FRICTION = 7.0
+ULTRA_JUMP_VELOCITY = -350.0
 SHORT_FLIP_VELOCITY = -160.0
-BACKFLIP_VELOCITY = -250.0
+BACKFLIP_VELOCITY = -200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_7defb")
+
+[node name="trail_fx" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
+top_level = true
+z_index = -1
+target = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_pbn0x")
