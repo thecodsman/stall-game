@@ -462,6 +462,7 @@ size = Vector2i(96, 96)
 render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
+z_index = -5
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 104.0
