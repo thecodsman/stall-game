@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://ce4qbkdc06v4m"]
+
+[ext_resource type="Script" uid="uid://bjlp03i14fefi" path="res://scripts/water.gd" id="1_k8rjq"]
+[ext_resource type="Shader" uid="uid://7udu12min21b" path="res://shaders/water.gdshader" id="2_b51wu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gs2nu"]
+noise_type = 2
+seed = 2063839650
+frequency = 0.0297
+cellular_return_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gs2nu"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_gs2nu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b51wu"]
+shader = ExtResource("2_b51wu")
+shader_parameter/refraction_map = SubResource("NoiseTexture2D_gs2nu")
+shader_parameter/refraction_stretch = Vector2(1, 1)
+shader_parameter/refraction_strength = 0.03
+shader_parameter/water_tint = Color(0.51, 0.9265, 1, 0.670588)
+shader_parameter/speed = 0.034
+
+[node name="water" type="Node2D" node_paths=PackedStringArray("water_polygon")]
+script = ExtResource("1_k8rjq")
+spread = 0.00137
+motion_sensitivity = 0.001
+spring_number = 10
+water_polygon = NodePath("Polygon2D")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+modulate = Color(1, 1, 1, 0.65098)
+material = SubResource("ShaderMaterial_b51wu")
+uv = PackedVector2Array(7.07381, 28.5501, 61.8372, 27.4422, 59.3048, 61.4715, 2.16726, 69.8601)
+metadata/_edit_lock_ = true

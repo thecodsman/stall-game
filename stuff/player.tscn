@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=59 format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dojtu42gvjf7c" path="res://sounds/jump.wav" id="7_28f3j"]
 [ext_resource type="AudioStream" uid="uid://b6cx0yte18dbu" path="res://sounds/walk.wav" id="8_b0gpc"]
 [ext_resource type="Script" uid="uid://d2bauq2q5x7ed" path="res://scripts/player_input.gd" id="9_xoaqs"]
+[ext_resource type="PackedScene" uid="uid://dxly1vyrpvnlg" path="res://stuff/water_detector.tscn" id="13_rh03w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
@@ -1194,6 +1195,9 @@ properties/9/path = NodePath("AnimationPlayer:current_animation")
 properties/9/spawn = true
 properties/9/replication_mode = 2
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_j1eso"]
+radius = 1.0
+
 [node name="player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
@@ -1305,7 +1309,15 @@ KeyboardToController = Dictionary[int, int]({
 90: 0
 })
 
+[node name="water_detector" parent="." instance=ExtResource("13_rh03w")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="water_detector"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_j1eso")
+
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="area_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_area_entered"]
 [connection signal="body_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_body_entered"]
 [connection signal="body_entered" from="Sprite2D/stall_box" to="." method="_on_stall_box_body_entered"]
+[connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
+[connection signal="water_exited" from="water_detector" to="." method="_on_water_detector_water_exited"]

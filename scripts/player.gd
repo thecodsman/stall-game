@@ -16,6 +16,11 @@ class_name Player extends CharacterBody2D
 @export var COYOTE_TIME : float = 0.05
 @export var MAX_JUMPS : int = 2
 @export var FAST_FALL_SPEED : float = 150
+@export_category("water")
+@export var WATER_GRAVITY : float = 20.0
+@export var WATER_ACCEL : float = 10.0
+@export var WATER_FRICTION : float = 10.0
+@export var WATER_SPEED : float = 80.0
 @export_subgroup("jumps")
 @export var FULL_JUMP_VELOCITY : float = -200
 @export var SUPER_JUMP_VELOCITY : float = -250
@@ -32,6 +37,10 @@ class_name Player extends CharacterBody2D
 @export var controller_index : int = 0
 @export var id : int = 1
 var gravity : float = BASE_GRAVITY
+var air_accel : float = AIR_ACCEL
+var air_friction : float = AIR_FRICTION
+var air_speed : float = AIR_SPEED
+var in_water : bool = false
 var direction : float = 0
 var dir_prev_frame : float = 0
 var jumps : int = MAX_JUMPS
@@ -498,17 +507,18 @@ func update_state(delta : float) -> void:
 			check_for_special()
 			check_for_fastfall()
 			apply_gravity(delta)
+			if in_water: jumps = MAX_JUMPS
 			match jump:
 				Jump.NORMAL:
-					if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
-					else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
+					if input.direction.x: move(delta, air_accel, air_speed, false)
+					else: velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 				Jump.SUPER:
-					if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
-					else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
+					if input.direction.x: move(delta, air_accel, air_speed, false)
+					else: velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					if not Engine.get_physics_frames() % 12: spawn_afterimage.rpc()
 				Jump.HYPER:
-					if input.direction.x: move(delta, AIR_ACCEL, AIR_SPEED, false)
-					else: velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
+					if input.direction.x: move(delta, air_accel, air_speed, false)
+					else: velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					if not Engine.get_physics_frames() % 3: spawn_afterimage.rpc()
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0:
@@ -570,23 +580,23 @@ func update_state(delta : float) -> void:
 					if anim.current_animation == "": set_state.rpc(State.IDLE)
 					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.UPAIR:
-					move(delta, AIR_ACCEL, RUN_SPEED, false)
+					move(delta, air_accel, RUN_SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.NAIR:
-					move(delta, AIR_ACCEL, RUN_SPEED, false)
+					move(delta, air_accel, RUN_SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.DAIR:
-					move(delta, AIR_ACCEL, RUN_SPEED, false)
+					move(delta, air_accel, RUN_SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.BAIR:
-					move(delta, AIR_ACCEL, RUN_SPEED, false)
+					move(delta, air_accel, RUN_SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.FAIR:
-					move(delta, AIR_ACCEL, RUN_SPEED, false)
+					move(delta, air_accel, RUN_SPEED, false)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 			if anim.current_animation == "":
@@ -852,3 +862,23 @@ func spawn_spark(pos : Vector2) -> void:
 	var spark : Node2D = spark_scene.instantiate()
 	spark.global_position = global_position + pos
 	get_parent().add_child(spark)
+
+
+func _on_water_detector_water_entered() -> void:
+	gravity = WATER_GRAVITY
+	air_accel = WATER_ACCEL
+	air_friction = WATER_FRICTION
+	air_speed = WATER_SPEED
+	in_water = true
+	velocity.y /= 4
+
+
+func _on_water_detector_water_exited() -> void:
+	gravity = BASE_GRAVITY
+	air_accel = AIR_ACCEL
+	air_friction = AIR_FRICTION
+	air_speed = AIR_SPEED
+	in_water = false
+
+
+

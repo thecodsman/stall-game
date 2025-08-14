@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxly1vyrpvnlg"]
+
+[ext_resource type="Script" uid="uid://cnl5rtyt1600a" path="res://scripts/water_detector.gd" id="1_cu0lw"]
+
+[node name="water_detector" type="Area2D"]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_cu0lw")
