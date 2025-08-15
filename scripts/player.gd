@@ -19,8 +19,9 @@ class_name Player extends CharacterBody2D
 @export_category("water")
 @export var WATER_GRAVITY : float = 20.0
 @export var WATER_ACCEL : float = 10.0
-@export var WATER_FRICTION : float = 10.0
-@export var WATER_SPEED : float = 80.0
+@export var WATER_FRICTION : float = 7.0
+@export var WATER_SPEED : float = 100.0
+@export var WATER_GROUND_FRICTION : float
 @export_subgroup("jumps")
 @export var FULL_JUMP_VELOCITY : float = -200
 @export var SUPER_JUMP_VELOCITY : float = -250
@@ -295,6 +296,7 @@ func enter_state() -> void:
 
 		State.WALL:
 			anim.play("on_wall")
+			sprite.scale.x = get_last_slide_collision().get_normal().x * -1
 			jumps = MAX_JUMPS
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
@@ -337,6 +339,7 @@ func update_state(delta : float) -> void:
 
 		State.WALK:
 			if not move(delta, ACCEL, WALK_SPEED): set_state.rpc(State.IDLE)
+			if in_water: velocity = velocity.lerp(Vector2.ZERO, WATER_GROUND_FRICTION * delta)
 			if not is_on_floor():
 				await get_tree().create_timer(COYOTE_TIME).timeout
 				set_state.rpc(State.AIR)
@@ -365,6 +368,7 @@ func update_state(delta : float) -> void:
 
 		State.RUN:
 			direction = input.direction.x
+			if in_water: velocity = velocity.lerp(Vector2.ZERO, WATER_GROUND_FRICTION * delta)
 			if not direction && abs(velocity.x) < 10: set_state.rpc(State.IDLE)
 			elif sign(direction) == -sprite.scale.x: 
 				set_state.rpc(State.TURN_AROUND)
@@ -388,6 +392,7 @@ func update_state(delta : float) -> void:
 			check_for_super_run()
 
 		State.SUPER_RUN:
+			if in_water: velocity = velocity.lerp(Vector2.ZERO, WATER_GROUND_FRICTION * delta)
 			if not input.direction.x && abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 			elif sign(input.direction.x) == -sprite.scale.x:
 				set_state.rpc(State.SKIDDING)
@@ -403,6 +408,7 @@ func update_state(delta : float) -> void:
 			check_for_super_slide()
 
 		State.SUPER_SLIDE:
+			if in_water: velocity = velocity.lerp(Vector2.ZERO, WATER_GROUND_FRICTION * delta)
 			if abs(velocity.x) < 30: set_state.rpc(State.IDLE)
 			velocity.x = lerpf(velocity.x, 0, 1*delta)
 			apply_gravity(delta)
@@ -422,6 +428,7 @@ func update_state(delta : float) -> void:
 		State.INITIAL_SPRINT:
 			direction = input.direction.x
 			var _accel : float = ACCEL * 0.66
+			if in_water: velocity = velocity.lerp(Vector2.ZERO, WATER_GROUND_FRICTION * delta)
 			if direction: move(delta, _accel, RUN_SPEED, false)
 			else: velocity.x = lerpf(velocity.x, 0, 1*delta)
 			if anim.current_animation != "run_dash" && sign(input.direction.x) == sprite.scale.x:
@@ -507,18 +514,18 @@ func update_state(delta : float) -> void:
 			check_for_special()
 			check_for_fastfall()
 			apply_gravity(delta)
-			if in_water: jumps = MAX_JUMPS
+			if in_water: jumps = 1
 			match jump:
 				Jump.NORMAL:
 					if input.direction.x: move(delta, air_accel, air_speed, false)
-					else: velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 				Jump.SUPER:
 					if input.direction.x: move(delta, air_accel, air_speed, false)
-					else: velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					if not Engine.get_physics_frames() % 12: spawn_afterimage.rpc()
 				Jump.HYPER:
 					if input.direction.x: move(delta, air_accel, air_speed, false)
-					else: velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					if not Engine.get_physics_frames() % 3: spawn_afterimage.rpc()
 			if velocity.y > 0 && anim.current_animation == "": anim.play("fall")
 			if is_on_floor() && velocity.y >= 0:
@@ -569,6 +576,7 @@ func update_state(delta : float) -> void:
 				Attack.DOWN:
 					check_for_jump()
 					velocity.x = lerpf(velocity.x, 0, 2*delta)
+					if in_water: velocity.x = lerpf(velocity.x, 0, 5*delta)
 					if abs(velocity.x) < 20: set_state.rpc(State.IDLE)
 					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.SIDE:
@@ -577,26 +585,32 @@ func update_state(delta : float) -> void:
 					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.DASH:
 					velocity.x = lerpf(velocity.x, 0, delta)
+					if in_water: velocity.x = lerpf(velocity.x, 0, 5*delta)
 					if anim.current_animation == "": set_state.rpc(State.IDLE)
 					if not is_on_floor(): set_state.rpc(State.AIR)
 				Attack.UPAIR:
 					move(delta, air_accel, RUN_SPEED, false)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.NAIR:
 					move(delta, air_accel, RUN_SPEED, false)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.DAIR:
 					move(delta, air_accel, RUN_SPEED, false)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.BAIR:
 					move(delta, air_accel, RUN_SPEED, false)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 				Attack.FAIR:
 					move(delta, air_accel, RUN_SPEED, false)
+					velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 					apply_gravity(delta)
 					if is_on_floor(): set_state.rpc(State.LANDING)
 			if anim.current_animation == "":
@@ -850,7 +864,7 @@ func spawn_afterimage(time : float = 0.1) -> void:
 	after_image.rotation = sprite.rotation + rotation
 	after_image.global_position = global_position
 	var tween : Tween = after_image.create_tween()
-	get_tree().root.add_child(after_image)
+	get_parent().add_child(after_image)
 	after_image.modulate = self_modulate
 	tween.tween_property(after_image, "self_modulate", Color(1,1,1, self_modulate.a), time)
 	tween.tween_callback(after_image.queue_free)
@@ -870,7 +884,7 @@ func _on_water_detector_water_entered() -> void:
 	air_friction = WATER_FRICTION
 	air_speed = WATER_SPEED
 	in_water = true
-	velocity.y /= 4
+	#velocity.y /= 4
 
 
 func _on_water_detector_water_exited() -> void:

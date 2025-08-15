@@ -25,7 +25,7 @@ shader_parameter/speed = 0.034
 [node name="water" type="Node2D" node_paths=PackedStringArray("water_polygon")]
 script = ExtResource("1_k8rjq")
 spread = 0.00137
-motion_sensitivity = 0.001
+motion_sensitivity = 0.0015
 spring_number = 10
 water_polygon = NodePath("Polygon2D")
 

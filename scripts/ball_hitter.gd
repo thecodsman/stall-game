@@ -9,8 +9,8 @@ signal hit
 @export var power : float = 140.0
 @export var damage : float = 0.05
 @export var hit_fx_scene : PackedScene
-@onready var kick_sfx = $kick_sfx
-@onready var collider = $CollisionShape2D
+@onready var kick_sfx : AudioStreamPlayer = $kick_sfx
+@onready var collider : CollisionShape2D = $CollisionShape2D
 
 
 func _on_body_entered(ball:Ball) -> void:
@@ -18,10 +18,10 @@ func _on_body_entered(ball:Ball) -> void:
 	kick_sfx.play()
 	var hit_fx : Node2D = hit_fx_scene.instantiate()
 	hit_fx.global_position = ball.global_position
-	get_tree().root.add_child(hit_fx)
+	$"/root/stage/SubViewportContainer/game".add_child(hit_fx)
 	if not is_multiplayer_authority(): return
 	if direction == Vector2.ZERO:
-		var dir2ball = global_position.angle_to_point((ball.global_position))
+		var dir2ball : float = global_position.angle_to_point((ball.global_position))
 		kick.rpc_id(1, ball.get_path(), Vector2.from_angle(dir2ball))
 	else: kick.rpc_id(1, ball.get_path(), direction * global_scale.rotated(global_rotation))
 
@@ -42,7 +42,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 
 
 @rpc("any_peer", "call_local", "reliable")
-func apply_ball_ownership(ball_path : NodePath):
+func apply_ball_ownership(ball_path : NodePath) -> void :
 	var ball : Ball = get_node(ball_path)
 	if not ball || UI.game_text.visible: return
 	if ball.owner_index != player.player_index && ball.owner_level > 0:

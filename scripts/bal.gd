@@ -1,11 +1,28 @@
 class_name Ball extends CharacterBody2D
 
 const MAX_OWNER_LEVEL : int = 2
-var gravity : float = 75
+@export_category("movement")
+@export var BASE_GRAVITY : float = 75
+@export var AIR_FRICTION : float = 0
+@export var AIR_SPEED : float = 0 # no air friction so nothing happens
+@export_subgroup("water")
+@export var WATER_GRAVITY : float = 20
+@export var WATER_FRICTION : float = 5
+@export var WATER_SPEED : float = 50
+@export var WATER_SPIN_MULTIPLIER : float = 3
+@export_category("spin")
+@export var roll_ratio_threshold : float = 2 ## ratio of (spin * 100) to velocity needed to initiate a wall roll
+@export var minimum_spin_for_roll : float = PI/2
+@export_category("score")
+@export var scorrable : bool = true
+var gravity : float = BASE_GRAVITY
+var air_friction : float = AIR_FRICTION
+var air_speed : float = AIR_SPEED
 var owner_index : int = -1 ## player index of the owner of the ball
 var owner_level : int = 0 ## level of ownership
 var owner_color : Color 
 var spin : float = 0
+var spin_mult : float = 1
 var colliding_prev_frame : bool = false
 var stalled : bool = false
 var staller : Player
@@ -21,8 +38,6 @@ var spin_entering_roll : float
 @onready var bounce_sfx : AudioStreamPlayer = $bounce_sfx
 @onready var collision_shape : CollisionShape2D = $CollisionShape2D
 @onready var trail : TrailFX = $trail_fx
-@export var roll_ratio_threshold : float = 2 ## ratio of (spin * 100) to velocity needed to initiate a wall roll
-@export var scorrable : bool = true
 
 enum State {
 	NORMAL,
@@ -74,7 +89,7 @@ func give_point_to_winner(winner : int) -> void:
 
 
 func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
-	if (abs(spin * 100) / raw_vel.length()) > roll_ratio_threshold && not colliding_prev_frame:
+	if (abs(spin * 100) / raw_vel.length()) > roll_ratio_threshold && not colliding_prev_frame && abs(spin) > minimum_spin_for_roll:
 		set_state(State.WALL_ROLL)
 		velocity = raw_vel
 		velocity_entering_roll = velocity
@@ -90,8 +105,6 @@ func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
 		velocity *= 0.60
 		await get_tree().physics_frame
 		freeze_frame(0.001 * velocity.length())
-	else:
-		velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.1, -PI/4,PI/4)))
 
 
 func juice_it_up() -> void:
@@ -107,7 +120,7 @@ func juice_it_up() -> void:
 		prev_scale = Vector2(width,height)
 		return
 	scale_node.scale = Vector2(width,height)
-	rotate_node.rotation = angle
+	if velocity.length() > 10: rotate_node.rotation = angle
 	prev_vel = velocity
 	prev_scale = Vector2(width,height)
 
@@ -164,7 +177,9 @@ func _update_state(delta : float) -> void:
 			if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
 			sprite.rotation += (spin * delta) * 20
 			spin = lerpf(spin, 0, 0.5*delta)
-			velocity = velocity.rotated((spin * 0.5 * delta))
+			velocity = velocity.rotated((spin * 0.5 * delta * spin_mult))
+			if velocity.length() > air_speed:
+				velocity = velocity.lerp(Vector2(air_speed,0).rotated(velocity.angle()), air_friction * delta)
 			juice_it_up()
 			if stalled:
 				if velocity.length() > 2:
@@ -222,3 +237,18 @@ func _exit_state() -> void:
 			if not collision_info: return
 			var normal : Vector2 = collision_info.get_normal()
 			velocity = wall_exit_velocity * normal
+
+
+func _on_water_detector_water_entered() -> void:
+	velocity *= 0.45
+	gravity = WATER_GRAVITY
+	air_friction = WATER_FRICTION
+	air_speed = WATER_SPEED
+	spin_mult = WATER_SPIN_MULTIPLIER
+
+
+func _on_water_detector_water_exited() -> void:
+	gravity = BASE_GRAVITY
+	air_friction = AIR_FRICTION
+	air_speed = AIR_SPEED
+	spin_mult = 1
