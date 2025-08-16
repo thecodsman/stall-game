@@ -37,10 +37,6 @@ class_name Player extends CharacterBody2D
 @export var player_index : int = 0
 @export var controller_index : int = 0
 @export var id : int = 1
-var gravity : float = BASE_GRAVITY
-var air_accel : float = AIR_ACCEL
-var air_friction : float = AIR_FRICTION
-var air_speed : float = AIR_SPEED
 var in_water : bool = false
 var direction : float = 0
 var dir_prev_frame : float = 0
@@ -65,6 +61,10 @@ var time_scale : float = 1
 @onready var kick_box : KickBox = $Sprite2D/kick_box
 @onready var jump_sfx : AudioStreamPlayer = $jump_sfx
 @onready var stall_box : Area2D = $Sprite2D/stall_box
+@onready var gravity : float = BASE_GRAVITY
+@onready var air_accel : float = AIR_ACCEL
+@onready var air_friction : float = AIR_FRICTION
+@onready var air_speed : float = AIR_SPEED
 
 enum State {
 	IDLE,
@@ -138,6 +138,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	delta *= time_scale
 	if process_state: update_state(delta)
+	if in_water && abs(angle_difference(input.direction.angle(), PI/2)) < PI/4:
+		gravity = WATER_GRAVITY * 6
+	elif in_water && abs(angle_difference(input.direction.angle(), PI/2)) > PI/4:
+		gravity = WATER_GRAVITY
 	anim.speed_scale = time_scale
 	var prev_velocity : Vector2 = velocity
 	velocity *= time_scale
@@ -167,6 +171,7 @@ func enter_state() -> void:
 			if not is_on_floor(): set_state.rpc(State.AIR) ## DONT DO COYOTE TIME WHEN SETTING STATE TO IDLE
 
 		State.AIR:
+			if anim.current_animation == "idle": anim.play("fall")
 			match jump:
 				Jump.ULTRA:
 					trail.start()
@@ -514,7 +519,9 @@ func update_state(delta : float) -> void:
 			check_for_special()
 			check_for_fastfall()
 			apply_gravity(delta)
-			if in_water: jumps = 1
+			if in_water:
+				jumps = 1
+				dashes = 1
 			match jump:
 				Jump.NORMAL:
 					if input.direction.x: move(delta, air_accel, air_speed, false)
@@ -884,7 +891,6 @@ func _on_water_detector_water_entered() -> void:
 	air_friction = WATER_FRICTION
 	air_speed = WATER_SPEED
 	in_water = true
-	#velocity.y /= 4
 
 
 func _on_water_detector_water_exited() -> void:
@@ -893,6 +899,5 @@ func _on_water_detector_water_exited() -> void:
 	air_friction = AIR_FRICTION
 	air_speed = AIR_SPEED
 	in_water = false
-
 
 
