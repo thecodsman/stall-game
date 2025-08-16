@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://3ig7ldiinuga" path="res://scripts/test_world.gd" id="1_0vnll"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="1_ekotj"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_3pu0q"]
-[ext_resource type="Texture2D" uid="uid://6hx0evm466o4" path="res://sprites/background3.png" id="3_owvx3"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_0vnll"]
+[ext_resource type="Texture2D" uid="uid://buas06gyuwpcl" path="res://worlds/D7ShRPYXoAA-XXB.jpg" id="4_l51q2"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_l51q2"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="6_e6u38"]
 [ext_resource type="PackedScene" uid="uid://cg0f1u4swchxb" path="res://stuff/bal.tscn" id="7_3pu0q"]
@@ -16,7 +16,7 @@ shader_parameter/snes_transparency = false
 shader_parameter/gba_transparency = true
 shader_parameter/horizontal_scan_line = false
 shader_parameter/vertical_scan_line = false
-shader_parameter/enable_palette_cycling = true
+shader_parameter/enable_palette_cycling = false
 shader_parameter/sprite_scroll_direction = Vector2(0, 0)
 shader_parameter/sprite_scroll_speed = 0.01
 shader_parameter/gba_transparency_scroll_direction = Vector2(1, 0)
@@ -371,11 +371,11 @@ metadata/_edit_lock_ = true
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_iw727")
-offset_right = 96.0
-offset_bottom = 96.0
-texture = ExtResource("3_owvx3")
+offset_right = 2048.0
+offset_bottom = 2048.0
+scale = Vector2(0.0492129, 0.0489134)
+texture = ExtResource("4_l51q2")
 stretch_mode = 2
-metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0.345098)

@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnycsjkru7ayq"]
+
+[ext_resource type="Texture2D" uid="uid://dmh0qv856v88p" path="res://sprites/rail.png" id="1_jak1p"]
+[ext_resource type="Script" uid="uid://ybs1vmbx2w56" path="res://stuff/rail_path.gd" id="2_buodw"]
+[ext_resource type="Shader" uid="uid://cy8gxytchiwpi" path="res://shaders/shine.gdshader" id="2_on411"]
+
+[sub_resource type="Curve2D" id="Curve2D_on411"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_owds1"]
+shader = ExtResource("2_on411")
+shader_parameter/shine_color = Color(1, 1, 1, 1)
+shader_parameter/line_width = 0.32
+shader_parameter/angle = 3.01069
+shader_parameter/speed = 5.5
+shader_parameter/wait_cycles = 10.0
+
+[node name="rail_path" type="Path2D"]
+curve = SubResource("Curve2D_on411")
+script = ExtResource("2_buodw")
+
+[node name="rail_line" type="Line2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_owds1")
+position = Vector2(4, 2)
+width = 4.0
+texture = ExtResource("1_jak1p")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true

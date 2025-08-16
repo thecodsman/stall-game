@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6wy8epfcwvhh"]
+
+[ext_resource type="Texture2D" uid="uid://drsgayf35d1ye" path="res://sprites/sound-barrier-fx.png" id="1_n7pd4"]
+
+[node name="sound_barrier_fx" type="Sprite2D"]
+texture = ExtResource("1_n7pd4")
+hframes = 2
