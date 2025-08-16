@@ -1,23 +1,23 @@
 extends Node2D
 
-var velocity : float = 0
-var force : float = 0
-var height : float = 0
-var target_height : float = 0
+var velocity : Vector2 = Vector2.ZERO
+var force : Vector2 = Vector2.ZERO
+var pos : Vector2 = Vector2.ZERO
+var target_pos : Vector2 = Vector2.ZERO
 
 
 func water_update(stiff : float, damp : float) -> void:
-	height = position.y
-	height += randf_range(0,0.5)
-	var height_diff : float = height - target_height
-	var loss : float = -damp * velocity
-	force = -stiff * height_diff + loss
+	pos = position
+	velocity += Vector2(0, randf_range(0,0.025)).rotated(rotation)
+	var pos_diff : Vector2 = pos - target_pos
+	var loss : Vector2 = -damp * velocity
+	force = -stiff * pos_diff + loss
 	velocity += force
-	position.y += velocity
+	position += velocity
 
 
 func initialize() -> void:
-	height = position.y
-	target_height = position.y
-	velocity = 0
+	pos = position
+	target_pos = position
+	velocity = Vector2.ZERO
 

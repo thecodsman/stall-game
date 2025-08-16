@@ -32,5 +32,4 @@ water_polygon = NodePath("Polygon2D")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 modulate = Color(1, 1, 1, 0.65098)
 material = SubResource("ShaderMaterial_b51wu")
-uv = PackedVector2Array(7.07381, 28.5501, 61.8372, 27.4422, 59.3048, 61.4715, 2.16726, 69.8601)
 metadata/_edit_lock_ = true
