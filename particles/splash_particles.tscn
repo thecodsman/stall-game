@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://mydxpveosvok"]
+
+[sub_resource type="Gradient" id="Gradient_4b7ne"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.741318, 0.959055, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mrodr"]
+gradient = SubResource("Gradient_4b7ne")
+width = 1
+height = 1
+
+[sub_resource type="Curve" id="Curve_4b7ne"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, -181.208), 0.0, 0.0, 0, 0, Vector2(0.988585, 308.456), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_mrodr"]
+curve = SubResource("Curve_4b7ne")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4b7ne"]
+particle_flag_disable_z = true
+angle_min = -180.0
+angle_max = 180.0
+angle_curve = SubResource("CurveTexture_mrodr")
+direction = Vector3(0, -1, 0)
+spread = 10.0
+initial_velocity_min = 63.91
+initial_velocity_max = 63.91
+gravity = Vector3(0, 98, 0)
+scale_max = 3.0
+color = Color(1, 1, 1, 0.686275)
+
+[node name="splash_particles" type="GPUParticles2D"]
+emitting = false
+amount = 1
+texture = SubResource("GradientTexture2D_mrodr")
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.44
+process_material = SubResource("ParticleProcessMaterial_4b7ne")

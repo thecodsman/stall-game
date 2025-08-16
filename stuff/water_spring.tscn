@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq2uvkg18w3ci"]
+
+[ext_resource type="Script" uid="uid://bbdeg0sfe2vnc" path="res://scripts/water_spring.gd" id="1_mrodr"]
+[ext_resource type="PackedScene" uid="uid://mydxpveosvok" path="res://particles/splash_particles.tscn" id="2_mrodr"]
+
+[node name="water_spring" type="Node2D"]
+script = ExtResource("1_mrodr")
+splash_particles_scene = ExtResource("2_mrodr")
