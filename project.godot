@@ -16,6 +16,10 @@ config/version="0.9.3"
 config/tags=PackedStringArray("2d", "platformer", "real", "small")
 run/main_scene="uid://dqrhx4hoehkkl"
 config/features=PackedStringArray("4.4", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/image="uid://b8la4u25anjjn"
 config/icon="res://icon.svg"
 
 [autoload]

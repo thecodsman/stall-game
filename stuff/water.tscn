@@ -49,13 +49,13 @@ shader_parameter/refraction_strength = 0.09
 shader_parameter/water_tint = Color(0.51, 0.9265, 1, 0.647059)
 shader_parameter/speed = 0.041
 
-[node name="water" type="Node2D" node_paths=PackedStringArray("water_polygon", "caustic_polygon")]
+[node name="water" type="Node2D" node_paths=PackedStringArray("water_polygon")]
 script = ExtResource("1_k8rjq")
 spread = 0.00137
 motion_sensitivity = 0.003
-spring_number = 10
+surface_tension = 0.2
+spring_counts = Array[int]([8])
 water_polygon = NodePath("water")
-caustic_polygon = NodePath("caustics")
 
 [node name="caustics" type="Polygon2D" parent="."]
 material = SubResource("ShaderMaterial_vmxee")

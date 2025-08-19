@@ -9,14 +9,14 @@ uniform vec4 color : source_color = vec4(0.0, .35, .5, 1.0);
 uniform vec4 caustic_color : source_color;
 uniform float intensity = .005;
 
-void fragment() 
+void fragment()
 {
     lowp vec2 p = mod(UV*TAU, TAU)-250.0;
 	lowp vec2 i = vec2(p);
 	lowp float c = 1.0;
 	lowp float t = TIME * speed;
 
-	for (int n = 0; n < iteration_times; n++) 
+	for (int n = 0; n < iteration_times; n++)
 	{
 		i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
 		c += 1.0/length(vec2(p.x / (sin(i.x+t)/intensity),p.y / (cos(i.y+t)/intensity)));
