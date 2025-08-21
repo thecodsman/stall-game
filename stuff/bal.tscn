@@ -73,7 +73,8 @@ script = ExtResource("1_68n8j")
 WATER_GRAVITY = -5.0
 WATER_FRICTION = 4.0
 WATER_SPEED = 20.0
-roll_ratio_threshold = 3.6
+ROLL_RATIO_THRESHOLD = 3.6
+MIN_SPIN_FOR_ROLL = 3.142
 
 [node name="rotate_node" type="Node2D" parent="."]
 

@@ -367,8 +367,11 @@ layer = -1
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
 z_index = -1
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0.713726, 0.254902, 1)
 metadata/_edit_lock_ = true
 
@@ -376,8 +379,11 @@ metadata/_edit_lock_ = true
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_iw727")
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_u5dd5")
 stretch_mode = 2
 metadata/_edit_lock_ = true
@@ -385,11 +391,11 @@ metadata/_edit_lock_ = true
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0.345098)
 z_index = -1
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 19.0
-offset_bottom = 24.0
-scale = Vector2(4.08393, 3.43716)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -406,19 +412,21 @@ render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = -5
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 104.0
-offset_bottom = 103.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = 20
 material = SubResource("ShaderMaterial_fg3hj")
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 104.0
-offset_bottom = 103.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]

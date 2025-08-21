@@ -38,7 +38,6 @@ func _ready() -> void:
 		if abs(normal.y): spring_offset = (water_rect.size.x / spring_count)
 		elif abs(normal.x): spring_offset = (water_rect.size.y / spring_count)
 		for j : int in spring_count + 1:
-			print("%s | %s" % [Vector2i(normal.rotated(PI/2)), normal])
 			if active_sides.has(Vector2i(normal.rotated(PI/2).round())) && j == spring_count: continue
 			if active_sides.has(Vector2i(normal.rotated(-PI/2).round())) && j == 0: continue
 			var spring : Node2D = spring_scene.instantiate()

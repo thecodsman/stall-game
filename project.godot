@@ -12,7 +12,7 @@ config_version=5
 
 config/name="stall"
 config/description="stall the ball"
-config/version="0.9.3"
+config/version="0.9.4"
 config/tags=PackedStringArray("2d", "platformer", "real", "small")
 run/main_scene="uid://dqrhx4hoehkkl"
 config/features=PackedStringArray("4.4", "Forward Plus")
@@ -20,7 +20,7 @@ boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/image="uid://b8la4u25anjjn"
-config/icon="res://icon.svg"
+config/icon="uid://cksbcjogy7wbg"
 
 [autoload]
 

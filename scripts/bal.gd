@@ -11,10 +11,17 @@ const MAX_OWNER_LEVEL : int = 2
 @export var WATER_SPEED : float = 50
 @export var WATER_SPIN_MULTIPLIER : float = 3
 @export_category("spin")
-@export var roll_ratio_threshold : float = 2 ## ratio of (spin * 100) to velocity needed to initiate a wall roll
-@export var minimum_spin_for_roll : float = PI/2
+@export var ROLL_RATIO_THRESHOLD : float ## ratio of (spin * 100) to velocity needed to initiate a wall roll
+@export var MIN_SPIN_FOR_ROLL : float
 @export_category("score")
-@export var scorrable : bool = true
+@export var SCORRABLE : bool = true
+@export var SCORE_LINE_HEIGHT : float = 20
+@onready var rotate_node : Node2D = $rotate_node
+@onready var scale_node : Node2D = $rotate_node/scale_node
+@onready var sprite : Sprite2D = $rotate_node/scale_node/Sprite2D
+@onready var bounce_sfx : AudioStreamPlayer = $bounce_sfx
+@onready var collision_shape : CollisionShape2D = $CollisionShape2D
+@onready var trail : TrailFX = $trail_fx
 var gravity : float = BASE_GRAVITY
 var air_friction : float = AIR_FRICTION
 var air_speed : float = AIR_SPEED
@@ -32,12 +39,8 @@ var prev_vel : Vector2 = Vector2.ZERO
 var prev_scale : Vector2 = Vector2(1,1)
 var velocity_entering_roll : Vector2
 var spin_entering_roll : float
-@onready var rotate_node : Node2D = $rotate_node
-@onready var scale_node : Node2D = $rotate_node/scale_node
-@onready var sprite : Sprite2D = $rotate_node/scale_node/Sprite2D
-@onready var bounce_sfx : AudioStreamPlayer = $bounce_sfx
-@onready var collision_shape : CollisionShape2D = $CollisionShape2D
-@onready var trail : TrailFX = $trail_fx
+var scorrable : bool = false
+var stage_height : float
 
 enum State {
 	NORMAL,
@@ -68,7 +71,7 @@ func _physics_process(delta : float) -> void:
 
 
 func check_for_winner() -> void:
-	if not scorrable: return
+	if not SCORRABLE || not scorrable: return
 	if owner_level < MAX_OWNER_LEVEL: return
 	if UI.game_text.visible: return
 	give_point_to_winner.rpc(owner_index)
@@ -89,12 +92,12 @@ func give_point_to_winner(winner : int) -> void:
 
 
 func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
-	if (abs(spin * 100) / raw_vel.length()) > roll_ratio_threshold && not colliding_prev_frame && abs(spin) > minimum_spin_for_roll:
+	if (abs(spin * 100) / raw_vel.length()) > ROLL_RATIO_THRESHOLD && not colliding_prev_frame && abs(spin) > MIN_SPIN_FOR_ROLL:
 		set_state(State.WALL_ROLL)
 		velocity = raw_vel
 		velocity_entering_roll = velocity
 		spin_entering_roll = spin
-	elif not colliding_prev_frame:
+	elif raw_vel.length() > 5:
 		spin *= -0.75
 		if velocity.length() > 90:
 			Globals.camera.screen_shake(velocity.length() * 0.05, velocity.length() * 0.02, 5)
@@ -174,7 +177,10 @@ func _update_state(delta : float) -> void:
 	match state:
 		State.NORMAL:
 			var raw_vel : Vector2 = velocity
-			if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
+			#if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
+			if not scorrable && global_position.y < stage_height - SCORE_LINE_HEIGHT:
+				scorrable = true
+				if owner_level >= MAX_OWNER_LEVEL: Globals.score_line.activate()
 			sprite.rotation += (spin * delta) * 20
 			spin = lerpf(spin, 0, 0.5*delta)
 			velocity = velocity.rotated((spin * 0.5 * delta * spin_mult))
@@ -195,7 +201,7 @@ func _update_state(delta : float) -> void:
 				if not collision: return
 				var collider : TileMapLayer = collision.get_collider()
 				var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
-				bounce(raw_vel,collision)
+				bounce(raw_vel, collision)
 				if is_on_floor_only() && tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
 			colliding_prev_frame = get_slide_collision_count() > 0
 		
@@ -212,7 +218,7 @@ func _update_state(delta : float) -> void:
 			apply_floor_snap()
 			juice_it_up()
 			sprite.rotation += (spin * delta) * 20
-			if (abs(spin_entering_roll * 100) / velocity_entering_roll.length()) > roll_ratio_threshold * 1.5 && abs(spin) > abs(spin_entering_roll) * 0.5:
+			if (abs(spin_entering_roll * 100) / velocity_entering_roll.length()) > ROLL_RATIO_THRESHOLD * 1.5 && abs(spin) > abs(spin_entering_roll) * 0.5:
 				spin = lerpf(spin, 0, 0.5*delta)
 				velocity = velocity.lerp(Vector2.ZERO, 7*delta)
 				spawn_smoke(to_local(collision_info.get_position()))

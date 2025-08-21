@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy72qs6yxnjeg"]
+
+[ext_resource type="Texture2D" uid="uid://dygsan64sbrfl" path="res://sprites/score_line_inactive.png" id="1_ffr4m"]
+[ext_resource type="Script" uid="uid://dxn1lt84doe2d" path="res://scripts/score_line.gd" id="1_j0sp3"]
+[ext_resource type="Texture2D" uid="uid://cdre1wp8a1ugh" path="res://sprites/score_line_active.png" id="2_tpp6v"]
+[ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_666yg"]
+
+[node name="score_line" type="Node2D"]
+z_index = -2
+script = ExtResource("1_j0sp3")
+frame_delay = 3
+
+[node name="inactive" type="Line2D" parent="."]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 96, 0)
+width = 1.0
+texture = ExtResource("1_ffr4m")
+texture_mode = 1
+
+[node name="active" type="Line2D" parent="."]
+visible = false
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 96, 0)
+width = 1.0
+texture = ExtResource("2_tpp6v")
+texture_mode = 1
+
+[node name="Label" type="Label" parent="."]
+visible = false
+texture_filter = 1
+offset_top = 3.0
+offset_right = 148.0
+offset_bottom = 11.0
+theme = ExtResource("3_666yg")
+text = "SCORE!    SCORE!    SCORE!    SCORE!"
+horizontal_alignment = 1
+vertical_alignment = 1

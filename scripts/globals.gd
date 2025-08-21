@@ -6,16 +6,16 @@ signal scores_changed
 @export var available_colors : PackedColorArray
 @export var GRAY : Color
 @onready var current_player_colors : PackedColorArray
-#@onready var current_available_colors : PackedColorArray = available_colors
 var camera : Camera2D
 var is_online : bool = false
 var registered_controllers : Array[int] ## array of device ids
 var scores : Array[int] = [0, 0, 0, 0] ## scores for the match
+var score_line : ScoreLine
 var points_to_win : int = 3
 
 
 @rpc("authority", "call_local", "reliable")
-func end_round(winner : int):
+func end_round(winner : int) -> void:
 	var tree : SceneTree = null
 	UI.scores.hide()
 	UI.game_text.text = str("P%s scored!" % winner)
@@ -28,19 +28,19 @@ func end_round(winner : int):
 
 
 @rpc("authority", "call_local", "reliable")
-func end_match(winner : int):
+func end_match(winner : int) -> void:
 	UI.game_text.text = str("P%s won!" % winner)
 	UI.game_text.visible = true
 	if not is_inside_tree(): return
 	await get_tree().create_timer(2.5).timeout
-	for i in range(scores.size()): scores[i] = 0
+	for i : int in range(scores.size()): scores[i] = 0
 	UI.game_text.hide()
 	UI.scores.hide()
 	scores_changed.emit(scores)
 	get_tree().change_scene_to_file("res://worlds/stage_select.tscn")
 
 
-func freeze_frame(time : float, time_scale : float = 0.1):
+func freeze_frame(time : float, time_scale : float = 0.1) -> void:
 	Engine.time_scale = time_scale
 	await get_tree().create_timer(time,true,false,true).timeout
 	Engine.time_scale = 1

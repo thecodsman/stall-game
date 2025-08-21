@@ -47,8 +47,14 @@ func apply_ball_ownership(ball_path : NodePath) -> void :
 	if not ball || UI.game_text.visible: return
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
+		ball.scorrable = false
+		Globals.score_line.deactivate()
 	else:
 		ball.owner_index = player.player_index
 		ball.owner_level += 1
-		if ball.owner_level > Ball.MAX_OWNER_LEVEL: ball.owner_level = Ball.MAX_OWNER_LEVEL
+		if ball.owner_level > Ball.MAX_OWNER_LEVEL:
+			ball.owner_level = Ball.MAX_OWNER_LEVEL
+			return
+		ball.scorrable = false
+		Globals.score_line.deactivate()
 	ball.update_color(player.self_modulate, player.player_index)
