@@ -34,8 +34,8 @@ func spawn_score_line() -> void:
 	$SubViewportContainer/game.add_child(score_line)
 	score_line.active_line.set_point_position(1, Vector2(stage_size.x, 0))
 	score_line.inactive_line.set_point_position(1, Vector2(stage_size.x, 0))
-	while score_line.label.get_rect().size.x < stage_size.x + 40:
-		score_line.label.text += "    SCORE!"
+	while score_line.label.get_rect().size.x < stage_size.x + score_line.text_width:
+		score_line.label.text += score_line.active_text + "    "
 		await get_tree().process_frame
 
 

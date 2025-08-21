@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=4 uid="uid://cddsiaydejfsf"]
+[gd_scene load_steps=14 format=4 uid="uid://cddsiaydejfsf"]
 
 [ext_resource type="Script" uid="uid://3ig7ldiinuga" path="res://scripts/test_world.gd" id="1_0vnll"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="1_ekotj"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_3pu0q"]
+[ext_resource type="PackedScene" uid="uid://cy72qs6yxnjeg" path="res://stuff/score_line.tscn" id="2_l51q2"]
 [ext_resource type="Texture2D" uid="uid://6hx0evm466o4" path="res://sprites/background3.png" id="3_owvx3"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_0vnll"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_l51q2"]
@@ -55,6 +56,8 @@ shader_parameter/offset_in_pixels = Vector2(1, 1)
 script = ExtResource("1_0vnll")
 player = NodePath("SubViewportContainer/game/1")
 ball = NodePath("SubViewportContainer/game/bal")
+score_line_scene = ExtResource("2_l51q2")
+stage_size = Vector2(674, 96)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(48, 48)

@@ -1,16 +1,22 @@
 class_name ScoreLine extends Node2D
 
 @export var frame_delay : int
+@export var active_text : String
+@export var text_width : int
 @onready var label : Label = $Label
 @onready var active_line : Line2D = $active
 @onready var inactive_line : Line2D = $inactive
 var is_active : bool = false
 
 
+# func _ready() -> void:
+# 	deactivate()
+
+
 func _physics_process(_delta: float) -> void:
 	if Engine.get_physics_frames() % frame_delay || not is_active: return
 	label.global_position.x -= 1
-	label.global_position.x = int(label.global_position.x) % 38
+	label.global_position.x = int(label.global_position.x) % text_width
 
 
 func activate() -> void:

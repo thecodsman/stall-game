@@ -9,6 +9,8 @@
 z_index = -2
 script = ExtResource("1_j0sp3")
 frame_delay = 3
+active_text = "SPIKE IT!    "
+text_width = 56
 
 [node name="inactive" type="Line2D" parent="."]
 texture_repeat = 2
@@ -29,9 +31,8 @@ texture_mode = 1
 visible = false
 texture_filter = 1
 offset_top = 3.0
-offset_right = 148.0
+offset_right = 1.0
 offset_bottom = 11.0
 theme = ExtResource("3_666yg")
-text = "SCORE!    SCORE!    SCORE!    SCORE!"
 horizontal_alignment = 1
 vertical_alignment = 1

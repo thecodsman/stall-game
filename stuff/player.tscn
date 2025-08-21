@@ -1204,6 +1204,7 @@ collision_mask = 13
 platform_on_leave = 2
 script = ExtResource("1_7defb")
 DASH_SPEED = 125.0
+SLIDE_SPEED = 80.0
 AIR_ACCEL = 4.0
 AIR_FRICTION = 0.1
 FRICTION = 8.0
