@@ -17,6 +17,6 @@ func _on_quit_pressed() -> void:
 
 func _ready():
 	$VBoxContainer/local.call_deferred("grab_focus")
-	UI.scores.hide()
+	UI.in_game.hide()
 
 

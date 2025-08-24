@@ -13,6 +13,7 @@ offset_bottom = 40.0
 script = ExtResource("1_elghk")
 
 [node name="left" type="TextureProgressBar" parent="."]
+layout_mode = 0
 offset_right = 25.0
 offset_bottom = 10.0
 scale = Vector2(-1, 1)
@@ -21,6 +22,7 @@ texture_over = ExtResource("2_olx0t")
 texture_progress = ExtResource("3_6xaiw")
 
 [node name="right" type="TextureProgressBar" parent="."]
+layout_mode = 0
 offset_right = 24.0
 offset_bottom = 10.0
 texture_under = ExtResource("1_vdvvn")

@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy72qs6yxnjeg"]
+[gd_scene load_steps=5 format=3 uid="uid://cy72qs6yxnjeg"]
 
 [ext_resource type="Texture2D" uid="uid://dygsan64sbrfl" path="res://sprites/score_line_inactive.png" id="1_ffr4m"]
 [ext_resource type="Script" uid="uid://dxn1lt84doe2d" path="res://scripts/score_line.gd" id="1_j0sp3"]
-[ext_resource type="Texture2D" uid="uid://cdre1wp8a1ugh" path="res://sprites/score_line_active.png" id="2_tpp6v"]
 [ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_666yg"]
 [ext_resource type="Texture2D" uid="uid://dff417qnc8agy" path="res://sprites/checkerboard.png" id="4_2t0m6"]
 
@@ -10,8 +9,8 @@
 z_index = -2
 script = ExtResource("1_j0sp3")
 frame_delay = 3
-active_text = "SPIKE IT!    "
-text_width = 10
+active_text = "SPIKE IT!"
+text_width = 52
 
 [node name="inactive" type="Line2D" parent="."]
 texture_repeat = 2
@@ -23,9 +22,9 @@ texture_mode = 1
 [node name="active" type="Line2D" parent="."]
 visible = false
 texture_repeat = 2
-points = PackedVector2Array(0, 0, 96, 0)
-width = 1.0
-texture = ExtResource("2_tpp6v")
+points = PackedVector2Array(-10, 0, 96, 0)
+width = 4.0
+texture = ExtResource("4_2t0m6")
 texture_mode = 1
 
 [node name="checkerboard" type="Line2D" parent="."]

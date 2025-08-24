@@ -33,6 +33,7 @@ func end_round(winner : int) -> void:
 func end_match(winner : int) -> void:
 	UI.game_text.text = str("P%s won!" % winner)
 	UI.game_text.show()
+	UI.scores.show()
 	if not is_inside_tree(): return
 	await get_tree().create_timer(2.5).timeout
 	for i : int in range(scores.size()): scores[i] = 0
