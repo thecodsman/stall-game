@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=30 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
@@ -11,6 +11,7 @@
 [ext_resource type="Theme" uid="uid://dbaxmp1eaeure" path="res://themes/onscreen_keyboard_theme.tres" id="6_7ywke"]
 [ext_resource type="Script" uid="uid://c4hotdlcc3w6u" path="res://scripts/onscreen_keyboard.gd" id="6_xhub8"]
 [ext_resource type="Shader" uid="uid://djgf67gdkokt7" path="res://shaders/single_shadow.gdshader" id="6_xrklg"]
+[ext_resource type="PackedScene" uid="uid://dc63cdtovupfi" path="res://stuff/ball_meter.tscn" id="7_mnugr"]
 [ext_resource type="FontFile" uid="uid://b2mcleuwl8qr0" path="res://font/miaow font.ttf" id="7_qmigx"]
 [ext_resource type="Texture2D" uid="uid://c84w0m8okb2db" path="res://sprites/backdeletebutton.png" id="7_xhub8"]
 [ext_resource type="Texture2D" uid="uid://bfoexwetrfck4" path="res://sprites/checkenterbutton.png" id="8_mbtk0"]
@@ -24,12 +25,6 @@ shader_parameter/spill = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mbtk0"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_16ckg"]
-shader = ExtResource("3_mbtk0")
-shader_parameter/background_color = Color(0, 1, 0, 1)
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/offset_in_pixels = Vector2(1, 1)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ftfax"]
 shader = ExtResource("2_1l7ac")
 shader_parameter/thickness = 1.0
@@ -41,6 +36,12 @@ shader_parameter/aspect_ratio = 1.0
 shader_parameter/square_border = false
 shader_parameter/offset = Vector2(0, 0)
 shader_parameter/max_or_add = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_16ckg"]
+shader = ExtResource("3_mbtk0")
+shader_parameter/background_color = Color(0, 1, 0, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/offset_in_pixels = Vector2(1, 1)
 
 [sub_resource type="Animation" id="Animation_xhub8"]
 length = 0.001
@@ -202,7 +203,7 @@ shader_parameter/blur_amount = 0.0
 shader_parameter/shadow_scale = 1.0
 shader_parameter/disable_rotating = false
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard")]
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard")]
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -212,7 +213,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0q5dl")
 point_displays = [NodePath("CanvasLayer/in-game/container/subviewport/players/p1"), NodePath("CanvasLayer/in-game/container/subviewport/players/p2"), NodePath("CanvasLayer/in-game/container/subviewport/players/p3"), NodePath("CanvasLayer/in-game/container/subviewport/players/p4")]
-bal_percent = NodePath("CanvasLayer/in-game/bal-percent/Label")
+scores = NodePath("CanvasLayer/in-game/container/subviewport/players")
+bal_meter = NodePath("CanvasLayer/in-game/container/subviewport/ball_meter")
+bal_percent = NodePath("CanvasLayer/in-game/container/subviewport/ball_meter/bal-percent/Label")
 game_text = NodePath("CanvasLayer/game_text")
 pause_menu = NodePath("CanvasLayer/pause-menu")
 onscreen_keyboard = NodePath("CanvasLayer/onscreen_keyboard")
@@ -243,6 +246,41 @@ material = SubResource("ShaderMaterial_mbtk0")
 offset_right = 96.0
 offset_bottom = 28.0
 color = Color(0, 1, 0, 1)
+
+[node name="ball_meter" parent="CanvasLayer/in-game/container/subviewport" instance=ExtResource("7_mnugr")]
+visible = false
+anchors_preset = -1
+anchor_left = 0.489583
+anchor_right = 0.489583
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="bal-percent" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport/ball_meter"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_top = 7.0
+offset_right = 48.0
+offset_bottom = 15.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/in-game/container/subviewport/ball_meter/bal-percent"]
+material = SubResource("ShaderMaterial_ftfax")
+layout_mode = 2
+theme = ExtResource("3_1l7ac")
+text = "0%"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="players" type="Control" parent="CanvasLayer/in-game/container/subviewport"]
 layout_mode = 3
@@ -306,23 +344,6 @@ mouse_filter = 2
 material = SubResource("ShaderMaterial_16ckg")
 offset_right = 96.0
 offset_bottom = 28.0
-
-[node name="bal-percent" type="VBoxContainer" parent="CanvasLayer/in-game"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 8.0
-grow_horizontal = 2
-mouse_filter = 2
-theme_override_constants/separation = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/in-game/bal-percent"]
-material = SubResource("ShaderMaterial_ftfax")
-layout_mode = 2
-theme = ExtResource("3_1l7ac")
-text = "0%"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="pause-menu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("resume_button")]
 process_mode = 3

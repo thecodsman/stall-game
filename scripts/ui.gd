@@ -3,11 +3,13 @@ extends Control
 signal on_transition
 
 @export var point_displays : Array[HBoxContainer]
+@export var scores : Control
+@export var bal_meter : Control
 @export var bal_percent : Label
 @export var game_text : Label
 @export var pause_menu : Control
 @export var onscreen_keyboard : Control
-@onready var scores = $"CanvasLayer/in-game"
+@onready var in_game : Control = $"CanvasLayer/in-game"
 @onready var anim : AnimationPlayer = $CanvasLayer/AnimationPlayer
 
 

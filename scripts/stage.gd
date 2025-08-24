@@ -12,7 +12,9 @@ var score_line_height : float
 
 
 func _ready() -> void:
-	UI.scores.show()
+	UI.in_game.show()
+	UI.bal_meter.show()
+	UI.scores.hide()
 	UI._on_bal_percent_change(1)
 	Lobby.player_loaded.rpc()
 	if not Globals.is_online:
@@ -31,9 +33,14 @@ func spawn_score_line() -> void:
 	var score_line : ScoreLine = score_line_scene.instantiate()
 	score_line.global_position.y = stage_size.y - score_line_height
 	Globals.score_line = score_line
-	$SubViewportContainer/game.add_child(score_line)
+	#$SubViewportContainer/game.add_child(score_line)
+	add_child(score_line)
 	score_line.active_line.set_point_position(1, Vector2(stage_size.x, 0))
 	score_line.inactive_line.set_point_position(1, Vector2(stage_size.x, 0))
+	score_line.checkerboard.set_point_position(1, Vector2(stage_size.x + score_line_height, 0))
+	score_line.checkerboard.width = score_line_height
+	score_line.text_width = int(score_line_height)
+	await tree_entered
 	while score_line.label.get_rect().size.x < stage_size.x + score_line.text_width:
 		score_line.label.text += score_line.active_text + "    "
 		await get_tree().process_frame

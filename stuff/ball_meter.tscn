@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc63cdtovupfi"]
+
+[ext_resource type="Script" uid="uid://kwtixiv30hm3" path="res://scripts/ball_meter.gd" id="1_elghk"]
+[ext_resource type="Texture2D" uid="uid://bprm6by5cb8gr" path="res://sprites/ui/ball_meter_inner.png" id="1_vdvvn"]
+[ext_resource type="Texture2D" uid="uid://6pfbwp4gycyj" path="res://sprites/ui/ball_meter_outter.png" id="2_olx0t"]
+[ext_resource type="Texture2D" uid="uid://dbihfx4fjghyh" path="res://sprites/ui/ball_meter_fill.png" id="3_6xaiw"]
+
+[node name="ball_meter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_elghk")
+
+[node name="left" type="TextureProgressBar" parent="."]
+offset_right = 25.0
+offset_bottom = 10.0
+scale = Vector2(-1, 1)
+texture_under = ExtResource("1_vdvvn")
+texture_over = ExtResource("2_olx0t")
+texture_progress = ExtResource("3_6xaiw")
+
+[node name="right" type="TextureProgressBar" parent="."]
+offset_right = 24.0
+offset_bottom = 10.0
+texture_under = ExtResource("1_vdvvn")
+texture_over = ExtResource("2_olx0t")
+texture_progress = ExtResource("3_6xaiw")

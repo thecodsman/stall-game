@@ -54,6 +54,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	UI.bal_meter.set_value(0)
 	set_physics_process(multiplayer.get_unique_id() == 1)
 	await get_tree().physics_frame
 	trail.start()
@@ -140,6 +141,8 @@ func update_color(color : Color, index : int) -> void:
 		2:
 			modulate = color
 	trail.add_new_color(modulate)
+	UI.bal_meter.set_progress_tint(color)
+	UI.bal_meter.set_value(50*owner_level)
 
 
 func spawn_smoke(pos : Vector2) -> void:
@@ -192,6 +195,7 @@ func _update_state(delta : float) -> void:
 					stalled = false
 					staller.ball = null
 					staller.is_ball_stalled = false
+				scorrable = false
 				global_position = staller.ball_holder.global_position
 				return
 			if owner_index != -1: velocity.y += gravity * delta
