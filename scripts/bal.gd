@@ -40,7 +40,7 @@ var prev_scale : Vector2 = Vector2(1,1)
 var velocity_entering_roll : Vector2
 var spin_entering_roll : float
 var scorrable : bool = false
-var stage_height : float
+var stage_size : Vector2
 
 enum State {
 	NORMAL,
@@ -69,12 +69,14 @@ func _physics_process(delta : float) -> void:
 		velocity = true_velocity
 	else:
 		velocity /= time_scale
+	global_position.x = fposmod(global_position.x, stage_size.x)
+	global_position.y = fposmod(global_position.y, stage_size.y)
 
 
 func check_for_winner() -> void:
 	if not SCORRABLE || not scorrable: return
 	if owner_level < MAX_OWNER_LEVEL: return
-	if UI.game_text.visible: return
+	if Globals.round_ending: return
 	give_point_to_winner.rpc(owner_index)
 	var highest_score : int = 0
 	for i : int in range(Globals.scores.size()):
@@ -181,7 +183,7 @@ func _update_state(delta : float) -> void:
 		State.NORMAL:
 			var raw_vel : Vector2 = velocity
 			#if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
-			if not scorrable && global_position.y < stage_height - SCORE_LINE_HEIGHT:
+			if not scorrable && global_position.y < stage_size.y - SCORE_LINE_HEIGHT:
 				scorrable = true
 				if owner_level >= MAX_OWNER_LEVEL: Globals.score_line.activate()
 			sprite.rotation += (spin * delta) * 20

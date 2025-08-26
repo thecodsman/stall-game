@@ -13,9 +13,10 @@ var score_line_height : float
 
 func _ready() -> void:
 	UI.in_game.show()
-	UI.bal_meter.show()
-	UI.scores.hide()
+	UI.show_element(UI.bal_meter)
+	UI.hide_element(UI.scores)
 	UI._on_bal_percent_change(1)
+	UI.update_scores(Globals.scores)
 	Lobby.player_loaded.rpc()
 	if not Globals.is_online:
 		local_spawn_players()
@@ -48,7 +49,7 @@ func spawn_ball() -> void:
 	if not is_multiplayer_authority(): return
 	var ball : Ball = ball_scene.instantiate()
 	ball.global_position = ball_spawn.global_position
-	ball.stage_height = stage_size.y
+	ball.stage_size = stage_size
 	score_line_height = ball.SCORE_LINE_HEIGHT
 	print(score_line_height)
 	$SubViewportContainer/game.add_child(ball, true)
@@ -87,6 +88,7 @@ func online_spawn_players() -> void:
 		player.self_modulate = Globals.current_player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = 0
+		player.stage_size = stage_size
 		$SubViewportContainer/game.add_child(player, true)
 		player.set_location.rpc_id(id, player_spawns[i].global_position)
 		set_camera_target_player.rpc(player.get_path())
@@ -107,6 +109,7 @@ func local_spawn_players() -> void:
 		player.self_modulate = Globals.current_player_colors[i]
 		player.player_index = i + 1
 		player.controller_index = device
+		player.stage_size = stage_size
 		$SubViewportContainer/game.add_child(player)
 		player.global_position = player_spawns[i].global_position
 		Globals.camera.players.append(player)

@@ -238,37 +238,40 @@ mouse_filter = 2
 
 [node name="subviewport" type="SubViewport" parent="CanvasLayer/in-game/container"]
 handle_input_locally = false
-size = Vector2i(96, 28)
+snap_2d_transforms_to_pixel = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(96, 96)
 render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport"]
 material = SubResource("ShaderMaterial_mbtk0")
-offset_right = 96.0
-offset_bottom = 28.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="ball_meter" parent="CanvasLayer/in-game/container/subviewport" instance=ExtResource("7_mnugr")]
-visible = false
 anchors_preset = -1
-anchor_left = 0.489583
-anchor_right = 0.489583
-offset_left = 1.0
+anchor_left = 0.5
+anchor_right = 0.708333
 offset_top = 2.0
-offset_right = 1.0
-offset_bottom = 2.0
+offset_right = 5.0
+offset_bottom = 18.0
 grow_horizontal = 2
-grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 metadata/_edit_use_anchors_ = true
 
 [node name="bal-percent" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport/ball_meter"]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -48.0
+offset_left = -58.0
 offset_top = 7.0
-offset_right = 48.0
+offset_right = 38.0
 offset_bottom = 15.0
 grow_horizontal = 2
 mouse_filter = 2
@@ -282,68 +285,46 @@ text = "0%"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="players" type="Control" parent="CanvasLayer/in-game/container/subviewport"]
-layout_mode = 3
-anchor_left = 0.0208333
-anchor_right = 0.979167
-anchor_bottom = 0.964286
+[node name="players" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport"]
+anchors_preset = -1
+anchor_left = 0.34375
+anchor_top = 0.166667
+anchor_right = 0.65625
+anchor_bottom = 0.833333
 grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="p1" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
 visible = false
-layout_mode = 1
-offset_bottom = 13.0
+layout_mode = 2
 mouse_filter = 2
 
 [node name="p2" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
 visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -1.00003
-offset_right = 29.0
-offset_bottom = 13.0
-grow_horizontal = 0
-scale = Vector2(-1, 1)
+layout_mode = 2
 size_flags_horizontal = 0
 mouse_filter = 2
 
 [node name="p3" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
 visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -13.0
-offset_right = 30.0
-offset_bottom = 0.0
-grow_vertical = 0
+layout_mode = 2
 mouse_filter = 2
 
 [node name="p4" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
 visible = false
 layout_direction = 2
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1.00003
-offset_top = -13.0
-offset_right = 47.0
-offset_bottom = -9.53674e-06
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(-1, 1)
+layout_mode = 2
 mouse_filter = 2
 
 [node name="shadow_renderer" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport"]
 material = SubResource("ShaderMaterial_16ckg")
-offset_right = 96.0
-offset_bottom = 28.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="pause-menu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("resume_button")]
 process_mode = 3
@@ -816,7 +797,7 @@ grow_horizontal = 2
 theme = ExtResource("3_1l7ac")
 theme_override_fonts/font = ExtResource("7_qmigx")
 theme_override_font_sizes/font_size = 8
-text = "player 2 scored"
+text = "player 1 scored"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

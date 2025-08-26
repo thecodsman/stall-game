@@ -51,6 +51,7 @@ var is_ball_stalled : bool = false
 var process_state : bool = false
 var ball : Ball
 var time_scale : float = 1
+var stage_size : Vector2 = Vector2(96,96)
 @onready var input : PlayerInput = $Input
 @onready var ball_holder : Node2D = $Sprite2D/ball_holder
 @onready var anim : AnimationPlayer = $AnimationPlayer
@@ -150,6 +151,8 @@ func _physics_process(delta: float) -> void:
 		velocity /= time_scale
 	else:
 		velocity = prev_velocity
+	global_position.x = fposmod(global_position.x, stage_size.x)
+	global_position.y = fposmod(global_position.y, stage_size.y)
 
 
 @rpc("any_peer", "call_local", "unreliable_ordered")
