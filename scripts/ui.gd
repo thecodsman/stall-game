@@ -14,7 +14,6 @@ signal on_transition
 
 
 func _ready() -> void:
-	#Globals.scores_changed.connect(update_scores)
 	update_scores(Globals.scores)
 
 

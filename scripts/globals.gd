@@ -13,13 +13,14 @@ var scores : Array[int] = [0, 0, 0, 0] ## scores for the match
 var score_line : ScoreLine
 var points_to_win : int = 3
 var round_ending : bool = false
+var stage : Stage
 
 
 @rpc("authority", "call_local", "reliable")
 func end_round(winner : int) -> void:
 	var tree : SceneTree = null
-	#UI.in_game.hide()
 	round_ending = true
+	score_line.deactivate()
 	UI.hide_element(UI.bal_meter)
 	UI.game_text.text = str("P%s scored!" % winner)
 	UI.show_element(UI.game_text)
@@ -31,9 +32,8 @@ func end_round(winner : int) -> void:
 	await tree.create_timer(0.5).timeout
 	UI.update_scores(scores)
 	await tree.create_timer(1.5).timeout
-	UI.hide_element(UI.game_text)
 	round_ending = false
-	tree.reload_current_scene()
+	stage.start_next_round()
 
 
 @rpc("authority", "call_local", "reliable")

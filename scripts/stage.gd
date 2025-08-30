@@ -9,25 +9,27 @@ var player_scene : PackedScene = preload("res://stuff/player.tscn")
 var ball_scene : PackedScene = preload("res://stuff/bal.tscn")
 var score_line_scene : PackedScene = preload("res://stuff/score_line.tscn")
 var score_line_height : float
+var round_number : int
+var is_game_point : bool
 
 
 func _ready() -> void:
 	UI.in_game.show()
-	UI.show_element(UI.bal_meter)
 	UI.hide_element(UI.scores)
+	UI.hide_element(UI.bal_meter)
 	UI._on_bal_percent_change(1)
 	UI.update_scores(Globals.scores)
+	Globals.stage = self
 	Lobby.player_loaded.rpc()
-	if not Globals.is_online:
+	if not Globals.is_online: # is local
 		local_spawn_players()
-		spawn_ball()
-		spawn_score_line()
+		start_next_round()
 
 
 func start_game() -> void: # is only called in online lobbies
 	online_spawn_players()
-	spawn_ball()
 	online_show_ui.rpc()
+	start_next_round()
 
 
 func spawn_score_line() -> void:
@@ -35,11 +37,9 @@ func spawn_score_line() -> void:
 	score_line.global_position.y = stage_size.y - score_line_height
 	Globals.score_line = score_line
 	$SubViewportContainer/game.add_child(score_line)
-	#add_child(score_line)
 	score_line.height = score_line_height
 	score_line.active_line.set_point_position(1, Vector2(stage_size.x, 0))
 	score_line.inactive_line.set_point_position(1, Vector2(stage_size.x, 0))
-	#await tree_entered
 	while score_line.label.get_rect().size.x < stage_size.x + score_line.text_width:
 		score_line.label.text += score_line.active_text + "    "
 		await get_tree().process_frame
@@ -124,3 +124,28 @@ func _unhandled_input(event: InputEvent) -> void:
 func pause() -> void:
 	UI.pause_menu.show()
 	get_tree().paused = true
+
+
+@rpc("authority", "call_local", "reliable")
+func start_next_round() -> void:
+	if Globals.camera.ball: Globals.camera.ball.queue_free()
+	if Globals.scores.has(Globals.points_to_win - 1): is_game_point = true
+	else: is_game_point = false
+	round_number += 1
+	UI.hide_element(UI.scores)
+	UI.show_element(UI.game_text)
+	UI.game_text.text = "ROUND %s" % round_number
+	if is_game_point:
+		await get_tree().create_timer(1).timeout
+		UI.game_text.text = "GAME POINT"
+		Globals.camera.screen_shake(10, 2, 2)
+	await get_tree().create_timer(1).timeout
+	UI.game_text.text = "READY?"
+	await get_tree().create_timer(1).timeout
+	UI.game_text.text = "GO!"
+	Globals.camera.screen_shake(10, 2, 2)
+	await get_tree().create_timer(0.5).timeout
+	UI.hide_element(UI.game_text)
+	UI.show_element(UI.bal_meter)
+	spawn_ball()
+	if not Globals.score_line: spawn_score_line()

@@ -21,7 +21,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func activate() -> void:
-	modulate = Globals.current_player_colors[Globals.camera.ball.owner_index - 1]
+	active_line.modulate = Globals.current_player_colors[Globals.camera.ball.owner_index - 1]
 	active_line.show()
 	inactive_line.hide()
 	label.show()
