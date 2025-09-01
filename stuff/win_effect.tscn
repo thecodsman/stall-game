@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcpfuatrhd3gk"]
+
+[ext_resource type="Script" uid="uid://dmf8l4wx2yecn" path="res://scripts/win_effect.gd" id="1_dnn15"]
+
+[node name="win_effect" type="Node2D"]
+modulate = Color(0.160784, 0.682353, 1, 1)
+script = ExtResource("1_dnn15")

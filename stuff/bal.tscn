@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cg0f1u4swchxb"]
+[gd_scene load_steps=14 format=3 uid="uid://cg0f1u4swchxb"]
 
 [ext_resource type="Script" uid="uid://vcfnl5g05scq" path="res://scripts/bal.gd" id="1_68n8j"]
 [ext_resource type="Texture2D" uid="uid://co27q43o2u5i7" path="res://sprites/ball.png" id="2_nvnwp"]
+[ext_resource type="PackedScene" uid="uid://bcpfuatrhd3gk" path="res://stuff/win_effect.tscn" id="2_poe26"]
 [ext_resource type="AudioStream" uid="uid://c23shny3karkj" path="res://sounds/ball bounce.wav" id="3_gssss"]
 [ext_resource type="Script" uid="uid://c5bvosgoqnxv4" path="res://scripts/sprite.gd" id="3_nd7ro"]
 [ext_resource type="PackedScene" uid="uid://ddfslqlgeoypg" path="res://particles/trail_fx.tscn" id="5_nfkoc"]
@@ -75,6 +76,7 @@ WATER_FRICTION = 4.0
 WATER_SPEED = 20.0
 ROLL_RATIO_THRESHOLD = 3.6
 MIN_SPIN_FOR_ROLL = 3.142
+WIN_EFFECT = ExtResource("2_poe26")
 
 [node name="rotate_node" type="Node2D" parent="."]
 

@@ -19,6 +19,7 @@ var stage : Stage
 @rpc("authority", "call_local", "reliable")
 func end_round(winner : int) -> void:
 	var tree : SceneTree = null
+	slow_motion_tween(0.5)
 	round_ending = true
 	score_line.deactivate()
 	UI.hide_element(UI.bal_meter)
@@ -38,6 +39,7 @@ func end_round(winner : int) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func end_match(winner : int) -> void:
+	slow_motion_tween(0.5)
 	round_ending = true
 	UI.hide_element(UI.bal_meter)
 	UI.game_text.text = str("P%s won!" % winner)
@@ -58,6 +60,13 @@ func end_match(winner : int) -> void:
 
 
 func freeze_frame(time : float, time_scale : float = 0.1) -> void:
+	if Engine.time_scale != 1: return
 	Engine.time_scale = time_scale
 	await get_tree().create_timer(time,true,false,true).timeout
 	Engine.time_scale = 1
+
+
+func slow_motion_tween(duration : float, tween_time : float = 0.5, target_time_scale : float = 0.25) -> void:
+	var tween : Tween = create_tween().set_trans(Tween.TRANS_EXPO)
+	tween.tween_property(Engine, ^"time_scale", target_time_scale, tween_time)
+	tween.tween_property(Engine, ^"time_scale", 1, tween_time * target_time_scale).set_delay(duration * target_time_scale)

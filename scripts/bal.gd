@@ -16,6 +16,7 @@ const MAX_OWNER_LEVEL : int = 2
 @export_category("score")
 @export var SCORRABLE : bool = true
 @export var SCORE_LINE_HEIGHT : float = 20
+@export var WIN_EFFECT : PackedScene
 @onready var rotate_node : Node2D = $rotate_node
 @onready var scale_node : Node2D = $rotate_node/scale_node
 @onready var sprite : Sprite2D = $rotate_node/scale_node/Sprite2D
@@ -92,6 +93,10 @@ func check_for_winner() -> void:
 func give_point_to_winner(winner : int) -> void:
 	Globals.scores[winner - 1] += 1
 	Globals.scores_changed.emit(Globals.scores)
+	var win_effect : Node2D = WIN_EFFECT.instantiate()
+	win_effect.global_position = global_position
+	win_effect.modulate = modulate
+	$"/root/stage".add_child(win_effect)
 
 
 func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
