@@ -23,16 +23,16 @@ class_name Player extends CharacterBody2D
 @export var WATER_SPEED : float = 100.0
 @export var WATER_GROUND_FRICTION : float
 @export_subgroup("jumps")
-@export var FULL_JUMP_VELOCITY : float = -200
-@export var SUPER_JUMP_VELOCITY : float = -250
-@export var HYPER_JUMP_VELOCITY : float = -300
-@export var ULTRA_JUMP_VELOCITY : float = -400
-@export var SHORT_HOP_VELOCITY : float = -150
-@export var SUPER_HOP_VELOCITY : float = -200
-@export var HYPER_HOP_VELOCITY : float = -250
-@export var ULTRA_HOP_VELOCITY : float = -300
-@export var SHORT_FLIP_VELOCITY : float = -250
-@export var BACKFLIP_VELOCITY : float = -300
+@export var FULL_JUMP_VELOCITY : float 
+@export var SUPER_JUMP_VELOCITY : float
+@export var HYPER_JUMP_VELOCITY : float
+@export var ULTRA_JUMP_VELOCITY : float
+@export var SHORT_HOP_VELOCITY : float 
+@export var SUPER_HOP_VELOCITY : float 
+@export var HYPER_HOP_VELOCITY : float 
+@export var ULTRA_HOP_VELOCITY : float 
+@export var SHORT_FLIP_VELOCITY : float
+@export var BACKFLIP_VELOCITY : float 
 @export_category("misc")
 @export var player_index : int = 0
 @export var controller_index : int = 0
@@ -200,7 +200,7 @@ func enter_state() -> void:
 		State.INITIAL_SPRINT:
 			anim.play("run_dash")
 			spawn_smoke(Vector2(0,4))
-			velocity.x += sign(direction) * RUN_SPEED * 0.8
+			velocity.x += sign(direction) * RUN_SPEED * 0.6
 			sprite.scale.x = sign(velocity.x)
 
 		State.TURN_AROUND:
@@ -231,44 +231,44 @@ func enter_state() -> void:
 			if prev_state == State.RUN || prev_state == State.INITIAL_SPRINT || prev_state == State.SUPER_RUN:
 				attack = Attack.DASH
 				kick_box.direction = Vector2(0.6,-0.4)
-				kick_box.power = 60
+				kick_box.power = 45
 			elif is_on_floor():
 				if input.direction.length() <= input.NeutralZone:
 					attack = Attack.NEUTRAL
 					kick_box.direction = Vector2.from_angle(-0.261)
-					kick_box.power = 45
+					kick_box.power = 35
 				elif input_dir > PI * 0.25 && input_dir < PI * 0.75: # slide kick
 					attack = Attack.DOWN
 					kick_box.direction = Vector2.UP
-					kick_box.power = 60
+					kick_box.power = 45
 				elif input_dir < -PI * 0.25 && input_dir > -PI * 0.75:
 					attack = Attack.UP
 					kick_box.direction = Vector2.UP
-					kick_box.power = 30
+					kick_box.power = 25
 				else:
 					attack = Attack.SIDE
 					kick_box.direction = Vector2(0.8,-0.2)
-					kick_box.power = 75
+					kick_box.power = 55
 			else:
 				if input.direction.length() <= input.NeutralZone:
 					attack = Attack.NAIR
 					kick_box.direction = Vector2.ZERO
-					kick_box.power = 60
+					kick_box.power = 48
 				elif input_dir > PI * 0.25 && input_dir < PI * 0.75:
 					attack = Attack.DAIR
 					kick_box.direction = Vector2.DOWN
-					kick_box.power = 80
+					kick_box.power = 70
 				elif input_dir < PI * -0.25 && input_dir > PI * -0.75:
 					attack = Attack.UPAIR
 					kick_box.direction = Vector2.UP
-					kick_box.power = 60
+					kick_box.power = 50
 				elif input_dir >= PI * -0.25 && input_dir <= PI * 0.25:
 					attack = Attack.FAIR
-					kick_box.power = 70
+					kick_box.power = 60
 					kick_box.direction = Vector2(0.9,-0.1)
 				elif input_dir >= PI * 0.75 || input_dir <= PI * -0.75:
 					attack = Attack.BAIR
-					kick_box.power = 100
+					kick_box.power = 85
 					kick_box.direction = Vector2(-0.8,0.2)
 			# -----
 			match attack:
@@ -378,6 +378,8 @@ func update_state(delta : float) -> void:
 			direction = input.direction.x
 			if in_water: velocity = velocity.lerp(Vector2.ZERO, WATER_GROUND_FRICTION * delta)
 			if not direction && abs(velocity.x) < 10: set_state.rpc(State.IDLE)
+			elif not direction:
+				velocity = velocity.lerp(Vector2.ZERO, FRICTION * delta)
 			elif sign(direction) == -sprite.scale.x: 
 				set_state.rpc(State.TURN_AROUND)
 			elif anim.current_animation == "":
@@ -469,7 +471,7 @@ func update_state(delta : float) -> void:
 
 		State.JUMP:
 			var is_jump_pressed : bool = input.is_joy_button_pressed(JOY_BUTTON_A)
-			velocity.x = lerpf(velocity.x, 0, FRICTION*delta)
+			velocity.x = lerpf(velocity.x, 0, AIR_FRICTION*delta)
 			var hop_velocity : float
 			var jump_velocity : float
 			match jump:

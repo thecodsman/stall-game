@@ -36,7 +36,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	apply_ball_ownership(ball_path)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
 	if ball.velocity.length() > 0: ball.spin = ((abs(ball.spin) * sign(angle_diff)) + (angle_diff) * clampf(ball.velocity.length() * 0.0145, 0.5, 3))
-	ball.velocity = Vector2(ball.velocity.length() + (power * ball.damage) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
+	ball.velocity = Vector2((ball.velocity.length() * 0.55) + (power * ball.damage) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
 	ball.damage += damage
 	UI._on_bal_percent_change(ball.damage)
 

@@ -8,7 +8,9 @@ var score_line_height : float
 
 func _ready() -> void:
 	spawn_score_line()
-	ball.stage_height = stage_size.y
+	ball.stage_size = stage_size
+	player.stage_size = stage_size
+	Globals.current_player_colors = [player.self_modulate]
 	Globals.camera.players.append(player)
 	Globals.camera.ball = ball
 
