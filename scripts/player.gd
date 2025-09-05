@@ -638,14 +638,15 @@ func update_state(delta : float) -> void:
 		State.STALL:
 			var anim_finished : bool = (anim.current_animation == "")
 			apply_gravity(delta)
-			velocity = velocity.lerp(Vector2.ZERO, 10*delta)
+			if not is_on_floor(): velocity = velocity.lerp(Vector2.ZERO, AIR_FRICTION*delta)
+			else: velocity = velocity.lerp(Vector2.ZERO, FRICTION*delta)
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.IDLE)
 			if not ball && is_ball_stalled:
 				is_ball_stalled = false
 				set_state.rpc(State.IDLE)
 				return
 			if not ball: return
-			if (is_ball_stalled && not ball.stalled):
+			if (is_ball_stalled && not ball.state == ball.State.STALLED):
 				ball.stalled = false
 				is_ball_stalled = false
 				ball.collision_shape.set_deferred("disabled", false)
@@ -802,7 +803,7 @@ func launch_stalled_ball(ball_path : NodePath) -> void:
 	if not ball: return
 	is_ball_stalled = false
 	ball.velocity = Vector2(0,-100)
-	ball.stalled = false
+	ball.set_state(ball.State.NORMAL)
 	ball.staller = null
 	ball.collision_shape.set_deferred("disabled", false)
 	ball.update_color(self_modulate, player_index)
@@ -815,8 +816,11 @@ func apply_ball_ownership(ball_path : NodePath) -> void:
 	if ball.owner_index != player_index:
 		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
+		ball.scorrable = false
+		Globals.score_line.deactivate()
 	elif ball.owner_index == player_index:
 		ball.owner_level = 2
+		ball.scorrable = false
 	if ball.owner_level > Ball.MAX_OWNER_LEVEL: ball.owner_level = Ball.MAX_OWNER_LEVEL
 	ball.update_color(self_modulate, player_index)
 
@@ -843,14 +847,13 @@ func stall_ball(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
 	if not ball || ball.stalled: return
 	var stall_box_collider : CollisionShape2D = stall_box.get_child(0)
+	set_collision_mask_value(3, false)
 	stall_box_collider.set_deferred("disabled", true)
 	ball.velocity = Vector2.ZERO
-	ball.spin = 0
-	ball.stalled = true
+	ball.set_state(ball.State.STALLED)
 	ball.staller = self
 	is_ball_stalled = true
 	ball.global_position = ball_holder.global_position
-	ball.collision_shape.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)
 
 
@@ -904,5 +907,3 @@ func _on_water_detector_water_exited() -> void:
 	air_friction = AIR_FRICTION
 	air_speed = AIR_SPEED
 	in_water = false
-
-

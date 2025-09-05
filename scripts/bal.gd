@@ -45,7 +45,8 @@ var stage_size : Vector2
 
 enum State {
 	NORMAL,
-	WALL_ROLL
+	WALL_ROLL,
+	STALLED
 	}
 var state : State
 
@@ -197,14 +198,6 @@ func _update_state(delta : float) -> void:
 			if velocity.length() > air_speed:
 				velocity = velocity.lerp(Vector2(air_speed,0).rotated(velocity.angle()), air_friction * delta)
 			juice_it_up()
-			if stalled:
-				if velocity.length() > 2:
-					stalled = false
-					staller.ball = null
-					staller.is_ball_stalled = false
-				scorrable = false
-				global_position = staller.ball_holder.global_position
-				return
 			if owner_index != -1: velocity.y += gravity * delta
 			move_and_slide()
 			for i : int in get_slide_collision_count():
@@ -241,6 +234,12 @@ func _update_state(delta : float) -> void:
 			move_and_slide()
 			velocity += gravity_dir
 			if abs(spin) < abs(spin_entering_roll) * 0.25: set_state(State.NORMAL)
+		
+		State.STALLED:
+			if velocity.length() > 2: set_state(State.NORMAL)
+			scorrable = false
+			global_position = staller.ball_holder.global_position
+			spin = lerpf(spin, 0, 2*delta)
 
 
 func _exit_state() -> void:
@@ -254,6 +253,11 @@ func _exit_state() -> void:
 			if not collision_info: return
 			var normal : Vector2 = collision_info.get_normal()
 			velocity = wall_exit_velocity * normal
+
+		State.STALLED:
+			staller.ball = null
+			staller.is_ball_stalled = false
+			staller = null
 
 
 func _on_water_detector_water_entered() -> void:

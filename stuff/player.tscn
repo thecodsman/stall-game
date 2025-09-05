@@ -1246,7 +1246,7 @@ region_rect = Rect2(0, 0, 372, 12)
 script = ExtResource("3_5hghs")
 
 [node name="ball_holder" type="Node2D" parent="Sprite2D"]
-position = Vector2(4, 0)
+position = Vector2(5, 0)
 
 [node name="kick_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("input", "player")]
 visible = false
