@@ -31,6 +31,8 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
 	if dir.length() < input.DeadZone: dir = Vector2.UP
+	if Globals.stats.get("hits"): Globals.stats["hits"] += 1
+	else: Globals.stats["hits"] = 1
 	ball.set_state(ball.State.NORMAL)
 	collider.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)

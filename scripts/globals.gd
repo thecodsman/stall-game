@@ -14,6 +14,7 @@ var score_line : ScoreLine
 var points_to_win : int = 3
 var round_ending : bool = false
 var stage : Stage
+var stats : Dictionary[String, float]
 
 
 @rpc("authority", "call_local", "reliable")
@@ -50,9 +51,14 @@ func end_match(winner : int) -> void:
 	UI.show_element(UI.scores)
 	await get_tree().create_timer(0.5).timeout
 	UI.update_scores(scores)
-	await get_tree().create_timer(2.5).timeout
+	await get_tree().create_timer(1).timeout
+	UI.hide_element(UI.scores)
+	UI.post_match_report.update_stats(stats)
+	UI.show_element(UI.post_match_report, 0)
+	await get_tree().create_timer(5).timeout
 	for i : int in range(scores.size()): scores[i] = 0
 	UI.hide_element(UI.game_text)
+	UI.hide_element(UI.post_match_report)
 	UI.in_game.hide()
 	scores_changed.emit(scores)
 	round_ending = false

@@ -757,6 +757,7 @@ func check_for_super_run() -> bool:
 	set_state.rpc(State.SUPER_RUN)
 	return true
 
+
 func check_for_fastfall() -> bool:
 	if input.just_smashed() && abs(angle_difference(input.direction.angle(), PI/2)) < PI/4 && velocity.y > -10 && not fast_falling:
 		velocity.y = FAST_FALL_SPEED

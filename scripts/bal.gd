@@ -42,6 +42,8 @@ var velocity_entering_roll : Vector2
 var spin_entering_roll : float
 var scorrable : bool = false
 var stage_size : Vector2
+var highest_speed : float
+var highest_spin : float
 
 enum State {
 	NORMAL,
@@ -64,6 +66,8 @@ func _ready() -> void:
 
 func _physics_process(delta : float) -> void:
 	var true_velocity : Vector2 = velocity
+	if highest_speed < velocity.length(): highest_speed = velocity.length()
+	if highest_spin < spin: highest_spin = velocity.length()
 	delta *= time_scale
 	velocity *= time_scale
 	_update_state(delta)
@@ -94,6 +98,8 @@ func check_for_winner() -> void:
 func give_point_to_winner(winner : int) -> void:
 	Globals.scores[winner - 1] += 1
 	Globals.scores_changed.emit(Globals.scores)
+	Globals.stats["max_speed"] = highest_speed
+	Globals.stats["max_spin"] = highest_spin
 	var win_effect : Node2D = WIN_EFFECT.instantiate()
 	win_effect.global_position = global_position
 	win_effect.modulate = modulate

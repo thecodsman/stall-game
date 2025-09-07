@@ -9,6 +9,7 @@ signal on_transition
 @export var game_text : Label
 @export var pause_menu : Control
 @export var onscreen_keyboard : Control
+@export var post_match_report : Panel
 @onready var in_game : Control = $"CanvasLayer/in-game"
 @onready var anim : AnimationPlayer = $CanvasLayer/AnimationPlayer
 
@@ -69,4 +70,3 @@ func hide_element(element : Control, duration : float = 0.5) -> void:
 	var tween : Tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SPRING)
 	tween.tween_property(element, "position:y", -element.size.y, duration)
 	tween.tween_callback(element.hide)
-

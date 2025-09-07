@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=33 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
@@ -15,6 +15,7 @@
 [ext_resource type="FontFile" uid="uid://b2mcleuwl8qr0" path="res://font/miaow font.ttf" id="7_qmigx"]
 [ext_resource type="Texture2D" uid="uid://c84w0m8okb2db" path="res://sprites/backdeletebutton.png" id="7_xhub8"]
 [ext_resource type="Texture2D" uid="uid://bfoexwetrfck4" path="res://sprites/checkenterbutton.png" id="8_mbtk0"]
+[ext_resource type="Script" uid="uid://hsameseu6jb5" path="res://scripts/post_match_report.gd" id="13_e72vh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xhub8"]
 shader = ExtResource("2_16ckg")
@@ -133,6 +134,29 @@ _data = {
 &"open": SubResource("Animation_mbtk0")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnugr"]
+bg_color = Color(0, 0, 0, 0.509804)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+anti_aliasing = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mnugr"]
+shader = ExtResource("6_xrklg")
+shader_parameter/debug = false
+shader_parameter/border_scale = 1.0
+shader_parameter/shadow_offset = Vector2(-1, -1)
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/blur_amount = 0.0
+shader_parameter/shadow_scale = 1.0
+shader_parameter/disable_rotating = false
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1rrlu"]
 shader = ExtResource("3_kow1n")
 shader_parameter/progress = 0.0
@@ -203,7 +227,7 @@ shader_parameter/blur_amount = 0.0
 shader_parameter/shadow_scale = 1.0
 shader_parameter/disable_rotating = false
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard")]
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard", "post_match_report")]
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -219,6 +243,7 @@ bal_percent = NodePath("CanvasLayer/in-game/container/subviewport/ball_meter/bal
 game_text = NodePath("CanvasLayer/game_text")
 pause_menu = NodePath("CanvasLayer/pause-menu")
 onscreen_keyboard = NodePath("CanvasLayer/onscreen_keyboard")
+post_match_report = NodePath("CanvasLayer/post_match_report")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -770,6 +795,60 @@ alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_mbtk0")
 }
+
+[node name="post_match_report" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mnugr")
+script = ExtResource("13_e72vh")
+
+[node name="stats" type="VBoxContainer" parent="CanvasLayer/post_match_report"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.5
+offset_top = -16.0
+offset_right = 30.5
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="hits" type="Label" parent="CanvasLayer/post_match_report/stats"]
+material = SubResource("ShaderMaterial_mnugr")
+layout_mode = 2
+tooltip_text = "hits:  %.0f"
+theme = ExtResource("3_1l7ac")
+theme_override_font_sizes/font_size = 8
+text = "hits:  %s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="max_speed" type="Label" parent="CanvasLayer/post_match_report/stats"]
+material = SubResource("ShaderMaterial_mnugr")
+layout_mode = 2
+tooltip_text = "max  speed: %.2f"
+theme = ExtResource("3_1l7ac")
+theme_override_font_sizes/font_size = 8
+text = "max  speed:  %s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="max_spin" type="Label" parent="CanvasLayer/post_match_report/stats"]
+material = SubResource("ShaderMaterial_mnugr")
+layout_mode = 2
+tooltip_text = "max  spin:  %.1f"
+theme = ExtResource("3_1l7ac")
+theme_override_font_sizes/font_size = 8
+text = "max spin:  %s"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="transition" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_1rrlu")
