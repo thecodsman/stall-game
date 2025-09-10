@@ -54,6 +54,12 @@ properties/9/replication_mode = 2
 properties/10/path = NodePath("rotate_node/scale_node/Sprite2D:rotation")
 properties/10/spawn = true
 properties/10/replication_mode = 1
+properties/11/path = NodePath(".:combo")
+properties/11/spawn = true
+properties/11/replication_mode = 2
+properties/12/path = NodePath(".:combo_owner")
+properties/12/spawn = true
+properties/12/replication_mode = 2
 
 [sub_resource type="Gradient" id="Gradient_nfkoc"]
 resource_local_to_scene = true

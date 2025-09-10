@@ -63,6 +63,7 @@ func end_match(winner : int) -> void:
 	UI.in_game.hide()
 	scores_changed.emit(scores)
 	round_ending = false
+	stats.clear()
 	get_tree().change_scene_to_file("res://worlds/stage_select.tscn")
 
 
