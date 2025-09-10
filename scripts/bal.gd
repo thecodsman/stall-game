@@ -29,6 +29,8 @@ var air_speed : float = AIR_SPEED
 var owner_index : int = -1 ## player index of the owner of the ball
 var owner_level : int = 0 ## level of ownership
 var owner_color : Color 
+var combo : int = 0
+var combo_owner : int = -1
 var spin : float = 0
 var spin_mult : float = 1
 var colliding_prev_frame : bool = false
@@ -101,6 +103,8 @@ func give_point_to_winner(winner : int) -> void:
 	Globals.scores_changed.emit(Globals.scores)
 	Globals.stats["max_speed"] = highest_speed
 	Globals.stats["max_spin"] = highest_spin
+	combo = 0
+	combo_owner = -1
 	var win_effect : Node2D = WIN_EFFECT.instantiate()
 	win_effect.global_position = global_position
 	win_effect.modulate = modulate

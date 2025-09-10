@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=34 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
@@ -27,6 +27,18 @@ shader_parameter/spill = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mbtk0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ftfax"]
+shader = ExtResource("2_1l7ac")
+shader_parameter/thickness = 1.0
+shader_parameter/ring_count = 4
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = false
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e72vh"]
 shader = ExtResource("2_1l7ac")
 shader_parameter/thickness = 1.0
 shader_parameter/ring_count = 4
@@ -227,7 +239,7 @@ shader_parameter/blur_amount = 0.0
 shader_parameter/shadow_scale = 1.0
 shader_parameter/disable_rotating = false
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard", "post_match_report")]
+[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard", "post_match_report", "combo_counter")]
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -244,6 +256,7 @@ game_text = NodePath("CanvasLayer/game_text")
 pause_menu = NodePath("CanvasLayer/pause-menu")
 onscreen_keyboard = NodePath("CanvasLayer/onscreen_keyboard")
 post_match_report = NodePath("CanvasLayer/post_match_report")
+combo_counter = NodePath("CanvasLayer/in-game/container/subviewport/combo")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -342,6 +355,29 @@ visible = false
 layout_direction = 2
 layout_mode = 2
 mouse_filter = 2
+
+[node name="combo" type="Label" parent="CanvasLayer/in-game/container/subviewport"]
+visible = false
+material = SubResource("ShaderMaterial_e72vh")
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -25.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(4.5, 19)
+theme = ExtResource("3_1l7ac")
+theme_override_constants/line_spacing = -2
+text = "1x
+
+COMBO"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
 
 [node name="shadow_renderer" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport"]
 material = SubResource("ShaderMaterial_16ckg")

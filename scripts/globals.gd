@@ -26,6 +26,7 @@ func end_round(winner : int) -> void:
 	UI.hide_element(UI.bal_meter)
 	UI.game_text.text = str("P%s scored!" % winner)
 	UI.show_element(UI.game_text)
+	UI.combo_counter.hide()
 	if not is_inside_tree(): return
 	tree = get_tree()
 	await tree.create_timer(1).timeout

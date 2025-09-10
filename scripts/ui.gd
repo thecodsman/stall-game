@@ -10,6 +10,7 @@ signal on_transition
 @export var pause_menu : Control
 @export var onscreen_keyboard : Control
 @export var post_match_report : Panel
+@export var combo_counter : Label
 @onready var in_game : Control = $"CanvasLayer/in-game"
 @onready var anim : AnimationPlayer = $CanvasLayer/AnimationPlayer
 
