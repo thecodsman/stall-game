@@ -305,7 +305,7 @@ func enter_state() -> void:
 		State.WALL:
 			anim.play("on_wall")
 			sprite.scale.x = get_last_slide_collision().get_normal().x * -1
-			jumps = MAX_JUMPS
+			jumps = MAX_JUMPS - 1
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
 
