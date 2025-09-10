@@ -46,11 +46,12 @@ var highest_speed : float
 var highest_spin : float
 
 enum State {
+	INACTIVE,
 	NORMAL,
 	WALL_ROLL,
 	STALLED
 	}
-var state : State
+var state : State = State.INACTIVE
 
 
 func _enter_tree() -> void:
@@ -192,6 +193,9 @@ func _enter_state() -> void:
 
 func _update_state(delta : float) -> void:
 	match state:
+		State.INACTIVE:
+			pass
+
 		State.NORMAL:
 			var raw_vel : Vector2 = velocity
 			#if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
@@ -218,12 +222,13 @@ func _update_state(delta : float) -> void:
 		State.WALL_ROLL:
 			const WALL_RIDE_SPEED : float = 15
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
-			if not collision_info:
+			if not collision_info && state == State.WALL_ROLL:
 				set_state(State.NORMAL)
 				return
 			var normal : Vector2 = collision_info.get_normal()
 			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
 			var gravity_dir : Vector2 = normal.rotated(PI)
+			if normal == Vector2.UP: check_for_winner()
 			up_direction = normal
 			apply_floor_snap()
 			juice_it_up()
@@ -242,7 +247,7 @@ func _update_state(delta : float) -> void:
 			if abs(spin) < abs(spin_entering_roll) * 0.25: set_state(State.NORMAL)
 		
 		State.STALLED:
-			if velocity.length() > 2: set_state(State.NORMAL)
+			if velocity.length() > 2 || not staller: set_state(State.NORMAL)
 			scorrable = false
 			global_position = staller.ball_holder.global_position
 			spin = lerpf(spin, 0, 2*delta)

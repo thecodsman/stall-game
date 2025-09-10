@@ -492,7 +492,6 @@ func update_state(delta : float) -> void:
 				if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
 					anim.play("backflip")
 					velocity.y = SHORT_FLIP_VELOCITY
-					velocity.x -= 50 * sprite.scale.x
 					jumps -= 1
 					set_state.rpc(State.AIR)
 					return
@@ -506,7 +505,6 @@ func update_state(delta : float) -> void:
 				if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
 					anim.play("backflip")
 					velocity.y = BACKFLIP_VELOCITY
-					velocity.x -= 80 * sprite.scale.x
 					jumps -= 1
 					set_state.rpc(State.AIR)
 					return
@@ -638,7 +636,7 @@ func update_state(delta : float) -> void:
 		State.STALL:
 			var anim_finished : bool = (anim.current_animation == "")
 			apply_gravity(delta)
-			if not is_on_floor(): velocity = velocity.lerp(Vector2.ZERO, AIR_FRICTION*delta)
+			if not is_on_floor(): velocity = velocity.lerp(Vector2.ZERO, air_friction*delta)
 			else: velocity = velocity.lerp(Vector2.ZERO, FRICTION*delta)
 			if anim_finished && not is_ball_stalled: set_state.rpc(State.IDLE)
 			if not ball && is_ball_stalled:
@@ -804,11 +802,8 @@ func launch_stalled_ball(ball_path : NodePath) -> void:
 	if not ball: return
 	is_ball_stalled = false
 	ball.velocity = Vector2(0,-100)
-	ball.set_state(ball.State.NORMAL)
-	ball.staller = null
-	ball.collision_shape.set_deferred("disabled", false)
 	ball.update_color(self_modulate, player_index)
-	ball = null
+	ball.set_state(ball.State.NORMAL)
 
 
 func apply_ball_ownership(ball_path : NodePath) -> void:

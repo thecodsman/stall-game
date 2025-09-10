@@ -46,7 +46,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func apply_ball_ownership(ball_path : NodePath) -> void :
 	var ball : Ball = get_node(ball_path)
-	if not ball || UI.game_text.visible: return
+	if not ball || Globals.round_ending: return
 	if ball.owner_index != player.player_index && ball.owner_level > 0:
 		ball.owner_level -= 1
 		ball.scorrable = false
