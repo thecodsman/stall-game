@@ -48,12 +48,14 @@ func spawn_score_line() -> void:
 func spawn_ball() -> void:
 	if not is_multiplayer_authority(): return
 	var ball : Ball = ball_scene.instantiate()
-	ball.global_position = ball_spawn.global_position
 	ball.stage_size = stage_size
+	ball.server = Globals.get_serving_player()
+	ball.global_position = ball_spawn.global_position
 	score_line_height = ball.SCORE_LINE_HEIGHT
-	print(score_line_height)
 	$SubViewportContainer/game.add_child(ball, true)
 	set_camera_target_ball.rpc(ball.get_path())
+	ball.sprite.material.set_shader_parameter("thickness", 1)
+	ball.sprite.material.set_shader_parameter("outline_color", Globals.current_player_colors[Globals.serving_player])
 
 
 @rpc("authority", "call_local", "reliable")

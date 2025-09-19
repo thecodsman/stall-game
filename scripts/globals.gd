@@ -15,6 +15,18 @@ var points_to_win : int = 3
 var round_ending : bool = false
 var stage : Stage
 var stats : Dictionary[String, float]
+var serving_player : int = 0
+
+
+func get_serving_player() -> Player:
+	var player : Player = camera.players[serving_player]
+	return player
+
+
+func increment_serving_player() -> void:
+	serving_player = wrapi(serving_player + 1, 0, current_player_colors.size())
+	if scores[serving_player] >= points_to_win - 1 && scores.min() < points_to_win - 1:
+		increment_serving_player()
 
 
 @rpc("authority", "call_local", "reliable")
@@ -36,6 +48,7 @@ func end_round(winner : int) -> void:
 	UI.update_scores(scores)
 	await tree.create_timer(1.5).timeout
 	round_ending = false
+	increment_serving_player()
 	stage.start_next_round()
 
 

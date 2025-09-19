@@ -10,8 +10,10 @@ uniform float aspect_ratio : hint_range(0.1, 10.0, 0.01) = 1.0;
 uniform bool square_border = false;
 uniform vec2 offset;
 uniform bool max_or_add = false;
+varying vec4 modulate;
 
 void vertex(){
+	modulate = COLOR;
 	if (border_clipping_fix){
 		vec2 o = (UV * 2.0 - 1.0);
 		VERTEX += o * thickness - offset;
@@ -64,6 +66,6 @@ void fragment(){
 			}
 		}
 	}
-    vec3 final_color = mix(outline_color.rgb, sprite_color.rgb, sprite_color.a);
+    vec3 final_color = mix(outline_color.rgb, sprite_color.rgb * modulate.rgb, sprite_color.a * modulate.a);
     COLOR = vec4(final_color, clamp(alpha, 0.0, 1.0));
 }

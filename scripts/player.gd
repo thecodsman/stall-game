@@ -311,12 +311,10 @@ func enter_state() -> void:
 
 		State.STALL:
 			anim.play("stall")
-			set_collision_mask_value(3, false)
 			is_ball_stalled = (ball != null)
 
 		State.STALL_KICK:
 			anim.play("stall_kick")
-			set_collision_mask_value(3, false)
 
 
 func update_state(delta : float) -> void:
@@ -625,6 +623,9 @@ func update_state(delta : float) -> void:
 					if is_on_floor(): set_state.rpc(State.LANDING)
 			if anim.current_animation == "":
 				set_state.rpc(State.IDLE)
+			if kick_collider.disabled:
+				check_for_dash()
+				check_for_jump()
 			check_for_fastfall()
 
 		State.DASH:
@@ -644,11 +645,7 @@ func update_state(delta : float) -> void:
 				set_state.rpc(State.IDLE)
 				return
 			if not ball: return
-			if (is_ball_stalled && not ball.state == ball.State.STALLED):
-				ball.stalled = false
-				is_ball_stalled = false
-				ball.collision_shape.set_deferred("disabled", false)
-				ball = null
+			if (is_ball_stalled && not ball.state == ball.State.STALLED) || (is_ball_stalled && ball.staller != self):
 				set_state.rpc(State.IDLE)
 				return
 			if not is_ball_stalled: return
@@ -676,11 +673,9 @@ func exit_state() -> void:
 			kick_collider.set_deferred("disabled", true)
 
 		State.STALL:
-			set_collision_mask_value(3, true)
 			is_ball_stalled = false
 
 		State.STALL_KICK:
-			set_collision_mask_value(3, true)
 			is_ball_stalled = false
 
 
@@ -822,6 +817,7 @@ func apply_ball_ownership(ball_path : NodePath) -> void:
 
 
 func _on_stall_box_body_entered(_ball : Ball) -> void:
+	if _ball.server != owner && _ball.server != null: return
 	ball = _ball
 	if ball.stalled || not is_multiplayer_authority(): return
 	stall_ball.rpc(ball.get_path())
@@ -830,11 +826,14 @@ func _on_stall_box_body_entered(_ball : Ball) -> void:
 func _on_hit(_ball : Ball) -> void:
 	time_scale = 0
 	_ball.time_scale = 0
+	dashes = max(1,jumps)
+	jumps = max(1,jumps)
 	var duration : float = 0.001 * kick_box.power * _ball.damage
 	sprite.shake(1, duration, 1)
 	_ball.sprite.shake(2, duration, 2)
 	await get_tree().create_timer(duration).timeout
 	time_scale = 1
+	if not _ball: return
 	_ball.time_scale = 1
 
 
@@ -842,8 +841,8 @@ func _on_hit(_ball : Ball) -> void:
 func stall_ball(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
 	if not ball || ball.stalled: return
+	ball.set_state(ball.State.NORMAL) # makes it so you can put someone into quantum superposition by stalling the ball they are stalling
 	var stall_box_collider : CollisionShape2D = stall_box.get_child(0)
-	set_collision_mask_value(3, false)
 	stall_box_collider.set_deferred("disabled", true)
 	ball.velocity = Vector2.ZERO
 	ball.set_state(ball.State.STALLED)

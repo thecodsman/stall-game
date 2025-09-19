@@ -46,6 +46,7 @@ var scorrable : bool = false
 var stage_size : Vector2
 var highest_speed : float
 var highest_spin : float
+var server : Player
 
 enum State {
 	INACTIVE,
@@ -156,7 +157,9 @@ func update_color(color : Color, index : int) -> void:
 		0:
 			modulate = Color.WHITE
 		1:
-			modulate = color * 1.75
+			modulate = color
+			modulate.s *= 0.5
+			modulate.h += 0.015
 		2:
 			modulate = color
 	trail.add_new_color(modulate)
@@ -198,7 +201,8 @@ func _enter_state() -> void:
 func _update_state(delta : float) -> void:
 	match state:
 		State.INACTIVE:
-			pass
+			global_position.y = lerpf(global_position.y, server.global_position.y, 5*delta)
+			global_position.x = lerpf(global_position.x, server.global_position.x + (8 * sign((stage_size.x / 2) - global_position.x)), 5*delta)
 
 		State.NORMAL:
 			var raw_vel : Vector2 = velocity
@@ -259,6 +263,9 @@ func _update_state(delta : float) -> void:
 
 func _exit_state() -> void:
 	match state:
+		State.INACTIVE:
+			sprite.material.set_shader_parameter("thickness", 0)
+
 		State.WALL_ROLL:
 			var wall_exit_velocity : float = spin * 25 * damage
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
