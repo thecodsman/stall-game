@@ -3,8 +3,10 @@ extends Control
 @onready var player_sprites : HBoxContainer = $SubViewportContainer/game/players
 
 
-func _ready():
-	Globals.registered_controllers = []
+func _ready() -> void:
+	Globals.registered_controllers.clear()
+	Globals.scores.clear()
+	Globals.current_player_colors.clear()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -35,7 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				register_new_player(-1)
 
 
-func switch_color(player : int, dir : int):
+func switch_color(player : int, dir : int) -> void:
 	if player < 0: return
 	var color : Color = Globals.current_player_colors[player]
 	var new_color : Color = Globals.available_colors[wrapf(Globals.available_colors.find(color) + dir, 0, Globals.available_colors.size())]
@@ -45,7 +47,7 @@ func switch_color(player : int, dir : int):
 	player_sprites.get_child(player).get_child(0).modulate = new_color
 
 
-func register_new_player(device : int):
+func register_new_player(device : int) -> void:
 	var color : Color = Globals.player_colors[Globals.registered_controllers.size()]
 	var colorI : int = Globals.available_colors.find(color)
 	var player_sprite = player_sprites.get_child(Globals.registered_controllers.size())
@@ -56,6 +58,7 @@ func register_new_player(device : int):
 	player_sprite.get_child(0).modulate = color
 	player_sprite.show()
 	Globals.registered_controllers.append(device)
+	Globals.scores.append(0)
 	if Globals.registered_controllers.size() > 1:
 		$start.disabled = false
 		

@@ -9,7 +9,7 @@ signal scores_changed
 var camera : Camera2D
 var is_online : bool = false
 var registered_controllers : Array[int] ## array of device ids
-var scores : Array[int] = [0, 0, 0, 0] ## scores for the match
+var scores : Array[int] = [] ## scores for the match
 var score_line : ScoreLine
 var points_to_win : int = 3
 var round_ending : bool = false

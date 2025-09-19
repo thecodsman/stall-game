@@ -5,8 +5,8 @@ extends Control
 func _ready():
 	Lobby.player_connected.connect(_on_player_connected)
 	Lobby.player_index = clampi(Lobby.players.size() - 1, 0, 3)
-	print(Lobby.player_index)
-	Globals.current_player_colors = []
+	Globals.scores.clear()
+	Globals.current_player_colors.clear()
 	for i in range(Lobby.players.size()):
 		register_player(i)
 
@@ -19,6 +19,7 @@ func register_player(player : int):
 		colorI = wrapi(colorI + 1, 0, Globals.available_colors.size())
 		color = Globals.available_colors[colorI]
 	Globals.current_player_colors.append(color)
+	Globals.scores.append(0)
 	player_portrait.get_child(0).modulate = color
 	player_portrait.show()
 

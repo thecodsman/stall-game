@@ -311,9 +311,11 @@ func enter_state() -> void:
 
 		State.STALL:
 			anim.play("stall")
+			set_collision_mask_value(3, false)
 			is_ball_stalled = (ball != null)
 
 		State.STALL_KICK:
+			set_collision_mask_value(3, false)
 			anim.play("stall_kick")
 
 
@@ -673,9 +675,11 @@ func exit_state() -> void:
 			kick_collider.set_deferred("disabled", true)
 
 		State.STALL:
+			set_collision_mask_value(3, true)
 			is_ball_stalled = false
 
 		State.STALL_KICK:
+			set_collision_mask_value(3, true)
 			is_ball_stalled = false
 
 
@@ -817,7 +821,7 @@ func apply_ball_ownership(ball_path : NodePath) -> void:
 
 
 func _on_stall_box_body_entered(_ball : Ball) -> void:
-	if _ball.server != owner && _ball.server != null: return
+	if _ball.server != self && _ball.server != null: return
 	ball = _ball
 	if ball.stalled || not is_multiplayer_authority(): return
 	stall_ball.rpc(ball.get_path())
