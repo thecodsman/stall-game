@@ -2,17 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kmypxsqhynyv"
-path="res://.godot/imported/Decoration.svg-03773e83cc849c7744ecf3d36eee0072.ctex"
+uid="uid://bdy34mag72dqc"
+path="res://.godot/imported/unknown_character_portrait.png-7b7363bfaad672416298338bd925546c.ctex"
 metadata={
-"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/better-terrain/icons/Decoration.svg"
-dest_files=["res://.godot/imported/Decoration.svg-03773e83cc849c7744ecf3d36eee0072.ctex"]
+source_file="res://sprites/ui/unknown_character_portrait.png"
+dest_files=["res://.godot/imported/unknown_character_portrait.png-7b7363bfaad672416298338bd925546c.ctex"]
 
 [params]
 
@@ -39,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=true
-editor/convert_colors_with_editor_theme=false

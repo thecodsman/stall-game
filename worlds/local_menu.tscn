@@ -1,12 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://b50ix7x5w7txc"]
+[gd_scene load_steps=26 format=3 uid="uid://b50ix7x5w7txc"]
 
 [ext_resource type="Script" uid="uid://8j488tv0n520" path="res://scripts/local_menu.gd" id="1_0qupg"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="1_kf885"]
 [ext_resource type="PackedScene" uid="uid://tp1cpr8b5hba" path="res://shaders/backgrounds/local.tscn" id="1_oheku"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="2_0qupg"]
-[ext_resource type="Texture2D" uid="uid://3lpa1v5x7e8r" path="res://sprites/ball-portrait.png" id="3_xv4p8"]
+[ext_resource type="PackedScene" uid="uid://bqwdpmi6hv25" path="res://stuff/ui/player_box.tscn" id="3_ykx88"]
+[ext_resource type="Script" uid="uid://ctots4boxrq8b" path="res://scripts/ui/character_select.gd" id="4_1getb"]
+[ext_resource type="PackedScene" uid="uid://c4ausvu7gpa2j" path="res://stuff/ui/character_select_icon.tscn" id="4_m2h76"]
 [ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="5_kf885"]
+[ext_resource type="Texture2D" uid="uid://0tonjn311l3h" path="res://sprites/ui/tiny-stall-player-portrait.png" id="5_ykx88"]
+[ext_resource type="Texture2D" uid="uid://3lpa1v5x7e8r" path="res://sprites/ball-portrait.png" id="6_1getb"]
+[ext_resource type="Texture2D" uid="uid://cuv82d5oxp1sy" path="res://sprites/ui/tiny-crawl-player-portrait.png" id="7_dj8j2"]
 [ext_resource type="Texture2D" uid="uid://qajfx3mm4330" path="res://sprites/ui/back_arrow.png" id="7_xv4p8"]
+[ext_resource type="Texture2D" uid="uid://ctrpb0pudoxce" path="res://sprites/ui/tiny-drawl-player-portrait.png" id="8_3jgqp"]
+[ext_resource type="Texture2D" uid="uid://bdy34mag72dqc" path="res://sprites/ui/unknown_character_portrait.png" id="9_dj8j2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_68vbw"]
 shader = ExtResource("1_kf885")
@@ -14,6 +21,112 @@ shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykx88"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1getb"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dj8j2"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jgqp"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3b7y"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_345m4"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6nnw6"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hmccv"]
 shader = ExtResource("2_0qupg")
@@ -29,7 +142,7 @@ pressed = true
 [sub_resource type="Shortcut" id="Shortcut_xv4p8"]
 events = [SubResource("InputEventJoypadButton_0qupg")]
 
-[node name="local_menu" type="Control"]
+[node name="local_menu" type="Control" node_paths=PackedStringArray("player_boxes", "character_select")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,6 +150,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0qupg")
+player_boxes = NodePath("SubViewportContainer/game/players")
+character_select = NodePath("SubViewportContainer/game/character_select")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_68vbw")
@@ -58,6 +173,76 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
+[node name="players" type="HBoxContainer" parent="SubViewportContainer/game"]
+layout_direction = 2
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 7.0
+offset_bottom = 41.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="player_box" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ykx88")
+
+[node name="player_box2" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1getb")
+
+[node name="player_box3" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dj8j2")
+
+[node name="player_box4" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3jgqp")
+
+[node name="character_select" type="GridContainer" parent="SubViewportContainer/game"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_right = 25.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
+script = ExtResource("4_1getb")
+
+[node name="stall" parent="SubViewportContainer/game/character_select" instance=ExtResource("4_m2h76")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../drawl")
+focus_neighbor_right = NodePath("../crawl")
+theme_override_styles/panel = SubResource("StyleBoxFlat_y3b7y")
+icon = ExtResource("5_ykx88")
+icon_offset = Vector2(0, -1)
+portrait = ExtResource("6_1getb")
+
+[node name="crawl" parent="SubViewportContainer/game/character_select" instance=ExtResource("4_m2h76")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../stall")
+focus_neighbor_right = NodePath("../drawl")
+theme_override_styles/panel = SubResource("StyleBoxFlat_345m4")
+icon = ExtResource("7_dj8j2")
+locked = true
+portrait = ExtResource("9_dj8j2")
+
+[node name="drawl" parent="SubViewportContainer/game/character_select" instance=ExtResource("4_m2h76")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../crawl")
+focus_neighbor_right = NodePath("../stall")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6nnw6")
+icon = ExtResource("8_3jgqp")
+locked = true
+portrait = ExtResource("9_dj8j2")
+
 [node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = 20
 material = SubResource("ShaderMaterial_hmccv")
@@ -67,65 +252,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
-
-[node name="players" type="HBoxContainer" parent="SubViewportContainer/game"]
-layout_direction = 2
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 7.0
-offset_bottom = 41.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = -3
-alignment = 1
-
-[node name="p1" type="Panel" parent="SubViewportContainer/game/players"]
-visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
-layout_mode = 2
-size_flags_horizontal = 6
-
-[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p1"]
-modulate = Color(0.160784, 0.682353, 1, 1)
-texture = ExtResource("3_xv4p8")
-centered = false
-
-[node name="p2" type="Panel" parent="SubViewportContainer/game/players"]
-visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
-layout_mode = 2
-size_flags_horizontal = 6
-
-[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p2"]
-modulate = Color(1, 0, 0.290196, 1)
-texture = ExtResource("3_xv4p8")
-centered = false
-
-[node name="p3" type="Panel" parent="SubViewportContainer/game/players"]
-visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
-layout_mode = 2
-size_flags_horizontal = 6
-
-[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p3"]
-modulate = Color(1, 0.631373, 0, 1)
-texture = ExtResource("3_xv4p8")
-centered = false
-
-[node name="p4" type="Panel" parent="SubViewportContainer/game/players"]
-visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
-layout_mode = 2
-size_flags_horizontal = 6
-
-[node name="player1" type="Sprite2D" parent="SubViewportContainer/game/players/p4"]
-modulate = Color(0, 0.713726, 0.254902, 1)
-texture = ExtResource("3_xv4p8")
-centered = false
 
 [node name="local_bg" parent="." instance=ExtResource("1_oheku")]
 

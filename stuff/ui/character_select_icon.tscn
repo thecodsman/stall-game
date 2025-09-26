@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4ausvu7gpa2j"]
+
+[ext_resource type="Script" uid="uid://di3jk6alnmxmt" path="res://scripts/ui/character_select_icon.gd" id="1_cl7ej"]
+[ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_am1nl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m2h76"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7acnf"]
+shader = ExtResource("2_am1nl")
+shader_parameter/thickness = 1.0
+shader_parameter/ring_count = 4
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
+
+[node name="character_select_icon" type="Panel" node_paths=PackedStringArray("sprite")]
+custom_minimum_size = Vector2(14, 14)
+offset_right = 14.0
+offset_bottom = 14.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_m2h76")
+script = ExtResource("1_cl7ej")
+sprite = NodePath("sprite")
+
+[node name="sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_7acnf")
+position = Vector2(7, 7)

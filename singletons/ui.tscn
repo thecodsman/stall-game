@@ -291,6 +291,7 @@ grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
 [node name="ball_meter" parent="CanvasLayer/in-game/container/subviewport" instance=ExtResource("7_mnugr")]
+visible = false
 anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.708333

@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqwdpmi6hv25"]
+
+[ext_resource type="Script" uid="uid://cufw3xljl17y2" path="res://scripts/ui/player_box.gd" id="1_g68cy"]
+[ext_resource type="Texture2D" uid="uid://3lpa1v5x7e8r" path="res://sprites/ball-portrait.png" id="1_kkxs3"]
+[ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="2_g68cy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xv4p8"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[node name="player_box" type="Panel"]
+custom_minimum_size = Vector2(22, 24)
+offset_right = 22.0
+offset_bottom = 24.0
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_xv4p8")
+script = ExtResource("1_g68cy")
+
+[node name="sprite" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0.160784, 0.682353, 1, 1)
+texture = ExtResource("1_kkxs3")
+centered = false
+offset = Vector2(0, 10)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -4.0
+offset_right = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_g68cy")
+theme_override_colors/font_color = Color(0.35, 0.33005, 0.287, 0.4)
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 8
+text = "PRESS ANY BUTTON "
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+visible_characters = 4
+visible_ratio = 0.25

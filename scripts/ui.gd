@@ -20,6 +20,7 @@ func _ready() -> void:
 
 
 func update_scores(_scores : Array[int]) -> void:
+	if _scores == []: return
 	var tween : Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	for i : int in range(_scores.size()):
 		var score : int = _scores[i]
