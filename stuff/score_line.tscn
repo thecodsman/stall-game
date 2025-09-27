@@ -1,9 +1,53 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy72qs6yxnjeg"]
+[gd_scene load_steps=6 format=3 uid="uid://cy72qs6yxnjeg"]
 
 [ext_resource type="Texture2D" uid="uid://dygsan64sbrfl" path="res://sprites/score_line_inactive.png" id="1_ffr4m"]
 [ext_resource type="Script" uid="uid://dxn1lt84doe2d" path="res://scripts/score_line.gd" id="1_j0sp3"]
 [ext_resource type="Theme" uid="uid://c5re2qhtcyole" path="res://themes/main_menu.tres" id="3_666yg"]
 [ext_resource type="Texture2D" uid="uid://dff417qnc8agy" path="res://sprites/checkerboard.png" id="4_2t0m6"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_j0sp3"]
+properties/0/path = NodePath(".:is_active")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:height")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("inactive:visible")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("active:visible")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("inactive:points")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath("active:points")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath("inactive:position")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("active:position")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:position")
+properties/8/spawn = true
+properties/8/replication_mode = 2
+properties/9/path = NodePath("active:modulate")
+properties/9/spawn = true
+properties/9/replication_mode = 2
+properties/10/path = NodePath("Label:position")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath("Label:visible")
+properties/11/spawn = true
+properties/11/replication_mode = 2
+properties/12/path = NodePath("Label:text")
+properties/12/spawn = true
+properties/12/replication_mode = 2
+properties/13/path = NodePath("Label:size")
+properties/13/spawn = true
+properties/13/replication_mode = 2
 
 [node name="score_line" type="Node2D"]
 z_index = -2
@@ -27,14 +71,6 @@ width = 4.0
 texture = ExtResource("4_2t0m6")
 texture_mode = 1
 
-[node name="checkerboard" type="Line2D" parent="."]
-visible = false
-texture_repeat = 2
-position = Vector2(0, 5)
-points = PackedVector2Array(0, 0, 96, 0)
-texture = ExtResource("4_2t0m6")
-texture_mode = 1
-
 [node name="Label" type="Label" parent="."]
 visible = false
 texture_filter = 1
@@ -44,3 +80,6 @@ offset_bottom = 11.0
 theme = ExtResource("3_666yg")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_j0sp3")

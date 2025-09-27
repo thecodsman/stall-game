@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://b342bi6qybkak"]
+[gd_scene load_steps=20 format=4 uid="uid://b342bi6qybkak"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_vp4jk"]
 [ext_resource type="Texture2D" uid="uid://chdkr8bsht80b" path="res://sprites/stage_select_icons/big-basic.png" id="2_8mu18"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://be5wtgkkitxgh" path="res://sprites/background4.png" id="5_xpsia"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="6_4sqsn"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="7_lrx8b"]
+[ext_resource type="PackedScene" uid="uid://bmtvo6hyxtje3" path="res://worlds/stages/stage_multiplayer_spawner.tscn" id="9_xpsia"]
 
 [sub_resource type="Gradient" id="Gradient_xpsia"]
 offsets = PackedFloat32Array(0, 0.494545, 1)
@@ -478,6 +479,4 @@ tile_map_data = PackedByteArray("AAD//wAAAQAAAAAAAAD//wEAAQAAAAEAAAD//wIAAQAAAAE
 tile_set = SubResource("TileSet_aprxe")
 physics_quadrant_size = 1
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="SubViewportContainer/game"]
-_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d", "uid://cg0f1u4swchxb")
-spawn_path = NodePath("..")
+[node name="MultiplayerSpawner" parent="SubViewportContainer/game" instance=ExtResource("9_xpsia")]

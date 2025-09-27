@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://dk63esv5x4rpx"]
+[gd_scene load_steps=21 format=4 uid="uid://dk63esv5x4rpx"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_pjgop"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_likaa"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_0y6ho"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_78wr1"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="10_l2sf4"]
+[ext_resource type="PackedScene" uid="uid://bmtvo6hyxtje3" path="res://worlds/stages/stage_multiplayer_spawner.tscn" id="10_qpqbk"]
 
 [sub_resource type="Gradient" id="Gradient_iw727"]
 interpolation_mode = 2
@@ -483,6 +484,4 @@ offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="SubViewportContainer/game"]
-_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d")
-spawn_path = NodePath("..")
+[node name="MultiplayerSpawner" parent="SubViewportContainer/game" instance=ExtResource("10_qpqbk")]

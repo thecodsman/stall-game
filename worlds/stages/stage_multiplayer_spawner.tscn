@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bmtvo6hyxtje3"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner"]
+_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d", "uid://cg0f1u4swchxb", "uid://cy72qs6yxnjeg")
+spawn_path = NodePath("..")

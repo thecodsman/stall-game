@@ -83,7 +83,7 @@ func _on_player_connected(_peer_id : int, _player_info : Dictionary) -> void:
 	register_player(Lobby.players.size() - 1)
 	if is_multiplayer_authority():
 		$start.show()
-		Lobby.set_player_index.rpc_id(_peer_id, Lobby.player.size() - 1)
+		Lobby.set_player_index.rpc_id(_peer_id, Lobby.players.size() - 1)
 	else:
 		$start.hide()
 

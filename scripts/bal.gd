@@ -225,7 +225,6 @@ func _update_state(delta : float) -> void:
 				var collider : TileMapLayer = collision.get_collider()
 				var pos : Vector2i = collider.get_coords_for_body_rid((collision.get_collider_rid()))
 				var tile : TileData = collider.get_cell_tile_data(pos)
-				print("%s | %s | %s" % [tile.get_custom_data("floor"), pos, global_position])
 				bounce(raw_vel, collision)
 				if is_on_floor_only() && tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
 			colliding_prev_frame = get_slide_collision_count() > 0

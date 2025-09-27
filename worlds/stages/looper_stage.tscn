@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://d3o0e1hqjue38"]
+[gd_scene load_steps=17 format=4 uid="uid://d3o0e1hqjue38"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_akybh"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_mmmxe"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://be5wtgkkitxgh" path="res://sprites/background4.png" id="4_mmmxe"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="5_nk8o2"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="6_1wis1"]
+[ext_resource type="PackedScene" uid="uid://bmtvo6hyxtje3" path="res://worlds/stages/stage_multiplayer_spawner.tscn" id="7_2a0qe"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="9_5cimk"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="10_8u22o"]
 
@@ -413,6 +414,8 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(96, 96)
 render_target_update_mode = 4
 
+[node name="MultiplayerSpawner" parent="SubViewportContainer/game" instance=ExtResource("7_2a0qe")]
+
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = -5
 anchors_preset = 15
@@ -436,7 +439,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="SubViewportContainer/game"]
-_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d", "uid://cg0f1u4swchxb")
-spawn_path = NodePath("..")

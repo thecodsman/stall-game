@@ -4,11 +4,14 @@ class_name ScoreLine extends Node2D
 @export var active_text : String
 @export var text_width : int
 @onready var label : Label = $Label
-@onready var checkerboard : Line2D = $checkerboard
 @onready var active_line : Line2D = $active
 @onready var inactive_line : Line2D = $inactive
 var is_active : bool = false
 var height : float
+
+
+func _ready() -> void:
+	Globals.score_line = self
 
 
 func _physics_process(_delta: float) -> void:

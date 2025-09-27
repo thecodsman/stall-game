@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://4t5xolkq2k6t"]
+[gd_scene load_steps=19 format=4 uid="uid://4t5xolkq2k6t"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_f8vux"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="2_vrwy1"]
@@ -9,6 +9,7 @@
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_5srl3"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="6_7roak"]
 [ext_resource type="PackedScene" uid="uid://ce4qbkdc06v4m" path="res://stuff/water.tscn" id="8_x4anr"]
+[ext_resource type="PackedScene" uid="uid://bmtvo6hyxtje3" path="res://worlds/stages/stage_multiplayer_spawner.tscn" id="9_5srl3"]
 
 [sub_resource type="Gradient" id="Gradient_vrwy1"]
 offsets = PackedFloat32Array(0, 0.510417, 1)
@@ -438,9 +439,7 @@ tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAA
 tile_set = SubResource("TileSet_aprxe")
 physics_quadrant_size = 1
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="SubViewportContainer/game"]
-_spawnable_scenes = PackedStringArray("uid://brh0j5uih2n1d", "uid://cg0f1u4swchxb")
-spawn_path = NodePath("..")
+[node name="MultiplayerSpawner" parent="SubViewportContainer/game" instance=ExtResource("9_5srl3")]
 
 [node name="water" type="ColorRect" parent="SubViewportContainer/game"]
 offset_left = 28.0

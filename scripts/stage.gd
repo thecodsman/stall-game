@@ -21,7 +21,7 @@ func _ready() -> void:
 	UI.update_scores(Globals.scores)
 	Globals.stage = self
 	Lobby.player_loaded.rpc()
-	if not Globals.is_online: # is local
+	if Globals.is_online == false:
 		local_spawn_players()
 		start_next_round()
 
@@ -29,14 +29,15 @@ func _ready() -> void:
 func start_game() -> void: # is only called in online lobbies
 	online_spawn_players()
 	online_show_ui.rpc()
-	start_next_round()
+	start_next_round.rpc()
 
 
 func spawn_score_line() -> void:
+	if is_multiplayer_authority() == false: return
 	var score_line : ScoreLine = score_line_scene.instantiate()
 	score_line.global_position.y = stage_size.y - score_line_height
 	Globals.score_line = score_line
-	$SubViewportContainer/game.add_child(score_line)
+	$SubViewportContainer/game.add_child(score_line, true)
 	score_line.height = score_line_height
 	score_line.active_line.set_point_position(1, Vector2(stage_size.x, 0))
 	score_line.inactive_line.set_point_position(1, Vector2(stage_size.x, 0))
@@ -46,7 +47,7 @@ func spawn_score_line() -> void:
 
 
 func spawn_ball() -> void:
-	if not is_multiplayer_authority(): return
+	if is_multiplayer_authority() == false: return
 	var ball : Ball = ball_scene.instantiate()
 	ball.stage_size = stage_size
 	ball.server = Globals.get_serving_player()
