@@ -1,38 +1,59 @@
 extends Control
 
-@export var player_sprites : HBoxContainer
+@export var player_boxes : HBoxContainer
+@export var character_select : CharacterSelect
 
-func _ready():
+
+func _ready() -> void:
 	Lobby.player_connected.connect(_on_player_connected)
-	Lobby.player_index = clampi(Lobby.players.size() - 1, 0, 3)
 	Globals.scores.clear()
 	Globals.current_player_colors.clear()
-	for i in range(Lobby.players.size()):
+	character_select.player_selection_changed.connect(_on_player_selection_changed)
+	character_select.character_selected.connect(func(player : int) -> void:
+		player_boxes.get_child(player).character_selected = true
+		if character_select.selected.size() != Lobby.players.size(): return
+		if character_select.selected.values().has(null): return
+		$start.disabled = false
+	)
+	character_select.character_deselected.connect(func(player : int) -> void:
+		player_boxes.get_child(player).character_selected = false
+		$start.disabled = true
+	)
+	for i : int in range(Lobby.players.size()):
+		print(i)
 		register_player(i)
 
 
-func register_player(player : int):
+func register_player(player : int) -> void:
 	var color : Color = Globals.player_colors[player]
 	var colorI : int = Globals.available_colors.find(color)
-	var player_portrait : Panel = player_sprites.get_child(player)
+	var player_box : PlayerBox = player_boxes.get_child(player)
 	while Globals.current_player_colors.has(color):
 		colorI = wrapi(colorI + 1, 0, Globals.available_colors.size())
 		color = Globals.available_colors[colorI]
 	Globals.current_player_colors.append(color)
 	Globals.scores.append(0)
-	player_portrait.get_child(0).modulate = color
-	player_portrait.show()
+	player_box.color = color
+	player_box.show()
+	player_box.player_joined = true
+	character_select.new_player(player)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func switch_color(player : int, dir : int):
+func switch_color(player : int, dir : int) -> void:
 	if player < 0: return
 	var color : Color = Globals.current_player_colors[player]
-	var new_color : Color = Globals.available_colors[wrapi(Globals.available_colors.find(color) + dir, 0, Globals.available_colors.size())]
+	var new_color : Color = Globals.available_colors[wrapi(
+			Globals.available_colors.find(color) + dir, 0,
+			Globals.available_colors.size()
+			)]
 	while Globals.current_player_colors.has(new_color):
-		new_color = Globals.available_colors[wrapi(Globals.available_colors.find(new_color) + dir, 0, Globals.available_colors.size())]
+		new_color = Globals.available_colors[wrapi(
+				Globals.available_colors.find(new_color) + dir, 0,
+				Globals.available_colors.size()
+				)]
 	Globals.current_player_colors[player] = new_color
-	player_sprites.get_child(player).get_child(0).modulate = new_color
+	player_boxes.get_child(player).get_child(0).modulate = new_color
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,35 +61,47 @@ func _unhandled_input(event: InputEvent) -> void:
 		match event.button_index:
 			JOY_BUTTON_RIGHT_SHOULDER:
 				if not event.pressed: return
-				var player = Lobby.player_index
+				var player : int = Lobby.player_index
 				switch_color.rpc(player, 1)
 			JOY_BUTTON_LEFT_SHOULDER:
 				if not event.pressed: return
-				var player = Lobby.player_index
+				var player : int = Lobby.player_index
 				switch_color.rpc(player, -1)
 	elif event is InputEventKey:
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
-				var player = Lobby.player_index
+				var player : int = Lobby.player_index
 				switch_color.rpc(player, -1)
 			KEY_RIGHT:
-				var player = Lobby.player_index
+				var player : int = Lobby.player_index
 				switch_color.rpc(player, 1)
 
 
-func _on_player_connected(_peer_id, _player_info):
+func _on_player_connected(_peer_id : int, _player_info : Dictionary) -> void:
 	print("player connected")
 	register_player(Lobby.players.size() - 1)
+	if float(_player_info.time_connected) < float(Lobby.player_info.time_connected):
+		Lobby.player_index += 1
 	if is_multiplayer_authority():
 		$start.show()
-		$start.disabled = false
 	else:
 		$start.hide()
 
 
 func _on_start_pressed() -> void:
 	go_to_stage_select.rpc()
+
+
+func _on_player_selection_changed(player : int, character : CharacterSelectIcon) -> void:
+	update_player_portrait.rpc(player, character.get_path())
+
+
+@rpc("any_peer", "call_local", "reliable")
+func update_player_portrait(player : int, character_icon : NodePath) -> void:
+	var player_box : PlayerBox = player_boxes.get_child(player)
+	var character : CharacterSelectIcon = get_node(character_icon)
+	player_box.portrait = character.portrait
 
 
 @rpc("call_local", "reliable")

@@ -39,7 +39,7 @@ func _draw() -> void:
 			3: offset = Vector2(8,18)
 		for j : int in range(text.length()):
 			var l : String = text[j]
-			draw_char(preload("uid://dq3ivvjy1lslp"), Vector2(j*5,0) + offset, l, 8, Globals.current_player_colors[player])
+			draw_char(preload("uid://dq3ivvjy1lslp"), Vector2(j*5,0) + offset, l, 8, Globals.current_player_colors[min(player, Globals.current_player_colors.size()-1)])
 	for i : int in range(selected.size()):
 		var text : String = str("P%s" % (selected[i] + 1))
 		var player : int = selected[i]
@@ -56,5 +56,5 @@ func _draw() -> void:
 
 func _process(_delta: float) -> void:
 	if focusing.size() == 0: border_color = Globals.GRAY
-	else: border_color = Globals.current_player_colors[focusing[-1]]
+	else: border_color = Globals.current_player_colors[focusing[min(focusing.size()-1, Globals.current_player_colors.size()-1)]]
 	queue_redraw()

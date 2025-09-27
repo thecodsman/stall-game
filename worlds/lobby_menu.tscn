@@ -1,11 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqsdn6h23kr4j"]
+[gd_scene load_steps=23 format=3 uid="uid://cqsdn6h23kr4j"]
 
 [ext_resource type="Script" uid="uid://cckpxvswq4hfy" path="res://scripts/lobby_menu.gd" id="1_ruh0p"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_d6oou"]
 [ext_resource type="Texture2D" uid="uid://3lpa1v5x7e8r" path="res://sprites/ball-portrait.png" id="4_irulu"]
+[ext_resource type="PackedScene" uid="uid://bqwdpmi6hv25" path="res://stuff/ui/player_box.tscn" id="5_leutj"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_yoe3h"]
 [ext_resource type="Theme" uid="uid://cqxlyubx3gcf" path="res://themes/online_menu.tres" id="6_d6oou"]
+[ext_resource type="Script" uid="uid://ctots4boxrq8b" path="res://scripts/ui/character_select.gd" id="6_fhm86"]
 [ext_resource type="PackedScene" uid="uid://dga37kf5dchc3" path="res://shaders/backgrounds/online.tscn" id="6_leutj"]
+[ext_resource type="PackedScene" uid="uid://c4ausvu7gpa2j" path="res://stuff/ui/character_select_icon.tscn" id="7_vpsg3"]
+[ext_resource type="Texture2D" uid="uid://0tonjn311l3h" path="res://sprites/ui/tiny-stall-player-portrait.png" id="8_ueaup"]
+[ext_resource type="Texture2D" uid="uid://cuv82d5oxp1sy" path="res://sprites/ui/tiny-crawl-player-portrait.png" id="10_p6kub"]
+[ext_resource type="Texture2D" uid="uid://bdy34mag72dqc" path="res://sprites/ui/unknown_character_portrait.png" id="11_wuif5"]
+[ext_resource type="Texture2D" uid="uid://ctrpb0pudoxce" path="res://sprites/ui/tiny-drawl-player-portrait.png" id="12_cocfp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_leutj"]
 shader = ExtResource("4_d6oou")
@@ -20,7 +27,113 @@ shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
 
-[node name="lobby_menu" type="Control" node_paths=PackedStringArray("player_sprites")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d6oou"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_leutj"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yoe3h"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_18n3y"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b6c7g"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqpaq"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e7efl"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[node name="lobby_menu" type="Control" node_paths=PackedStringArray("player_boxes", "character_select")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,30 +141,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ruh0p")
-player_sprites = NodePath("SubViewportContainer2/game/players")
+player_boxes = NodePath("SubViewportContainer/game/players")
+character_select = NodePath("SubViewportContainer/game/character_select")
 
 [node name="online_bg" parent="." instance=ExtResource("6_leutj")]
 
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_leutj")
 layout_mode = 0
 offset_right = 96.0
 offset_bottom = 96.0
 
-[node name="game" type="SubViewport" parent="SubViewportContainer2"]
+[node name="game" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(96, 96)
 render_target_update_mode = 4
 
-[node name="green_screen" type="ColorRect" parent="SubViewportContainer2/game"]
+[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer2/game"]
+[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
 z_index = 20
 material = SubResource("ShaderMaterial_d6oou")
 offset_left = -8.0
@@ -60,7 +174,7 @@ offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="players" type="HBoxContainer" parent="SubViewportContainer2/game"]
+[node name="players" type="HBoxContainer" parent="SubViewportContainer/game"]
 layout_direction = 2
 anchors_preset = 10
 anchor_right = 1.0
@@ -68,56 +182,72 @@ offset_top = 7.0
 offset_bottom = 41.0
 grow_horizontal = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = -3
+theme_override_constants/separation = 2
 alignment = 1
 
-[node name="p1" type="Panel" parent="SubViewportContainer2/game/players"]
-visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
+[node name="player_box" parent="SubViewportContainer/game/players" instance=ExtResource("5_leutj")]
 layout_mode = 2
-size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_d6oou")
+text = "WAITING FOR PLAYER "
 
-[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p1"]
-modulate = Color(0.160784, 0.682353, 1, 1)
-texture = ExtResource("4_irulu")
-centered = false
-
-[node name="p2" type="Panel" parent="SubViewportContainer2/game/players"]
+[node name="player_box2" parent="SubViewportContainer/game/players" instance=ExtResource("5_leutj")]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
-size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_leutj")
+text = "WAITING FOR PLAYER "
 
-[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p2"]
-modulate = Color(1, 0, 0.290196, 1)
-texture = ExtResource("4_irulu")
-centered = false
-
-[node name="p3" type="Panel" parent="SubViewportContainer2/game/players"]
+[node name="player_box3" parent="SubViewportContainer/game/players" instance=ExtResource("5_leutj")]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
-size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_yoe3h")
+text = "WAITING FOR PLAYER "
 
-[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p3"]
-modulate = Color(1, 0.631373, 0, 1)
-texture = ExtResource("4_irulu")
-centered = false
-
-[node name="p4" type="Panel" parent="SubViewportContainer2/game/players"]
+[node name="player_box4" parent="SubViewportContainer/game/players" instance=ExtResource("5_leutj")]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(22, 24)
 layout_mode = 2
-size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_18n3y")
+text = "WAITING FOR PLAYER "
 
-[node name="sprite" type="Sprite2D" parent="SubViewportContainer2/game/players/p4"]
-modulate = Color(0, 0.713726, 0.254902, 1)
-texture = ExtResource("4_irulu")
-centered = false
+[node name="character_select" type="GridContainer" parent="SubViewportContainer/game"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_right = 25.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
+script = ExtResource("6_fhm86")
+
+[node name="stall" parent="SubViewportContainer/game/character_select" instance=ExtResource("7_vpsg3")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../drawl")
+focus_neighbor_right = NodePath("../crawl")
+theme_override_styles/panel = SubResource("StyleBoxFlat_b6c7g")
+icon = ExtResource("8_ueaup")
+icon_offset = Vector2(0, -1)
+portrait = ExtResource("4_irulu")
+
+[node name="crawl" parent="SubViewportContainer/game/character_select" instance=ExtResource("7_vpsg3")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../stall")
+focus_neighbor_right = NodePath("../drawl")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yqpaq")
+icon = ExtResource("10_p6kub")
+locked = true
+portrait = ExtResource("11_wuif5")
+
+[node name="drawl" parent="SubViewportContainer/game/character_select" instance=ExtResource("7_vpsg3")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../crawl")
+focus_neighbor_right = NodePath("../stall")
+theme_override_styles/panel = SubResource("StyleBoxFlat_e7efl")
+icon = ExtResource("12_cocfp")
+locked = true
+portrait = ExtResource("11_wuif5")
 
 [node name="start" type="Button" parent="."]
 visible = false

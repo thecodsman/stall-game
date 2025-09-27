@@ -201,6 +201,7 @@ func _enter_state() -> void:
 func _update_state(delta : float) -> void:
 	match state:
 		State.INACTIVE:
+			if not server: return
 			global_position.y = lerpf(global_position.y, server.global_position.y, 5*delta)
 			global_position.x = lerpf(global_position.x, server.global_position.x + (8 * sign((stage_size.x / 2) - global_position.x)), 5*delta)
 
@@ -222,7 +223,9 @@ func _update_state(delta : float) -> void:
 				var collision : KinematicCollision2D = get_slide_collision(i)
 				if not collision: return
 				var collider : TileMapLayer = collision.get_collider()
-				var tile : TileData = collider.get_cell_tile_data(collider.get_coords_for_body_rid((collision.get_collider_rid())))
+				var pos : Vector2i = collider.get_coords_for_body_rid((collision.get_collider_rid()))
+				var tile : TileData = collider.get_cell_tile_data(pos)
+				print("%s | %s | %s" % [tile.get_custom_data("floor"), pos, global_position])
 				bounce(raw_vel, collision)
 				if is_on_floor_only() && tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
 			colliding_prev_frame = get_slide_collision_count() > 0
@@ -236,7 +239,7 @@ func _update_state(delta : float) -> void:
 			var normal : Vector2 = collision_info.get_normal()
 			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
 			var gravity_dir : Vector2 = normal.rotated(PI)
-			if normal == Vector2.UP: check_for_winner()
+			if normal == Vector2.UP && (is_on_wall() || is_on_floor()): check_for_winner()
 			up_direction = normal
 			apply_floor_snap()
 			juice_it_up()

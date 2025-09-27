@@ -1,7 +1,7 @@
 extends Control
 
-@onready var ip = $Tabs/IP/IP/ip
-@onready var port = $Tabs/IP/IP/port
+@onready var ip : LineEdit = $Tabs/IP/IP/ip
+@onready var port : LineEdit = $Tabs/IP/IP/port
 @onready var tabs : TabContainer = $Tabs
 
 

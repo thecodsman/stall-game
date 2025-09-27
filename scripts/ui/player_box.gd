@@ -2,6 +2,10 @@ class_name PlayerBox extends Panel
 
 @onready var sprite : Sprite2D = $sprite
 @onready var label : Label = $Label
+@export var text : String = "PRESS ANY BUTTON " :
+	set(_text):
+		text = _text
+		if label: label.text = text
 
 var color : Color = Globals.GRAY : 
 	set(new_color):
@@ -32,6 +36,10 @@ var portrait : Texture2D :
 	get():
 		if not sprite: return null
 		return sprite.texture
+
+
+func _ready() -> void:
+	label.text = text
 
 
 func _physics_process(_delta: float) -> void:

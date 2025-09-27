@@ -19,14 +19,14 @@ var players : Dictionary[int, Dictionary] = {}
 # before the connection is made. It will be passed to every other peer.
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
-var player_info : Dictionary = {"name": "Name"}
+var player_info : Dictionary = {"time_connected": "0"}
 var players_loaded : int = 0
-var player_index : int # starts at 0
+var player_index : int = 0 # starts at 0
 var lobby_id : int
 var peer : MultiplayerPeer = null
 
 
-func _ready():
+func _ready() -> void:
 	multiplayer.allow_object_decoding = true
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -82,7 +82,6 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	await multiplayer.connected_to_server
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
 	UI.anim.play("transition_open")
-	#await Steam.lobby_joined
 
 
 func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bool, response : int) -> int:
@@ -94,9 +93,6 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 	if id == Steam.getSteamID(): return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
 	connect_steam_socket(id)
 	return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
-	#await multiplayer.connected_to_server
-	#_register_player.rpc(player_info)
-	#players[multiplayer.get_unique_id()].name = "test"
 
 
 func _on_steam_lobby_created(response : int, new_lobby_id : int) -> int:
@@ -159,7 +155,7 @@ func player_loaded() -> void:
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_peer_connected(id : int) -> void:
-	print("PEER CONNECTED, ID: %s" % id)
+	print("PEER CONNECTED, ID: %s | TO: %s" % [id, multiplayer.get_unique_id()])
 	_register_player.rpc_id(id, player_info)
 
 
@@ -177,6 +173,7 @@ func _on_peer_disconnected(id : int) -> void:
 
 func _on_connected_ok() -> void:
 	var peer_id : int = multiplayer.get_unique_id()
+	player_info.time_connected = Time.get_unix_time_from_system()
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 

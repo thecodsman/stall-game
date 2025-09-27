@@ -34,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				switch_color(player, -1)
 			_:
 				if Globals.registered_controllers.has(event.device) || Globals.registered_controllers.size() >= player_boxes.get_child_count(): return
-				register_new_player(event.device)
+				register_player(event.device)
 	elif event is InputEventKey:
 		if not event.pressed: return
 		match event.keycode:
@@ -48,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				switch_color(player, 1)
 			KEY_SPACE:
 				if Globals.registered_controllers.has(-1) || Globals.registered_controllers.size() >= player_boxes.get_child_count(): return
-				register_new_player(-1)
+				register_player(-1)
 
 
 func switch_color(player : int, dir : int) -> void:
@@ -61,7 +61,7 @@ func switch_color(player : int, dir : int) -> void:
 	player_boxes.get_child(player).color = new_color
 
 
-func register_new_player(device : int) -> void:
+func register_player(device : int) -> void:
 	var color : Color = Globals.player_colors[Globals.registered_controllers.size()]
 	var colorI : int = Globals.available_colors.find(color)
 	var player_box : PlayerBox = player_boxes.get_child(Globals.registered_controllers.size())

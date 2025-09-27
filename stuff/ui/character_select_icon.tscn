@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4ausvu7gpa2j"]
+[gd_scene load_steps=6 format=3 uid="uid://c4ausvu7gpa2j"]
 
 [ext_resource type="Script" uid="uid://di3jk6alnmxmt" path="res://scripts/ui/character_select_icon.gd" id="1_cl7ej"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_am1nl"]
@@ -29,6 +29,17 @@ shader_parameter/square_border = false
 shader_parameter/offset = Vector2(0, 0)
 shader_parameter/max_or_add = false
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sthox"]
+properties/0/path = NodePath(".:focusing")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:selected")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:border_color")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
 [node name="character_select_icon" type="Panel" node_paths=PackedStringArray("sprite")]
 custom_minimum_size = Vector2(14, 14)
 offset_right = 14.0
@@ -42,3 +53,6 @@ sprite = NodePath("sprite")
 [node name="sprite" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_7acnf")
 position = Vector2(7, 7)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_sthox")

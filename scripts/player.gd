@@ -807,7 +807,7 @@ func launch_stalled_ball(ball_path : NodePath) -> void:
 
 func apply_ball_ownership(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
-	if not ball || UI.game_text.visible: return
+	if not ball || Globals.round_ending: return
 	if ball.owner_index != player_index:
 		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
