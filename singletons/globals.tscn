@@ -1,9 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpewuu2lwv1dc"]
+[gd_scene load_steps=3 format=3 uid="uid://dpewuu2lwv1dc"]
 
 [ext_resource type="Script" uid="uid://bmqs0ns4f32ag" path="res://scripts/globals.gd" id="1_68tgv"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_68tgv"]
+properties/0/path = NodePath(".:stats")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="globals" type="Node"]
 script = ExtResource("1_68tgv")
 player_colors = PackedColorArray(0.160784, 0.682353, 1, 1, 1, 0, 0.290196, 1, 1, 0.631373, 0, 1, 0, 0.713726, 0.254902, 1)
 available_colors = PackedColorArray(0.160784, 0.682353, 1, 1, 0.505882, 0.92549, 1, 1, 0.14902, 0.490196, 0.862745, 1, 1, 0, 0.290196, 1, 1, 0.505882, 0.67451, 1, 0.741176, 0.0627451, 0.321569, 1, 0.482353, 0.141176, 0.321569, 1, 1, 0.631373, 0, 1, 1, 0.854902, 0.12549, 1, 1, 0.427451, 0.12549, 1, 0, 0.713726, 0.254902, 1, 0.67451, 0.901961, 0.160784, 1)
 GRAY = Color(0.352941, 0.333333, 0.290196, 1)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_68tgv")
