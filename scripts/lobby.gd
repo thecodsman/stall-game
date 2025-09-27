@@ -39,6 +39,10 @@ func _ready() -> void:
 	Steam.join_requested.connect(_on_steam_lobby_join_requested)
 
 
+@rpc("authority", "reliable")
+func set_player_index(index : int) -> void:
+	player_index = index
+
 func join_game(address : String = "", port : int = 0) -> int:
 	if address.is_empty():
 		address = DEFAULT_SERVER_IP

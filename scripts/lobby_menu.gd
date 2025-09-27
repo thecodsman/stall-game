@@ -81,10 +81,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_player_connected(_peer_id : int, _player_info : Dictionary) -> void:
 	print("player connected")
 	register_player(Lobby.players.size() - 1)
-	if float(_player_info.time_connected) < float(Lobby.player_info.time_connected):
-		Lobby.player_index += 1
 	if is_multiplayer_authority():
 		$start.show()
+		Lobby.set_player_index.rpc_id(_peer_id, Lobby.player.size() - 1)
 	else:
 		$start.hide()
 
