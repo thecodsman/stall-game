@@ -236,9 +236,12 @@ func _update_state(delta : float) -> void:
 				set_state(State.NORMAL)
 				return
 			var normal : Vector2 = collision_info.get_normal()
+			var collider : TileMapLayer = collision_info.get_collider()
+			var pos : Vector2i = collider.get_coords_for_body_rid((collision_info.get_collider_rid()))
+			var tile : TileData = collider.get_cell_tile_data(pos)
 			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
 			var gravity_dir : Vector2 = normal.rotated(PI)
-			if normal == Vector2.UP && (is_on_wall() || is_on_floor()): check_for_winner()
+			if normal == Vector2.UP && (is_on_wall() || is_on_floor()) && tile.get_custom_data("floor"): check_for_winner()
 			up_direction = normal
 			apply_floor_snap()
 			juice_it_up()
