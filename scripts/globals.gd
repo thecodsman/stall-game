@@ -16,6 +16,7 @@ var round_ending : bool = false
 var stage : Stage
 var stats : Dictionary[String, float]
 var serving_player : int = 0
+var players_ready : int = 0
 
 
 func get_serving_player() -> Player:
@@ -29,7 +30,16 @@ func increment_serving_player() -> void:
 		increment_serving_player()
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_remote", "reliable", 1)
+func ready_for_next_round() -> void:
+	players_ready += 1
+	if players_ready == Lobby.players.size():
+		round_ending = false
+		stage.start_next_round()
+		players_ready = 0
+
+
+@rpc("authority", "call_local", "reliable", 1)
 func end_round(winner : int) -> void:
 	var tree : SceneTree = null
 	slow_motion_tween(0.5)
@@ -47,12 +57,15 @@ func end_round(winner : int) -> void:
 	await tree.create_timer(0.5).timeout
 	UI.update_scores(scores)
 	await tree.create_timer(1.5).timeout
-	round_ending = false
 	increment_serving_player()
-	stage.start_next_round()
+	if is_online == false:
+		stage.start_next_round()
+		return
+	ready_for_next_round.rpc()
+	ready_for_next_round()
 
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable", 1)
 func end_match(winner : int) -> void:
 	slow_motion_tween(0.5)
 	round_ending = true

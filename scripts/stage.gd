@@ -21,6 +21,7 @@ func _ready() -> void:
 	UI.update_scores(Globals.scores)
 	Globals.stage = self
 	Lobby.player_loaded.rpc()
+	Lobby.player_disconnected.connect(_on_player_disconnected)
 	if Globals.is_online == false:
 		local_spawn_players()
 		start_next_round()
@@ -152,3 +153,14 @@ func start_next_round() -> void:
 	UI.show_element(UI.bal_meter)
 	spawn_ball()
 	if not Globals.score_line: spawn_score_line()
+
+
+func _on_player_disconnected(id : int) -> void:
+	for i : int in range(Globals.camera.players.size()):
+		var player : Player = Globals.camera.players[i]
+		if player.name != str(id): continue
+		Globals.camera.players.remove_at(i)
+		Globals.current_player_colors.remove_at(i)
+		player.queue_free()
+		break
+	

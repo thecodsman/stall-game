@@ -2,51 +2,51 @@ class_name Ball extends CharacterBody2D
 
 const MAX_OWNER_LEVEL : int = 2
 @export_category("movement")
-@export var BASE_GRAVITY : float = 75
-@export var AIR_FRICTION : float = 0
-@export var AIR_SPEED : float = 0 # no air friction so nothing happens
+@export  var BASE_GRAVITY          : float             = 75
+@export  var AIR_FRICTION          : float             = 0
+@export  var AIR_SPEED             : float             = 0 # no air friction so nothing happens
 @export_subgroup("water")
-@export var WATER_GRAVITY : float = 20
-@export var WATER_FRICTION : float = 5
-@export var WATER_SPEED : float = 50
-@export var WATER_SPIN_MULTIPLIER : float = 3
+@export  var WATER_GRAVITY         : float             = 20
+@export  var WATER_FRICTION        : float             = 5
+@export  var WATER_SPEED           : float             = 50
+@export  var WATER_SPIN_MULTIPLIER : float             = 3
 @export_category("spin")
-@export var ROLL_RATIO_THRESHOLD : float ## ratio of (spin * 100) to velocity needed to initiate a wall roll
-@export var MIN_SPIN_FOR_ROLL : float
+@export  var ROLL_RATIO_THRESHOLD  : float	## ratio of (spin * 100) to velocity needed to initiate a wall roll
+@export  var MIN_SPIN_FOR_ROLL     : float
 @export_category("score")
-@export var SCORRABLE : bool = true
-@export var SCORE_LINE_HEIGHT : float = 20
-@export var WIN_EFFECT : PackedScene
-@onready var rotate_node : Node2D = $rotate_node
-@onready var scale_node : Node2D = $rotate_node/scale_node
-@onready var sprite : Sprite2D = $rotate_node/scale_node/Sprite2D
-@onready var bounce_sfx : AudioStreamPlayer = $bounce_sfx
-@onready var collision_shape : CollisionShape2D = $CollisionShape2D
-@onready var trail : TrailFX = $trail_fx
-var gravity : float = BASE_GRAVITY
-var air_friction : float = AIR_FRICTION
-var air_speed : float = AIR_SPEED
-var owner_index : int = -1 ## player index of the owner of the ball
-var owner_level : int = 0 ## level of ownership
-var owner_color : Color 
-var combo : int = 0
-var combo_owner : int = -1
-var spin : float = 0
-var spin_mult : float = 1
-var colliding_prev_frame : bool = false
-var stalled : bool = false
-var staller : Player
-var damage : float = 1
-var time_scale: float = 1
-var prev_vel : Vector2 = Vector2.ZERO
-var prev_scale : Vector2 = Vector2(1,1)
+@export  var SCORRABLE             : bool              = true
+@export  var SCORE_LINE_HEIGHT     : float             = 20
+@export  var WIN_EFFECT            : PackedScene
+@onready var rotate_node           : Node2D            = $rotate_node
+@onready var scale_node            : Node2D            = $rotate_node/scale_node
+@onready var sprite                : Sprite2D          = $rotate_node/scale_node/Sprite2D
+@onready var bounce_sfx            : AudioStreamPlayer = $bounce_sfx
+@onready var collision_shape       : CollisionShape2D  = $CollisionShape2D
+@onready var trail                 : TrailFX           = $trail_fx
+var gravity                : float   = BASE_GRAVITY
+var air_friction           : float   = AIR_FRICTION
+var air_speed              : float   = AIR_SPEED
+var owner_index            : int     = -1 ## player index of the owner of the ball
+var owner_level            : int     = 0  ## level of ownership
+var owner_color            : Color
+var combo                  : int     = 0
+var combo_owner            : int     = -1
+var spin                   : float   = 0
+var spin_mult              : float   = 1
+var colliding_prev_frame   : bool    = false
+var stalled                : bool    = false
+var staller                : Player
+var damage                 : float   = 1
+var time_scale             : float   = 1
+var prev_vel               : Vector2 = Vector2.ZERO
+var prev_scale             : Vector2 = Vector2(1,1)
 var velocity_entering_roll : Vector2
-var spin_entering_roll : float
-var scorrable : bool = false
-var stage_size : Vector2
-var highest_speed : float
-var highest_spin : float
-var server : Player
+var spin_entering_roll     : float
+var scorrable              : bool    = false
+var stage_size             : Vector2
+var highest_speed          : float
+var highest_spin           : float
+var server                 : Player
 
 enum State {
 	INACTIVE,
@@ -72,7 +72,7 @@ func _physics_process(delta : float) -> void:
 	var true_velocity : Vector2 = velocity
 	if highest_speed < velocity.length(): highest_speed = velocity.length()
 	if highest_spin < spin: highest_spin = velocity.length()
-	delta *= time_scale
+	delta    *= time_scale
 	velocity *= time_scale
 	_update_state(delta)
 	if time_scale == 0:
@@ -84,9 +84,9 @@ func _physics_process(delta : float) -> void:
 
 
 func check_for_winner() -> void:
-	if not SCORRABLE || not scorrable: return
-	if owner_level < MAX_OWNER_LEVEL: return
-	if Globals.round_ending: return
+	if not SCORRABLE || not scorrable : return
+	if owner_level < MAX_OWNER_LEVEL  : return
+	if Globals.round_ending           : return
 	give_point_to_winner.rpc(owner_index)
 	var highest_score : int = 0
 	for i : int in range(Globals.scores.size()):
@@ -102,8 +102,8 @@ func check_for_winner() -> void:
 func give_point_to_winner(winner : int) -> void:
 	Globals.scores[winner - 1] += 1
 	Globals.scores_changed.emit(Globals.scores)
-	Globals.stats["max_speed"] = highest_speed
-	Globals.stats["max_spin"] = highest_spin
+	Globals.stats["max_speed"]  = highest_speed
+	Globals.stats["max_spin"]   = highest_spin
 	combo = 0
 	combo_owner = -1
 	var win_effect : Node2D = WIN_EFFECT.instantiate()
@@ -132,9 +132,9 @@ func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
 
 
 func juice_it_up() -> void:
-	var width : float = clampf(velocity.length() * 0.01, 1, 2)
+	var width  : float = clampf(velocity.length() * 0.01, 1, 2)
 	var height : float = 1/width
-	var angle : float = wrapf(velocity.angle(), -PI/2, PI/2)
+	var angle  : float = wrapf(velocity.angle(), -PI/2, PI/2)
 	if get_slide_collision_count() > 0 && prev_vel.length() > 20 && state == State.NORMAL: 
 		width = prev_scale.y
 		height = prev_scale.x
@@ -157,7 +157,7 @@ func update_color(color : Color, index : int) -> void:
 		0:
 			modulate = Color.WHITE
 		1:
-			modulate = color
+			modulate    = color
 			modulate.s *= 0.5
 			modulate.h += 0.015
 		2:
@@ -202,12 +202,21 @@ func _update_state(delta : float) -> void:
 	match state:
 		State.INACTIVE:
 			if not server: return
-			global_position.y = lerpf(global_position.y, server.global_position.y, 5*delta)
-			global_position.x = lerpf(global_position.x, server.global_position.x + (8 * sign((stage_size.x / 2) - global_position.x)), 5*delta)
+			global_position.y = lerpf(
+					global_position.y,
+					server.global_position.y,
+					5 * delta
+			)
+			const offset : float = 8
+			var   side   : int   = sign((stage_size.x / 2) - global_position.x)
+			global_position.x = lerpf(
+					global_position.x,
+					server.global_position.x + (offset * side),
+					5 * delta
+			)
 
 		State.NORMAL:
 			var raw_vel : Vector2 = velocity
-			#if owner_level > MAX_OWNER_LEVEL: owner_level = MAX_OWNER_LEVEL
 			if not scorrable && global_position.y < stage_size.y - SCORE_LINE_HEIGHT:
 				scorrable = true
 				if owner_level >= MAX_OWNER_LEVEL: Globals.score_line.activate()
@@ -228,25 +237,33 @@ func _update_state(delta : float) -> void:
 				bounce(raw_vel, collision)
 				if is_on_floor_only() && tile.get_custom_data("floor") && is_multiplayer_authority(): check_for_winner()
 			colliding_prev_frame = get_slide_collision_count() > 0
-		
+
 		State.WALL_ROLL:
 			const WALL_RIDE_SPEED : float = 15
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
 			if not collision_info && state == State.WALL_ROLL:
 				set_state(State.NORMAL)
 				return
-			var normal : Vector2 = collision_info.get_normal()
-			var collider : TileMapLayer = collision_info.get_collider()
-			var pos : Vector2i = collider.get_coords_for_body_rid((collision_info.get_collider_rid()))
-			var tile : TileData = collider.get_cell_tile_data(pos)
-			var move_dir : Vector2 = normal.rotated((PI/2)*sign(spin))
-			var gravity_dir : Vector2 = normal.rotated(PI)
-			if normal == Vector2.UP && (is_on_wall() || is_on_floor()) && tile.get_custom_data("floor"): check_for_winner()
+			var normal      : Vector2      = collision_info.get_normal()
+			var collider    : TileMapLayer = collision_info.get_collider()
+			var pos         : Vector2i     = collider.get_coords_for_body_rid((collision_info.get_collider_rid()))
+			var tile        : TileData     = collider.get_cell_tile_data(pos)
+			var move_dir    : Vector2      = normal.rotated((PI/2)*sign(spin))
+			var gravity_dir : Vector2      = normal.rotated(PI)
+			if (
+					normal == Vector2.UP &&
+					tile.get_custom_data("floor") == true
+			):
+				check_for_winner()
 			up_direction = normal
 			apply_floor_snap()
 			juice_it_up()
 			sprite.rotation += (spin * delta) * 20
-			if (abs(spin_entering_roll * 100) / velocity_entering_roll.length()) > ROLL_RATIO_THRESHOLD * 1.5 && abs(spin) > abs(spin_entering_roll) * 0.5:
+			if (
+				abs(spin_entering_roll * 100) / velocity_entering_roll.length() >
+				ROLL_RATIO_THRESHOLD * 1.5 &&
+				abs(spin) > abs(spin_entering_roll) * 0.5
+			):
 				spin = lerpf(spin, 0, 0.5*delta)
 				velocity = velocity.lerp(Vector2.ZERO, 7*delta)
 				spawn_smoke(to_local(collision_info.get_position()))
@@ -258,7 +275,7 @@ func _update_state(delta : float) -> void:
 			move_and_slide()
 			velocity += gravity_dir
 			if abs(spin) < abs(spin_entering_roll) * 0.25: set_state(State.NORMAL)
-		
+
 		State.STALLED:
 			if velocity.length() > 2 || not staller: set_state(State.NORMAL)
 			scorrable = false
