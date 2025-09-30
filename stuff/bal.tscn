@@ -71,6 +71,15 @@ properties/11/replication_mode = 2
 properties/12/path = NodePath(".:combo_owner")
 properties/12/spawn = true
 properties/12/replication_mode = 2
+properties/13/path = NodePath(".:outline")
+properties/13/spawn = true
+properties/13/replication_mode = 2
+properties/14/path = NodePath(".:outline_color")
+properties/14/spawn = true
+properties/14/replication_mode = 2
+properties/15/path = NodePath(".:state")
+properties/15/spawn = true
+properties/15/replication_mode = 2
 
 [sub_resource type="Gradient" id="Gradient_nfkoc"]
 resource_local_to_scene = true

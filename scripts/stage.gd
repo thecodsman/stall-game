@@ -56,8 +56,8 @@ func spawn_ball() -> void:
 	score_line_height = ball.SCORE_LINE_HEIGHT
 	$SubViewportContainer/game.add_child(ball, true)
 	set_camera_target_ball.rpc(ball.get_path())
-	ball.sprite.material.set_shader_parameter("thickness", 1)
-	ball.sprite.material.set_shader_parameter("outline_color", Globals.current_player_colors[Globals.serving_player])
+	ball.outline = true
+	ball.outline_color = Globals.current_player_colors[Globals.serving_player]
 
 
 @rpc("authority", "call_local", "reliable")

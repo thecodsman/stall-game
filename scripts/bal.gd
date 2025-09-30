@@ -47,6 +47,20 @@ var stage_size             : Vector2
 var highest_speed          : float
 var highest_spin           : float
 var server                 : Player
+var outline_color		   : Color = Color.WHITE :
+	set(color):
+		outline_color = color
+		if not sprite: return
+		sprite.material.set_shader_parameter("outline_color", color)
+var outline				   : bool = true :
+	set(_outline):
+		outline = _outline
+		if not sprite: return
+		if outline == true:
+			sprite.material.set_shader_parameter("thickness", 1)
+		else:
+			sprite.material.set_shader_parameter("thickness", 0)
+
 
 enum State {
 	INACTIVE,
@@ -62,6 +76,8 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	# sprite.material.call_deferred("set_shader_parameter", "outline_color", outline_color)
+	# sprite.material.call_deferred("set_shader_parameter", "thickness", 1)
 	UI.bal_meter.set_value(0)
 	set_physics_process(multiplayer.get_unique_id() == 1)
 	await get_tree().physics_frame
@@ -286,7 +302,7 @@ func _update_state(delta : float) -> void:
 func _exit_state() -> void:
 	match state:
 		State.INACTIVE:
-			sprite.material.set_shader_parameter("thickness", 0)
+			outline = false
 
 		State.WALL_ROLL:
 			var wall_exit_velocity : float = spin * 25 * damage

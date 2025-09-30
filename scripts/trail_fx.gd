@@ -6,6 +6,7 @@ var tweens : Array[Tween] = []
 var lifetime_reached : bool = true
 var stopping : bool = true
 
+@rpc("authority", "call_remote", "unreliable_ordered", 2)
 func add_new_color(color : Color) -> void:
 	gradient.add_point(1.0, color)
 	var index : int = gradient.offsets.size() - 1
@@ -14,14 +15,15 @@ func add_new_color(color : Color) -> void:
 	color_tween.tween_method(set_offset, 1.0, 0.0, trail_lifetime)
 	tweens.append(color_tween)
 	color_tween.finished.connect(_on_tween_finished.bind(color_tween))
+	add_new_color.rpc(color)
 
 
-@rpc("authority", "call_local", "unreliable_ordered")
+@rpc("authority", "call_local", "unreliable_ordered", 2)
 func stop() -> void:
 	stopping = true
 
 
-@rpc("authority", "call_local", "unreliable_ordered")
+@rpc("authority", "call_local", "unreliable_ordered", 2)
 func start() -> void:
 	for i : int in range(points.size()):
 		remove_point(0)
