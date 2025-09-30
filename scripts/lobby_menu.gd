@@ -57,24 +57,23 @@ func switch_color(player : int, dir : int) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	var player : int = Lobby.player_index
 	if event is InputEventJoypadButton:
+		if not event.pressed: return
 		match event.button_index:
 			JOY_BUTTON_RIGHT_SHOULDER:
-				if not event.pressed: return
-				var player : int = Lobby.player_index
 				switch_color.rpc(player, 1)
 			JOY_BUTTON_LEFT_SHOULDER:
-				if not event.pressed: return
-				var player : int = Lobby.player_index
 				switch_color.rpc(player, -1)
+			JOY_BUTTON_START:
+				if is_multiplayer_authority() == false: return
+				_on_start_pressed()
 	elif event is InputEventKey:
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
-				var player : int = Lobby.player_index
 				switch_color.rpc(player, -1)
 			KEY_RIGHT:
-				var player : int = Lobby.player_index
 				switch_color.rpc(player, 1)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene load_steps=35 format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
@@ -55,6 +55,11 @@ shader = ExtResource("3_mbtk0")
 shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_e72vh"]
+properties/0/path = NodePath("CanvasLayer/in-game/container/subviewport/ball_meter/bal-percent/Label:text")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [sub_resource type="Animation" id="Animation_xhub8"]
 length = 0.001
@@ -387,6 +392,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="CanvasLayer/in-game/container/subviewport"]
+root_path = NodePath("../../../../..")
+replication_config = SubResource("SceneReplicationConfig_e72vh")
 
 [node name="pause-menu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("resume_button")]
 process_mode = 3
