@@ -15,6 +15,7 @@ func add_new_color(color : Color) -> void:
 	color_tween.tween_method(set_offset, 1.0, 0.0, trail_lifetime)
 	tweens.append(color_tween)
 	color_tween.finished.connect(_on_tween_finished.bind(color_tween))
+	if is_multiplayer_authority() == false: return
 	add_new_color.rpc(color)
 
 

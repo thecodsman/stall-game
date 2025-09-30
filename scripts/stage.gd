@@ -1,16 +1,16 @@
 class_name Stage extends Node2D
 
-@export var thumb_nail : Texture2D
-@export var stage_name : String
-@export var stage_size : Vector2 = Vector2(96,96)
+@export  var thumb_nail    : Texture2D
+@export  var stage_name    : String
+@export  var stage_size    : Vector2       = Vector2(96, 96)
 @onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn, $p3_spawn, $p4_spawn]
-@onready var ball_spawn : Node2D = $ball_spawn
-var player_scene : PackedScene = preload("res://stuff/player.tscn")
-var ball_scene : PackedScene = preload("res://stuff/bal.tscn")
-var score_line_scene : PackedScene = preload("res://stuff/score_line.tscn")
+@onready var ball_spawn    : Node2D        = $ball_spawn
+var player_scene      : PackedScene = preload("res://stuff/player.tscn")
+var ball_scene        : PackedScene = preload("res://stuff/bal.tscn")
+var score_line_scene  : PackedScene = preload("res://stuff/score_line.tscn")
 var score_line_height : float
-var round_number : int
-var is_game_point : bool
+var round_number      : int
+var is_game_point     : bool
 
 
 func _ready() -> void:
@@ -50,10 +50,10 @@ func spawn_score_line() -> void:
 func spawn_ball() -> void:
 	if is_multiplayer_authority() == false: return
 	var ball : Ball = ball_scene.instantiate()
-	ball.stage_size = stage_size
-	ball.server = Globals.get_serving_player()
+	ball.stage_size      = stage_size
+	ball.server          = Globals.get_serving_player()
 	ball.global_position = ball_spawn.global_position
-	score_line_height = ball.SCORE_LINE_HEIGHT
+	score_line_height    = ball.SCORE_LINE_HEIGHT
 	$SubViewportContainer/game.add_child(ball, true)
 	set_camera_target_ball.rpc(ball.get_path())
 	ball.outline = true
@@ -73,8 +73,8 @@ func set_camera_target_player(player_path : NodePath) -> void:
 @rpc("authority", "call_local", "reliable")
 func online_show_ui() -> void:
 	for i : int in range(Lobby.players.size()):
-		var point_display : HBoxContainer = UI.point_displays[i]
-		var portrait_material : ShaderMaterial = point_display.portrait.material
+		var point_display      : HBoxContainer    = UI.point_displays[i]
+		var portrait_material  : ShaderMaterial   = point_display.portrait.material
 		var output_color_array : PackedColorArray = [Globals.current_player_colors[i]]
 		point_display.show()
 		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
@@ -86,13 +86,13 @@ func online_spawn_players() -> void:
 	if not multiplayer.is_server(): return
 	for i : int in range(Lobby.players.size()):
 		var player : Player = player_scene.instantiate()
-		var id : int = Lobby.players.keys()[i]
-		player.id = id
-		player.name = str(id)
-		player.self_modulate = Globals.current_player_colors[i]
-		player.player_index = i + 1
+		var id     : int    = Lobby.players.keys()[i]
+		player.id               = id
+		player.name             = str(id)
+		player.self_modulate    = Globals.current_player_colors[i]
+		player.player_index     = i + 1
 		player.controller_index = 0
-		player.stage_size = stage_size
+		player.stage_size       = stage_size
 		$SubViewportContainer/game.add_child(player, true)
 		player.set_location.rpc_id(id, player_spawns[i].global_position)
 		set_camera_target_player.rpc(player.get_path())
@@ -100,20 +100,20 @@ func online_spawn_players() -> void:
 
 func local_spawn_players() -> void:
 	for i : int in range(Globals.registered_controllers.size()):
-		var player : Player = player_scene.instantiate()
-		var device : int = Globals.registered_controllers[i]
-		var point_display : HBoxContainer = UI.point_displays[i]
-		var portrait_material : ShaderMaterial = point_display.portrait.material
+		var player             : Player           = player_scene.instantiate()
+		var device             : int              = Globals.registered_controllers[i]
+		var point_display      : HBoxContainer    = UI.point_displays[i]
+		var portrait_material  : ShaderMaterial   = point_display.portrait.material
 		var output_color_array : PackedColorArray = [Globals.current_player_colors[i]]
 		point_display.show()
 		portrait_material.set_shader_parameter("output_palette_array", output_color_array)
 		point_display.portrait.modulate = Globals.current_player_colors[i]
-		player.id = 1
-		player.name = str(device)
-		player.self_modulate = Globals.current_player_colors[i]
-		player.player_index = i + 1
+		player.id               = 1
+		player.name             = str(device)
+		player.self_modulate    = Globals.current_player_colors[i]
+		player.player_index     = i + 1
 		player.controller_index = device
-		player.stage_size = stage_size
+		player.stage_size       = stage_size
 		$SubViewportContainer/game.add_child(player)
 		player.global_position = player_spawns[i].global_position
 		Globals.camera.players.append(player)
