@@ -33,7 +33,7 @@ func increment_serving_player() -> void:
 @rpc("any_peer", "call_remote", "reliable", 1)
 func ready_for_next_round() -> void:
 	players_ready += 1
-	if players_ready == Lobby.players.size():
+	if players_ready == Lobby.players.size() || is_online == false:
 		round_ending = false
 		stage.start_next_round()
 		players_ready = 0
@@ -58,9 +58,6 @@ func end_round(winner : int) -> void:
 	UI.update_scores(scores)
 	await tree.create_timer(1.5).timeout
 	increment_serving_player()
-	if is_online == false:
-		stage.start_next_round()
-		return
 	ready_for_next_round.rpc()
 	ready_for_next_round()
 
