@@ -87,6 +87,7 @@ func end_match(winner : int) -> void:
 	UI.hide_element(UI.game_text)
 	UI.hide_element(UI.post_match_report)
 	UI.in_game.hide()
+	UI.combo_counter.hide()
 	scores_changed.emit(scores)
 	round_ending = false
 	stats.clear()
