@@ -24,8 +24,8 @@ func _on_body_entered(ball:Ball) -> void:
 	if not is_multiplayer_authority(): return
 	if direction == Vector2.ZERO:
 		var dir2ball : float = global_position.angle_to_point((ball.global_position))
-		kick.rpc_id(1, ball.get_path(), Vector2.from_angle(dir2ball))
-	else: kick.rpc_id(1, ball.get_path(), direction * global_scale.rotated(global_rotation))
+		kick.rpc(ball.get_path(), Vector2.from_angle(dir2ball))
+	else: kick.rpc(ball.get_path(), direction * global_scale.rotated(global_rotation))
 
 
 @rpc("authority", "call_local", "reliable")
@@ -45,7 +45,7 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	else:
 		ball.combo += 1
 	if ball.combo >= 4:
-		update_combo_counter(ball)
+		update_combo_counter(ball.combo, player.self_modulate)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
 	if ball.velocity.length() > 0: ball.spin = ((abs(ball.spin) * sign(angle_diff)) + (angle_diff) * clampf(ball.velocity.length() * 0.0145, 0.5, 3))
 	ball.velocity = Vector2((ball.velocity.length() * 0.55) + (power * ball.damage) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
@@ -72,13 +72,36 @@ func apply_ball_ownership(ball_path : NodePath) -> void :
 	ball.update_color(player.self_modulate, player.player_index)
 
 
-func update_combo_counter(ball : Ball) -> void:
-	if not player.player_index % 2: UI.combo_counter.position = Vector2(96 - UI.combo_counter.size.x, 48 - (UI.combo_counter.size.y / 2)) + Vector2(randf_range(0,-4), randf_range(-4,4))
-	else: UI.combo_counter.position = Vector2(0, 48-(UI.combo_counter.size.y/2)) + Vector2(randf_range(0,8), randf_range(-4,4))
+@rpc("authority", "call_remote", "reliable", 1)
+func update_combo_counter(combo : int, color : Color) -> void:
+	if player.player_index % 2 == 0: 
+		UI.combo_counter.position = (
+				Vector2(
+					96 - UI.combo_counter.size.x,
+					48 - (UI.combo_counter.size.y / 2)
+					)
+				+ Vector2(
+					randf_range(0,-4),
+					randf_range(-4,4)
+					)
+			)
+	else: 
+		UI.combo_counter.position = (
+				Vector2(
+					0,
+					48 - (UI.combo_counter.size.y/2)
+					)
+				+ Vector2(
+					randf_range(0,8),
+					randf_range(-4,4)
+					)
+			)
 	UI.combo_counter.pivot_offset = UI.combo_counter.size/2
 	UI.combo_counter.show()
-	UI.combo_counter.text = "%sx\n\nCOMBO" % ball.combo
-	UI.combo_counter.material.set_shader_parameter("outline_color", player.self_modulate)
+	UI.combo_counter.text = "%sx\n\nCOMBO" % combo
+	UI.combo_counter.material.set_shader_parameter("outline_color", color)
 	var tween : Tween = create_tween().set_parallel(true)
 	tween.tween_property(UI.combo_counter, "scale", Vector2(1,1), 0.2).from(Vector2(0.5,0.5))
 	tween.tween_property(UI.combo_counter, "rotation", randf_range(-PI/10,PI/10), 0.2).from(0)
+	if multiplayer.get_remote_sender_id() != 0: return
+	update_combo_counter.rpc(combo, color)
