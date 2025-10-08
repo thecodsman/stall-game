@@ -76,8 +76,6 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	# sprite.material.call_deferred("set_shader_parameter", "outline_color", outline_color)
-	# sprite.material.call_deferred("set_shader_parameter", "thickness", 1)
 	UI.bal_meter.set_value(0)
 	set_physics_process(multiplayer.get_unique_id() == 1)
 	await get_tree().physics_frame

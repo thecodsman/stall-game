@@ -56,14 +56,18 @@ func _on_key_input_event(event : InputEventKey) -> void:
 	if not Globals.registered_controllers.has(-1): return
 	if not event.pressed: return
 	if Input.is_key_pressed(KEY_SHIFT): return
-	if event.keycode == KEY_LEFT:
-		scroll(LEFT, Globals.registered_controllers.find(-1))
-	elif event.keycode == KEY_RIGHT:
-		scroll(RIGHT, Globals.registered_controllers.find(-1))
-	elif event.keycode == KEY_UP:
-		scroll(UP, Globals.registered_controllers.find(-1))
-	elif event.keycode == KEY_DOWN:
-		scroll(DOWN, Globals.registered_controllers.find(-1))
+	var player : int = Globals.registered_controllers.find(-1)
+	match event.keycode:
+		KEY_SPACE, KEY_ENTER:
+			select_character(player)
+		KEY_LEFT:
+			scroll(LEFT, player)
+		KEY_RIGHT:
+			scroll(RIGHT, player)
+		KEY_UP:
+			scroll(UP, player)
+		KEY_DOWN:
+			scroll(DOWN, player)
 
 
 func new_player(player : int) -> void:
@@ -102,6 +106,7 @@ func scroll(dir : int, player : int) -> void:
 			focusing[player] = next_icon
 	icon = focusing[player]
 	player_selection_changed.emit(player, icon)
+
 
 @rpc("any_peer", "call_local", "reliable")
 func select_character(player : int) -> void:

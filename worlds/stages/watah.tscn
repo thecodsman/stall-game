@@ -1,11 +1,11 @@
 [gd_scene load_steps=19 format=4 uid="uid://4t5xolkq2k6t"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_f8vux"]
+[ext_resource type="Texture2D" uid="uid://cvhupd2lymate" path="res://sprites/stage_select_icons/watah.png" id="2_5srl3"]
 [ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="2_vrwy1"]
 [ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_f8vux"]
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="3_x4anr"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_vbh3f"]
-[ext_resource type="Texture2D" uid="uid://87gtsmkks4hp" path="res://sprites/stage_select_icons/basic-stage-thumbnail.png" id="4_vrwy1"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_5srl3"]
 [ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="6_7roak"]
 [ext_resource type="PackedScene" uid="uid://ce4qbkdc06v4m" path="res://stuff/water.tscn" id="8_x4anr"]
@@ -348,7 +348,7 @@ size = Vector2(37, 37)
 
 [node name="stage" type="Node2D"]
 script = ExtResource("1_f8vux")
-thumb_nail = ExtResource("4_vrwy1")
+thumb_nail = ExtResource("2_5srl3")
 stage_name = "watah!"
 
 [node name="Camera2D" type="Camera2D" parent="."]

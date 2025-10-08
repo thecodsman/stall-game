@@ -23,28 +23,25 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton:
+		var player : int = Globals.registered_controllers.find(event.device)
+		if not event.pressed: return
 		match event.button_index:
 			JOY_BUTTON_RIGHT_SHOULDER:
-				if not event.pressed: return
-				var player : int = Globals.registered_controllers.find(event.device)
 				switch_color(player, 1)
 			JOY_BUTTON_LEFT_SHOULDER:
-				if not event.pressed: return
-				var player : int = Globals.registered_controllers.find(event.device)
 				switch_color(player, -1)
 			_:
 				if Globals.registered_controllers.has(event.device) || Globals.registered_controllers.size() >= player_boxes.get_child_count(): return
 				register_player(event.device)
 	elif event is InputEventKey:
+		var player : int = Globals.registered_controllers.find(-1)
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
 				if not Input.is_key_pressed(KEY_SHIFT): return
-				var player : int = Globals.registered_controllers.find(-1)
 				switch_color(player, -1)
 			KEY_RIGHT:
 				if not Input.is_key_pressed(KEY_SHIFT): return
-				var player : int = Globals.registered_controllers.find(-1)
 				switch_color(player, 1)
 			KEY_SPACE:
 				if Globals.registered_controllers.has(-1) || Globals.registered_controllers.size() >= player_boxes.get_child_count(): return
@@ -75,6 +72,7 @@ func register_player(device : int) -> void:
 	character_select.new_player(Globals.registered_controllers.size())
 	Globals.registered_controllers.append(device)
 	Globals.scores.append(0)
+	$start.disabled = true
 		
 
 func _on_start_pressed() -> void:
