@@ -34,6 +34,18 @@ func _on_steam_host_pressed() -> void:
 	Lobby.steam_create_lobby()
 
 
+func _on_steam_quick_match_pressed() -> void:
+	Lobby.steam_start_matchmaking()
+	UI.game_text.text = "FINDING MATCH"
+	UI.show_element(UI.game_text)
+	await multiplayer.connected_to_server
+	UI.hide_element(UI.game_text)
+	UI.anim.play("transition_close")
+	await UI.anim.animation_finished
+	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
+	UI.anim.play("transition_open")
+
+
 func _on_back_pressed() -> void:
 	UI.transition_to_scene("res://worlds/main_menu.tscn")
 
@@ -53,3 +65,4 @@ func _input(event: InputEvent) -> void:
 			JOY_BUTTON_LEFT_SHOULDER:
 				tabs.current_tab = wrapi(tabs.current_tab - 1, 0, tabs.get_child_count())
 				tabs.get_child(tabs.current_tab).call_deferred("grab_focus")
+

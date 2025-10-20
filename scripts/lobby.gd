@@ -9,7 +9,7 @@ signal server_disconnected
 
 const DEFAULT_SERVER_IP : String = "127.0.0.1" # IPv4 localhost
 const DEFAULT_SERVER_PORT : int = 5835
-const MAX_CONNECTIONS : int = 10
+const MAX_CONNECTIONS : int = 4
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
@@ -22,7 +22,8 @@ var players : Dictionary[int, Dictionary] = {}
 var player_info : Dictionary = {"time_connected": "0"}
 var players_loaded : int = 0
 var player_index : int = 0 # starts at 0
-var lobby_id : int
+var lobby_id : int = 0
+var matchmaking_phase: int = 0
 var peer : MultiplayerPeer = null
 
 
@@ -42,6 +43,7 @@ func _ready() -> void:
 @rpc("authority", "reliable")
 func set_player_index(index : int) -> void:
 	player_index = index
+
 
 func join_game(address : String = "", port : int = 0) -> int:
 	if address.is_empty():
@@ -63,6 +65,33 @@ func create_game(port : int) -> int:
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 	return 0
+
+
+func steam_start_matchmaking() -> void:
+	matchmaking_phase = 0
+	matchmaking_loop()
+
+
+func matchmaking_loop() -> void:
+	if matchmaking_phase < 4:
+		Steam.addRequestLobbyListDistanceFilter(matchmaking_phase)
+		Steam.requestLobbyList()
+	else:
+		print("[STEAM] Failed to automatically match you with a lobby. Please try again.")
+
+
+func _on_lobby_match_list(lobbies: Array) -> void:
+	var attempting_join: bool = false
+	for this_lobby : int in lobbies:
+		var lobby_name : String = Steam.getLobbyData(this_lobby, "name")
+		var lobby_nums : int = Steam.getNumLobbyMembers(this_lobby)
+		if lobby_nums < MAX_CONNECTIONS and not attempting_join:
+			attempting_join = true
+			print("Attempting to join %s" % lobby_name)
+			Steam.joinLobby(this_lobby)
+	if not attempting_join:
+		matchmaking_phase += 1
+		matchmaking_loop()
 
 
 func steam_join_lobby(new_lobby_id : int) -> void:

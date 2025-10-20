@@ -27,10 +27,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_kvax6")
 tab_alignment = 2
-current_tab = 1
+current_tab = 0
 
 [node name="Steam" type="Control" parent="Tabs"]
-visible = false
 layout_mode = 2
 focus_neighbor_left = NodePath("../../back")
 focus_neighbor_top = NodePath("buttons/steam_host")
@@ -58,16 +57,19 @@ focus_previous = NodePath("../../../../back")
 text = "Host"
 
 [node name="steam_quick_match" type="Button" parent="Tabs/Steam/buttons"]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-disabled = true
-text = "Quick Match"
+theme = ExtResource("3_kvax6")
+text = "Quick Play"
 
 [node name="steam_server_list" type="Button" parent="Tabs/Steam/buttons"]
+visible = false
 layout_mode = 2
 disabled = true
 text = "Server List"
 
 [node name="IP" type="Control" parent="Tabs"]
+visible = false
 layout_mode = 2
 focus_neighbor_left = NodePath("../Steam")
 focus_neighbor_top = NodePath("buttons/host")
@@ -79,7 +81,7 @@ script = ExtResource("4_bblat")
 metadata/_tab_index = 1
 
 [node name="IP" type="VBoxContainer" parent="Tabs/IP"]
-layout_mode = 2
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 4.0
@@ -105,7 +107,7 @@ text = "5835"
 placeholder_text = "port"
 
 [node name="buttons" type="HBoxContainer" parent="Tabs/IP"]
-layout_mode = 2
+layout_mode = 0
 offset_left = -2.0
 offset_top = 57.0
 offset_right = 97.0
@@ -151,6 +153,7 @@ icon = ExtResource("4_7571w")
 icon_alignment = 1
 
 [connection signal="pressed" from="Tabs/Steam/buttons/steam_host" to="." method="_on_steam_host_pressed"]
+[connection signal="pressed" from="Tabs/Steam/buttons/steam_quick_match" to="." method="_on_steam_quick_match_pressed"]
 [connection signal="pressed" from="Tabs/IP/buttons/connect" to="." method="_on_connect_pressed"]
 [connection signal="pressed" from="Tabs/IP/buttons/host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]
