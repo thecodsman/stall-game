@@ -53,7 +53,7 @@ func _on_joypad_motion_event(event : InputEventJoypadMotion) -> void:
 
 
 func _on_key_input_event(event : InputEventKey) -> void:
-	if not Globals.registered_controllers.has(-1): return
+	if not Globals.registered_controllers.has(-1) && not Globals.is_online: return
 	if not event.pressed: return
 	if Input.is_key_pressed(KEY_SHIFT): return
 	var player : int = Globals.registered_controllers.find(-1)

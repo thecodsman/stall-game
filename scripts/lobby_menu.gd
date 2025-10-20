@@ -68,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			JOY_BUTTON_START:
 				if is_multiplayer_authority() == false: return
 				_on_start_pressed()
-	elif event is InputEventKey:
+	elif event is InputEventKey && Input.is_key_pressed(KEY_SHIFT):
 		if not event.pressed: return
 		match event.keycode:
 			KEY_LEFT:
