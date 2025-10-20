@@ -38,6 +38,7 @@ func _ready() -> void:
 	Steam.lobby_created.connect(_on_steam_lobby_created)
 	Steam.lobby_joined.connect(_on_steam_lobby_joined)
 	Steam.join_requested.connect(_on_steam_lobby_join_requested)
+	Steam.lobby_match_list.connect(_on_lobby_match_list)
 
 
 @rpc("authority", "reliable")
