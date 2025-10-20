@@ -82,6 +82,7 @@ func matchmaking_loop() -> void:
 
 func _on_lobby_match_list(lobbies: Array) -> void:
 	var attempting_join: bool = false
+	print(lobbies)
 	for this_lobby : int in lobbies:
 		var lobby_name : String = Steam.getLobbyData(this_lobby, "name")
 		var lobby_nums : int = Steam.getNumLobbyMembers(this_lobby)
