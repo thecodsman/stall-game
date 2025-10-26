@@ -156,6 +156,8 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 	lobby_id = new_lobby_id
 	var id : int = Steam.getLobbyOwner(new_lobby_id)
 	if id == Steam.getSteamID(): return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
+	get_lobby_members()
+	make_p2p_handshake()
 	connect_steam_socket(id)
 	return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
 
@@ -203,6 +205,15 @@ func remove_multiplayer_peer() -> void:
 	players.clear()
 
 
+func get_lobby_members() -> void:
+	lobby_members.clear()
+	var num_of_members : int = Steam.getNumLobbyMembers(lobby_id)
+	for member : int in range(num_of_members):
+		var member_steam_id: int = Steam.getLobbyMemberByIndex(lobby_id, member)
+		var member_steam_name: String = Steam.getFriendPersonaName(member_steam_id)
+		lobby_members.append({"steam_id":member_steam_id, "steam_name":member_steam_name})
+
+
 func _on_session_request(remote_id: int) -> void:
 	var _requester: String = Steam.getFriendPersonaName(remote_id)
 	print("uhhh")
@@ -222,6 +233,7 @@ func _on_session_connect_fail(reason: int, remote_steam_id: int, connection_stat
 
 
 func make_p2p_handshake() -> void:
+	print("GUH")
 	send_message(0, {"message": "handshake", "from": steam_id})
 
 
