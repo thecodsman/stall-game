@@ -48,7 +48,7 @@ func spawn_score_line() -> void:
 
 
 func spawn_ball() -> void:
-	if is_multiplayer_authority() == false: return
+	if not is_multiplayer_authority(): return
 	var ball : Ball = ball_scene.instantiate()
 	ball.stage_size      = stage_size
 	ball.server          = Globals.get_serving_player()
@@ -58,6 +58,7 @@ func spawn_ball() -> void:
 	set_camera_target_ball.rpc(ball.get_path())
 	ball.outline = true
 	ball.outline_color = Globals.current_player_colors[Globals.serving_player]
+	ball.set_server.rpc(ball.server)
 
 
 @rpc("authority", "call_local", "reliable")

@@ -15,7 +15,9 @@ signal hit
 
 func _on_body_entered(ball:Ball) -> void:
 	if ball.server != owner && ball.server != null: return
+	print("id: %s | server: %s" % [multiplayer.get_unique_id(), ball.server])
 	ball.server = null
+	ball.set_server.rpc(null)
 	hit.emit(ball)
 	kick_sfx.play()
 	var hit_fx : Node2D = hit_fx_scene.instantiate()

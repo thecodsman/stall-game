@@ -81,8 +81,8 @@ properties/15/path = NodePath(".:state")
 properties/15/spawn = true
 properties/15/replication_mode = 2
 properties/16/path = NodePath(".:server")
-properties/16/spawn = true
-properties/16/replication_mode = 2
+properties/16/spawn = false
+properties/16/replication_mode = 0
 
 [sub_resource type="Gradient" id="Gradient_nfkoc"]
 resource_local_to_scene = true

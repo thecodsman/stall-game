@@ -97,6 +97,10 @@ func _physics_process(delta : float) -> void:
 	global_position.y = fposmod(global_position.y, stage_size.y)
 
 
+@rpc("authority", "call_remote", "reliable")
+func set_server(_server : Player) -> void:
+	server = _server
+
 func check_for_winner() -> void:
 	if not SCORRABLE || not scorrable : return
 	if owner_level < MAX_OWNER_LEVEL  : return
