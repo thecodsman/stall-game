@@ -90,7 +90,7 @@ func steam_start_matchmaking() -> void:
 	await UI.on_transition
 	matchmaking_phase = 0
 	lobby_data["quickplay"] = "true"
-	steam_create_lobby(Steam.LOBBY_TYPE_PUBLIC)
+	steam_create_lobby(Steam.LOBBY_TYPE_INVISIBLE)
 	matchmaking_loop()
 
 
@@ -111,7 +111,7 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 		if lobby_nums < MAX_CONNECTIONS && not attempting_join:
 			attempting_join = true
 			print("Attempting to join %s" % lobby_name)
-			UI.hide_element(UI.game_text)
+			UI.game_text.text = "CONNECTING"
 			Steam.joinLobby(lobby)
 	if not attempting_join && players.size() <= 1:
 		if matchmaking_phase_attempt < MATCHMAKING_ATTEMPTS_PER_PHASE:
@@ -325,6 +325,7 @@ func _on_peer_disconnected(id : int) -> void:
 
 func _on_connected_ok() -> void:
 	var peer_id : int = multiplayer.get_unique_id()
+	UI.hide_element(UI.game_text)
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 
