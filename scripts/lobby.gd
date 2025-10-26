@@ -244,7 +244,8 @@ func read_messages() -> void:
 		if message.is_empty() or message == null:
 			print("WARNING: read an empty message with non-zero size!")
 		else:
-			message.payload = bytes_to_var(message.payload).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+			#message.payload = bytes_to_var(message.payload).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+			message.payload = message.payload.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
 			var _message_sender: int = message['remote_steam_id']
 			print("Message: %s" % message.payload)
 			# Append logic here to deal with message data
