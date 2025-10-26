@@ -58,7 +58,7 @@ func spawn_ball() -> void:
 	set_camera_target_ball.rpc(ball.get_path())
 	ball.outline = true
 	ball.outline_color = Globals.current_player_colors[Globals.serving_player]
-	ball.set_server.rpc(ball.server)
+	ball.set_server.rpc(ball.server.get_path())
 
 
 @rpc("authority", "call_local", "reliable")

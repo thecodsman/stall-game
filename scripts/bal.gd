@@ -98,8 +98,9 @@ func _physics_process(delta : float) -> void:
 
 
 @rpc("authority", "call_remote", "reliable")
-func set_server(_server : Player) -> void:
-	server = _server
+func set_server(server_path : NodePath) -> void:
+	if not server_path: server = null
+	server = get_node(server_path)
 
 func check_for_winner() -> void:
 	if not SCORRABLE || not scorrable : return
