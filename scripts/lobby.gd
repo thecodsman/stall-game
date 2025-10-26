@@ -12,6 +12,7 @@ signal server_disconnected
 const DEFAULT_SERVER_IP : String = "127.0.0.1" # IPv4 localhost
 const DEFAULT_SERVER_PORT : int = 5835
 const MAX_CONNECTIONS : int = 4
+const MATCHMAKING_ATTEMPTS_PER_PHASE : int = 10
 
 const CONNECT_MENU_UID : String = "uid://jhomeys3bfhg"
 
@@ -34,6 +35,7 @@ var lobby_data : Dictionary[String,String] = {
 	"quickplay":"false",
 	}
 var matchmaking_phase: int = 0
+var matchmaking_phase_attempt : int = 0
 var peer : MultiplayerPeer = null
 
 
@@ -87,11 +89,6 @@ func matchmaking_loop() -> void:
 		Steam.addRequestLobbyListDistanceFilter(matchmaking_phase)
 		Steam.addRequestLobbyListStringFilter("quickplay", "true", Steam.LOBBY_COMPARISON_EQUAL)
 		Steam.requestLobbyList()
-	else:
-		print("[STEAM] Failed to automatically match you with a lobby. Please try again.")
-		UI.game_text.text = "\r\rNO MATCHES FOUND, TRY AGAIN OR WAIT"
-		await get_tree().create_timer(3).timeout
-		UI.hide_element(UI.game_text)
 
 
 func _on_lobby_match_list(lobbies: Array) -> void:
@@ -103,10 +100,19 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 		if lobby_nums < MAX_CONNECTIONS && not attempting_join:
 			attempting_join = true
 			print("Attempting to join %s" % lobby_name)
+			UI.hide_element(UI.game_text)
 			Steam.joinLobby(this_lobby)
 	if not attempting_join && players.size() <= 1:
-		matchmaking_phase += 1
-		matchmaking_loop()
+		if matchmaking_phase_attempt < MATCHMAKING_ATTEMPTS_PER_PHASE:
+			matchmaking_phase_attempt += 1
+			matchmaking_loop()
+		elif matchmaking_phase == 3:
+			matchmaking_phase_attempt += 1
+			matchmaking_loop()
+		else:
+			matchmaking_phase += 1
+			matchmaking_phase_attempt = 0
+			matchmaking_loop()
 
 
 func steam_join_lobby(new_lobby_id : int) -> void:
