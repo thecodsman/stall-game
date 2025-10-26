@@ -248,7 +248,7 @@ func read_messages() -> void:
 			print(type_string(typeof(bytes_to_var(message.payload))))
 			#message.payload = bytes_to_var(message.payload).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
 			message.payload = bytes_to_var(message.payload)
-			var _message_sender: int = message['remote_steam_id']
+			#var _message_sender: int = message['remote_steam_id']
 			print("Message: %s" % message.payload)
 			# Append logic here to deal with message data
 
