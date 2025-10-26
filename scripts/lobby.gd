@@ -20,8 +20,7 @@ const CONNECT_MENU_UID : String = "uid://jhomeys3bfhg"
 # with the keys being each player's unique IDs.
 var players : Dictionary[int, Dictionary] = {}
 
-# peer_id : player_index
-var player_indices : Dictionary[int, int] = {}
+var player_indices : Dictionary[int, int] = {} ## peer_id -> player_index
 
 # This is the local player info. This should be modified locally
 # before the connection is made. It will be passed to every other peer.
@@ -29,11 +28,14 @@ var player_indices : Dictionary[int, int] = {}
 # entered in a UI scene.
 var player_info : Dictionary[String,String] = {"name": "PLACEHOLDER"}
 var players_loaded : int = 0
-var player_index : int = 0 # starts at 0
+var player_index : int = 0
 var lobby_id : int = 0
 var lobby_data : Dictionary[String,String] = {
 	"quickplay":"false",
 	}
+var lobby_members : Array = []
+var steam_id: int = 0
+var steam_username: String = ""
 var matchmaking_phase: int = 0
 var matchmaking_phase_attempt : int = 0
 var peer : MultiplayerPeer = null
@@ -51,6 +53,9 @@ func _ready() -> void:
 	Steam.lobby_joined.connect(_on_steam_lobby_joined)
 	Steam.join_requested.connect(_on_steam_lobby_join_requested)
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
+	Steam.network_messages_session_request.connect(_on_session_request)
+	Steam.network_messages_session_failed.connect(_on_session_connect_fail)
+
 
 
 func join_game(address : String = "", port : int = 0) -> int:
@@ -89,13 +94,9 @@ func matchmaking_loop() -> void:
 		Steam.addRequestLobbyListDistanceFilter(matchmaking_phase)
 		Steam.addRequestLobbyListStringFilter("quickplay", "true", Steam.LOBBY_COMPARISON_EQUAL)
 		Steam.requestLobbyList()
-	else:
-		print("[STEAM] Failed to automatically match you with a lobby. Please try again.")
-		UI.game_text.text = "\r\rNO MATCHES FOUND, TRY AGAIN OR WAIT"
-		await get_tree().create_timer(3).timeout
-		UI.hide_element(UI.game_text)
 
 
+# TODO make quick play not break when 2 people are searching at the same time
 func _on_lobby_match_list(lobbies: Array) -> void:
 	var attempting_join: bool = false
 	for this_lobby : int in lobbies:
@@ -105,10 +106,19 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 		if lobby_nums < MAX_CONNECTIONS && not attempting_join:
 			attempting_join = true
 			print("Attempting to join %s" % lobby_name)
+			UI.hide_element(UI.game_text)
 			Steam.joinLobby(this_lobby)
 	if not attempting_join && players.size() <= 1:
-		matchmaking_phase += 1
-		matchmaking_loop()
+		if matchmaking_phase_attempt < MATCHMAKING_ATTEMPTS_PER_PHASE:
+			matchmaking_phase_attempt += 1
+			matchmaking_loop()
+		elif matchmaking_phase == 3:
+			matchmaking_phase_attempt += 1
+			matchmaking_loop()
+		else:
+			matchmaking_phase += 1
+			matchmaking_phase_attempt = 0
+			matchmaking_loop()
 
 
 func steam_join_lobby(new_lobby_id : int) -> void:
@@ -173,9 +183,9 @@ func create_steam_socket() -> int:
 	return 0
 
 
-func connect_steam_socket(steam_id : int) -> int:
+func connect_steam_socket(_steam_id : int) -> int:
 	peer = SteamMultiplayerPeer.new()
-	var error : int = peer.create_client(steam_id, 0)
+	var error : int = peer.create_client(_steam_id, 0)
 	if error: 
 		print("ERROR CONNECTING SOCKET, ERROR CODE : %s" % error)
 		return error
@@ -186,6 +196,54 @@ func connect_steam_socket(steam_id : int) -> int:
 func remove_multiplayer_peer() -> void:
 	multiplayer.multiplayer_peer = null
 	players.clear()
+
+
+func _on_session_request(remote_id: int) -> void:
+	var _requester: String = Steam.getFriendPersonaName(remote_id)
+	if lobby_data["quickplay"] == "true":
+		# only host if steam_id is greater than opponents steam id
+		if remote_id < steam_id:
+			Steam.acceptSessionWithUser(remote_id)
+			make_p2p_handshake()
+	else:
+		Steam.acceptSessionWithUser(remote_id)
+		make_p2p_handshake()
+
+
+func _on_session_connect_fail(reason: int, remote_steam_id: int, connection_state: int, debug_message: String) -> void:
+	print(debug_message)
+
+
+func make_p2p_handshake() -> void:
+	send_p2p_packet(0, {"message": "handshake", "from": steam_id})
+
+
+func read_p2p_packet() -> void:
+	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
+	if packet_size > 0:
+		var this_packet: Dictionary = Steam.readP2PPacket(packet_size, 0)
+		if this_packet.is_empty() or this_packet == null:
+			print("WARNING: read an empty packet with non-zero size!")
+		var _packet_sender: int = this_packet['remote_steam_id']
+		var packet_code: PackedByteArray = this_packet['data']
+		var readable_data: Dictionary = bytes_to_var(packet_code.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP))
+		print("Packet: %s" % readable_data)
+		# Append logic here to deal with packet data
+
+
+func send_p2p_packet(target: int, packet_data: Dictionary) -> void:
+	var send_type: int = Steam.P2P_SEND_RELIABLE
+	var channel: int = 0
+	var data: PackedByteArray
+	var compressed_data: PackedByteArray = var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP)
+	data.append_array(compressed_data)
+	if target != 0:
+		Steam.sendP2PPacket(target, data, send_type, channel)
+		return
+	if lobby_members.size() < 2: return
+	for member : Dictionary in lobby_members:
+		if member['steam_id'] == steam_id: continue
+		Steam.sendP2PPacket(member['steam_id'], data, send_type, channel)
 
 
 # When the server decides to start the game from a UI scene,
@@ -230,10 +288,6 @@ func _on_peer_connected(id : int) -> void:
 		set_player_index.rpc(players.size(), id, player_indices)
 
 
-func is_player_connected(id : int) -> bool:
-	return (players.has(id) && player_indices.has(id))
-
-
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info : Dictionary) -> void:
 	var new_player_id : int = multiplayer.get_remote_sender_id()
@@ -258,8 +312,6 @@ func _on_connected_fail() -> void:
 
 
 func _on_server_disconnected() -> void:
-	# UI.transition_to_scene(CONNECT_MENU_UID)
-	# await UI.on_transition
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
