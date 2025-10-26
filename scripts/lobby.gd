@@ -89,6 +89,11 @@ func matchmaking_loop() -> void:
 		Steam.addRequestLobbyListDistanceFilter(matchmaking_phase)
 		Steam.addRequestLobbyListStringFilter("quickplay", "true", Steam.LOBBY_COMPARISON_EQUAL)
 		Steam.requestLobbyList()
+	else:
+		print("[STEAM] Failed to automatically match you with a lobby. Please try again.")
+		UI.game_text.text = "\r\rNO MATCHES FOUND, TRY AGAIN OR WAIT"
+		await get_tree().create_timer(3).timeout
+		UI.hide_element(UI.game_text)
 
 
 func _on_lobby_match_list(lobbies: Array) -> void:
@@ -100,19 +105,10 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 		if lobby_nums < MAX_CONNECTIONS && not attempting_join:
 			attempting_join = true
 			print("Attempting to join %s" % lobby_name)
-			UI.hide_element(UI.game_text)
 			Steam.joinLobby(this_lobby)
 	if not attempting_join && players.size() <= 1:
-		if matchmaking_phase_attempt < MATCHMAKING_ATTEMPTS_PER_PHASE:
-			matchmaking_phase_attempt += 1
-			matchmaking_loop()
-		elif matchmaking_phase == 3:
-			matchmaking_phase_attempt += 1
-			matchmaking_loop()
-		else:
-			matchmaking_phase += 1
-			matchmaking_phase_attempt = 0
-			matchmaking_loop()
+		matchmaking_phase += 1
+		matchmaking_loop()
 
 
 func steam_join_lobby(new_lobby_id : int) -> void:
