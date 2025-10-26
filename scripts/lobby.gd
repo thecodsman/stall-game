@@ -104,15 +104,15 @@ func matchmaking_loop() -> void:
 # TODO make quick play not break when 2 people are searching at the same time
 func _on_lobby_match_list(lobbies: Array) -> void:
 	var attempting_join: bool = false
-	for this_lobby : int in lobbies:
-		if this_lobby == lobby_id: continue
-		var lobby_name : String = Steam.getLobbyData(this_lobby, "name")
-		var lobby_nums : int = Steam.getNumLobbyMembers(this_lobby)
+	for lobby : int in lobbies:
+		if lobby <= lobby_id: continue
+		var lobby_name : String = Steam.getLobbyData(lobby, "name")
+		var lobby_nums : int = Steam.getNumLobbyMembers(lobby)
 		if lobby_nums < MAX_CONNECTIONS && not attempting_join:
 			attempting_join = true
 			print("Attempting to join %s" % lobby_name)
 			UI.hide_element(UI.game_text)
-			Steam.joinLobby(this_lobby)
+			Steam.joinLobby(lobby)
 	if not attempting_join && players.size() <= 1:
 		if matchmaking_phase_attempt < MATCHMAKING_ATTEMPTS_PER_PHASE:
 			matchmaking_phase_attempt += 1
@@ -220,14 +220,17 @@ func get_lobby_members() -> void:
 func _on_session_request(remote_id: int) -> void:
 	var requester: String = Steam.getFriendPersonaName(remote_id)
 	print("%s is requesting session" % requester)
-	if lobby_data["quickplay"] == "true":
-		# only host if steam_id is greater than opponents steam id
-		if remote_id < steam_id:
-			Steam.acceptSessionWithUser(remote_id)
-			make_p2p_handshake()
-	else:
-		Steam.acceptSessionWithUser(remote_id)
-		make_p2p_handshake()
+	# if lobby_data["quickplay"] == "true":
+	# 	# only host if steam_id is greater than opponents steam id
+	# 	if remote_id < steam_id:
+	# 		Steam.acceptSessionWithUser(remote_id)
+	# 		make_p2p_handshake()
+	# 		print("otay")
+	# 	else:
+	# 		print("NOOOOOOO")
+	# else:
+	Steam.acceptSessionWithUser(remote_id)
+	make_p2p_handshake()
 
 
 func _on_session_connect_fail(reason: int, remote_steam_id: int, connection_state: int, debug_message: String) -> void:
