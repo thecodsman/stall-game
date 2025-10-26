@@ -244,8 +244,10 @@ func read_messages() -> void:
 		if message.is_empty() or message == null:
 			print("WARNING: read an empty message with non-zero size!")
 		else:
+			print(type_string(typeof(message.payload)))
+			print(type_string(typeof(bytes_to_var(message.payload))))
 			#message.payload = bytes_to_var(message.payload).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
-			message.payload = message.payload.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+			message.payload = bytes_to_var(message.payload)
 			var _message_sender: int = message['remote_steam_id']
 			print("Message: %s" % message.payload)
 			# Append logic here to deal with message data
@@ -255,7 +257,8 @@ func send_message(target: int, packet_data: Dictionary) -> void:
 	var send_type : int = Steam.NETWORKING_SEND_RELIABLE_NO_NAGLE
 	var channel   : int = 0
 	var data      : PackedByteArray
-	data.append_array(var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP))
+	#data.append_array(var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP))
+	data.append_array(var_to_bytes(packet_data))
 	if target != 0:
 		Steam.sendMessageToUser(target, data, send_type, channel)
 	elif lobby_members.size() <= 1: return
