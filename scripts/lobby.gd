@@ -145,8 +145,8 @@ func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
 	UI.anim.play("transition_close")
 	await UI.anim.animation_finished
 	steam_join_lobby(new_lobby_id)
-	await multiplayer.connected_to_server
 	get_tree().change_scene_to_file("res://worlds/lobby_menu.tscn")
+	await multiplayer.connected_to_server
 	UI.anim.play("transition_open")
 
 
@@ -226,7 +226,6 @@ func _on_session_request(remote_id: int) -> void:
 			Steam.acceptSessionWithUser(remote_id)
 			make_p2p_handshake()
 	else:
-		print("accepted")
 		Steam.acceptSessionWithUser(remote_id)
 		make_p2p_handshake()
 
@@ -294,7 +293,6 @@ func update_player_info(new_player_info : Dictionary, peer_id : int) -> void:
 # TODO make it so player_connected is emitted after player index is assigned
 @rpc("authority", "call_local", "reliable")
 func set_player_index(index : int, id : int, current_indices : Dictionary[int,int]) -> void:
-	print("setting player index")
 	player_indices = current_indices
 	player_indices[id] = index
 	if multiplayer.get_unique_id() == id:
