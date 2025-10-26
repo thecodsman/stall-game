@@ -123,6 +123,7 @@ func _on_player_index_assigned(peer_id : int) -> void:
 func _on_player_connected(_peer_id : int, _player_info : Dictionary) -> void:
 	if is_multiplayer_authority():
 		$start.show()
+		UI.hide_element(UI.game_text)
 	else:
 		$start.hide()
 
