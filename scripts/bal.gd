@@ -143,6 +143,7 @@ func bounce(raw_vel : Vector2, collision : KinematicCollision2D) -> void:
 		bounce_sfx.volume_linear = raw_vel.length() * 0.05
 		bounce_sfx.pitch_scale = randf_range(0.9,1.1)
 		bounce_sfx.play()
+		if not collision: return
 		velocity = raw_vel.bounce(collision.get_normal().rotated(clampf(spin*0.1, -PI/4,PI/4)))
 		velocity *= 0.60
 		await get_tree().physics_frame

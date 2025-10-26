@@ -6,7 +6,6 @@ const CONNECT_MENU_UID : String = "uid://jhomeys3bfhg"
 
 
 func _ready() -> void:
-	print("lobby menu loaded")
 	Lobby.player_connected.connect(_on_player_connected)
 	Lobby.player_disconnected.connect(_on_player_disconnected)
 	Lobby.player_assigned_index.connect(_on_player_index_assigned)
