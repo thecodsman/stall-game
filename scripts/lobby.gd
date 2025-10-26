@@ -154,10 +154,11 @@ func _on_steam_lobby_joined(new_lobby_id : int, _permissions : int, _locked : bo
 		print("ERROR JOINING LOBBY, CODE: %s" % response)
 		return response
 	lobby_id = new_lobby_id
-	var id : int = Steam.getLobbyOwner(new_lobby_id)
-	if id == Steam.getSteamID(): return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
+	steam_id = Steam.getSteamID()
 	get_lobby_members()
 	make_p2p_handshake()
+	var id : int = Steam.getLobbyOwner(new_lobby_id)
+	if id == Steam.getSteamID(): return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
 	connect_steam_socket(id)
 	return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
 
@@ -167,7 +168,7 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int) -> int:
 		print("ERROR CREATING LOBBY, CODE: %s" % response)
 		return response
 	lobby_id = new_lobby_id
-	create_steam_socket()
+	steam_id = Steam.getSteamID()
 	Steam.setLobbyJoinable(lobby_id, true)
 	Steam.setLobbyData(lobby_id, "name", "%s's Server" % str(Steam.getPersonaName()))
 	for i : int in range(lobby_data.size()):
@@ -175,6 +176,7 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int) -> int:
 		var value : String = lobby_data.values()[i]
 		Steam.setLobbyData(lobby_id, key, value)
 	Steam.allowP2PPacketRelay(true)
+	create_steam_socket()
 	return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
 
 
@@ -215,25 +217,24 @@ func get_lobby_members() -> void:
 
 
 func _on_session_request(remote_id: int) -> void:
-	var _requester: String = Steam.getFriendPersonaName(remote_id)
-	print("uhhh")
+	var requester: String = Steam.getFriendPersonaName(remote_id)
+	print("%s is requesting session" % requester)
 	if lobby_data["quickplay"] == "true":
 		# only host if steam_id is greater than opponents steam id
 		if remote_id < steam_id:
 			Steam.acceptSessionWithUser(remote_id)
 			make_p2p_handshake()
 	else:
+		print("accepted")
 		Steam.acceptSessionWithUser(remote_id)
-		print("GUHHH")
 		make_p2p_handshake()
 
 
 func _on_session_connect_fail(reason: int, remote_steam_id: int, connection_state: int, debug_message: String) -> void:
-	print(debug_message)
+	print("SESSION CONNECT FAILED WITH ERROR: %s" % debug_message)
 
 
 func make_p2p_handshake() -> void:
-	print("GUH")
 	send_message(0, {"message": "handshake", "from": steam_id})
 
 
@@ -263,8 +264,8 @@ func send_message(target: int, packet_data: Dictionary) -> void:
 		Steam.sendMessageToUser(target, data, send_type, channel)
 	elif lobby_members.size() <= 1: return
 	for member : Dictionary in lobby_members:
-		if member['steam_id'] == steam_id: continue
-		Steam.sendMessageToUser(member['steam_id'], data, send_type, channel)
+		if member.steam_id == steam_id: continue
+		Steam.sendMessageToUser(member.steam_id, data, send_type, channel)
 
 
 # When the server decides to start the game from a UI scene,
