@@ -41,6 +41,11 @@ var matchmaking_phase_attempt : int = 0
 var peer : MultiplayerPeer = null
 
 
+func _process(_delta: float) -> void:
+	if lobby_id == 0: return
+	read_messages()
+
+
 func _ready() -> void:
 	multiplayer.allow_object_decoding = true
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -200,6 +205,7 @@ func remove_multiplayer_peer() -> void:
 
 func _on_session_request(remote_id: int) -> void:
 	var _requester: String = Steam.getFriendPersonaName(remote_id)
+	print("uhhh")
 	if lobby_data["quickplay"] == "true":
 		# only host if steam_id is greater than opponents steam id
 		if remote_id < steam_id:
@@ -207,6 +213,7 @@ func _on_session_request(remote_id: int) -> void:
 			make_p2p_handshake()
 	else:
 		Steam.acceptSessionWithUser(remote_id)
+		print("GUHHH")
 		make_p2p_handshake()
 
 
@@ -215,35 +222,33 @@ func _on_session_connect_fail(reason: int, remote_steam_id: int, connection_stat
 
 
 func make_p2p_handshake() -> void:
-	send_p2p_packet(0, {"message": "handshake", "from": steam_id})
+	send_message(0, {"message": "handshake", "from": steam_id})
 
 
-func read_p2p_packet() -> void:
-	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
-	if packet_size > 0:
-		var this_packet: Dictionary = Steam.readP2PPacket(packet_size, 0)
-		if this_packet.is_empty() or this_packet == null:
-			print("WARNING: read an empty packet with non-zero size!")
-		var _packet_sender: int = this_packet['remote_steam_id']
-		var packet_code: PackedByteArray = this_packet['data']
-		var readable_data: Dictionary = bytes_to_var(packet_code.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP))
-		print("Packet: %s" % readable_data)
-		# Append logic here to deal with packet data
+func read_messages() -> void:
+	var messages : Array = Steam.receiveMessagesOnChannel(0, 1000)
+	if messages.size() == 0: return
+	for message : Dictionary in messages:
+		if message.is_empty() or message == null:
+			print("WARNING: read an empty message with non-zero size!")
+		else:
+			message.payload = bytes_to_var(message.payload).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+			var _message_sender: int = message['remote_steam_id']
+			print("Message: %s" % message.payload)
+			# Append logic here to deal with message data
 
 
-func send_p2p_packet(target: int, packet_data: Dictionary) -> void:
-	var send_type: int = Steam.P2P_SEND_RELIABLE
-	var channel: int = 0
-	var data: PackedByteArray
-	var compressed_data: PackedByteArray = var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP)
-	data.append_array(compressed_data)
+func send_message(target: int, packet_data: Dictionary) -> void:
+	var send_type : int = Steam.NETWORKING_SEND_RELIABLE_NO_NAGLE
+	var channel   : int = 0
+	var data      : PackedByteArray
+	data.append_array(var_to_bytes(packet_data).compress(FileAccess.COMPRESSION_GZIP))
 	if target != 0:
-		Steam.sendP2PPacket(target, data, send_type, channel)
-		return
-	if lobby_members.size() < 2: return
+		Steam.sendMessageToUser(target, data, send_type, channel)
+	elif lobby_members.size() <= 1: return
 	for member : Dictionary in lobby_members:
 		if member['steam_id'] == steam_id: continue
-		Steam.sendP2PPacket(member['steam_id'], data, send_type, channel)
+		Steam.sendMessageToUser(member['steam_id'], data, send_type, channel)
 
 
 # When the server decides to start the game from a UI scene,
