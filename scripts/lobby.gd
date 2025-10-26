@@ -129,6 +129,7 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 func steam_join_lobby(new_lobby_id : int) -> void:
 	print("Attempting to join lobby %s" % new_lobby_id)
 	players.clear()
+	lobby_members.clear()
 	Steam.joinLobby(new_lobby_id)
 
 
@@ -245,8 +246,6 @@ func read_messages() -> void:
 		if message.is_empty() or message == null:
 			print("WARNING: read an empty message with non-zero size!")
 		else:
-			print(type_string(typeof(message.payload)))
-			print(type_string(typeof(bytes_to_var(message.payload))))
 			#message.payload = bytes_to_var(message.payload).decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
 			message.payload = bytes_to_var(message.payload)
 			#var _message_sender: int = message['remote_steam_id']
@@ -295,6 +294,7 @@ func update_player_info(new_player_info : Dictionary, peer_id : int) -> void:
 # TODO make it so player_connected is emitted after player index is assigned
 @rpc("authority", "call_local", "reliable")
 func set_player_index(index : int, id : int, current_indices : Dictionary[int,int]) -> void:
+	print("setting player index")
 	player_indices = current_indices
 	player_indices[id] = index
 	if multiplayer.get_unique_id() == id:
