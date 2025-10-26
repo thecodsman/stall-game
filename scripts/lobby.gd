@@ -5,24 +5,34 @@ extends Node
 # These signals can be connected to by a UI lobby scene or the game scene.
 signal player_connected(peer_id : int, player_info : Dictionary)
 signal player_disconnected(peer_id : int)
+signal player_assigned_index(peer_id : int)
+signal player_info_changed(peer_id : int)
 signal server_disconnected
 
 const DEFAULT_SERVER_IP : String = "127.0.0.1" # IPv4 localhost
 const DEFAULT_SERVER_PORT : int = 5835
 const MAX_CONNECTIONS : int = 4
 
+const CONNECT_MENU_UID : String = "uid://jhomeys3bfhg"
+
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
 var players : Dictionary[int, Dictionary] = {}
+
+# peer_id : player_index
+var player_indices : Dictionary[int, int] = {}
 
 # This is the local player info. This should be modified locally
 # before the connection is made. It will be passed to every other peer.
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
-var player_info : Dictionary = {"time_connected": "0"}
+var player_info : Dictionary[String,String] = {"name": "PLACEHOLDER"}
 var players_loaded : int = 0
 var player_index : int = 0 # starts at 0
 var lobby_id : int = 0
+var lobby_data : Dictionary[String,String] = {
+	"quickplay":"false",
+	}
 var matchmaking_phase: int = 0
 var peer : MultiplayerPeer = null
 
@@ -39,11 +49,6 @@ func _ready() -> void:
 	Steam.lobby_joined.connect(_on_steam_lobby_joined)
 	Steam.join_requested.connect(_on_steam_lobby_join_requested)
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
-
-
-@rpc("authority", "reliable")
-func set_player_index(index : int) -> void:
-	player_index = index
 
 
 func join_game(address : String = "", port : int = 0) -> int:
@@ -69,29 +74,37 @@ func create_game(port : int) -> int:
 
 
 func steam_start_matchmaking() -> void:
+	UI.transition_to_scene("res://worlds/lobby_menu.tscn")
+	await UI.on_transition
 	matchmaking_phase = 0
+	lobby_data["quickplay"] = "true"
+	steam_create_lobby(Steam.LOBBY_TYPE_PUBLIC)
 	matchmaking_loop()
 
 
 func matchmaking_loop() -> void:
 	if matchmaking_phase < 4:
 		Steam.addRequestLobbyListDistanceFilter(matchmaking_phase)
+		Steam.addRequestLobbyListStringFilter("quickplay", "true", Steam.LOBBY_COMPARISON_EQUAL)
 		Steam.requestLobbyList()
 	else:
 		print("[STEAM] Failed to automatically match you with a lobby. Please try again.")
+		UI.game_text.text = "\r\rNO MATCHES FOUND, TRY AGAIN OR WAIT"
+		await get_tree().create_timer(3).timeout
+		UI.hide_element(UI.game_text)
 
 
 func _on_lobby_match_list(lobbies: Array) -> void:
 	var attempting_join: bool = false
-	print(lobbies)
 	for this_lobby : int in lobbies:
+		if this_lobby == lobby_id: continue
 		var lobby_name : String = Steam.getLobbyData(this_lobby, "name")
 		var lobby_nums : int = Steam.getNumLobbyMembers(this_lobby)
-		if lobby_nums < MAX_CONNECTIONS and not attempting_join:
+		if lobby_nums < MAX_CONNECTIONS && not attempting_join:
 			attempting_join = true
 			print("Attempting to join %s" % lobby_name)
 			Steam.joinLobby(this_lobby)
-	if not attempting_join:
+	if not attempting_join && players.size() <= 1:
 		matchmaking_phase += 1
 		matchmaking_loop()
 
@@ -102,9 +115,9 @@ func steam_join_lobby(new_lobby_id : int) -> void:
 	Steam.joinLobby(new_lobby_id)
 
 
-func steam_create_lobby() -> void:
+func steam_create_lobby(lobby_type : int = Steam.LOBBY_TYPE_PUBLIC) -> void:
 	if lobby_id != 0: return
-	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, MAX_CONNECTIONS)
+	Steam.createLobby(lobby_type, MAX_CONNECTIONS)
 
 
 func _on_steam_lobby_join_requested(new_lobby_id: int, friend_id: int) -> void:
@@ -137,7 +150,11 @@ func _on_steam_lobby_created(response : int, new_lobby_id : int) -> int:
 	lobby_id = new_lobby_id
 	create_steam_socket()
 	Steam.setLobbyJoinable(lobby_id, true)
-	Steam.setLobbyData(lobby_id, "name", str(Steam.getPersonaName(), "'s Server"))
+	Steam.setLobbyData(lobby_id, "name", "%s's Server" % str(Steam.getPersonaName()))
+	for i : int in range(lobby_data.size()):
+		var key : String = lobby_data.keys()[i]
+		var value : String = lobby_data.values()[i]
+		Steam.setLobbyData(lobby_id, key, value)
 	Steam.allowP2PPacketRelay(true)
 	return Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS
 
@@ -184,14 +201,35 @@ func player_loaded() -> void:
 		if players_loaded != players.size(): return
 		$/root/stage.start_game()
 		players_loaded = 0
-		print("all players loaded!")
+		#print("all players loaded!")
+
+
+@rpc("any_peer", "reliable")
+func update_player_info(new_player_info : Dictionary, peer_id : int) -> void:
+	players[peer_id] = new_player_info
+	player_info_changed.emit(peer_id)
+
+
+# TODO make it so player_connected is emitted after player index is assigned
+@rpc("authority", "call_local", "reliable")
+func set_player_index(index : int, id : int, current_indices : Dictionary[int,int]) -> void:
+	player_indices = current_indices
+	player_indices[id] = index
+	if multiplayer.get_unique_id() == id:
+		player_index = index
+	player_assigned_index.emit(id)
 
 
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
 func _on_peer_connected(id : int) -> void:
-	print("PEER CONNECTED, ID: %s | TO: %s" % [id, multiplayer.get_unique_id()])
 	_register_player.rpc_id(id, player_info)
+	if is_multiplayer_authority():
+		set_player_index.rpc(players.size(), id, player_indices)
+
+
+func is_player_connected(id : int) -> bool:
+	return (players.has(id) && player_indices.has(id))
 
 
 @rpc("any_peer", "reliable")
@@ -208,16 +246,18 @@ func _on_peer_disconnected(id : int) -> void:
 
 func _on_connected_ok() -> void:
 	var peer_id : int = multiplayer.get_unique_id()
-	player_info.time_connected = Time.get_unix_time_from_system()
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 
 
 func _on_connected_fail() -> void:
 	multiplayer.multiplayer_peer = null
+	UI.transition_to_scene(CONNECT_MENU_UID)
 
 
 func _on_server_disconnected() -> void:
+	# UI.transition_to_scene(CONNECT_MENU_UID)
+	# await UI.on_transition
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()

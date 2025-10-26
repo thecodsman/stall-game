@@ -42,7 +42,7 @@ var button_state : Dictionary[String,int] = {
 		} ## button states
 
 
-func _ready():
+func _ready() -> void:
 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 	smash_timer.wait_time = MaxTimeToSmash
 	smash_timer.one_shot = true
@@ -73,18 +73,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton && buttons.has(event.button_index):
 		is_keyboard = false
 		set_action_state(event.button_index)
-	elif event is InputEventKey && device_index == -1:
+	elif event is InputEventKey && (device_index == -1 || Globals.is_online):
 		is_keyboard = true
 		if not KeyboardToController.has(event.keycode): return
 		set_action_state(KeyboardToController.get(event.keycode))
 
 
 @rpc("authority", "call_local", "unreliable_ordered")
-func set_action_state(button : int):
+func set_action_state(button : int) -> void:
 	if not buttons.get(button):
 		buttons[button] = button_state.duplicate()
-	var prev_button_state = buttons[button]
-	var currently_held = false
+	var prev_button_state : Dictionary = buttons[button]
+	var currently_held : bool = false
 	if not is_keyboard:
 		currently_held = Input.is_joy_button_pressed(device_index, button)
 	else:
@@ -103,7 +103,7 @@ func is_button_just_pressed(button : JoyButton, buffer_override : int = -1, test
 	if buffer_override > -1: buffer = buffer_override
 	else: buffer = buttons[button].buffer
 	if buffer > 0:
-		var button_pressed = (buttons[button].frame_pressed + buffer >= Engine.get_physics_frames())
+		var button_pressed : bool = (buttons[button].frame_pressed + buffer >= Engine.get_physics_frames())
 		if button_pressed && not test_only: buttons[button].frame_pressed -= buffer ## stop the same input being buffered for multiple actions
 		return button_pressed
 	return (buttons[button].held && buttons[button].frame_pressed == Engine.get_physics_frames())
@@ -126,5 +126,5 @@ func is_joy_button_pressed(button : JoyButton) -> bool:
 	return buttons[button].held == 1
 
 
-func _on_smash_timer_timeout():
+func _on_smash_timer_timeout() -> void:
 	smashing = false

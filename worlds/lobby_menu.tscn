@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cqsdn6h23kr4j"]
+[gd_scene load_steps=24 format=3 uid="uid://cqsdn6h23kr4j"]
 
 [ext_resource type="Script" uid="uid://cckpxvswq4hfy" path="res://scripts/lobby_menu.gd" id="1_ruh0p"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_d6oou"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cuv82d5oxp1sy" path="res://sprites/ui/tiny-crawl-player-portrait.png" id="10_p6kub"]
 [ext_resource type="Texture2D" uid="uid://bdy34mag72dqc" path="res://sprites/ui/unknown_character_portrait.png" id="11_wuif5"]
 [ext_resource type="Texture2D" uid="uid://ctrpb0pudoxce" path="res://sprites/ui/tiny-drawl-player-portrait.png" id="12_cocfp"]
+[ext_resource type="Texture2D" uid="uid://qajfx3mm4330" path="res://sprites/ui/back_arrow.png" id="14_vpsg3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_leutj"]
 shader = ExtResource("4_d6oou")
@@ -260,4 +261,16 @@ theme = ExtResource("6_d6oou")
 disabled = true
 text = "start"
 
+[node name="back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 82.0
+offset_right = 13.0
+offset_bottom = 94.0
+theme = ExtResource("6_d6oou")
+icon = ExtResource("14_vpsg3")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]

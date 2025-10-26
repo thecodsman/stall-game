@@ -56,23 +56,43 @@ func _on_key_input_event(event : InputEventKey) -> void:
 	if not Globals.registered_controllers.has(-1) && not Globals.is_online: return
 	if not event.pressed: return
 	if Input.is_key_pressed(KEY_SHIFT): return
-	var player : int = Globals.registered_controllers.find(-1)
+	var player : int = (
+			Globals.registered_controllers.find(-1) if not Globals.is_online
+			else Lobby.player_index
+			)
 	match event.keycode:
 		KEY_SPACE, KEY_ENTER:
-			select_character(player)
+			if selected.get(player) != null:
+				deselect_character.rpc(player)
+				return
+			select_character.rpc(player)
+		KEY_ESCAPE:
+			deselect_character.rpc(player)
 		KEY_LEFT:
-			scroll(LEFT, player)
+			scroll.rpc(LEFT, player)
 		KEY_RIGHT:
-			scroll(RIGHT, player)
+			scroll.rpc(RIGHT, player)
 		KEY_UP:
-			scroll(UP, player)
+			scroll.rpc(UP, player)
 		KEY_DOWN:
-			scroll(DOWN, player)
+			scroll.rpc(DOWN, player)
 
 
 func new_player(player : int) -> void:
 	focusing.set(player, get_child(0))
 	get_child(0).focusing.append(player)
+
+
+func remove_player(player : int) -> void:
+	var icon : CharacterSelectIcon = (
+			focusing[player] 
+			if focusing[player] != null 
+			else selected[player]
+			)
+	icon.focusing.erase(player)
+	icon.selected.erase(player)
+	focusing.erase(player)
+	selected.erase(player)
 
 
 @rpc("any_peer", "call_local", "reliable")

@@ -16,8 +16,8 @@ class_name CharacterSelectIcon extends Panel
 		if locked: sprite.modulate = Color.BLACK
 		else: sprite.modulate = Color.WHITE
 @export var portrait : Texture2D
-var focusing : PackedInt32Array
-var selected : PackedInt32Array
+var focusing : PackedInt32Array = []
+var selected : PackedInt32Array = []
 var border_color : Color = Globals.GRAY :
 	set(color):
 		if border_color == color: return
@@ -28,6 +28,7 @@ var border_color : Color = Globals.GRAY :
 
 
 func _draw() -> void:
+	if Globals.current_player_colors.size() <= 0: return
 	for i : int in range(focusing.size()):
 		var text : String = str("P%s" % (focusing[i] + 1))
 		var player : int = focusing[i]
@@ -39,7 +40,13 @@ func _draw() -> void:
 			3: offset = Vector2(8,18)
 		for j : int in range(text.length()):
 			var l : String = text[j]
-			draw_char(preload("uid://dq3ivvjy1lslp"), Vector2(j*5,0) + offset, l, 8, Globals.current_player_colors[min(player, Globals.current_player_colors.size()-1)])
+			draw_char(
+					preload("uid://dq3ivvjy1lslp"),
+					Vector2(j*5,0) + offset,
+					l,
+					8,
+					Globals.current_player_colors[min(player, Globals.current_player_colors.size()-1)]
+					)
 	for i : int in range(selected.size()):
 		var text : String = str("P%s" % (selected[i] + 1))
 		var player : int = selected[i]
@@ -55,6 +62,16 @@ func _draw() -> void:
 
 
 func _process(_delta: float) -> void:
-	if focusing.size() == 0: border_color = Globals.GRAY
-	else: border_color = Globals.current_player_colors[focusing[min(focusing.size()-1, Globals.current_player_colors.size()-1)]]
+	if Globals.current_player_colors.size() <= 0:
+		return
+	if focusing.size() == 0:
+		border_color = Globals.GRAY
+	else:
+		var index : int =  min(
+			focusing.size() - 1,
+			Globals.current_player_colors.size() - 1
+		) 
+		var player : int = focusing[index]
+		player = clampi(player, 0, Globals.current_player_colors.size() - 1)
+		border_color = Globals.current_player_colors[player]
 	queue_redraw()
