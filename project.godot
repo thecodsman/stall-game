@@ -124,10 +124,6 @@ down={
 2d_physics/layer_3="ball"
 2d_physics/layer_4="platforms"
 
-[physics]
-
-common/physics_ticks_per_second=144
-
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
