@@ -23,6 +23,7 @@ func _physics_process(_delta: float) -> void:
 	active_line.global_position.x = int(active_line.global_position.x) % int(active_line.width*2)
 
 
+@rpc("authority", "call_local", "reliable")
 func activate() -> void:
 	active_line.modulate = Globals.current_player_colors[Globals.camera.ball.owner_index - 1]
 	active_line.show()
@@ -33,6 +34,7 @@ func activate() -> void:
 	tween.tween_property(label, "position:y", (height/2) - (label.size.y/2), 0.5)
 
 
+@rpc("authority", "call_local", "reliable")
 func deactivate() -> void:
 	modulate = Color.WHITE
 	active_line.hide()

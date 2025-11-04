@@ -240,7 +240,7 @@ func _update_state(delta : float) -> void:
 			var raw_vel : Vector2 = velocity
 			if not scorrable && global_position.y < stage_size.y - SCORE_LINE_HEIGHT:
 				scorrable = true
-				if owner_level >= MAX_OWNER_LEVEL: Globals.score_line.activate()
+				if owner_level >= MAX_OWNER_LEVEL: Globals.score_line.activate.rpc()
 			sprite.rotation += (spin * delta) * 20
 			spin = lerpf(spin, 0, 0.5*delta)
 			velocity = velocity.rotated((spin * 0.5 * delta * spin_mult))

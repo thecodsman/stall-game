@@ -812,7 +812,7 @@ func apply_ball_ownership(ball_path : NodePath) -> void:
 		ball.owner_level = abs(ball.owner_level - 2)
 		ball.owner_index = player_index
 		ball.scorrable = false
-		Globals.score_line.deactivate()
+		Globals.score_line.deactivate.rpc()
 	elif ball.owner_index == player_index:
 		ball.owner_level = 2
 		ball.scorrable = false
