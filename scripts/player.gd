@@ -201,6 +201,7 @@ func enter_state() -> void:
 			anim.play("run_dash")
 			spawn_smoke(Vector2(0,4))
 			velocity.x += sign(direction) * RUN_SPEED * 0.6
+			if sign(velocity.x) == 0: return
 			sprite.scale.x = sign(velocity.x)
 
 		State.TURN_AROUND:
@@ -304,10 +305,11 @@ func enter_state() -> void:
 
 		State.WALL:
 			anim.play("on_wall")
-			sprite.scale.x = get_last_slide_collision().get_normal().x * -1
 			jumps = MAX_JUMPS - 1
 			dashes = 1
 			gravity = BASE_GRAVITY*0.1
+			if get_slide_collision_count() < 1: 
+				sprite.scale.x = get_last_slide_collision().get_normal().x * -1
 
 		State.STALL:
 			anim.play("stall")
@@ -560,7 +562,8 @@ func update_state(delta : float) -> void:
 			apply_gravity(delta)
 			direction = input.direction.x
 			var wall_dir : float = 0
-			if get_slide_collision_count() > 0: wall_dir = -get_slide_collision(0).get_normal().x
+			if get_slide_collision_count() > 0:
+				wall_dir = -get_last_slide_collision().get_normal().x
 			wall_jump_dir = wall_dir
 			if is_on_wall_only() && sign(direction) != wall_dir && on_wall_prev_frame:
 				on_wall_prev_frame = false
@@ -766,9 +769,10 @@ func check_for_fastfall() -> bool:
 
 func move(delta : float, accel : float = ACCEL, speed : float = RUN_SPEED, flip : bool = true) -> float:
 	direction = input.direction.x
-	if velocity.x && flip == true: sprite.scale.x = sign(velocity.x)
 	velocity.x = lerpf(velocity.x, direction * speed, accel*delta)
-	return direction
+	var facing_direction : float = sign(velocity.x)
+	if velocity.x && flip == true && facing_direction != 0: sprite.scale.x = facing_direction
+	return facing_direction
 	
 
 func apply_gravity(delta : float) -> void:
