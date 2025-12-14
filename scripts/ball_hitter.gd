@@ -11,9 +11,43 @@ signal hit
 @export var hit_fx_scene : PackedScene
 @onready var kick_sfx : AudioStreamPlayer = $kick_sfx
 @onready var collider : CollisionShape2D = $CollisionShape2D
+var ball_damage : float :
+	get():
+		var value : float
+		if Globals.camera.ball != null:
+			value = Globals.camera.ball.damage
+		else:
+			value = 1
+		return value
 
 
-func _on_body_entered(ball:Ball) -> void:
+func _on_body_entered(obj:Node2D) -> void:
+	if obj is Ball:
+		handle_ball_collision(obj)
+	elif obj is Player:
+		handle_player_collision(obj)
+
+
+func handle_player_collision(_player : Player) -> void:
+	if _player == player: return
+	hit.emit(_player)
+	if direction == Vector2.ZERO:
+		var dir2player : float = global_position.angle_to_point(_player.global_position)
+		kick_player.rpc(_player.get_path(), Vector2.from_angle(dir2player))
+	else: kick_player.rpc(_player.get_path(), direction * global_scale.rotated(global_rotation))
+	
+
+@rpc("authority", "call_local", "reliable")
+func kick_player(player_path : NodePath, dir : Vector2) -> void:
+	var _player : Player = get_node(player_path)
+	_player.velocity += (power * dir * ball_damage * 1.35) + (power * di_power * input.direction)
+	kick_sfx.play()
+	var hit_fx : Node2D = hit_fx_scene.instantiate()
+	hit_fx.global_position = _player.global_position
+	$"/root/stage/SubViewportContainer/game".add_child(hit_fx)
+
+
+func handle_ball_collision(ball : Ball) -> void:
 	if ball.server != owner && ball.server != null: return
 	ball.server = null
 	ball.set_server.rpc(null)
@@ -25,12 +59,12 @@ func _on_body_entered(ball:Ball) -> void:
 	if not is_multiplayer_authority(): return
 	if direction == Vector2.ZERO:
 		var dir2ball : float = global_position.angle_to_point((ball.global_position))
-		kick.rpc(ball.get_path(), Vector2.from_angle(dir2ball))
-	else: kick.rpc(ball.get_path(), direction * global_scale.rotated(global_rotation))
+		kick_ball.rpc(ball.get_path(), Vector2.from_angle(dir2ball))
+	else: kick_ball.rpc(ball.get_path(), direction * global_scale.rotated(global_rotation))
 
 
 @rpc("authority", "call_local", "reliable")
-func kick(ball_path : NodePath, dir : Vector2) -> void:
+func kick_ball(ball_path : NodePath, dir : Vector2) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
 	if dir.length() < input.DeadZone: dir = Vector2.UP
@@ -48,7 +82,19 @@ func kick(ball_path : NodePath, dir : Vector2) -> void:
 	if ball.combo >= 4:
 		update_combo_counter(ball.combo, player.self_modulate)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
-	if ball.velocity.length() > 0: ball.spin = ((abs(ball.spin) * sign(angle_diff)) + (angle_diff) * clampf(ball.velocity.length() * 0.0145, 0.5, 3))
+	if ball.velocity.length() > 0:
+		const vel_to_spin_mult : float = 0.0145
+		const min_vel_to_spin : float = 0.5
+		const max_vel_to_spin : float = 3
+		ball.spin = (
+				(abs(ball.spin) * sign(angle_diff)) +
+				angle_diff *
+				clampf(
+						ball.velocity.length() * vel_to_spin_mult,
+						min_vel_to_spin,
+						max_vel_to_spin
+				)
+		)
 	ball.velocity = Vector2((ball.velocity.length() * 0.55) + (power * ball.damage) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
 	ball.damage += damage
 	UI._on_bal_percent_change(ball.damage)

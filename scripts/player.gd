@@ -831,18 +831,41 @@ func _on_stall_box_body_entered(_ball : Ball) -> void:
 	stall_ball.rpc(ball.get_path())
 
 
-func _on_hit(_ball : Ball) -> void:
+func _on_hit(obj : Node2D) -> void:
+	if obj is Ball:
+		handle_ball_hit(obj)
+	elif obj is Player:
+		handle_player_hit(obj)
+
+
+func handle_ball_hit(_ball : Ball) -> void:
+	const freeze_frame_duration_mult : float = 0.001
 	time_scale = 0
 	_ball.time_scale = 0
-	dashes = max(1,jumps)
+	dashes = max(1,dashes)
 	jumps = max(1,jumps)
-	var duration : float = 0.001 * kick_box.power * _ball.damage
+	var duration : float = freeze_frame_duration_mult * kick_box.power * _ball.damage
 	sprite.shake(1, duration, 1)
 	_ball.sprite.shake(2, duration, 2)
 	await get_tree().create_timer(duration).timeout
 	time_scale = 1
 	if not _ball: return
 	_ball.time_scale = 1
+
+
+func handle_player_hit(_player : Player) -> void:
+	const freeze_frame_duration_mult : float = 0.001
+	time_scale = 0
+	_player.time_scale = 0
+	dashes = max(1,dashes)
+	jumps = max(1,jumps)
+	var duration : float = freeze_frame_duration_mult * kick_box.power
+	sprite.shake(1, duration, 1)
+	_player.sprite.shake(2, duration, 2)
+	await get_tree().create_timer(duration).timeout
+	time_scale = 1
+	if not _player: return
+	_player.time_scale = 1
 
 
 @rpc("authority", "call_local", "reliable")
