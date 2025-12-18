@@ -64,7 +64,7 @@ func _physics_process(_delta: float) -> void:
 		smashing = true
 		neutral = false
 		smash_timer.start()
-	else:
+	elif direction.length() < NeutralZone && prev_direction.length() >= NeutralZone:
 		neutral = true
 	prev_direction = direction
 

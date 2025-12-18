@@ -40,7 +40,8 @@ func handle_player_collision(_player : Player) -> void:
 @rpc("authority", "call_local", "reliable")
 func kick_player(player_path : NodePath, dir : Vector2) -> void:
 	var _player : Player = get_node(player_path)
-	_player.velocity += (power * dir * ball_damage * 1.35) + (power * di_power * input.direction)
+	const power_mult : float = 2
+	_player.velocity += (power * dir * ball_damage * power_mult) + (power * di_power * input.direction)
 	kick_sfx.play()
 	var hit_fx : Node2D = hit_fx_scene.instantiate()
 	hit_fx.global_position = _player.global_position

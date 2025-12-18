@@ -85,6 +85,7 @@ enum State {
 	ATTACK,
 	WALL,
 	DASH,
+	HOMING_DASH,
 	STALL,
 	STALL_KICK
 	}
@@ -209,10 +210,21 @@ func enter_state() -> void:
 			spawn_smoke(Vector2(0,4))
 
 		State.DASH:
+			const dash_time : float = 0.1
 			anim.play("dash")
 			velocity = input.direction * DASH_SPEED
-			await get_tree().create_timer(0.1).timeout
+			await get_tree().create_timer(dash_time).timeout
 			if state != State.DASH: return
+			set_state.rpc(State.AIR)
+
+		State.HOMING_DASH:
+			const dash_time : float = 0.4
+			const initial_dash_mult : float = 0.65
+			anim.play("dash")
+			var dir2ball : float = (Globals.ball.global_position - global_position).angle()
+			velocity = DASH_SPEED * initial_dash_mult * Vector2.from_angle(dir2ball)
+			await get_tree().create_timer(dash_time).timeout
+			if state != State.HOMING_DASH: return
 			set_state.rpc(State.AIR)
 
 		State.JUMP:
@@ -639,6 +651,21 @@ func update_state(delta : float) -> void:
 			if Engine.get_physics_frames() % 3: return
 			spawn_afterimage.rpc()
 
+		State.HOMING_DASH:
+			check_for_attack()
+			const homing_speed : float = 10
+			const steering_strength : float = 8
+			const dash_speed_mult : float = 1.5
+			if not Globals.ball: return
+			var distance2ball : Vector2 = Globals.ball.global_position - global_position
+			var dir2ball : float = (distance2ball).angle()
+			velocity = velocity.lerp(DASH_SPEED * dash_speed_mult * Vector2.from_angle(dir2ball), homing_speed*delta)
+			velocity = velocity.lerp(DASH_SPEED * input.direction, steering_strength*delta)
+			if distance2ball.length() < 12: set_state.rpc(State.AIR)
+			if is_on_floor(): set_state.rpc(State.LANDING)
+			if Engine.get_physics_frames() % 3: return
+			spawn_afterimage.rpc()
+
 		State.STALL:
 			var anim_finished : bool = (anim.current_animation == "")
 			apply_gravity(delta)
@@ -714,7 +741,7 @@ func check_for_jump(is_normal : bool = true) -> bool:
 
 
 func check_for_crouch() -> bool:
-	if input.direction.angle() < PI * 0.75 && input.direction.angle() > PI * 0.25 && input.neutral:
+	if input.direction.angle() < PI * 0.75 && input.direction.angle() > PI * 0.25 && not input.neutral:
 		set_state.rpc(State.CROUCH)
 		return true
 	return false
@@ -745,9 +772,13 @@ func check_for_attack() -> bool:
 
 
 func check_for_dash() -> bool:
-	if input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER) && dashes > 0:
+	if input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER, -1, true) && dashes > 0 && input.neutral == false:
 		dashes -= 1
 		set_state.rpc(State.DASH)
+		return true
+	elif input.is_button_just_pressed(JOY_BUTTON_RIGHT_SHOULDER, -1, true) && dashes > 0 && input.neutral == true && Globals.ball:
+		dashes -= 1
+		set_state.rpc(State.HOMING_DASH)
 		return true
 	return false
 

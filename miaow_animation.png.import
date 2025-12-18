@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8la4u25anjjn"
-path="res://.godot/imported/miaow_logo.png-226c0c82eb84c040b05e95015c8be971.ctex"
+uid="uid://dn5ni27satxeu"
+path="res://.godot/imported/miaow_animation.png-91fec0db00cd0ec81e20af73702cea55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://miaow_logo.png"
-dest_files=["res://.godot/imported/miaow_logo.png-226c0c82eb84c040b05e95015c8be971.ctex"]
+source_file="res://miaow_animation.png"
+dest_files=["res://.godot/imported/miaow_animation.png-91fec0db00cd0ec81e20af73702cea55.ctex"]
 
 [params]
 

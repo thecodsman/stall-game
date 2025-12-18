@@ -17,6 +17,12 @@ var stage : Stage
 var stats : Dictionary[String, float]
 var serving_player : int = 0
 var players_ready : int = 0
+var ball : Ball :
+	get():
+		if camera.ball && not camera.ball.is_queued_for_deletion():
+			return camera.ball
+		else:
+			return null
 
 
 func get_serving_player() -> Player:
