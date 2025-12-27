@@ -1,18 +1,38 @@
-[gd_scene load_steps=59 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=79 format=3 uid="uid://brh0j5uih2n1d"]
 
-[ext_resource type="Script" uid="uid://diphu85ebmxnh" path="res://scripts/player.gd" id="1_7defb"]
+[ext_resource type="Script" uid="uid://bxt6cy68pdn55" path="res://scripts/characters/stall_character.gd" id="1_rh03w"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
 [ext_resource type="PackedScene" uid="uid://ddfslqlgeoypg" path="res://particles/trail_fx.tscn" id="2_yi3w4"]
 [ext_resource type="Script" uid="uid://c5bvosgoqnxv4" path="res://scripts/sprite.gd" id="3_5hghs"]
+[ext_resource type="Script" uid="uid://dqea64wcx8g37" path="res://scripts/components/player_state_machine.gd" id="3_h1fg1"]
+[ext_resource type="Script" uid="uid://eqj4tsk1peib" path="res://scripts/states/stall/idle.gd" id="3_uheho"]
 [ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/ball_hitter.gd" id="3_xc1ee"]
+[ext_resource type="Script" uid="uid://b1xarc5gx601o" path="res://scripts/states/stall/air.gd" id="4_1fg0o"]
 [ext_resource type="AudioStream" uid="uid://dckhqsnsynhwp" path="res://sounds/kick.wav" id="4_pbn0x"]
 [ext_resource type="PackedScene" uid="uid://cg4flosl1w4qt" path="res://stuff/hit_fx.tscn" id="4_wvly4"]
+[ext_resource type="Script" uid="uid://ddid1mlisirg" path="res://scripts/states/stall/crouch.gd" id="5_j6qpu"]
 [ext_resource type="Script" uid="uid://bf2gsw8tyk6a5" path="res://scripts/bonk_box.gd" id="5_pbn0x"]
+[ext_resource type="Script" uid="uid://b5kk0aof20sh3" path="res://scripts/states/stall/jump.gd" id="6_cw3q5"]
 [ext_resource type="AudioStream" uid="uid://cvy7sd2sqxotu" path="res://sounds/dash.wav" id="6_iqidt"]
 [ext_resource type="AudioStream" uid="uid://dojtu42gvjf7c" path="res://sounds/jump.wav" id="7_28f3j"]
+[ext_resource type="Script" uid="uid://b1ec5nyr1rf15" path="res://scripts/states/stall/backflip.gd" id="7_h1fg1"]
 [ext_resource type="AudioStream" uid="uid://b6cx0yte18dbu" path="res://sounds/walk.wav" id="8_b0gpc"]
+[ext_resource type="Script" uid="uid://droan6oj5wels" path="res://scripts/states/stall/wall.gd" id="8_pvedf"]
 [ext_resource type="Script" uid="uid://d2bauq2q5x7ed" path="res://scripts/player_input.gd" id="9_xoaqs"]
+[ext_resource type="Script" uid="uid://mi4k0v3qnumj" path="res://scripts/states/stall/dash.gd" id="10_pyp4g"]
+[ext_resource type="Script" uid="uid://vvat87877580" path="res://scripts/states/stall/homing_dash.gd" id="11_ofi12"]
+[ext_resource type="Script" uid="uid://cc202i261tlgw" path="res://scripts/states/stall/landing.gd" id="12_dkcv3"]
+[ext_resource type="Script" uid="uid://cp2g8p8qgbru4" path="res://scripts/states/stall/walk.gd" id="13_n5mfw"]
 [ext_resource type="PackedScene" uid="uid://dxly1vyrpvnlg" path="res://stuff/water_detector.tscn" id="13_rh03w"]
+[ext_resource type="Script" uid="uid://l0mm4pbq5p8l" path="res://scripts/states/stall/initial_sprint.gd" id="14_j8neq"]
+[ext_resource type="Script" uid="uid://bycncl213s3ie" path="res://scripts/states/stall/run.gd" id="15_fg1bk"]
+[ext_resource type="Script" uid="uid://ca67n8aoeigdo" path="res://scripts/states/stall/turn_around.gd" id="16_ogg5k"]
+[ext_resource type="Script" uid="uid://cf6gg6x8wbjwi" path="res://scripts/states/stall/super_run.gd" id="17_wrohi"]
+[ext_resource type="Script" uid="uid://t5wpgcb7vnyd" path="res://scripts/states/stall/skidding.gd" id="18_qx8pq"]
+[ext_resource type="Script" uid="uid://cq2xwxs0snpbj" path="res://scripts/states/stall/super_slide.gd" id="19_85qgt"]
+[ext_resource type="Script" uid="uid://df8tsff8hlm8i" path="res://scripts/states/stall/attack.gd" id="20_eyxu5"]
+[ext_resource type="Script" uid="uid://dxt71pb74vh5p" path="res://scripts/states/stall/stall.gd" id="21_h1fg1"]
+[ext_resource type="Script" uid="uid://g2sdufx7cu6n" path="res://scripts/states/stall/stall_kick.gd" id="22_pvedf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
@@ -1198,35 +1218,134 @@ properties/9/replication_mode = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_j1eso"]
 radius = 1.0
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "trail", "kick_collider", "kick_box", "jump_sfx")]
 collision_layer = 2
 collision_mask = 13
 platform_on_leave = 2
-script = ExtResource("1_7defb")
-WALK_SPEED = 50.0
-RUN_SPEED = 90.0
-SUPER_RUN_SPEED = 145.0
-DASH_SPEED = 135.0
-SLIDE_SPEED = 80.0
-ACCEL = 10.0
-AIR_ACCEL = 3.5
+script = ExtResource("1_rh03w")
+WALK_SPEED = 45.0
+RUN_SPEED = 70.0
+SUPER_RUN_SPEED = 130.0
+DASH_SPEED = 150.0
+ACCEL = 12.0
+AIR_ACCEL = 2.0
 AIR_FRICTION = 0.1
+AIR_SPEED = 70.0
 BASE_GRAVITY = 550.0
-FRICTION = 15.0
-FAST_FALL_SPEED = 115.0
-WATER_GRAVITY = 100.0
-WATER_SPEED = 80.0
-WATER_GROUND_FRICTION = 8.0
-FULL_JUMP_VELOCITY = -160.0
-SUPER_JUMP_VELOCITY = -200.0
-HYPER_JUMP_VELOCITY = -250.0
-ULTRA_JUMP_VELOCITY = -300.0
-SHORT_HOP_VELOCITY = -130.0
-SUPER_HOP_VELOCITY = -175.0
-HYPER_HOP_VELOCITY = -200.0
-ULTRA_HOP_VELOCITY = -250.0
-SHORT_FLIP_VELOCITY = -130.0
-BACKFLIP_VELOCITY = -175.0
+FRICTION = 10.0
+FAST_FALL_SPEED = 100.0
+FULL_JUMP_VELOCITY = -135.0
+SUPER_JUMP_VELOCITY = -175.0
+HYPER_JUMP_VELOCITY = -225.0
+ULTRA_JUMP_VELOCITY = -275.0
+SHORT_HOP_VELOCITY = -90.0
+SUPER_HOP_VELOCITY = -125.0
+HYPER_HOP_VELOCITY = -165.0
+ULTRA_HOP_VELOCITY = -235.0
+SHORT_FLIP_VELOCITY = -93.0
+BACKFLIP_VELOCITY = -135.0
+input = NodePath("Input")
+anim = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite2D")
+trail = NodePath("trail_fx")
+kick_collider = NodePath("Sprite2D/kick_box/CollisionShape2D")
+kick_box = NodePath("Sprite2D/kick_box")
+jump_sfx = NodePath("jump_sfx")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("9_xoaqs")
+ABuffer = 12
+XBuffer = 12
+RShoulderBuffer = 12
+MaxTimeToSmash = 0.08
+NeutralZone = 0.3
+KeyboardToController = Dictionary[int, int]({
+67: 10,
+86: 1,
+88: 2,
+90: 0
+})
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_h1fg1")
+initial_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://dqea64wcx8g37"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_uheho")
+metadata/_custom_type_script = "uid://c5g5ywuaxqxia"
+
+[node name="Crouch" type="Node" parent="StateMachine"]
+script = ExtResource("5_j6qpu")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("6_cw3q5")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Backflip" type="Node" parent="StateMachine"]
+script = ExtResource("7_h1fg1")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Wall" type="Node" parent="StateMachine"]
+script = ExtResource("8_pvedf")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Air" type="Node" parent="StateMachine"]
+script = ExtResource("4_1fg0o")
+metadata/_custom_type_script = "uid://c5g5ywuaxqxia"
+
+[node name="Dash" type="Node" parent="StateMachine"]
+script = ExtResource("10_pyp4g")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="HomingDash" type="Node" parent="StateMachine"]
+script = ExtResource("11_ofi12")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Landing" type="Node" parent="StateMachine"]
+script = ExtResource("12_dkcv3")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Walk" type="Node" parent="StateMachine"]
+script = ExtResource("13_n5mfw")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="InitialSprint" type="Node" parent="StateMachine"]
+script = ExtResource("14_j8neq")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("15_fg1bk")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="TurnAround" type="Node" parent="StateMachine"]
+script = ExtResource("16_ogg5k")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="SuperRun" type="Node" parent="StateMachine"]
+script = ExtResource("17_wrohi")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Skidding" type="Node" parent="StateMachine"]
+script = ExtResource("18_qx8pq")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="SuperSlide" type="Node" parent="StateMachine"]
+script = ExtResource("19_85qgt")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("20_eyxu5")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="Stall" type="Node" parent="StateMachine"]
+script = ExtResource("21_h1fg1")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
+[node name="StallKick" type="Node" parent="StateMachine"]
+script = ExtResource("22_pvedf")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -1311,20 +1430,6 @@ replication_config = SubResource("SceneReplicationConfig_xoaqs")
 
 [node name="sync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_b0gpc")
-
-[node name="Input" type="Node" parent="."]
-script = ExtResource("9_xoaqs")
-ABuffer = 12
-XBuffer = 12
-RShoulderBuffer = 12
-MaxTimeToSmash = 0.08
-NeutralZone = 0.3
-KeyboardToController = Dictionary[int, int]({
-67: 10,
-86: 1,
-88: 2,
-90: 0
-})
 
 [node name="water_detector" parent="." instance=ExtResource("13_rh03w")]
 
