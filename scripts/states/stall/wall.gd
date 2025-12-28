@@ -8,7 +8,7 @@ func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 	player.jumps = player.MAX_JUMPS - 1
 	player.dashes = 1
 	player.gravity = player.BASE_GRAVITY*0.1
-	if player.get_slide_collision_count() < 1: 
+	if player.get_slide_collision_count() > 0: 
 		player.sprite.scale.x = player.get_last_slide_collision().get_normal().x * -1
 
 
@@ -28,7 +28,7 @@ func physics_update(delta : float) -> void:
 		if state_machine.state != self: return
 		finished.emit("Air")
 	elif !player.is_on_wall_only() && on_wall_prev_frame:
-		player.on_wall_prev_frame = false
+		on_wall_prev_frame = false
 		await get_tree().create_timer(0.075).timeout
 		if state_machine.state != self: return
 		finished.emit("Air")

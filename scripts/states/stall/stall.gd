@@ -15,10 +15,11 @@ func physics_update(delta : float) -> void:
 	if anim_finished && not player.is_ball_stalled: finished.emit("Idle")
 	if not player.ball && player.is_ball_stalled:
 		player.is_ball_stalled = false
+		print_debug("poo")
 		finished.emit("Idle")
 		return
 	if not player.ball: return
-	if (player.is_ball_stalled && not player.ball.state == player.ball.State.STALLED) || (player.is_ball_stalled && player.ball.staller != self):
+	if (player.is_ball_stalled && not player.ball.state == player.ball.State.STALLED) || (player.is_ball_stalled && player.ball.staller != player):
 		finished.emit("Idle")
 		return
 	if not player.is_ball_stalled: return
@@ -28,6 +29,14 @@ func physics_update(delta : float) -> void:
 
 
 func exit() -> void:
+	print("GUH")
 	player.set_collision_mask_value(3, true)
 	player.is_ball_stalled = false
+
+
+func _on_stall_box_body_entered(ball : Ball) -> void:
+	if ball.server != self && ball.server != null: return
+	player.ball = ball
+	if player.ball.stalled || not is_multiplayer_authority(): return
+	player.stall_ball.rpc(player.ball.get_path())
 

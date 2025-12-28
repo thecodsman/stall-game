@@ -114,13 +114,6 @@ func apply_ball_ownership(ball_path : NodePath) -> void:
 	ball.update_color(self_modulate, player_index)
 
 
-func _on_stall_box_body_entered(_ball : Ball) -> void:
-	if _ball.server != self && _ball.server != null: return
-	ball = _ball
-	if ball.stalled || not is_multiplayer_authority(): return
-	stall_ball.rpc(ball.get_path())
-
-
 func _on_hit(obj : Node2D) -> void:
 	if obj is Ball:
 		handle_ball_hit(obj)
@@ -162,7 +155,7 @@ func handle_player_hit(_player : Player) -> void:
 func stall_ball(ball_path : NodePath) -> void:
 	ball = get_node(ball_path)
 	if not ball || ball.stalled: return
-	ball.set_state(ball.State.NORMAL) # makes it so you can put someone into quantum superposition by stalling the ball they are stalling
+	ball.set_state(ball.State.NORMAL) # makes it so you cant put someone into quantum superposition by stalling the ball they are stalling
 	var stall_box_collider : CollisionShape2D = stall_box.get_child(0)
 	stall_box_collider.set_deferred("disabled", true)
 	ball.velocity = Vector2.ZERO

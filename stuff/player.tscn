@@ -1428,6 +1428,6 @@ position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_j1eso")
 
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
-[connection signal="body_entered" from="Sprite2D/stall_box" to="." method="_on_stall_box_body_entered"]
+[connection signal="body_entered" from="Sprite2D/stall_box" to="StateMachine/Stall" method="_on_stall_box_body_entered"]
 [connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
 [connection signal="water_exited" from="water_detector" to="." method="_on_water_detector_water_exited"]

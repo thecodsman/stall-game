@@ -298,7 +298,7 @@ func _update_state(delta : float) -> void:
 			if abs(spin) < abs(spin_entering_roll) * 0.25: set_state(State.NORMAL)
 
 		State.STALLED:
-			if velocity.length() > 2 || not staller: set_state(State.NORMAL)
+			if not staller: set_state(State.NORMAL)
 			scorrable = false
 			global_position = staller.ball_holder.global_position
 			spin = lerpf(spin, 0, 2*delta)

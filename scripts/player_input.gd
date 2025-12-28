@@ -70,6 +70,8 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if Globals.is_online && event is InputEventJoypadButton && event.device != device_index:
+		device_index = event.device
 	if event is InputEventJoypadButton && buttons.has(event.button_index):
 		is_keyboard = false
 		set_action_state(event.button_index)
