@@ -1,5 +1,10 @@
 extends PlayerState
 
+const run_speed_mult : float = 0.6
+var run_dash_timer : Timer = Timer.new()
+
+func _ready() -> void:
+	add_child(run_dash_timer)
 
 func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 	player.anim.play("run_dash")
@@ -35,11 +40,3 @@ func physics_update(delta : float) -> void:
 	player.spawn_smoke(Vector2(0,4))
 	player.velocity.x = sign(player.direction) * player.RUN_SPEED
 
-
-
-func exit() -> void:
-	player.anim.play("run_dash")
-	player.spawn_smoke(Vector2(0,4))
-	player.velocity.x += sign(player.direction) * player.RUN_SPEED * 0.6
-	if sign(player.velocity.x) == 0: return
-	player.sprite.scale.x = sign(player.velocity.x)

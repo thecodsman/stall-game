@@ -57,5 +57,3 @@ var stage_size : Vector2 = Vector2(96,96)
 var process_state : bool = false
 var wall_jump_dir : float = 0
 var dashes : int = 1
-var on_wall_prev_frame : bool = false
-var run_dash_timer : Timer = Timer.new()

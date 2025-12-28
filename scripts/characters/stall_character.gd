@@ -41,6 +41,7 @@ func _enter_tree() -> void:
 	if Globals.is_online:
 		var _id : int = int(name)
 		set_multiplayer_authority(_id)
+		input.set_multiplayer_authority(_id)
 	else:
 		set_multiplayer_authority(1)
 	$server_sync.set_multiplayer_authority(1)
@@ -48,10 +49,9 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	sprite.self_modulate = self_modulate
-	add_child(run_dash_timer)
 	kick_box.hit.connect(_on_hit)
 	input.device_index = controller_index
-	process_state = (get_multiplayer_authority() == multiplayer.get_unique_id())
+	#process_state = (get_multiplayer_authority() == multiplayer.get_unique_id())
 
 
 func _physics_process(_delta: float) -> void:

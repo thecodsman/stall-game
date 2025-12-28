@@ -98,6 +98,7 @@ func set_action_state(button : int) -> void:
 
 
 func is_button_just_pressed(button : JoyButton, buffer_override : int = -1, test_only : bool = false) -> bool: ## set `buffer_override` to -1 to use default buffer for `button`, set test_only to true to not deactivate buffer if successful
+	if not is_multiplayer_authority(): return false
 	var buffer : int
 	set_action_state(button)
 	if buffer_override > -1: buffer = buffer_override

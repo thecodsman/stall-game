@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene load_steps=77 format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://bxt6cy68pdn55" path="res://scripts/characters/stall_character.gd" id="1_rh03w"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
@@ -11,7 +11,6 @@
 [ext_resource type="AudioStream" uid="uid://dckhqsnsynhwp" path="res://sounds/kick.wav" id="4_pbn0x"]
 [ext_resource type="PackedScene" uid="uid://cg4flosl1w4qt" path="res://stuff/hit_fx.tscn" id="4_wvly4"]
 [ext_resource type="Script" uid="uid://ddid1mlisirg" path="res://scripts/states/stall/crouch.gd" id="5_j6qpu"]
-[ext_resource type="Script" uid="uid://bf2gsw8tyk6a5" path="res://scripts/bonk_box.gd" id="5_pbn0x"]
 [ext_resource type="Script" uid="uid://b5kk0aof20sh3" path="res://scripts/states/stall/jump.gd" id="6_cw3q5"]
 [ext_resource type="AudioStream" uid="uid://cvy7sd2sqxotu" path="res://sounds/dash.wav" id="6_iqidt"]
 [ext_resource type="AudioStream" uid="uid://dojtu42gvjf7c" path="res://sounds/jump.wav" id="7_28f3j"]
@@ -52,9 +51,6 @@ playback_mode = 1
 random_pitch = 1.2
 streams_count = 1
 stream_0/stream = ExtResource("4_pbn0x")
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_pbn0x"]
-radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b0gpc"]
 radius = 6.0
@@ -1192,7 +1188,7 @@ properties/1/spawn = true
 properties/1/replication_mode = 0
 properties/2/path = NodePath("Sprite2D:scale")
 properties/2/spawn = true
-properties/2/replication_mode = 2
+properties/2/replication_mode = 1
 properties/3/path = NodePath("Sprite2D:rotation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
@@ -1214,6 +1210,12 @@ properties/8/replication_mode = 1
 properties/9/path = NodePath("AnimationPlayer:current_animation")
 properties/9/spawn = true
 properties/9/replication_mode = 2
+properties/10/path = NodePath("Sprite2D/kick_box/CollisionShape2D:disabled")
+properties/10/spawn = true
+properties/10/replication_mode = 2
+properties/11/path = NodePath("Sprite2D/stall_box/CollisionShape2D:disabled")
+properties/11/spawn = true
+properties/11/replication_mode = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j1eso"]
 radius = 1.0
@@ -1386,18 +1388,6 @@ disabled = true
 [node name="kick_sfx" type="AudioStreamPlayer" parent="Sprite2D/kick_box"]
 stream = SubResource("AudioStreamRandomizer_tnfj0")
 
-[node name="bonk_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("player")]
-visible = false
-position = Vector2(1, -2)
-collision_layer = 512
-collision_mask = 4
-monitoring = false
-script = ExtResource("5_pbn0x")
-player = NodePath("../..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/bonk_box"]
-shape = SubResource("CircleShape2D_pbn0x")
-
 [node name="stall_box" type="Area2D" parent="Sprite2D"]
 visible = false
 collision_layer = 0
@@ -1438,8 +1428,6 @@ position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_j1eso")
 
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
-[connection signal="area_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_area_entered"]
-[connection signal="body_entered" from="Sprite2D/bonk_box" to="Sprite2D/bonk_box" method="_on_body_entered"]
 [connection signal="body_entered" from="Sprite2D/stall_box" to="." method="_on_stall_box_body_entered"]
 [connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
 [connection signal="water_exited" from="water_detector" to="." method="_on_water_detector_water_exited"]
