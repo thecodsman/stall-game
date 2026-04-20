@@ -8,6 +8,10 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="stall"
@@ -15,10 +19,10 @@ config/description="stall the ball"
 config/version="0.10.2"
 config/tags=PackedStringArray("2d", "platformer", "real", "small")
 run/main_scene="uid://7bleqbsja6fe"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
 boot_splash/use_filter=false
 boot_splash/image="uid://b8la4u25anjjn"
 config/icon="res://artwork/icon.png"

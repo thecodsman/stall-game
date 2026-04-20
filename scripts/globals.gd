@@ -19,7 +19,9 @@ var serving_player : int = 0
 var players_ready : int = 0
 var ball : Ball :
 	get():
-		if camera.ball && not camera.ball.is_queued_for_deletion():
+		if not camera:
+			return null
+		elif camera.ball && not camera.ball.is_queued_for_deletion():
 			return camera.ball
 		else:
 			return null
