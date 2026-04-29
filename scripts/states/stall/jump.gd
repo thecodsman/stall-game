@@ -1,5 +1,8 @@
 extends PlayerState
 
+@export var max_jump_angle : float = 45 :
+	get(): return deg_to_rad(max_jump_angle)
+
 
 func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 	player.anim.play("jump")
@@ -23,28 +26,32 @@ func physics_update(delta : float) -> void:
 		player.Jump.ULTRA:
 			hop_velocity = player.ULTRA_HOP_VELOCITY
 			jump_velocity = player.ULTRA_JUMP_VELOCITY
-	var dir : Vector2 = player.input.direction * Vector2(player.sprite.scale.x, 1)
+	# var dir : Vector2 = player.input.direction * Vector2(player.sprite.scale.x, 1)
 	if not is_jump_pressed && player.jumps > 0 && player.anim.current_animation == "jump":
-		if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
-			player.anim.play("backflip")
-			player.velocity.y = player.SHORT_FLIP_VELOCITY
-			player.jumps -= 1
-			finished.emit("Air")
-			return
+		# if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
+		# 	player.anim.play("backflip")
+		# 	player.velocity.y = player.SHORT_FLIP_VELOCITY
+		# 	player.jumps -= 1
+		# 	finished.emit("Air")
+		# 	return
 		player.velocity.y = hop_velocity
-		if player.jump != player.Jump.NORMAL: player.velocity.x += hop_velocity * -player.sprite.scale.x * 0.5
+		if player.jump != player.Jump.NORMAL:
+			player.velocity.x += hop_velocity * -player.sprite.scale.x * 0.5
 		player.anim.play("rise")
 		player.jumps -= 1
 		player.jump_sfx.play()
 		finished.emit("Air")
 	elif player.anim.current_animation == "" && player.jumps > 0:
-		if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
-			player.anim.play("backflip")
-			player.velocity.y = player.BACKFLIP_VELOCITY
-			player.jumps -= 1
-			finished.emit("Air")
-			return
-		player.velocity.y = jump_velocity
+		# if dir.length() > 0.9 && abs(angle_difference(dir.angle(), PI)) < PI/8:
+		# 	player.anim.play("backflip")
+		# 	player.velocity.y = player.BACKFLIP_VELOCITY
+		# 	player.jumps -= 1
+		# 	finished.emit("Air")
+		# 	return
+		var final_jump_vel : Vector2 = Vector2(0, jump_velocity)
+		final_jump_vel = final_jump_vel.rotated(max_jump_angle * player.input.direction.x)
+		player.velocity = final_jump_vel
+		#player.velocity.y = jump_velocity
 		player.anim.play("rise")
 		player.jump_sfx.play()
 		player.jumps -= 1

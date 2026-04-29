@@ -1,10 +1,11 @@
-[gd_scene load_steps=77 format=3 uid="uid://brh0j5uih2n1d"]
+[gd_scene format=3 uid="uid://brh0j5uih2n1d"]
 
 [ext_resource type="Script" uid="uid://bxt6cy68pdn55" path="res://scripts/characters/stall_character.gd" id="1_rh03w"]
 [ext_resource type="Texture2D" uid="uid://coj1vkf5monsp" path="res://sprites/player.png" id="2_4ira2"]
 [ext_resource type="PackedScene" uid="uid://ddfslqlgeoypg" path="res://particles/trail_fx.tscn" id="2_yi3w4"]
 [ext_resource type="Script" uid="uid://c5bvosgoqnxv4" path="res://scripts/sprite.gd" id="3_5hghs"]
 [ext_resource type="Script" uid="uid://dqea64wcx8g37" path="res://scripts/components/player_state_machine.gd" id="3_h1fg1"]
+[ext_resource type="Script" uid="uid://b5mw4udhfihtj" path="res://stuff/debug/label.gd" id="3_pvedf"]
 [ext_resource type="Script" uid="uid://eqj4tsk1peib" path="res://scripts/states/stall/idle.gd" id="3_uheho"]
 [ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/ball_hitter.gd" id="3_xc1ee"]
 [ext_resource type="Script" uid="uid://b1xarc5gx601o" path="res://scripts/states/stall/air.gd" id="4_1fg0o"]
@@ -32,11 +33,12 @@
 [ext_resource type="Script" uid="uid://df8tsff8hlm8i" path="res://scripts/states/stall/attack.gd" id="20_eyxu5"]
 [ext_resource type="Script" uid="uid://dxt71pb74vh5p" path="res://scripts/states/stall/stall.gd" id="21_h1fg1"]
 [ext_resource type="Script" uid="uid://g2sdufx7cu6n" path="res://scripts/states/stall/stall_kick.gd" id="22_pvedf"]
+[ext_resource type="FontFile" uid="uid://dq3ivvjy1lslp" path="res://font/miaow default.ttf" id="33_h1fg1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
 
-[sub_resource type="Gradient" id="Gradient_yi3w4"]
+[sub_resource type="Gradient" id="Gradient_pvedf"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -768,7 +770,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_1fg0o"]
 resource_name = "run_dash"
-length = 0.200007
+length = 0.4
 step = 0.0666667
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -777,7 +779,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333),
+"times": PackedFloat32Array(0, 0.19999999, 0.33333334),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [54, 55, 56]
@@ -957,8 +959,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_uheho"]
 resource_name = "turn_around"
-length = 0.13334
-step = 0.0666667
+length = 0.100005
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -966,7 +968,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667),
+"times": PackedFloat32Array(0, 0.05),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [14, 15]
@@ -1220,20 +1222,20 @@ properties/11/replication_mode = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_j1eso"]
 radius = 1.0
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "trail", "kick_collider", "kick_box", "jump_sfx")]
+[node name="player" type="CharacterBody2D" unique_id=1489954870 node_paths=PackedStringArray("input", "anim", "sprite", "trail", "kick_collider", "kick_box", "jump_sfx")]
 collision_layer = 2
 collision_mask = 13
 platform_on_leave = 2
 script = ExtResource("1_rh03w")
-WALK_SPEED = 45.0
-RUN_SPEED = 70.0
+WALK_SPEED = 50.0
+RUN_SPEED = 80.0
 SUPER_RUN_SPEED = 130.0
-DASH_SPEED = 150.0
+DASH_SPEED = 130.0
 ACCEL = 12.0
 AIR_ACCEL = 2.0
 AIR_FRICTION = 0.1
 AIR_SPEED = 70.0
-BASE_GRAVITY = 550.0
+BASE_GRAVITY = 465.0
 FRICTION = 10.0
 FAST_FALL_SPEED = 100.0
 FULL_JUMP_VELOCITY = -135.0
@@ -1254,7 +1256,21 @@ kick_collider = NodePath("Sprite2D/kick_box/CollisionShape2D")
 kick_box = NodePath("Sprite2D/kick_box")
 jump_sfx = NodePath("jump_sfx")
 
-[node name="Input" type="Node" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1499314704 node_paths=PackedStringArray("state_machine")]
+visible = false
+offset_left = -39.0
+offset_top = -15.0
+offset_right = 39.0
+offset_bottom = -6.0
+theme_override_fonts/font = ExtResource("33_h1fg1")
+theme_override_font_sizes/font_size = 8
+text = "state"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_pvedf")
+state_machine = NodePath("../StateMachine")
+
+[node name="Input" type="Node" parent="." unique_id=1796739218]
 script = ExtResource("9_xoaqs")
 ABuffer = 12
 XBuffer = 12
@@ -1268,108 +1284,110 @@ KeyboardToController = Dictionary[int, int]({
 90: 0
 })
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1011277442 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_h1fg1")
 initial_state = NodePath("Idle")
 metadata/_custom_type_script = "uid://dqea64wcx8g37"
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1343327746]
 script = ExtResource("3_uheho")
 metadata/_custom_type_script = "uid://c5g5ywuaxqxia"
 
-[node name="Crouch" type="Node" parent="StateMachine"]
+[node name="Crouch" type="Node" parent="StateMachine" unique_id=398024005]
 script = ExtResource("5_j6qpu")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Jump" type="Node" parent="StateMachine"]
+[node name="Jump" type="Node" parent="StateMachine" unique_id=1869937159]
 script = ExtResource("6_cw3q5")
+max_jump_angle = 30.0
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Backflip" type="Node" parent="StateMachine"]
+[node name="Backflip" type="Node" parent="StateMachine" unique_id=1569283061]
 script = ExtResource("7_h1fg1")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Wall" type="Node" parent="StateMachine"]
+[node name="Wall" type="Node" parent="StateMachine" unique_id=1320119687]
 script = ExtResource("8_pvedf")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Air" type="Node" parent="StateMachine"]
+[node name="Air" type="Node" parent="StateMachine" unique_id=320035472]
 script = ExtResource("4_1fg0o")
 metadata/_custom_type_script = "uid://c5g5ywuaxqxia"
 
-[node name="Dash" type="Node" parent="StateMachine"]
+[node name="Dash" type="Node" parent="StateMachine" unique_id=1847826418]
 script = ExtResource("10_pyp4g")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="HomingDash" type="Node" parent="StateMachine"]
+[node name="HomingDash" type="Node" parent="StateMachine" unique_id=449758628]
 script = ExtResource("11_ofi12")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Landing" type="Node" parent="StateMachine"]
+[node name="Landing" type="Node" parent="StateMachine" unique_id=174123928]
 script = ExtResource("12_dkcv3")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Walk" type="Node" parent="StateMachine"]
+[node name="Walk" type="Node" parent="StateMachine" unique_id=2081149959]
 script = ExtResource("13_n5mfw")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="InitialSprint" type="Node" parent="StateMachine"]
+[node name="InitialSprint" type="Node" parent="StateMachine" unique_id=505694268]
 script = ExtResource("14_j8neq")
+run_speed_mult = 0.9
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Run" type="Node" parent="StateMachine"]
+[node name="Run" type="Node" parent="StateMachine" unique_id=2010119442]
 script = ExtResource("15_fg1bk")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="TurnAround" type="Node" parent="StateMachine"]
+[node name="TurnAround" type="Node" parent="StateMachine" unique_id=1211061490]
 script = ExtResource("16_ogg5k")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="SuperRun" type="Node" parent="StateMachine"]
+[node name="SuperRun" type="Node" parent="StateMachine" unique_id=106985147]
 script = ExtResource("17_wrohi")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Skidding" type="Node" parent="StateMachine"]
+[node name="Skidding" type="Node" parent="StateMachine" unique_id=578809599]
 script = ExtResource("18_qx8pq")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="SuperSlide" type="Node" parent="StateMachine"]
+[node name="SuperSlide" type="Node" parent="StateMachine" unique_id=1108188152]
 script = ExtResource("19_85qgt")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Attack" type="Node" parent="StateMachine"]
+[node name="Attack" type="Node" parent="StateMachine" unique_id=173677662]
 script = ExtResource("20_eyxu5")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="Stall" type="Node" parent="StateMachine"]
+[node name="Stall" type="Node" parent="StateMachine" unique_id=249893201]
 script = ExtResource("21_h1fg1")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="StallKick" type="Node" parent="StateMachine"]
+[node name="StallKick" type="Node" parent="StateMachine" unique_id=273105267]
 script = ExtResource("22_pvedf")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335067069]
 visible = false
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_7defb")
 
-[node name="trail_fx" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
+[node name="trail_fx" parent="." unique_id=1543670750 node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
 z_index = -1
-gradient = SubResource("Gradient_yi3w4")
+gradient = SubResource("Gradient_pvedf")
 target = NodePath("..")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=207018791]
 material = SubResource("ShaderMaterial_pbn0x")
 texture = ExtResource("2_4ira2")
 hframes = 101
 region_rect = Rect2(0, 0, 372, 12)
 script = ExtResource("3_5hghs")
 
-[node name="ball_holder" type="Node2D" parent="Sprite2D"]
+[node name="ball_holder" type="Node2D" parent="Sprite2D" unique_id=849700751]
 position = Vector2(5, 0)
 
-[node name="kick_box" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("input", "player")]
+[node name="kick_box" type="Area2D" parent="Sprite2D" unique_id=144707842 node_paths=PackedStringArray("input", "player")]
 visible = false
 position = Vector2(2, 0)
 collision_layer = 256
@@ -1381,49 +1399,47 @@ direction = Vector2(0.9, 0.1)
 power = 60.0
 hit_fx_scene = ExtResource("4_wvly4")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box" unique_id=1257386779]
 shape = SubResource("CircleShape2D_tnfj0")
 disabled = true
 
-[node name="kick_sfx" type="AudioStreamPlayer" parent="Sprite2D/kick_box"]
+[node name="kick_sfx" type="AudioStreamPlayer" parent="Sprite2D/kick_box" unique_id=75147931]
 stream = SubResource("AudioStreamRandomizer_tnfj0")
 
-[node name="stall_box" type="Area2D" parent="Sprite2D"]
+[node name="stall_box" type="Area2D" parent="Sprite2D" unique_id=871966774]
 visible = false
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/stall_box"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/stall_box" unique_id=1910478834]
 shape = SubResource("CircleShape2D_b0gpc")
 disabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_xc1ee")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=749086189]
+libraries/ = SubResource("AnimationLibrary_xc1ee")
 
-[node name="dash_sfx" type="AudioStreamPlayer" parent="."]
+[node name="dash_sfx" type="AudioStreamPlayer" parent="." unique_id=2130945778]
 stream = SubResource("AudioStreamRandomizer_28f3j")
 bus = &"SFX"
 
-[node name="jump_sfx" type="AudioStreamPlayer" parent="."]
+[node name="jump_sfx" type="AudioStreamPlayer" parent="." unique_id=1435099203]
 stream = SubResource("AudioStreamRandomizer_b0gpc")
 bus = &"SFX"
 
-[node name="walk_sfx" type="AudioStreamPlayer" parent="."]
+[node name="walk_sfx" type="AudioStreamPlayer" parent="." unique_id=517929008]
 stream = SubResource("AudioStreamRandomizer_xoaqs")
 volume_db = -7.19
 bus = &"SFX"
 
-[node name="server_sync" type="MultiplayerSynchronizer" parent="."]
+[node name="server_sync" type="MultiplayerSynchronizer" parent="." unique_id=29485065]
 replication_config = SubResource("SceneReplicationConfig_xoaqs")
 
-[node name="sync" type="MultiplayerSynchronizer" parent="."]
+[node name="sync" type="MultiplayerSynchronizer" parent="." unique_id=1992928063]
 replication_config = SubResource("SceneReplicationConfig_b0gpc")
 
-[node name="water_detector" parent="." instance=ExtResource("13_rh03w")]
+[node name="water_detector" parent="." unique_id=708268714 instance=ExtResource("13_rh03w")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="water_detector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="water_detector" unique_id=61883729]
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_j1eso")
 
