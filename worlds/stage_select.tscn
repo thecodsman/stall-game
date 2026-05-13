@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://0v71744dqy0u"]
+[gd_scene format=3 uid="uid://0v71744dqy0u"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="2_hwrfj"]
 [ext_resource type="Texture2D" uid="uid://dketcj1lh72pj" path="res://sprites/background2.png" id="3_1dnoh"]
@@ -115,7 +115,7 @@ pressed = true
 [sub_resource type="Shortcut" id="Shortcut_y8sy2"]
 events = [SubResource("InputEventJoypadButton_6v0ux")]
 
-[node name="stage_select" type="Control"]
+[node name="stage_select" type="Control" unique_id=1155223309]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,65 +123,78 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=215382015]
 layer = -1
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=1803606368]
 z_index = -1
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.741176, 0.0627451, 0.321569, 1)
 metadata/_edit_lock_ = true
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer" unique_id=554221720]
 visible = false
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_klc2m")
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1dnoh")
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1975953758]
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_fb03m")
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("4_n0kpk")
 stretch_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1438750520]
 modulate = Color(1, 1, 1, 0.345098)
 z_index = -1
-offset_left = -7.0
+offset_left = 1.0
 offset_top = 28.0
-offset_right = 20.0
+offset_right = 22.792734
 offset_bottom = 32.0
 scale = Vector2(4.08393, 3.43716)
+size_flags_horizontal = 4
 color = Color(0, 0, 0, 1)
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=874414546]
 material = SubResource("ShaderMaterial_h55md")
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 96.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="game" type="SubViewport" parent="SubViewportContainer"]
+[node name="game" type="SubViewport" parent="SubViewportContainer" unique_id=1837541659]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(96, 96)
+size = Vector2i(90, 90)
 render_target_update_mode = 4
 
-[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game" unique_id=1476772473]
 offset_right = 96.0
 offset_bottom = 96.0
 color = Color(0, 1, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/game"]
+[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/game" unique_id=532651076]
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.388
@@ -202,7 +215,7 @@ autowrap_mode = 0
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Control" type="Control" parent="SubViewportContainer/game"]
+[node name="Control" type="Control" parent="SubViewportContainer/game" unique_id=490142361]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -212,12 +225,16 @@ grow_vertical = 2
 script = ExtResource("8_y8sy2")
 stages = Array[String](["uid://wgaroelgg0e7", "uid://b342bi6qybkak", "uid://dk63esv5x4rpx", "uid://b47uyyvrihodn", "uid://ipucrvo5i3kh", "uid://4t5xolkq2k6t"])
 
-[node name="stage_title" type="RichTextLabel" parent="SubViewportContainer/game/Control"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 27.0
-offset_right = 95.0
-offset_bottom = 46.0
+[node name="stage_title" type="RichTextLabel" parent="SubViewportContainer/game/Control" unique_id=1779675764]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -17.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("6_1dnoh")
 theme_override_font_sizes/normal_font_size = 8
 theme_override_font_sizes/bold_font_size = 8
@@ -230,7 +247,7 @@ tab_size = 7
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Carousel" type="Control" parent="SubViewportContainer/game/Control"]
+[node name="Carousel" type="Control" parent="SubViewportContainer/game/Control" unique_id=551836284]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,10 +255,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="SubViewportContainer/game/Control"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="SubViewportContainer/game/Control" unique_id=54308442]
 replication_config = SubResource("SceneReplicationConfig_6v0ux")
 
-[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game" unique_id=233027153]
 z_index = 4096
 material = SubResource("ShaderMaterial_vb66d")
 anchors_preset = 15
@@ -252,11 +269,12 @@ grow_vertical = 2
 color = Color(0, 1, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="back" type="Button" parent="."]
+[node name="back" type="Button" parent="." unique_id=1497513012]
 layout_mode = 0
-offset_top = 81.0
-offset_right = 12.0
-offset_bottom = 94.0
+offset_left = 1.0
+offset_top = 75.0
+offset_right = 13.0
+offset_bottom = 88.0
 focus_neighbor_left = NodePath("../Tabs/IP")
 focus_neighbor_right = NodePath("../Tabs/Steam")
 focus_next = NodePath("../Tabs/Steam")

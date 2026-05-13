@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b50ix7x5w7txc"]
+[gd_scene format=3 uid="uid://b50ix7x5w7txc"]
 
 [ext_resource type="Script" uid="uid://8j488tv0n520" path="res://scripts/local_menu.gd" id="1_0qupg"]
 [ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="1_kf885"]
@@ -21,38 +21,6 @@ shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykx88"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.352941, 0.333333, 0.290196, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 1.0
-expand_margin_right = 1.0
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1getb"]
-resource_local_to_scene = true
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.352941, 0.333333, 0.290196, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 1.0
-expand_margin_right = 1.0
-anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dj8j2"]
 resource_local_to_scene = true
@@ -98,6 +66,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_345m4"]
@@ -112,9 +82,39 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_right = 1.0
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6nnw6"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2osu"]
+resource_local_to_scene = true
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.333333, 0.290196, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lb1s"]
 resource_local_to_scene = true
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 1
@@ -142,7 +142,7 @@ pressed = true
 [sub_resource type="Shortcut" id="Shortcut_xv4p8"]
 events = [SubResource("InputEventJoypadButton_0qupg")]
 
-[node name="local_menu" type="Control" node_paths=PackedStringArray("player_boxes", "character_select")]
+[node name="local_menu" type="Control" unique_id=2076026708 node_paths=PackedStringArray("player_boxes", "character_select")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -153,19 +153,22 @@ script = ExtResource("1_0qupg")
 player_boxes = NodePath("SubViewportContainer/game/players")
 character_select = NodePath("SubViewportContainer/game/character_select")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=954761944]
 material = SubResource("ShaderMaterial_68vbw")
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 96.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="game" type="SubViewport" parent="SubViewportContainer"]
+[node name="game" type="SubViewport" parent="SubViewportContainer" unique_id=734850773]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(96, 96)
+size = Vector2i(90, 90)
 render_target_update_mode = 4
 
-[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game" unique_id=224417822]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -173,7 +176,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
-[node name="players" type="HBoxContainer" parent="SubViewportContainer/game"]
+[node name="players" type="HBoxContainer" parent="SubViewportContainer/game" unique_id=239199116]
 layout_direction = 2
 anchors_preset = 10
 anchor_right = 1.0
@@ -184,25 +187,25 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="player_box" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ykx88")
-
-[node name="player_box2" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1getb")
-
-[node name="player_box3" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
-visible = false
+[node name="player_box" parent="SubViewportContainer/game/players" unique_id=14264858 instance=ExtResource("3_ykx88")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dj8j2")
 
-[node name="player_box4" parent="SubViewportContainer/game/players" instance=ExtResource("3_ykx88")]
-visible = false
+[node name="player_box2" parent="SubViewportContainer/game/players" unique_id=396189793 instance=ExtResource("3_ykx88")]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3jgqp")
 
-[node name="character_select" type="GridContainer" parent="SubViewportContainer/game"]
+[node name="player_box3" parent="SubViewportContainer/game/players" unique_id=1359863895 instance=ExtResource("3_ykx88")]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_y3b7y")
+
+[node name="player_box4" parent="SubViewportContainer/game/players" unique_id=329243414 instance=ExtResource("3_ykx88")]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_345m4")
+
+[node name="character_select" type="GridContainer" parent="SubViewportContainer/game" unique_id=42217748]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -216,34 +219,34 @@ grow_vertical = 2
 columns = 3
 script = ExtResource("4_1getb")
 
-[node name="stall" parent="SubViewportContainer/game/character_select" instance=ExtResource("4_m2h76")]
+[node name="stall" parent="SubViewportContainer/game/character_select" unique_id=593003122 instance=ExtResource("4_m2h76")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../drawl")
 focus_neighbor_right = NodePath("../crawl")
-theme_override_styles/panel = SubResource("StyleBoxFlat_y3b7y")
+theme_override_styles/panel = SubResource("StyleBoxFlat_6nnw6")
 icon = ExtResource("5_ykx88")
 icon_offset = Vector2(0, -1)
 portrait = ExtResource("6_1getb")
 
-[node name="crawl" parent="SubViewportContainer/game/character_select" instance=ExtResource("4_m2h76")]
+[node name="crawl" parent="SubViewportContainer/game/character_select" unique_id=1628472126 instance=ExtResource("4_m2h76")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../stall")
 focus_neighbor_right = NodePath("../drawl")
-theme_override_styles/panel = SubResource("StyleBoxFlat_345m4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_l2osu")
 icon = ExtResource("7_dj8j2")
 locked = true
 portrait = ExtResource("9_dj8j2")
 
-[node name="drawl" parent="SubViewportContainer/game/character_select" instance=ExtResource("4_m2h76")]
+[node name="drawl" parent="SubViewportContainer/game/character_select" unique_id=2038648646 instance=ExtResource("4_m2h76")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../crawl")
 focus_neighbor_right = NodePath("../stall")
-theme_override_styles/panel = SubResource("StyleBoxFlat_6nnw6")
+theme_override_styles/panel = SubResource("StyleBoxFlat_1lb1s")
 icon = ExtResource("8_3jgqp")
 locked = true
 portrait = ExtResource("9_dj8j2")
 
-[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game" unique_id=486799446]
 z_index = 20
 material = SubResource("ShaderMaterial_hmccv")
 anchors_preset = 15
@@ -253,26 +256,26 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
-[node name="local_bg" parent="." instance=ExtResource("1_oheku")]
+[node name="local_bg" parent="." unique_id=826122779 instance=ExtResource("1_oheku")]
 
-[node name="start" type="Button" parent="."]
+[node name="start" type="Button" parent="." unique_id=196716074]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 76.0
-offset_right = 71.0
-offset_bottom = 92.0
+offset_left = 22.0
+offset_top = 64.0
+offset_right = 69.0
+offset_bottom = 80.0
 theme = ExtResource("5_kf885")
 disabled = true
 shortcut = SubResource("Shortcut_xv4p8")
 shortcut_in_tooltip = false
 text = "start"
 
-[node name="back" type="Button" parent="."]
+[node name="back" type="Button" parent="." unique_id=604011954]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 82.0
-offset_right = 13.0
-offset_bottom = 94.0
+offset_left = 2.0
+offset_top = 76.0
+offset_right = 14.0
+offset_bottom = 88.0
 theme = ExtResource("5_kf885")
 icon = ExtResource("7_xv4p8")
 icon_alignment = 1

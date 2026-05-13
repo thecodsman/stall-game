@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dga37kf5dchc3"]
+[gd_scene format=3 uid="uid://dga37kf5dchc3"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_uiokb"]
 [ext_resource type="Texture2D" uid="uid://be5wtgkkitxgh" path="res://sprites/background4.png" id="2_1mk1r"]
@@ -42,21 +42,34 @@ shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
 shader_parameter/palette = SubResource("GradientTexture1D_7571w")
 
-[node name="online_bg" type="CanvasLayer"]
+[node name="online_bg" type="CanvasLayer" unique_id=1200956765]
 layer = -1
 
-[node name="blue_bg" type="ColorRect" parent="."]
+[node name="blue_bg" type="ColorRect" parent="." unique_id=515436939]
 z_index = -1
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.741176, 0.0627451, 0.321569, 1)
 metadata/_edit_lock_ = true
 
-[node name="moving_bg" type="TextureRect" parent="."]
+[node name="moving_bg" type="TextureRect" parent="." unique_id=1994088327]
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_7571w")
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = -1
+anchor_left = -0.033333335
+anchor_top = -0.033333335
+anchor_right = 1.0333333
+anchor_bottom = 1.0333333
+offset_left = 3.0000002
+offset_top = 3.0000002
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_1mk1r")
 metadata/_edit_lock_ = true
+metadata/_edit_use_anchors_ = true

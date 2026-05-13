@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://4t5xolkq2k6t"]
+[gd_scene format=4 uid="uid://4t5xolkq2k6t"]
 
 [ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_f8vux"]
 [ext_resource type="Texture2D" uid="uid://cvhupd2lymate" path="res://sprites/stage_select_icons/watah.png" id="2_5srl3"]
@@ -346,46 +346,46 @@ metadata/_better_terrain = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x4anr"]
 size = Vector2(37, 37)
 
-[node name="stage" type="Node2D"]
+[node name="stage" type="Node2D" unique_id=787620766]
 script = ExtResource("1_f8vux")
 thumb_nail = ExtResource("2_5srl3")
 stage_name = "watah!"
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=763167403]
 position = Vector2(48, 48)
-limit_left = 0
-limit_top = 0
-limit_right = 96
-limit_bottom = 96
+limit_left = 3
+limit_top = 3
+limit_right = 93
+limit_bottom = 93
 editor_draw_limits = true
 script = ExtResource("2_vrwy1")
 
-[node name="p1_spawn" type="Node2D" parent="."]
+[node name="p1_spawn" type="Node2D" parent="." unique_id=1836019964]
 position = Vector2(12, 83)
 
-[node name="p2_spawn" type="Node2D" parent="."]
+[node name="p2_spawn" type="Node2D" parent="." unique_id=1279188043]
 position = Vector2(84, 83)
 
-[node name="p3_spawn" type="Node2D" parent="."]
+[node name="p3_spawn" type="Node2D" parent="." unique_id=1582075069]
 position = Vector2(21, 83)
 
-[node name="p4_spawn" type="Node2D" parent="."]
+[node name="p4_spawn" type="Node2D" parent="." unique_id=735274318]
 position = Vector2(75, 83)
 
-[node name="ball_spawn" type="Node2D" parent="."]
+[node name="ball_spawn" type="Node2D" parent="." unique_id=700672707]
 position = Vector2(49, 81)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=222142345]
 layer = -1
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=1533215810]
 z_index = -1
 offset_right = 96.0
 offset_bottom = 96.0
 color = Color(1, 0.427451, 0.12549, 1)
 metadata/_edit_lock_ = true
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer"]
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer" unique_id=1124315721]
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_vbh3f")
@@ -395,7 +395,7 @@ texture = ExtResource("3_f8vux")
 stretch_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1747316828]
 modulate = Color(1, 1, 1, 0.345098)
 z_index = -1
 offset_left = -8.0
@@ -405,19 +405,19 @@ offset_bottom = 24.0
 scale = Vector2(4.08393, 3.43716)
 metadata/_edit_lock_ = true
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1950701360]
 material = SubResource("ShaderMaterial_okiaf")
 offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
-[node name="game" type="SubViewport" parent="SubViewportContainer"]
+[node name="game" type="SubViewport" parent="SubViewportContainer" unique_id=1947687491]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(96, 96)
 render_target_update_mode = 4
 
-[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="green_screen" type="ColorRect" parent="SubViewportContainer/game" unique_id=1240036015]
 z_index = -5
 offset_left = -8.0
 offset_top = -8.0
@@ -425,7 +425,7 @@ offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="shadow_renderer" type="ColorRect" parent="SubViewportContainer/game" unique_id=1597909605]
 z_index = 20
 material = SubResource("ShaderMaterial_fg3hj")
 offset_left = -8.0
@@ -434,29 +434,29 @@ offset_right = 104.0
 offset_bottom = 103.0
 color = Color(0, 1, 0, 1)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game"]
+[node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/game" unique_id=1114440314]
 tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAAAAAACAP//AQABAAAAAAADAP//AQABAAAAAAAEAP//AQABAAAAAAAFAP//AQABAAAAAAAGAP//AQABAAAAAAAHAP//AQABAAAAAAAIAP//AQABAAAAAAAJAP//AQABAAAAAAD//wsAAQAAAAEAAAD//woAAQAAAAEAAAD//wgAAQAAAAEAAAD//wcAAQAAAAEAAAD//wYAAQAAAAEAAAD//wUAAQAAAAEAAAD//wQAAQAAAAEAAAD//wMAAQAAAAEAAAD//wIAAQAAAAEAAAD//wEAAQAAAAEAAAD//wAAAQAAAAEAAAAQAP//AQABAAAAAAARAP//AQABAAAAAAASAP//AQABAAAAAAATAP//AQABAAAAAAAUAP//AQABAAAAAAAVAP//AQABAAAAAAAWAP//AQABAAAAAAAXAP//AQABAAAAAAAKAP//AQABAAAAAAANAP//AQABAAAAAAAOAP//AQABAAAAAAAPAP//AQABAAAAAAAYAP//AQACAAAAAAAYAAAAAQACAAEAAAAYAAEAAQACAAEAAAAYAAIAAQACAAEAAAAYAAMAAQACAAEAAAAYAAQAAQACAAEAAAAYABgAAQACAAIAAAAYAAUAAQACAAEAAAAYAAYAAQACAAEAAAAYAAcAAQACAAEAAAAYAAgAAQACAAEAAAAYAAkAAQACAAEAAAAYAAoAAQACAAEAAAAYAAsAAQACAAEAAAAYAAwAAQACAAEAAAAYAA0AAQACAAEAAAAYAA4AAQACAAEAAAAYAA8AAQACAAEAAAAYABAAAQACAAEAAAAYABEAAQACAAEAAAAYABIAAQACAAEAAAAYABMAAQACAAEAAAAYABQAAQACAAEAAAAYABUAAQACAAEAAAAYABYAAQACAAEAAAAYABcAAQACAAEAAAAXABgAAQABAAIAAAAWABgAAQABAAIAAAAVABgAAQABAAIAAAAUABgAAQABAAIAAAATABgAAQABAAIAAAASABgAAQABAAIAAAARABgAAQABAAIAAAAQABgAAQABAAIAAAAPABgAAQABAAIAAAAOABgAAQABAAIAAAANABgAAQABAAIAAAAMABgAAQABAAIAAAALABgAAQABAAIAAAAKABgAAQABAAIAAAAJABgAAQABAAIAAAAIABgAAQABAAIAAAAHABgAAQABAAIAAAAGABgAAQABAAIAAAAFABgAAQABAAIAAAAEABgAAQABAAIAAAADABgAAQABAAIAAAACABgAAQABAAIAAAABABgAAQABAAIAAAAAABgAAQABAAIAAAD//xgAAQAAAAIAAAD//wwAAQAAAAEAAAD//w0AAQAAAAEAAAD//w4AAQAAAAEAAAD//w8AAQAAAAEAAAD//xAAAQAAAAEAAAD//xEAAQAAAAEAAAD//xIAAQAAAAEAAAD//xMAAQAAAAEAAAD//xQAAQAAAAEAAAD//xUAAQAAAAEAAAD//xYAAQAAAAEAAAD//xcAAQAAAAEAAAAXAAAAAQABAAEAAAAXAAEAAQABAAEAAAAXAAIAAQAAAAEAAAAXAAMAAQAAAAEAAAAXAAQAAQAAAAEAAAAXAAUAAQAAAAEAAAAXAAYAAQAAAAEAAAAXAAcAAQAAAAEAAAAXAAgAAQAAAAEAAAAXAAkAAQAAAAEAAAAXAAoAAQAAAAEAAAAXAAsAAQAAAAEAAAAXAAwAAQAAAAEAAAAXAA0AAQAAAAEAAAAXAA4AAQAAAAEAAAAXAA8AAQAAAAEAAAAXABAAAQAAAAEAAAAXABEAAQAAAAEAAAAXABIAAQAAAAEAAAAXABMAAQAAAAEAAAAXABQAAQAAAAEAAAAXABUAAQAAAAEAAAAXABYAAQABAAEAAAAXABcAAQABAAEAAAAWABcAAQABAAEAAAAVABcAAQABAAAAAAAUABcAAQABAAAAAAATABcAAQABAAAAAAASABcAAQABAAAAAAARABcAAQABAAAAAAAQABcAAQABAAAAAAAPABcAAQABAAAAAAAOABcAAQABAAAAAAANABcAAQABAAAAAAAMABcAAQABAAAAAAALABcAAQABAAAAAAAKABcAAQABAAAAAAAJABcAAQABAAAAAAAIABcAAQABAAAAAAAHABcAAQABAAAAAAAGABcAAQABAAAAAAAFABcAAQABAAAAAAAEABcAAQABAAAAAAADABcAAQABAAAAAAACABcAAQABAAAAAAABABcAAQABAAEAAAAAABcAAQABAAEAAAAAABYAAQABAAEAAAAAABUAAQACAAEAAAAAABQAAQACAAEAAAAAABMAAQACAAEAAAAAABIAAQACAAEAAAAAABEAAQACAAEAAAAAABAAAQACAAEAAAAAAA8AAQACAAEAAAAAAA4AAQACAAEAAAAAAA0AAQACAAEAAAAAAAwAAQACAAEAAAAAAAsAAQACAAEAAAAAAAoAAQACAAEAAAAAAAkAAQACAAEAAAAAAAgAAQACAAEAAAAAAAYAAQACAAEAAAAAAAUAAQACAAEAAAAAAAQAAQACAAEAAAAAAAMAAQACAAEAAAAAAAIAAQACAAEAAAAAAAEAAQABAAEAAAAAAAAAAQABAAEAAAABAAAAAQABAAEAAAACAAAAAQABAAIAAAADAAAAAQABAAIAAAAEAAAAAQABAAIAAAAFAAAAAQABAAIAAAAGAAAAAQABAAIAAAAHAAAAAQABAAIAAAAIAAAAAQABAAIAAAAJAAAAAQABAAIAAAAKAAAAAQABAAIAAAALAAAAAQABAAIAAAAMAAAAAQABAAIAAAANAAAAAQABAAIAAAAOAAAAAQABAAIAAAAPAAAAAQABAAIAAAAQAAAAAQABAAIAAAARAAAAAQABAAIAAAASAAAAAQABAAIAAAATAAAAAQABAAIAAAAUAAAAAQABAAIAAAAVAAAAAQABAAIAAAAWAAAAAQABAAEAAAALAP//AQABAAAAAAAMAP//AQABAAAAAAD//wkAAQAAAAEAAAAAAAcAAQACAAEAAAAWAAEAAQAAAAIAAAABAAEAAQACAAIAAAABABYAAQACAAAAAAAWABYAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_aprxe")
 physics_quadrant_size = 1
 
-[node name="MultiplayerSpawner" parent="SubViewportContainer/game" instance=ExtResource("9_5srl3")]
+[node name="MultiplayerSpawner" parent="SubViewportContainer/game" unique_id=975265012 instance=ExtResource("9_5srl3")]
 
-[node name="water" type="ColorRect" parent="SubViewportContainer/game"]
+[node name="water" type="ColorRect" parent="SubViewportContainer/game" unique_id=1909767503]
 offset_left = 28.0
 offset_top = 27.0
 offset_right = 68.0
 offset_bottom = 67.0
 color = Color(0.51, 0.9265, 1, 1)
 
-[node name="Area2D" type="Area2D" parent="SubViewportContainer/game/water"]
+[node name="Area2D" type="Area2D" parent="SubViewportContainer/game/water" unique_id=1067783350]
 collision_layer = 16
 collision_mask = 6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/game/water/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/game/water/Area2D" unique_id=558926407]
 position = Vector2(20.5, 20.5)
 shape = SubResource("RectangleShape2D_x4anr")
 
-[node name="water" parent="." node_paths=PackedStringArray("water_rect", "water_area") instance=ExtResource("8_x4anr")]
+[node name="water" parent="." unique_id=687049346 node_paths=PackedStringArray("water_rect", "water_area") instance=ExtResource("8_x4anr")]
 active_sides = Array[Vector2i]([Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)])
 spring_counts = Array[int]([6])
 water_rect = NodePath("../SubViewportContainer/game/water")

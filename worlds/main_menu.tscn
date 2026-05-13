@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqrhx4hoehkkl"]
+[gd_scene format=3 uid="uid://dqrhx4hoehkkl"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_2cpqk"]
 [ext_resource type="Script" uid="uid://drirafignu277" path="res://scripts/main_menu.gd" id="1_7dyyr"]
@@ -46,7 +46,7 @@ shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.1
 shader_parameter/palette = SubResource("GradientTexture1D_7dyyr")
 
-[node name="main_menu" type="Control"]
+[node name="main_menu" type="Control" unique_id=608197123]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,30 +55,36 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7dyyr")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2038937466]
 layer = -1
 
-[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=914170657]
 z_index = -1
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.160784, 0.682353, 1, 1)
 metadata/_edit_lock_ = true
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1303331769]
 z_index = -1
 texture_repeat = 3
 material = SubResource("ShaderMaterial_fb03m")
-offset_right = 96.0
-offset_bottom = 96.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_klc2m")
 metadata/_edit_lock_ = true
 
-[node name="Stall" type="Sprite2D" parent="."]
-position = Vector2(48, 22)
+[node name="Stall" type="Sprite2D" parent="." unique_id=1957119198]
+position = Vector2(48, 19)
 texture = ExtResource("5_p8lkq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1038988596]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -86,13 +92,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -27.0
-offset_top = -7.0
+offset_top = -10.0
 offset_right = 27.0
-offset_bottom = 33.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="local" type="Button" parent="VBoxContainer"]
+[node name="local" type="Button" parent="VBoxContainer" unique_id=1312416015]
 layout_mode = 2
 focus_neighbor_top = NodePath("../quit")
 focus_neighbor_bottom = NodePath("../online")
@@ -102,7 +108,7 @@ theme = ExtResource("6_inn1b")
 text = "Local
 "
 
-[node name="online" type="Button" parent="VBoxContainer"]
+[node name="online" type="Button" parent="VBoxContainer" unique_id=7020378]
 layout_mode = 2
 focus_neighbor_top = NodePath("../local")
 focus_neighbor_bottom = NodePath("../quit")
@@ -112,7 +118,7 @@ theme = ExtResource("6_inn1b")
 text = "Online
 "
 
-[node name="quit" type="Button" parent="VBoxContainer"]
+[node name="quit" type="Button" parent="VBoxContainer" unique_id=1524201243]
 layout_mode = 2
 focus_neighbor_top = NodePath("../online")
 focus_neighbor_bottom = NodePath("../local")
@@ -122,16 +128,16 @@ theme = ExtResource("6_inn1b")
 text = "Quit
 "
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+[node name="RichTextLabel2" type="RichTextLabel" parent="." unique_id=810595536]
 modulate = Color(0.160784, 0.678431, 1, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.531
 anchor_right = 0.531
 offset_left = -49.976
-offset_top = 81.0
-offset_right = 46.024
-offset_bottom = 95.0
+offset_top = 74.0
+offset_right = 46.023994
+offset_bottom = 88.0
 theme_override_fonts/normal_font = ExtResource("6_7dyyr")
 theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
@@ -139,11 +145,11 @@ text = "miaow  games  l.l.c"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1214986412]
 layout_mode = 0
-offset_top = 80.0
+offset_top = 73.0
 offset_right = 96.0
-offset_bottom = 94.0
+offset_bottom = 87.0
 theme_override_fonts/normal_font = ExtResource("6_7dyyr")
 theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true

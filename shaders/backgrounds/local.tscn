@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://tp1cpr8b5hba"]
+[gd_scene format=3 uid="uid://tp1cpr8b5hba"]
 
 [ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="1_5g32u"]
 [ext_resource type="Texture2D" uid="uid://dqtowf126auej" path="res://sprites/background5.png" id="2_m5l1q"]
@@ -40,17 +40,23 @@ shader_parameter/height = 96.0
 shader_parameter/palette_cycling_speed = 0.2
 shader_parameter/palette = SubResource("GradientTexture1D_vvpty")
 
-[node name="local_bg" type="CanvasLayer"]
+[node name="local_bg" type="CanvasLayer" unique_id=1450836960]
 layer = -1
 
-[node name="color" type="ColorRect" parent="."]
-offset_right = 96.0
-offset_bottom = 96.0
+[node name="color" type="ColorRect" parent="." unique_id=793021597]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(1, 0.854902, 0.12549, 1)
 
-[node name="moving_bg" type="TextureRect" parent="."]
+[node name="moving_bg" type="TextureRect" parent="." unique_id=1383720157]
 material = SubResource("ShaderMaterial_vvpty")
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_m5l1q")
 stretch_mode = 1

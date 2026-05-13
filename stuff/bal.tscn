@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cg0f1u4swchxb"]
+[gd_scene format=3 uid="uid://cg0f1u4swchxb"]
 
 [ext_resource type="Script" uid="uid://vcfnl5g05scq" path="res://scripts/bal.gd" id="1_68n8j"]
 [ext_resource type="Texture2D" uid="uid://co27q43o2u5i7" path="res://sprites/ball.png" id="2_nvnwp"]
@@ -22,7 +22,7 @@ shader_parameter/offset = Vector2(0, 0)
 shader_parameter/max_or_add = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e3n6g"]
-radius = 3.0
+radius = 5.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_nvnwp"]
 playback_mode = 1
@@ -84,7 +84,7 @@ properties/16/path = NodePath(".:server")
 properties/16/spawn = false
 properties/16/replication_mode = 0
 
-[sub_resource type="Gradient" id="Gradient_nfkoc"]
+[sub_resource type="Gradient" id="Gradient_ua1ae"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -93,7 +93,7 @@ colors = PackedColorArray(1, 1, 1, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_poe26"]
 radius = 2.0
 
-[node name="bal" type="CharacterBody2D"]
+[node name="bal" type="CharacterBody2D" unique_id=1524886153]
 collision_layer = 4
 collision_mask = 13
 slide_on_ceiling = false
@@ -109,37 +109,37 @@ ROLL_RATIO_THRESHOLD = 3.6
 MIN_SPIN_FOR_ROLL = 3.142
 WIN_EFFECT = ExtResource("2_poe26")
 
-[node name="rotate_node" type="Node2D" parent="."]
+[node name="rotate_node" type="Node2D" parent="." unique_id=771983988]
 
-[node name="scale_node" type="Node2D" parent="rotate_node"]
+[node name="scale_node" type="Node2D" parent="rotate_node" unique_id=427550442]
 
-[node name="Sprite2D" type="Sprite2D" parent="rotate_node/scale_node"]
+[node name="Sprite2D" type="Sprite2D" parent="rotate_node/scale_node" unique_id=1369914175]
 material = SubResource("ShaderMaterial_ua1ae")
 position = Vector2(0, 7.15256e-07)
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("2_nvnwp")
 script = ExtResource("3_nd7ro")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=92624362]
 shape = SubResource("CircleShape2D_e3n6g")
 
-[node name="bounce_sfx" type="AudioStreamPlayer" parent="."]
+[node name="bounce_sfx" type="AudioStreamPlayer" parent="." unique_id=1488931393]
 stream = SubResource("AudioStreamRandomizer_nvnwp")
 bus = &"SFX"
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1469500838]
 replication_config = SubResource("SceneReplicationConfig_gssss")
 
-[node name="trail_fx" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_nfkoc")]
+[node name="trail_fx" parent="." unique_id=286122402 node_paths=PackedStringArray("target") instance=ExtResource("5_nfkoc")]
 z_index = -1
-gradient = SubResource("Gradient_nfkoc")
+gradient = SubResource("Gradient_ua1ae")
 trail_lifetime = 0.8
 target = NodePath("..")
 
-[node name="water_detector" parent="." instance=ExtResource("6_bue2t")]
+[node name="water_detector" parent="." unique_id=1114309235 instance=ExtResource("6_bue2t")]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="water_detector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="water_detector" unique_id=1158068608]
 shape = SubResource("CircleShape2D_poe26")
 
 [connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
