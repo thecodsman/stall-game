@@ -1230,7 +1230,6 @@ script = ExtResource("1_rh03w")
 WALK_SPEED = 50.0
 RUN_SPEED = 80.0
 SUPER_RUN_SPEED = 130.0
-DASH_SPEED = 130.0
 ACCEL = 12.0
 AIR_ACCEL = 2.0
 AIR_FRICTION = 0.1
@@ -1274,7 +1273,7 @@ state_machine = NodePath("../StateMachine")
 script = ExtResource("9_xoaqs")
 ABuffer = 12
 XBuffer = 12
-RShoulderBuffer = 12
+RShoulderBuffer = 1
 MaxTimeToSmash = 0.08
 NeutralZone = 0.3
 KeyboardToController = Dictionary[int, int]({
@@ -1316,6 +1315,9 @@ metadata/_custom_type_script = "uid://c5g5ywuaxqxia"
 
 [node name="Dash" type="Node" parent="StateMachine" unique_id=1847826418]
 script = ExtResource("10_pyp4g")
+dash_time = 0.2
+end_air_drag = 4.0
+dash_end_time = 0.15
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
 [node name="HomingDash" type="Node" parent="StateMachine" unique_id=449758628]
