@@ -20,5 +20,6 @@ func physics_update(delta : float) -> void:
 	check_for_attack()
 	if dash_ending: player.velocity = player.velocity.lerp(Vector2.ZERO, end_air_drag * delta)
 	if player.is_on_floor(): finished.emit("Landing")
+	if player.is_on_wall(): finished.emit("Wall")
 	if Engine.get_physics_frames() % 3: return
 	player.spawn_afterimage.rpc()
