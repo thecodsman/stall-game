@@ -1315,9 +1315,9 @@ metadata/_custom_type_script = "uid://c5g5ywuaxqxia"
 
 [node name="Dash" type="Node" parent="StateMachine" unique_id=1847826418]
 script = ExtResource("10_pyp4g")
-dash_time = 0.2
+dash_time = 0.075
 end_air_drag = 4.0
-dash_end_time = 0.15
+dash_end_time = 0.25
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
 [node name="HomingDash" type="Node" parent="StateMachine" unique_id=449758628]

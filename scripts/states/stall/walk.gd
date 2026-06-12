@@ -26,7 +26,7 @@ func physics_update(delta : float) -> void:
 	check_for_attack()
 	check_for_special()
 	check_for_crouch()
-	check_for_super_run()
+	#check_for_super_run()
 
 
 func is_side_input() -> bool:
