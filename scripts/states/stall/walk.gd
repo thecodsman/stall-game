@@ -26,6 +26,7 @@ func physics_update(delta : float) -> void:
 	check_for_attack()
 	check_for_special()
 	check_for_crouch()
+	check_for_block()
 	#check_for_super_run()
 
 

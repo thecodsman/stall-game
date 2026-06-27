@@ -33,3 +33,4 @@ func physics_update(delta : float) -> void:
 	check_for_jump()
 	check_for_crouch()
 	check_for_special()
+	check_for_block()

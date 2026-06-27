@@ -432,7 +432,7 @@ metadata/_edit_use_anchors_ = true
 [node name="game" type="SubViewport" parent="SubViewportContainer" unique_id=229999747]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(212, 96)
+size = Vector2i(96, 96)
 render_target_update_mode = 4
 
 [node name="green_screen" type="ColorRect" parent="SubViewportContainer/game" unique_id=1699449902]

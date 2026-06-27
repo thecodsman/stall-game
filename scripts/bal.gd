@@ -171,7 +171,7 @@ func juice_it_up() -> void:
 
 
 @rpc("any_peer", "call_local", "reliable")
-func update_color(color : Color, index : int) -> void:
+func update_color(color : Color = owner_color, index : int = owner_index) -> void:
 	if index != owner_index: color = owner_color
 	else: owner_color = color
 	match owner_level:

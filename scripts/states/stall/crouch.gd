@@ -14,3 +14,4 @@ func physics_update(delta : float) -> void:
 	if check_for_jump(false): player.jump = player.Jump.SUPER
 	check_for_special()
 	check_for_drop_through()
+	check_for_block()

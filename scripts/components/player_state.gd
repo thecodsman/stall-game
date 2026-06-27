@@ -92,3 +92,9 @@ func check_for_drop_through() -> bool:
 	else:
 		player.set_collision_mask_value(platform_collision_layer, true)
 		return false
+
+
+func check_for_block() -> bool:
+	var should_block : bool = player.input.is_joy_button_pressed(JOY_BUTTON_LEFT_SHOULDER)
+	if should_block: finished.emit("Block")
+	return should_block

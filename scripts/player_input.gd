@@ -11,7 +11,8 @@ var is_keyboard : bool = false
 var neutral : bool = false
 var smashing : bool = false
 var device_index : int = 0
-var direction : Vector2
+var direction : Vector2 # lstick, dont feel like renaming it
+var rstick : Vector2
 var prev_direction : Vector2
 var smash_timer : Timer = Timer.new()
 var button_state : Dictionary[String,int] = {
@@ -54,6 +55,10 @@ func _physics_process(_delta: float) -> void:
 	direction = Vector2(
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_X),
 		Input.get_joy_axis(device_index, JOY_AXIS_LEFT_Y)
+		)
+	rstick = Vector2(
+		Input.get_joy_axis(device_index, JOY_AXIS_RIGHT_X),
+		Input.get_joy_axis(device_index, JOY_AXIS_RIGHT_Y)
 		)
 	if is_keyboard:
 		direction = Input.get_vector("left", "right", "up", "down")

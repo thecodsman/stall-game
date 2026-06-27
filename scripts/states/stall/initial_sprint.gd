@@ -35,6 +35,7 @@ func physics_update(delta : float) -> void:
 		check_for_jump()
 	#check_for_super_run()
 	if check_for_attack(): player.attack = player.Attack.DASH
+	check_for_block()
 	if not player.input.just_smashed(): return
 	player.sprite.scale.x = sign(player.direction)
 	player.anim.play("RESET")
