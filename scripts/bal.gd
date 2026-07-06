@@ -5,6 +5,7 @@ const MAX_OWNER_LEVEL : int = 2
 @export  var BASE_GRAVITY          : float             = 75
 @export  var AIR_FRICTION          : float             = 0
 @export  var AIR_SPEED             : float             = 0 # no air friction so nothing happens
+@export  var COMBO_SPEED_MULT      : float             = 0.5
 @export_subgroup("water")
 @export  var WATER_GRAVITY         : float             = 20
 @export  var WATER_FRICTION        : float             = 5
@@ -290,7 +291,9 @@ func _update_state(delta : float) -> void:
 				spawn_smoke(to_local(collision_info.get_position()))
 				Globals.camera.screen_shake(3, 2, 3)
 			else:
-				velocity = velocity.lerp(move_dir * spin * WALL_RIDE_SPEED * damage, 5*delta)
+				#velocity = velocity.lerp(move_dir * spin * WALL_RIDE_SPEED * damage, 5*delta)
+				var combo_mult : float = ((combo * COMBO_SPEED_MULT) ** 2) + 1
+				velocity = velocity.lerp(move_dir * spin * WALL_RIDE_SPEED * combo_mult, 5*delta)
 				spin = lerpf(spin, 0, 1*delta)
 				if not Engine.get_physics_frames() % 10: spawn_smoke(to_local(collision_info.get_position()))
 			move_and_slide()
@@ -310,7 +313,9 @@ func _exit_state() -> void:
 			outline = false
 
 		State.WALL_ROLL:
-			var wall_exit_velocity : float = spin * 25 * damage
+			#var wall_exit_velocity : float = spin * 25 * damage
+			var combo_mult : float = ((combo * COMBO_SPEED_MULT) ** 2) + 1
+			var wall_exit_velocity : float = spin * 25 * combo_mult 
 			var collision_info : KinematicCollision2D = get_last_slide_collision()
 			floor_snap_length = 1
 			motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED

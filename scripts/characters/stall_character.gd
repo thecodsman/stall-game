@@ -122,12 +122,13 @@ func _on_hit(obj : Node2D) -> void:
 
 
 func handle_ball_hit(_ball : Ball) -> void:
-	const freeze_frame_duration_mult : float = 0.001
+	const freeze_frame_duration_mult : float = 0.005
 	time_scale = 0
 	_ball.time_scale = 0
 	dashes = max(1,dashes)
 	jumps = max(1,jumps)
-	var duration : float = freeze_frame_duration_mult * kick_box.power * _ball.damage
+	var combo_mult : float = ((_ball.combo * _ball.COMBO_SPEED_MULT) ** 2) + 1
+	var duration : float = freeze_frame_duration_mult * kick_box.power * combo_mult
 	sprite.shake(1, duration, 1)
 	_ball.sprite.shake(2, duration, 2)
 	await get_tree().create_timer(duration).timeout

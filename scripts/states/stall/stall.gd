@@ -3,7 +3,6 @@ extends PlayerState
 
 func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 	player.anim.play("stall")
-	player.set_collision_mask_value(3, false)
 	player.is_ball_stalled = (player.ball != null)
 
 
@@ -29,8 +28,6 @@ func physics_update(delta : float) -> void:
 
 
 func exit() -> void:
-	print("GUH")
-	player.set_collision_mask_value(3, true)
 	player.is_ball_stalled = false
 
 

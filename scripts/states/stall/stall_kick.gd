@@ -12,7 +12,6 @@ func _on_animation_finished(animation : String) -> void:
 	
 
 func enter(_previous_state : String, _data : Dictionary = {}) -> void:
-	player.set_collision_mask_value(3, false)
 	player.anim.play("stall_kick")
 
 
@@ -22,5 +21,4 @@ func physics_update(delta : float) -> void:
 
 
 func exit() -> void:
-	player.set_collision_mask_value(3, true)
 	player.is_ball_stalled = false

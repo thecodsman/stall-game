@@ -62,7 +62,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
 
-[sub_resource type="Gradient" id="Gradient_amlaw"]
+[sub_resource type="Gradient" id="Gradient_86jq0"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -1917,7 +1917,7 @@ radius = 1.0
 
 [node name="player" type="CharacterBody2D" unique_id=1489954870 node_paths=PackedStringArray("input", "anim", "sprite", "trail", "kick_collider", "kick_box", "jump_sfx")]
 collision_layer = 2
-collision_mask = 13
+collision_mask = 9
 platform_on_leave = 2
 script = ExtResource("1_rh03w")
 WALK_SPEED = 50.0
@@ -1927,7 +1927,7 @@ ACCEL = 12.0
 AIR_ACCEL = 2.0
 AIR_FRICTION = 0.1
 AIR_SPEED = 70.0
-BASE_GRAVITY = 465.0
+BASE_GRAVITY = 325.0
 FRICTION = 10.0
 FAST_FALL_SPEED = 100.0
 FULL_JUMP_VELOCITY = -135.0
@@ -2074,7 +2074,7 @@ shape = SubResource("CircleShape2D_7defb")
 
 [node name="trail_fx" parent="." unique_id=1543670750 node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
 z_index = -1
-gradient = SubResource("Gradient_amlaw")
+gradient = SubResource("Gradient_86jq0")
 target = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=207018791]

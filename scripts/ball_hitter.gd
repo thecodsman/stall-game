@@ -96,7 +96,8 @@ func kick_ball(ball_path : NodePath, dir : Vector2) -> void:
 						max_vel_to_spin
 				)
 		)
-	ball.velocity = Vector2((ball.velocity.length() * 0.55) + (power * ball.damage) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
+	var combo_mult : float = ((ball.combo * ball.COMBO_SPEED_MULT) ** 2) + 1
+	ball.velocity = Vector2((ball.velocity.length() * 0.55) + (power * combo_mult) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
 	ball.damage += damage
 	UI._on_bal_percent_change(ball.damage)
 
