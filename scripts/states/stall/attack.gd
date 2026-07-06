@@ -29,8 +29,8 @@ func enter(previous_state : String, _data : Dictionary = {}) -> void:
 	else:
 		if player.input.direction.length() <= player.input.NeutralZone:
 			player.attack = player.Attack.NAIR
-			player.kick_box.direction = Vector2.ZERO
-			player.kick_box.power = 48
+			player.kick_box.direction = Vector2.UP
+			#player.kick_box.power = 48
 		elif input_dir > PI * 0.25 && input_dir < PI * 0.75:
 			player.attack = player.Attack.DAIR
 			player.kick_box.direction = Vector2.DOWN
