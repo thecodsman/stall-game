@@ -387,7 +387,9 @@ stage_size = Vector2(212, 96)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1799764074]
 position = Vector2(104, 48)
 limit_left = 3
+limit_top = 0
 limit_right = 209
+limit_bottom = 96
 drag_left_margin = 1.0
 drag_top_margin = 1.0
 drag_right_margin = 1.0
@@ -395,8 +397,8 @@ drag_bottom_margin = 1.0
 editor_draw_drag_margin = true
 script = ExtResource("7_lrx8b")
 min_zoom = Vector2(0.65, 0.65)
-inner_margin = 40
-outer_margin = 12
+inner_margin = Vector2(20, 90)
+outer_margin = Vector2(10, 0)
 
 [node name="p1_spawn" type="Node2D" parent="." unique_id=226786900]
 position = Vector2(68, 83)
