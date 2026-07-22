@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b2qi1c8yve5kk"]
+[gd_scene format=3 uid="uid://b2qi1c8yve5kk"]
 
 [ext_resource type="Script" uid="uid://mlr0of7f8qx5" path="res://scripts/ui.gd" id="1_0q5dl"]
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="2_1l7ac"]
@@ -13,7 +13,10 @@
 [ext_resource type="Shader" uid="uid://djgf67gdkokt7" path="res://shaders/single_shadow.gdshader" id="6_xrklg"]
 [ext_resource type="PackedScene" uid="uid://dc63cdtovupfi" path="res://stuff/ball_meter.tscn" id="7_mnugr"]
 [ext_resource type="FontFile" uid="uid://b2mcleuwl8qr0" path="res://font/miaow font.ttf" id="7_qmigx"]
+[ext_resource type="Texture2D" uid="uid://br78m7jcjv7i1" path="res://sprites/ui/ball-offscreen-border.png" id="7_rsrhf"]
 [ext_resource type="Texture2D" uid="uid://c84w0m8okb2db" path="res://sprites/backdeletebutton.png" id="7_xhub8"]
+[ext_resource type="Script" uid="uid://db6trtjp1r32w" path="res://scripts/ui/ball_offscreen_viewer.gd" id="7_ygmwk"]
+[ext_resource type="Texture2D" uid="uid://co27q43o2u5i7" path="res://sprites/ball.png" id="8_eybtw"]
 [ext_resource type="Texture2D" uid="uid://bfoexwetrfck4" path="res://sprites/checkenterbutton.png" id="8_mbtk0"]
 [ext_resource type="Script" uid="uid://hsameseu6jb5" path="res://scripts/post_match_report.gd" id="13_e72vh"]
 
@@ -37,6 +40,14 @@ shader_parameter/aspect_ratio = 1.0
 shader_parameter/square_border = false
 shader_parameter/offset = Vector2(0, 0)
 shader_parameter/max_or_add = false
+
+[sub_resource type="Curve2D" id="Curve2D_e72vh"]
+_data = {
+"points": PackedVector2Array(-5.213463, -0.05044308, 6, 0.05, 45, 0, 0, 0, 0, 0, 81, 9, 0, -6, 0, 6, 90, 45, 0, 0, 0, 0, 81, 81, 6, 0, -6, 0, 45, 90, 0, 0, 0, 0, 9, 81, 0, 6, 0, -6, 0, 45, 0, 0, 0, 0, 9, 9, -6, 0, 6.3643456, 0.08123456, 45, 0)
+}
+point_count = 9
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_txhq6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e72vh"]
 shader = ExtResource("2_1l7ac")
@@ -253,7 +264,7 @@ shader_parameter/blur_amount = 0.0
 shader_parameter/shadow_scale = 1.0
 shader_parameter/disable_rotating = false
 
-[node name="UI" type="Control" node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard", "post_match_report", "combo_counter")]
+[node name="UI" type="Control" unique_id=784259093 node_paths=PackedStringArray("point_displays", "scores", "bal_meter", "bal_percent", "game_text", "pause_menu", "onscreen_keyboard", "post_match_report", "combo_counter")]
 z_index = 10
 layout_mode = 3
 anchors_preset = 15
@@ -272,30 +283,35 @@ onscreen_keyboard = NodePath("CanvasLayer/onscreen_keyboard")
 post_match_report = NodePath("CanvasLayer/post_match_report")
 combo_counter = NodePath("CanvasLayer/in-game/container/subviewport/combo")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1961294101]
 
-[node name="in-game" type="Control" parent="CanvasLayer"]
+[node name="in-game" type="Control" parent="CanvasLayer" unique_id=1103115896]
 layout_mode = 3
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="container" type="SubViewportContainer" parent="CanvasLayer/in-game"]
+[node name="container" type="SubViewportContainer" parent="CanvasLayer/in-game" unique_id=877401532]
 material = SubResource("ShaderMaterial_xhub8")
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 28.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="subviewport" type="SubViewport" parent="CanvasLayer/in-game/container"]
+[node name="subviewport" type="SubViewport" parent="CanvasLayer/in-game/container" unique_id=588397104]
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(96, 96)
+size = Vector2i(90, 90)
 render_target_update_mode = 4
 
-[node name="green_screen" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport"]
+[node name="green_screen" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport" unique_id=1074599751]
 material = SubResource("ShaderMaterial_mbtk0")
 anchors_preset = 15
 anchor_right = 1.0
@@ -304,7 +320,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
 
-[node name="ball_meter" parent="CanvasLayer/in-game/container/subviewport" instance=ExtResource("7_mnugr")]
+[node name="ball_meter" parent="CanvasLayer/in-game/container/subviewport" unique_id=1611851492 instance=ExtResource("7_mnugr")]
 visible = false
 anchors_preset = -1
 anchor_left = 0.5
@@ -317,7 +333,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="bal-percent" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport/ball_meter"]
+[node name="bal-percent" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport/ball_meter" unique_id=1157280209]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -330,7 +346,7 @@ grow_horizontal = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/in-game/container/subviewport/ball_meter/bal-percent"]
+[node name="Label" type="Label" parent="CanvasLayer/in-game/container/subviewport/ball_meter/bal-percent" unique_id=755529188]
 material = SubResource("ShaderMaterial_ftfax")
 layout_mode = 2
 theme = ExtResource("3_1l7ac")
@@ -338,7 +354,7 @@ text = "0%"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="players" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport"]
+[node name="players" type="VBoxContainer" parent="CanvasLayer/in-game/container/subviewport" unique_id=828995874]
 anchors_preset = -1
 anchor_left = 0.34375
 anchor_top = 0.166667
@@ -349,29 +365,71 @@ grow_vertical = 2
 alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="p1" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
+[node name="p1" parent="CanvasLayer/in-game/container/subviewport/players" unique_id=876206445 instance=ExtResource("4_xhub8")]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 
-[node name="p2" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
+[node name="p2" parent="CanvasLayer/in-game/container/subviewport/players" unique_id=1121835678 instance=ExtResource("4_xhub8")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 mouse_filter = 2
 
-[node name="p3" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
+[node name="p3" parent="CanvasLayer/in-game/container/subviewport/players" unique_id=172794198 instance=ExtResource("4_xhub8")]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 
-[node name="p4" parent="CanvasLayer/in-game/container/subviewport/players" instance=ExtResource("4_xhub8")]
+[node name="p4" parent="CanvasLayer/in-game/container/subviewport/players" unique_id=1224359753 instance=ExtResource("4_xhub8")]
 visible = false
+layout_mode = 2
 layout_direction = 2
-layout_mode = 2
 mouse_filter = 2
 
-[node name="combo" type="Label" parent="CanvasLayer/in-game/container/subviewport"]
+[node name="ball_offscreen_viewer" type="Control" parent="CanvasLayer/in-game/container/subviewport" unique_id=693489836]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_ygmwk")
+max_distance = 100.0
+
+[node name="Path2D" type="Path2D" parent="CanvasLayer/in-game/container/subviewport/ball_offscreen_viewer" unique_id=373840884]
+position = Vector2(0, 90)
+rotation = 1.5707941
+scale = Vector2(-1, -1)
+curve = SubResource("Curve2D_e72vh")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="CanvasLayer/in-game/container/subviewport/ball_offscreen_viewer/Path2D" unique_id=1878208962]
+position = Vector2(45, 0)
+rotation = 0.008333141
+
+[node name="viewer" type="Panel" parent="CanvasLayer/in-game/container/subviewport/ball_offscreen_viewer/Path2D/PathFollow2D" unique_id=919404668]
+custom_minimum_size = Vector2(20, 16)
+offset_left = -18.94596
+offset_top = -7.999999
+offset_right = 1.0540428
+offset_bottom = 8.000003
+rotation = -1.5707964
+pivot_offset = Vector2(19, 8)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_txhq6")
+
+[node name="border" type="Sprite2D" parent="CanvasLayer/in-game/container/subviewport/ball_offscreen_viewer/Path2D/PathFollow2D/viewer" unique_id=1950628068]
+unique_name_in_owner = true
+texture = ExtResource("7_rsrhf")
+centered = false
+
+[node name="ball_icon" type="Sprite2D" parent="CanvasLayer/in-game/container/subviewport/ball_offscreen_viewer/Path2D/PathFollow2D/viewer/border" unique_id=652331287]
+unique_name_in_owner = true
+position = Vector2(4.000002, 3.0000014)
+texture = ExtResource("8_eybtw")
+centered = false
+
+[node name="combo" type="Label" parent="CanvasLayer/in-game/container/subviewport" unique_id=2132127653]
 visible = false
 material = SubResource("ShaderMaterial_e72vh")
 anchors_preset = 6
@@ -394,7 +452,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 
-[node name="shadow_renderer" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport"]
+[node name="shadow_renderer" type="ColorRect" parent="CanvasLayer/in-game/container/subviewport" unique_id=453791814]
 material = SubResource("ShaderMaterial_16ckg")
 anchors_preset = 15
 anchor_right = 1.0
@@ -402,11 +460,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="CanvasLayer/in-game/container/subviewport"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="CanvasLayer/in-game/container/subviewport" unique_id=1770025512]
 root_path = NodePath("../../../../..")
 replication_config = SubResource("SceneReplicationConfig_e72vh")
 
-[node name="pause-menu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("resume_button")]
+[node name="pause-menu" type="Control" parent="CanvasLayer" unique_id=568830822 node_paths=PackedStringArray("resume_button")]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -419,7 +477,7 @@ mouse_filter = 2
 script = ExtResource("5_qmigx")
 resume_button = NodePath("Panel/VBoxContainer/resume")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/pause-menu"]
+[node name="Panel" type="Panel" parent="CanvasLayer/pause-menu" unique_id=208341954]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -434,7 +492,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_1l7ac")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/pause-menu/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/pause-menu/Panel" unique_id=1609076931]
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -447,7 +505,7 @@ grow_vertical = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="resume" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
+[node name="resume" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer" unique_id=1145407827]
 layout_mode = 2
 focus_neighbor_top = NodePath("../quit")
 focus_neighbor_bottom = NodePath("../main-menu")
@@ -456,7 +514,7 @@ focus_previous = NodePath("../quit")
 theme = ExtResource("3_1l7ac")
 text = "Resume"
 
-[node name="main-menu" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
+[node name="main-menu" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer" unique_id=467889846]
 layout_mode = 2
 focus_neighbor_top = NodePath("../resume")
 focus_neighbor_bottom = NodePath("../quit")
@@ -464,7 +522,7 @@ focus_next = NodePath("../quit")
 focus_previous = NodePath("../resume")
 text = "Main Menu"
 
-[node name="quit" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer"]
+[node name="quit" type="Button" parent="CanvasLayer/pause-menu/Panel/VBoxContainer" unique_id=2096295385]
 layout_mode = 2
 focus_neighbor_top = NodePath("../main-menu")
 focus_neighbor_bottom = NodePath("../resume")
@@ -473,7 +531,7 @@ focus_previous = NodePath("../main-menu")
 theme = ExtResource("3_1l7ac")
 text = "Quit"
 
-[node name="onscreen_keyboard" type="Control" parent="CanvasLayer"]
+[node name="onscreen_keyboard" type="Control" parent="CanvasLayer" unique_id=206403132]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -485,7 +543,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_xhub8")
 
-[node name="tabs" type="TabContainer" parent="CanvasLayer/onscreen_keyboard"]
+[node name="tabs" type="TabContainer" parent="CanvasLayer/onscreen_keyboard" unique_id=271517709]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -498,7 +556,7 @@ current_tab = 1
 clip_tabs = false
 tabs_visible = false
 
-[node name="qwerty" type="PanelContainer" parent="CanvasLayer/onscreen_keyboard/tabs"]
+[node name="qwerty" type="PanelContainer" parent="CanvasLayer/onscreen_keyboard/tabs" unique_id=817960002]
 visible = false
 layout_mode = 2
 focus_neighbor_left = NodePath("VBoxContainer/controls/123")
@@ -510,216 +568,216 @@ focus_mode = 2
 theme = ExtResource("6_7ywke")
 metadata/_tab_index = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty" unique_id=606123842]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="controls" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+[node name="controls" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer" unique_id=2143034644]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="123" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls"]
+[node name="123" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls" unique_id=282829062]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "123"
 
-[node name="back" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls"]
+[node name="back" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls" unique_id=411675308]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 icon = ExtResource("7_xhub8")
 
-[node name="enter" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls"]
+[node name="enter" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/controls" unique_id=1091602507]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 icon = ExtResource("8_mbtk0")
 
-[node name="row_1" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+[node name="row_1" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer" unique_id=1796270127]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="q" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="q" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=777897380]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "q"
 
-[node name="w" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="w" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=1905344681]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "w"
 
-[node name="e" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="e" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=1526746496]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "e"
 
-[node name="r" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="r" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=2012855200]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "r
 "
 
-[node name="t" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="t" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=1903083922]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "t"
 
-[node name="y" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="y" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=355113190]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "y
 "
 
-[node name="u" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1"]
+[node name="u" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_1" unique_id=1218946268]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "u
 "
 
-[node name="row_2" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+[node name="row_2" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer" unique_id=1798957320]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="i" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="i" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=791690540]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "i
 "
 
-[node name="o" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="o" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=1834826484]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "o"
 
-[node name="p" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="p" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=340145941]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "p"
 
-[node name="a" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="a" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=159769285]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "a"
 
-[node name="s" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="s" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=1494215376]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "s"
 
-[node name="d" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="d" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=992008277]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "d"
 
-[node name="f" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2"]
+[node name="f" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_2" unique_id=1199133926]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "f"
 
-[node name="row_3" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+[node name="row_3" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer" unique_id=138109116]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="g" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="g" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=1549902217]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "g"
 
-[node name="h" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="h" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=360370965]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "h"
 
-[node name="j" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="j" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=1408683624]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "j
 "
 
-[node name="k" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="k" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=3080888]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "k"
 
-[node name="l" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="l" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=832869468]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "l"
 
-[node name="z" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="z" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=1149969219]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "z"
 
-[node name="x" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3"]
+[node name="x" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_3" unique_id=1612913320]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "x"
 
-[node name="row_4" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer"]
+[node name="row_4" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer" unique_id=1425287395]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="c" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+[node name="c" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4" unique_id=1148704302]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "c"
 
-[node name="v" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+[node name="v" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4" unique_id=697746799]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "v"
 
-[node name="b" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+[node name="b" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4" unique_id=1756092103]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "b"
 
-[node name="n" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+[node name="n" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4" unique_id=1119331848]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "n"
 
-[node name="m" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4"]
+[node name="m" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/qwerty/VBoxContainer/row_4" unique_id=598837916]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "m"
 
-[node name="123" type="PanelContainer" parent="CanvasLayer/onscreen_keyboard/tabs"]
+[node name="123" type="PanelContainer" parent="CanvasLayer/onscreen_keyboard/tabs" unique_id=613103968]
 layout_mode = 2
 focus_neighbor_left = NodePath("VBoxContainer/row_2/dot")
 focus_neighbor_top = NodePath("VBoxContainer/row_1/8")
@@ -730,128 +788,126 @@ focus_mode = 2
 theme = ExtResource("6_7ywke")
 metadata/_tab_index = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123" unique_id=468723681]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="row_2" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+[node name="row_2" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer" unique_id=686418290]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="dot" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+[node name="dot" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2" unique_id=822431810]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "."
 
-[node name="abc" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+[node name="abc" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2" unique_id=1816197518]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "abc"
 
-[node name="back" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+[node name="back" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2" unique_id=1638175888]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 icon = ExtResource("7_xhub8")
 
-[node name="enter" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2"]
+[node name="enter" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_2" unique_id=2021586645]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 icon = ExtResource("8_mbtk0")
 
-[node name="controls" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+[node name="controls" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer" unique_id=1820383274]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="1" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+[node name="1" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls" unique_id=1436041990]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "1"
 
-[node name="2" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+[node name="2" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls" unique_id=96160243]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "2"
 
-[node name="3" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+[node name="3" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls" unique_id=591302461]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "3"
 
-[node name="4" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+[node name="4" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls" unique_id=797034929]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "4"
 
-[node name="5" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls"]
+[node name="5" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/controls" unique_id=1834611876]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "5"
 
-[node name="row_1" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+[node name="row_1" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer" unique_id=854742163]
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="6" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+[node name="6" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1" unique_id=1893678472]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "6"
 
-[node name="7" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+[node name="7" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1" unique_id=1899362935]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "7"
 
-[node name="8" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+[node name="8" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1" unique_id=1572284936]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "8"
 
-[node name="9" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+[node name="9" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1" unique_id=944824096]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "9"
 
-[node name="0" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1"]
+[node name="0" type="Button" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer/row_1" unique_id=140106456]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 text = "0"
 
-[node name="row_3" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+[node name="row_3" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer" unique_id=1800601004]
 visible = false
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="row_4" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer"]
+[node name="row_4" type="HBoxContainer" parent="CanvasLayer/onscreen_keyboard/tabs/123/VBoxContainer" unique_id=1935930821]
 visible = false
 layout_mode = 2
 theme = ExtResource("6_7ywke")
 alignment = 1
 
-[node name="anim" type="AnimationPlayer" parent="CanvasLayer/onscreen_keyboard"]
-libraries = {
-&"": SubResource("AnimationLibrary_mbtk0")
-}
+[node name="anim" type="AnimationPlayer" parent="CanvasLayer/onscreen_keyboard" unique_id=813219300]
+libraries/ = SubResource("AnimationLibrary_mbtk0")
 
-[node name="post_match_report" type="Panel" parent="CanvasLayer"]
+[node name="post_match_report" type="Panel" parent="CanvasLayer" unique_id=689207398]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -861,7 +917,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mnugr")
 script = ExtResource("13_e72vh")
 
-[node name="stats" type="VBoxContainer" parent="CanvasLayer/post_match_report"]
+[node name="stats" type="VBoxContainer" parent="CanvasLayer/post_match_report" unique_id=532039999]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -875,7 +931,7 @@ offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="hits" type="Label" parent="CanvasLayer/post_match_report/stats"]
+[node name="hits" type="Label" parent="CanvasLayer/post_match_report/stats" unique_id=681549042]
 material = SubResource("ShaderMaterial_mnugr")
 layout_mode = 2
 tooltip_text = "hits:  %.0f"
@@ -885,7 +941,7 @@ text = "hits:  %s"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="max_speed" type="Label" parent="CanvasLayer/post_match_report/stats"]
+[node name="max_speed" type="Label" parent="CanvasLayer/post_match_report/stats" unique_id=1252526853]
 material = SubResource("ShaderMaterial_mnugr")
 layout_mode = 2
 tooltip_text = "max  speed: %.2f"
@@ -895,7 +951,7 @@ text = "max  speed:  %s"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="max_spin" type="Label" parent="CanvasLayer/post_match_report/stats"]
+[node name="max_spin" type="Label" parent="CanvasLayer/post_match_report/stats" unique_id=371413320]
 material = SubResource("ShaderMaterial_mnugr")
 layout_mode = 2
 tooltip_text = "max  spin:  %.1f"
@@ -905,7 +961,7 @@ text = "max spin:  %s"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="transition" type="ColorRect" parent="CanvasLayer"]
+[node name="transition" type="ColorRect" parent="CanvasLayer" unique_id=771205994]
 material = SubResource("ShaderMaterial_1rrlu")
 anchors_preset = 15
 anchor_right = 1.0
@@ -915,13 +971,11 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=175209693]
 root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_1l7ac")
-}
+libraries/ = SubResource("AnimationLibrary_1l7ac")
 
-[node name="game_text" type="Label" parent="CanvasLayer"]
+[node name="game_text" type="Label" parent="CanvasLayer" unique_id=1845596161]
 visible = false
 material = SubResource("ShaderMaterial_figwl")
 anchors_preset = 10

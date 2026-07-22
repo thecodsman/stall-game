@@ -121,6 +121,10 @@ position = Vector2(0, 7.15256e-07)
 texture = ExtResource("2_nvnwp")
 script = ExtResource("3_nd7ro")
 
+[node name="visibility_detector" type="VisibleOnScreenNotifier2D" parent="rotate_node/scale_node/Sprite2D" unique_id=1285699399]
+position = Vector2(0, -7.15256e-07)
+rect = Rect2(-6, -6, 12, 12)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=92624362]
 shape = SubResource("CircleShape2D_e3n6g")
 

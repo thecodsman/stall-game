@@ -1,5 +1,6 @@
 class_name Ball extends CharacterBody2D
 
+signal scorrable_state_changed(scorrable : bool, color : Color)
 const MAX_OWNER_LEVEL : int = 2
 @export_category("movement")
 @export  var BASE_GRAVITY          : float             = 75
@@ -24,6 +25,7 @@ const MAX_OWNER_LEVEL : int = 2
 @onready var bounce_sfx            : AudioStreamPlayer = $bounce_sfx
 @onready var collision_shape       : CollisionShape2D  = $CollisionShape2D
 @onready var trail                 : TrailFX           = $trail_fx
+@onready var visibility_detector   : VisibleOnScreenNotifier2D = $rotate_node/scale_node/Sprite2D/visibility_detector
 var gravity                : float   = BASE_GRAVITY
 var air_friction           : float   = AIR_FRICTION
 var air_speed              : float   = AIR_SPEED
@@ -178,12 +180,15 @@ func update_color(color : Color = owner_color, index : int = owner_index) -> voi
 	match owner_level:
 		0:
 			modulate = Color.WHITE
+			scorrable_state_changed.emit(scorrable, Globals.GRAY)
 		1:
 			modulate    = color
 			modulate.s *= 0.5
 			modulate.h += 0.015
+			scorrable_state_changed.emit(scorrable, Globals.GRAY)
 		2:
 			modulate = color
+			scorrable_state_changed.emit(scorrable, color)
 	trail.add_new_color(modulate)
 	UI.bal_meter.set_progress_tint(color)
 	UI.bal_meter.set_value(50*owner_level)

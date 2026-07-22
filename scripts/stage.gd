@@ -1,10 +1,14 @@
 class_name Stage extends Node2D
 
-@export  var thumb_nail    : Texture2D
-@export  var stage_name    : String
-@export  var stage_size    : Vector2       = Vector2(96, 96)
-@onready var player_spawns : Array[Node2D] = [$p1_spawn, $p2_spawn, $p3_spawn, $p4_spawn]
-@onready var ball_spawn    : Node2D        = $ball_spawn
+signal new_ball_spawned()
+
+@export  var thumb_nail          : Texture2D
+@export  var stage_name          : String
+@export  var stage_size          : Vector2       = Vector2(96, 96)
+@export  var walls               : TileMapLayer
+@export  var default_wall_shader : Material = Globals.default_wall_shader
+@onready var player_spawns       : Array[Node2D] = [$p1_spawn, $p2_spawn, $p3_spawn, $p4_spawn]
+@onready var ball_spawn          : Node2D        = $ball_spawn
 var player_scene      : PackedScene = preload("res://stuff/player.tscn")
 var ball_scene        : PackedScene = preload("res://stuff/bal.tscn")
 var score_line_scene  : PackedScene = preload("res://stuff/score_line.tscn")
@@ -19,12 +23,21 @@ func _ready() -> void:
 	UI.hide_element(UI.bal_meter)
 	UI._on_bal_percent_change(1)
 	UI.update_scores(Globals.scores)
+	if not walls:
+		walls = find_children("*", "TileMapLayer", true)[0]
+	if not walls.material:
+		walls.material = default_wall_shader
 	Globals.stage = self
 	Lobby.player_loaded.rpc()
 	Lobby.player_disconnected.connect(_on_player_disconnected)
+	Globals.entered_stage.emit()
 	if Globals.is_online == false:
 		local_spawn_players()
 		start_next_round()
+
+
+func _on_ball_scorrable_state_changed(_scorrable : bool, color : Color) -> void:
+	walls.material.set_shader_parameter("color_stripe", color)
 
 
 func start_game() -> void: # is only called in online lobbies
@@ -54,11 +67,15 @@ func spawn_ball() -> void:
 	ball.server          = Globals.get_serving_player()
 	ball.global_position = ball_spawn.global_position
 	score_line_height    = ball.SCORE_LINE_HEIGHT
+	walls.material.set_shader_parameter("color_stripe", Globals.GRAY)
 	$SubViewportContainer/game.add_child(ball, true)
 	set_camera_target_ball.rpc(ball.get_path())
 	ball.outline = true
 	ball.outline_color = Globals.current_player_colors[Globals.serving_player]
 	ball.set_server.rpc(ball.server.get_path())
+	ball.scorrable_state_changed.connect(_on_ball_scorrable_state_changed)
+	Globals.ball = ball
+	new_ball_spawned.emit()
 
 
 @rpc("authority", "call_local", "reliable")

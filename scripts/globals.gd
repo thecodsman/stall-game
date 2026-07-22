@@ -1,9 +1,11 @@
 extends Node
 
 signal scores_changed
+signal entered_stage
 
 @export var player_colors : PackedColorArray
 @export var available_colors : PackedColorArray
+@export var default_wall_shader : Material
 @export var GRAY : Color
 @onready var current_player_colors : PackedColorArray
 var camera : Camera2D
