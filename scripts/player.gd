@@ -41,7 +41,7 @@ class_name Player extends CharacterBody2D
 @export var sprite        : Sprite2D           
 @export var trail         : TrailFX            
 @export var kick_collider : CollisionShape2D   
-@export var kick_box      : KickBox            
+@export var kick_box      : HitBox            
 @export var jump_sfx      : AudioStreamPlayer  
 @onready var gravity : float = BASE_GRAVITY
 @onready var air_accel : float = AIR_ACCEL

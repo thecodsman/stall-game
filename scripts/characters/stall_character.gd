@@ -6,8 +6,8 @@ var slide_boost_strength : float = 0
 var is_ball_stalled : bool = false
 var ball : Ball
 @onready var ball_holder : Node2D = $Sprite2D/ball_holder
-@onready var bonk_box_collider : CollisionShape2D = $Sprite2D/bonk_box/CollisionShape2D
 @onready var stall_box : Area2D = $Sprite2D/stall_box
+@onready var state_machine : StateMachineComponent = $StateMachine
 
 enum Attack {
 	NAIR,
@@ -217,3 +217,9 @@ func _on_water_detector_water_exited() -> void:
 	air_friction = AIR_FRICTION
 	air_speed = AIR_SPEED
 	in_water = false
+
+
+func _on_hurtbox_hurt(hit_stun: int, knockback: Vector2) -> void:
+	velocity += knockback
+	state_machine.state.finished.emit("HitStun", {"hit_stun_time" : hit_stun})
+

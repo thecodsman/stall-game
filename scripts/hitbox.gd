@@ -1,4 +1,4 @@
-class_name KickBox extends Area2D
+class_name HitBox extends Area2D
 
 signal hit
 
@@ -8,6 +8,7 @@ signal hit
 @export var di_power : float = 0.25
 @export var power : float = 140.0
 @export var damage : float = 0.05
+@export var hit_stun : int = 4 ## in frames
 @export var hit_fx_scene : PackedScene
 @onready var kick_sfx : AudioStreamPlayer = $kick_sfx
 @onready var collider : CollisionShape2D = $CollisionShape2D
@@ -21,11 +22,25 @@ var ball_damage : float :
 		return value
 
 
-func _on_body_entered(obj:Node2D) -> void:
+func _on_body_entered(obj : Node2D) -> void:
 	if obj is Ball:
 		handle_ball_collision(obj)
-	elif obj is Player:
-		handle_player_collision(obj)
+	# elif obj is Player:
+	# 	handle_player_collision(obj)
+
+
+func _on_area_entered(hurtbox : Area2D) -> void:
+	if not hurtbox is HurtBox: return
+	if hurtbox.owner == owner: return
+	const power_mult : float = 2.0
+	var dir : Vector2 = Vector2.from_angle(global_position.angle_to_point(hurtbox.owner.global_position))
+	var knockback : Vector2 = (power * dir * ball_damage * power_mult) + (power * di_power * input.direction)
+	hurtbox.hurt.emit(hit_stun, knockback)
+	hit.emit(hurtbox.owner)
+	kick_sfx.play()
+	var hit_fx : Node2D = hit_fx_scene.instantiate()
+	hit_fx.global_position = hurtbox.owner.global_position
+	$"/root/stage/SubViewportContainer/game".add_child(hit_fx)
 
 
 func handle_player_collision(_player : Player) -> void:

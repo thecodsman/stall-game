@@ -15,43 +15,6 @@ var ball      : Ball
 func _ready() -> void:
 	Globals.camera = self
 
-#
-# func _physics_process(delta : float) -> void:
-# 	_apply_screen_shake()
-# 	if not ball || players.is_empty(): return
-# 	var screen_size : Vector2 = Vector2(96,96)
-# 	var ball_distance2center : Vector2 = ball.get_screen_transform().origin - (screen_size/2)
-# 	var ball_distance2edge   : Vector2 = screen_size/2 - abs(ball_distance2center)
-# 	if ball_distance2edge.x < outer_margin:
-# 		global_position.x = global_position.move_toward(ball.global_position, ball.velocity.length() * delta).x
-# 		centering = true
-# 	elif centering:
-# 		global_position.x = global_position.move_toward(ball.global_position, ball.velocity.length() * delta).x
-# 	elif abs(ball_distance2center.x) < inner_margin:
-# 		centering = false
-# 	var player_distance2center : Vector2
-# 	var player_distance2edge   : Vector2 = Vector2.INF
-# 	for i : int in range(players.size()):
-# 		var player           : Player  = players[i]
-# 		var _distance2center : Vector2 = player.get_screen_transform().origin - (get_viewport_rect().size/2)
-# 		var _distance2edge   : Vector2 = screen_size/2 - abs(_distance2center)
-# 		player_distance2center = player_distance2center.max(_distance2center)
-# 		player_distance2edge = player_distance2edge.min(_distance2edge)
-# 	var zoom_direction : int = 0 ## zooming out is -1 and zooming in is 1
-# 	if player_distance2edge.x < outer_margin && zoom != min_zoom:
-# 		zoom_direction = -1
-# 	elif abs(player_distance2center.x) < inner_margin && zoom != Vector2(1,1):
-# 		zoom_direction = 1
-# 	else:
-# 		zoom_direction = 0
-# 	match zoom_direction:
-# 		-1:
-# 			if player_distance2edge.x < outer_margin * 0.75:
-# 				zoom = zoom.lerp(min_zoom, 6*delta)
-# 		1:
-# 			if abs(player_distance2center.x) < inner_margin * 0.75:
-# 				zoom = zoom.lerp(Vector2(1,1), 6*delta)
-
 
 func _physics_process(delta : float) -> void:
 	_apply_screen_shake()

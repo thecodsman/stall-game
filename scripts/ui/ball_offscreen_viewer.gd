@@ -8,13 +8,14 @@ var ball_is_onscreen : bool = true
 
 
 func _physics_process(_delta: float) -> void:
+	if Globals.stage and maxf(Globals.stage.stage_size.x, Globals.stage.stage_size.y) <= 102: return
 	if not Globals.ball: return
 	var ball : Ball = Globals.ball
 	var camera : Camera2D = Globals.camera
 	var ball_rect : Rect2 = ball.visibility_detector.rect
 	var ball_visibility_rect : Rect2 = ball_rect
 	var camera_viewport_rect : Rect2 = camera.get_viewport_rect()
-	camera_viewport_rect.position = camera.global_position - (camera_viewport_rect.size / 2)
+	camera_viewport_rect.position = camera.get_screen_center_position() - (camera_viewport_rect.size / 2)
 	ball_visibility_rect.position = ball.global_position + ball_rect.position
 	ball_is_onscreen = camera_viewport_rect.intersects(ball_visibility_rect)
 	if ball_is_onscreen:

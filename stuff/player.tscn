@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dqea64wcx8g37" path="res://scripts/components/player_state_machine.gd" id="3_h1fg1"]
 [ext_resource type="Script" uid="uid://b5mw4udhfihtj" path="res://stuff/debug/label.gd" id="3_pvedf"]
 [ext_resource type="Script" uid="uid://eqj4tsk1peib" path="res://scripts/states/stall/idle.gd" id="3_uheho"]
-[ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/ball_hitter.gd" id="3_xc1ee"]
+[ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/hitbox.gd" id="3_xc1ee"]
 [ext_resource type="Script" uid="uid://b1xarc5gx601o" path="res://scripts/states/stall/air.gd" id="4_1fg0o"]
 [ext_resource type="AudioStream" uid="uid://dckhqsnsynhwp" path="res://sounds/kick.wav" id="4_pbn0x"]
 [ext_resource type="PackedScene" uid="uid://cg4flosl1w4qt" path="res://stuff/hit_fx.tscn" id="4_wvly4"]
@@ -34,9 +34,11 @@
 [ext_resource type="Script" uid="uid://dxt71pb74vh5p" path="res://scripts/states/stall/stall.gd" id="21_h1fg1"]
 [ext_resource type="Script" uid="uid://g2sdufx7cu6n" path="res://scripts/states/stall/stall_kick.gd" id="22_pvedf"]
 [ext_resource type="Texture2D" uid="uid://bl55lrfkw1gl4" path="res://sprites/characters/stall/MOVEMENT/STALL-IDLE.png" id="26_ofi12"]
+[ext_resource type="Script" uid="uid://d0b2tuem82x6p" path="res://scripts/states/stall/hit_stun.gd" id="26_ptdy0"]
 [ext_resource type="Texture2D" uid="uid://b4s5bcrjoj3md" path="res://sprites/characters/stall/MOVEMENT/STALL-BACKFLIP.png" id="31_dkcv3"]
 [ext_resource type="Texture2D" uid="uid://d3ihahftvoqx5" path="res://sprites/characters/stall/block.png" id="32_amlaw"]
 [ext_resource type="Texture2D" uid="uid://cv0i7g7cs87y0" path="res://sprites/characters/stall/MOVES/STALL-BAIR.png" id="32_n5mfw"]
+[ext_resource type="Script" uid="uid://b4yq6amnog6xr" path="res://scripts/components/hurtbox.gd" id="33_4u6wc"]
 [ext_resource type="Script" uid="uid://bxooyi46k70s2" path="res://scripts/components/player_block.gd" id="33_86jq0"]
 [ext_resource type="Texture2D" uid="uid://dexldu082yfj6" path="res://sprites/characters/stall/MOVEMENT/STALL-CROUCH.png" id="33_dkcv3"]
 [ext_resource type="FontFile" uid="uid://dq3ivvjy1lslp" path="res://font/miaow default.ttf" id="33_h1fg1"]
@@ -53,6 +55,7 @@
 [ext_resource type="Texture2D" uid="uid://bcntsyuq2oom7" path="res://sprites/characters/stall/MOVEMENT/STALL-RUN.png" id="43_k52sx"]
 [ext_resource type="Texture2D" uid="uid://dqr1h8dj7o0fm" path="res://sprites/characters/stall/MOVEMENT/STALL-INITDASH.png" id="44_eovm7"]
 [ext_resource type="Texture2D" uid="uid://cnu8xk0vd7px4" path="res://sprites/characters/stall/MOVES/STALL-FTILT.png" id="45_xyr3u"]
+[ext_resource type="Texture2D" uid="uid://bnmsawaw5xo0o" path="res://sprites/characters/stall/MOVES/STALL-HITSTUN.png" id="46_3c718"]
 [ext_resource type="Texture2D" uid="uid://vfoj6mguxo5l" path="res://sprites/characters/stall/MOVES/STALL-SPECIAL.png" id="46_xyr3u"]
 [ext_resource type="Texture2D" uid="uid://fhvkar7naxoi" path="res://sprites/characters/stall/MOVEMENT/STALL-TURNAROUND.png" id="47_wat77"]
 [ext_resource type="Texture2D" uid="uid://bkk3ishvkkes8" path="res://sprites/characters/stall/MOVES/STALL-UTILT.png" id="48_fvoql"]
@@ -62,7 +65,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
 
-[sub_resource type="Gradient" id="Gradient_86jq0"]
+[sub_resource type="Gradient" id="Gradient_4u6wc"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -80,6 +83,9 @@ stream_0/stream = ExtResource("4_pbn0x")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b0gpc"]
 radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_txhq6"]
+radius = 3.1622777
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_txhq6"]
 radius = 3.9999976
@@ -819,6 +825,34 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_8ejjw"]
+resource_name = "hitstun"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("46_3c718")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
 }
 
 [sub_resource type="Animation" id="Animation_4ira2"]
@@ -1848,6 +1882,7 @@ _data = {
 &"down_attack": SubResource("Animation_2e1h1"),
 &"fair": SubResource("Animation_js44p"),
 &"fall": SubResource("Animation_pbn0x"),
+&"hitstun": SubResource("Animation_8ejjw"),
 &"idle": SubResource("Animation_4ira2"),
 &"jump": SubResource("Animation_tnfj0"),
 &"kick_charge": SubResource("Animation_5hghs"),
@@ -2091,6 +2126,10 @@ metadata/_custom_type_script = "uid://cfeckji55nvtw"
 script = ExtResource("22_pvedf")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
+[node name="HitStun" type="Node" parent="StateMachine" unique_id=884234951]
+script = ExtResource("26_ptdy0")
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335067069]
 visible = false
 position = Vector2(0, 2)
@@ -2098,7 +2137,7 @@ shape = SubResource("CircleShape2D_7defb")
 
 [node name="trail_fx" parent="." unique_id=1543670750 node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
 z_index = -1
-gradient = SubResource("Gradient_86jq0")
+gradient = SubResource("Gradient_4u6wc")
 target = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=207018791]
@@ -2120,6 +2159,7 @@ input = NodePath("../../Input")
 player = NodePath("../..")
 direction = Vector2(0.9, 0.1)
 power = 1.0
+hit_stun = 60
 hit_fx_scene = ExtResource("4_wvly4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box" unique_id=1257386779]
@@ -2137,6 +2177,15 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/stall_box" unique_id=1910478834]
 shape = SubResource("CircleShape2D_b0gpc")
 disabled = true
+
+[node name="hurtbox" type="Area2D" parent="Sprite2D" unique_id=332821347]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("33_4u6wc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/hurtbox" unique_id=645970485]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_txhq6")
 
 [node name="block" type="Node2D" parent="." unique_id=280026825 node_paths=PackedStringArray("player", "collider")]
 visible = false
@@ -2190,8 +2239,10 @@ replication_config = SubResource("SceneReplicationConfig_b0gpc")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_j1eso")
 
+[connection signal="area_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_area_entered"]
 [connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="body_entered" from="Sprite2D/stall_box" to="StateMachine/Stall" method="_on_stall_box_body_entered"]
+[connection signal="hurt" from="Sprite2D/hurtbox" to="." method="_on_hurtbox_hurt"]
 [connection signal="visibility_changed" from="block" to="block" method="_on_visibility_changed"]
 [connection signal="body_entered" from="block/block_sprite/Area2D" to="block" method="_on_body_entered"]
 [connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
