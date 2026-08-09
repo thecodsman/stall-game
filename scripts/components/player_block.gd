@@ -4,6 +4,7 @@ signal blocked(ball : Ball)
 
 @export var player : Player
 @export var block_power : float
+@export var max_ownership : float = 0.6
 @export var collider : CollisionShape2D
 
 
@@ -33,8 +34,8 @@ func block_ball(ball_path : NodePath) -> void:
 func apply_ball_ownership(ball_path : NodePath) -> void:
 	var ball : Ball = get_node(ball_path)
 	if not ball: return
-	if ball.owner_level > 1 and ball.owner_index != player.player_index:
-		ball.owner_level = 1
+	if ball.owner_level > ball.OWNER_SCORE_THRESHOLD and ball.owner_index != player.player_index:
+		ball.owner_level = max_ownership
 		ball.scorrable = false
 		ball.update_color()
 		Globals.score_line.deactivate()

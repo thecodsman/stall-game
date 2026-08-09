@@ -4,49 +4,69 @@ var prev_state : String
 
 func enter(previous_state : String, _data : Dictionary = {}) -> void:
 	var input_dir : float = (player.input.direction * Vector2(player.sprite.scale.x, 1)).angle()
+	player.kick_box.can_cancel = false
 	prev_state = previous_state
+	player.kick_box.ownership_damage = 0.25
 	if prev_state == "Run" || prev_state == "InitialSprint" || prev_state == "SuperRun":
 		player.attack = player.Attack.DASH
 		player.kick_box.direction = Vector2(0.6,-0.4)
-		player.kick_box.power = 45
+		player.kick_box.power = 30
 	elif player.is_on_floor():
 		if player.input.direction.length() <= player.input.NeutralZone:
 			player.attack = player.Attack.NEUTRAL
 			player.kick_box.direction = Vector2.from_angle(-0.261)
-			player.kick_box.power = 35
+			player.kick_box.power = 50
+			player.kick_box.ownership_damage = 0.45
+
 		elif input_dir > PI * 0.25 && input_dir < PI * 0.75: # slide kick
 			player.attack = player.Attack.DOWN
 			player.kick_box.direction = Vector2.UP
-			player.kick_box.power = 45
+			player.kick_box.power = 50
+			player.kick_box.ownership_damage = 0.25
+
 		elif input_dir < -PI * 0.25 && input_dir > -PI * 0.75:
 			player.attack = player.Attack.UP
 			player.kick_box.direction = Vector2.UP
-			player.kick_box.power = 25
+			player.kick_box.power = 50
+			player.kick_box.ownership_damage = 0.15
+
 		else:
 			player.attack = player.Attack.SIDE
 			player.kick_box.direction = Vector2(0.8,-0.2)
-			player.kick_box.power = 55
-	else:
+			player.kick_box.power = 75
+			player.kick_box.ownership_damage = 0.45
+
+
+	else: ## aerial attacks
 		if player.input.direction.length() <= player.input.NeutralZone:
 			player.attack = player.Attack.NAIR
 			player.kick_box.direction = Vector2.UP
-			#player.kick_box.power = 48
+			player.kick_box.ownership_damage = 0.05
+			#player.kick_box.power = 48 ## set in anim
+
 		elif input_dir > PI * 0.25 && input_dir < PI * 0.75:
 			player.attack = player.Attack.DAIR
 			player.kick_box.direction = Vector2.DOWN
-			player.kick_box.power = 70
+			player.kick_box.power = 45
+			player.kick_box.ownership_damage = 0.3
+
 		elif input_dir < PI * -0.25 && input_dir > PI * -0.75:
 			player.attack = player.Attack.UPAIR
 			player.kick_box.direction = Vector2.UP
-			player.kick_box.power = 50
+			player.kick_box.power = 30
+			player.kick_box.ownership_damage = 0.25
+
 		elif input_dir >= PI * -0.25 && input_dir <= PI * 0.25:
 			player.attack = player.Attack.FAIR
-			player.kick_box.power = 60
+			player.kick_box.power = 40
 			player.kick_box.direction = Vector2(0.9,-0.1)
+			player.kick_box.ownership_damage = 0.35
+
 		elif input_dir >= PI * 0.75 || input_dir <= PI * -0.75:
 			player.attack = player.Attack.BAIR
-			player.kick_box.power = 85
+			player.kick_box.power = 65
 			player.kick_box.direction = Vector2(-0.8,0.2)
+			player.kick_box.ownership_damage = 0.5
 	# -----
 	match player.attack:
 		player.Attack.NEUTRAL:
@@ -133,7 +153,7 @@ func physics_update(delta : float) -> void:
 	if player.anim.current_animation == "":
 		finished.emit("Idle")
 	check_for_fastfall()
-	if player.kick_collider.disabled:
+	if player.kick_box.can_cancel:
 		check_for_dash()
 		check_for_jump()
 

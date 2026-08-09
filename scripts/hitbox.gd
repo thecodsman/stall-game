@@ -6,12 +6,14 @@ signal hit
 @export var player : Player
 @export var direction : Vector2 = Vector2.ZERO
 @export var di_power : float = 0.25
+@export var ownership_damage : float = 0.25
 @export var power : float = 140.0
 @export var damage : float = 0.05
 @export var hit_stun : int = 4 ## in frames
 @export var hit_fx_scene : PackedScene
 @onready var kick_sfx : AudioStreamPlayer = $kick_sfx
 @onready var collider : CollisionShape2D = $CollisionShape2D
+var can_cancel : bool = false
 var ball_damage : float :
 	get():
 		var value : float
@@ -87,16 +89,15 @@ func kick_ball(ball_path : NodePath, dir : Vector2) -> void:
 	if Globals.stats.get("hits"): Globals.stats["hits"] += 1
 	else: Globals.stats["hits"] = 1
 	ball.set_state(ball.State.NORMAL)
-	collider.set_deferred("disabled", true)
 	apply_ball_ownership(ball_path)
-	if ball.combo_owner != player.player_index:
+	can_cancel = true
+	if ball.combo_owner != player.player_index and ball.owner_level < ball.OWNER_COMBO_THRESHOLD:
 		ball.combo = 1
 		ball.combo_owner = player.player_index
 		UI.combo_counter.hide()
-	else:
+	elif ball.combo_owner == player.player_index:
 		ball.combo += 1
-	if ball.combo >= 4:
-		update_combo_counter(ball.combo, player.self_modulate)
+		if ball.combo >= 4: update_combo_counter(ball.combo, player.self_modulate)
 	var angle_diff : float = (ball.velocity.angle() * sign(dir.angle())) - dir.angle()
 	if ball.velocity.length() > 0:
 		const vel_to_spin_mult : float = 0.0145
@@ -112,6 +113,7 @@ func kick_ball(ball_path : NodePath, dir : Vector2) -> void:
 				)
 		)
 	var combo_mult : float = ((ball.combo * ball.COMBO_SPEED_MULT) ** 2) + 1
+	if ball.combo_owner != player.player_index: combo_mult = 1
 	ball.velocity = Vector2((ball.velocity.length() * 0.55) + (power * combo_mult) ,0).rotated(dir.angle()) + (power * di_power * input.direction)
 	ball.damage += damage
 	UI._on_bal_percent_change(ball.damage)
@@ -121,16 +123,16 @@ func kick_ball(ball_path : NodePath, dir : Vector2) -> void:
 func apply_ball_ownership(ball_path : NodePath) -> void :
 	var ball : Ball = get_node(ball_path)
 	if not ball || Globals.round_ending: return
-	if ball.owner_index != player.player_index && ball.owner_level > 0:
-		ball.owner_level -= 1
-		ball.scorrable = false
-		Globals.score_line.deactivate()
+	if ball.owner_index != player.player_index:
+		ball.owner_level -= ownership_damage
+		if ball.owner_level < 0:
+			ball.owner_index = player.player_index
+			ball.owner_level = abs(ball.owner_level)
 	else:
-		ball.owner_index = player.player_index
-		ball.owner_level += 1
-		if ball.owner_level > Ball.MAX_OWNER_LEVEL:
-			ball.owner_level = Ball.MAX_OWNER_LEVEL
-			return
+		ball.owner_level += ownership_damage
+	if ball.owner_level > ball.MAX_OWNER_LEVEL:
+		ball.owner_level = ball.MAX_OWNER_LEVEL
+	if ball.owner_level < ball.OWNER_SCORE_THRESHOLD:
 		ball.scorrable = false
 		Globals.score_line.deactivate()
 	ball.update_color(player.self_modulate, player.player_index)

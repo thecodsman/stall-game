@@ -1,24 +1,26 @@
 class_name Ball extends CharacterBody2D
 
 signal scorrable_state_changed(scorrable : bool, color : Color)
-const MAX_OWNER_LEVEL : int = 2
+const MAX_OWNER_LEVEL : float = 1
 @export_category("movement")
-@export  var BASE_GRAVITY          : float             = 75
-@export  var AIR_FRICTION          : float             = 0
-@export  var AIR_SPEED             : float             = 0 # no air friction so nothing happens
-@export  var COMBO_SPEED_MULT      : float             = 0.5
+@export var BASE_GRAVITY          : float = 75
+@export var AIR_FRICTION          : float = 0
+@export var AIR_SPEED             : float = 0 # no air friction so nothing happens
+@export var COMBO_SPEED_MULT      : float = 0.5
 @export_subgroup("water")
-@export  var WATER_GRAVITY         : float             = 20
-@export  var WATER_FRICTION        : float             = 5
-@export  var WATER_SPEED           : float             = 50
-@export  var WATER_SPIN_MULTIPLIER : float             = 3
+@export var WATER_GRAVITY         : float = 20
+@export var WATER_FRICTION        : float = 5
+@export var WATER_SPEED           : float = 50
+@export var WATER_SPIN_MULTIPLIER : float = 3
 @export_category("spin")
-@export  var ROLL_RATIO_THRESHOLD  : float	## ratio of (spin * 100) to velocity needed to initiate a wall roll
-@export  var MIN_SPIN_FOR_ROLL     : float
+@export var ROLL_RATIO_THRESHOLD  : float	## ratio of (spin * 100) to velocity needed to initiate a wall roll
+@export var MIN_SPIN_FOR_ROLL     : float
 @export_category("score")
-@export  var SCORRABLE             : bool              = true
-@export  var SCORE_LINE_HEIGHT     : float             = 20
-@export  var WIN_EFFECT            : PackedScene
+@export var SCORRABLE             : bool  = true
+@export var SCORE_LINE_HEIGHT     : float = 20
+@export var OWNER_SCORE_THRESHOLD : float = 0.9
+@export var OWNER_COMBO_THRESHOLD : float = 0.5
+@export var WIN_EFFECT            : PackedScene
 @onready var rotate_node           : Node2D            = $rotate_node
 @onready var scale_node            : Node2D            = $rotate_node/scale_node
 @onready var sprite                : Sprite2D          = $rotate_node/scale_node/Sprite2D
@@ -30,7 +32,7 @@ var gravity                : float   = BASE_GRAVITY
 var air_friction           : float   = AIR_FRICTION
 var air_speed              : float   = AIR_SPEED
 var owner_index            : int     = -1 ## player index of the owner of the ball
-var owner_level            : int     = 0  ## level of ownership
+var owner_level            : float   = 0  ## level of ownership
 var owner_color            : Color
 var combo                  : int     = 0
 var combo_owner            : int     = -1
@@ -108,7 +110,7 @@ func set_server(server_path : NodePath) -> void:
 
 func check_for_winner() -> void:
 	if not SCORRABLE || not scorrable : return
-	if owner_level < MAX_OWNER_LEVEL  : return
+	if owner_level < OWNER_SCORE_THRESHOLD  : return
 	if Globals.round_ending           : return
 	give_point_to_winner.rpc(owner_index)
 	var highest_score : int = 0
@@ -177,21 +179,15 @@ func juice_it_up() -> void:
 func update_color(color : Color = owner_color, index : int = owner_index) -> void:
 	if index != owner_index: color = owner_color
 	else: owner_color = color
-	match owner_level:
-		0:
-			modulate = Color.WHITE
-			scorrable_state_changed.emit(scorrable, Globals.GRAY)
-		1:
-			modulate    = color
-			modulate.s *= 0.5
-			modulate.h += 0.015
-			scorrable_state_changed.emit(scorrable, Globals.GRAY)
-		2:
-			modulate = color
-			scorrable_state_changed.emit(scorrable, color)
+	var gradient : Gradient = Gradient.new()
+	gradient.set_color(0, Color.WHITE)
+	gradient.set_color(1, color)
+	var final_color : Color = gradient.sample(owner_level)
+	modulate = final_color
+	scorrable_state_changed.emit(scorrable, final_color)
 	trail.add_new_color(modulate)
-	UI.bal_meter.set_progress_tint(color)
-	UI.bal_meter.set_value(50*owner_level)
+	UI.bal_meter.set_progress_tint(final_color)
+	UI.bal_meter.set_value(100*owner_level)
 
 
 func spawn_smoke(pos : Vector2) -> void:
@@ -245,8 +241,9 @@ func _update_state(delta : float) -> void:
 		State.NORMAL:
 			var raw_vel : Vector2 = velocity
 			if not scorrable && global_position.y < stage_size.y - SCORE_LINE_HEIGHT:
-				scorrable = true
-				if owner_level >= MAX_OWNER_LEVEL: Globals.score_line.activate.rpc()
+				if owner_level >= OWNER_SCORE_THRESHOLD:
+					scorrable = true
+					Globals.score_line.activate.rpc()
 			sprite.rotation += (spin * delta) * 20
 			spin = lerpf(spin, 0, 0.5*delta)
 			velocity = velocity.rotated((spin * 0.5 * delta * spin_mult))

@@ -36,8 +36,11 @@ func _ready() -> void:
 		start_next_round()
 
 
-func _on_ball_scorrable_state_changed(_scorrable : bool, color : Color) -> void:
-	walls.material.set_shader_parameter("color_stripe", color)
+func _on_ball_scorrable_state_changed(scorrable : bool, color : Color) -> void:
+	if scorrable:
+		walls.material.set_shader_parameter("color_stripe", color)
+	else:
+		walls.material.set_shader_parameter("color_stripe", Globals.GRAY)
 
 
 func start_game() -> void: # is only called in online lobbies

@@ -22,7 +22,7 @@ shader_parameter/offset = Vector2(0, 0)
 shader_parameter/max_or_add = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e3n6g"]
-radius = 5.0
+radius = 8.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_nvnwp"]
 playback_mode = 1
@@ -102,11 +102,13 @@ floor_block_on_wall = false
 platform_floor_layers = 1
 platform_wall_layers = 1
 script = ExtResource("1_68n8j")
-BASE_GRAVITY = 40.0
-COMBO_SPEED_MULT = 0.25
+BASE_GRAVITY = 10.0
+AIR_FRICTION = 0.02
+COMBO_SPEED_MULT = 0.2
 WATER_GRAVITY = -5.0
 WATER_FRICTION = 4.0
 WATER_SPEED = 20.0
+WATER_SPIN_MULTIPLIER = 1.5
 ROLL_RATIO_THRESHOLD = 3.6
 MIN_SPIN_FOR_ROLL = 3.142
 WIN_EFFECT = ExtResource("2_poe26")
@@ -123,7 +125,7 @@ script = ExtResource("3_nd7ro")
 
 [node name="visibility_detector" type="VisibleOnScreenNotifier2D" parent="rotate_node/scale_node/Sprite2D" unique_id=1285699399]
 position = Vector2(0, -7.15256e-07)
-rect = Rect2(-6, -6, 12, 12)
+rect = Rect2(-9, -9, 18, 18)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=92624362]
 shape = SubResource("CircleShape2D_e3n6g")
