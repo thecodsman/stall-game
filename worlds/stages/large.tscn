@@ -381,7 +381,7 @@ metadata/_better_terrain = {
 [node name="stage" type="Node2D" unique_id=1940594780]
 script = ExtResource("1_vp4jk")
 thumb_nail = ExtResource("2_8mu18")
-stage_name = "Big Basic"
+stage_name = "Wide"
 stage_size = Vector2(212, 96)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1799764074]

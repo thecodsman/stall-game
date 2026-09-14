@@ -1,15 +1,15 @@
 [gd_scene format=4 uid="uid://4t5xolkq2k6t"]
 
-[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_f8vux"]
-[ext_resource type="Texture2D" uid="uid://cvhupd2lymate" path="res://sprites/stage_select_icons/watah.png" id="2_5srl3"]
-[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="2_vrwy1"]
-[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="3_f8vux"]
-[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="3_x4anr"]
-[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="4_vbh3f"]
-[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_5srl3"]
-[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="6_7roak"]
-[ext_resource type="PackedScene" uid="uid://ce4qbkdc06v4m" path="res://stuff/water.tscn" id="8_x4anr"]
-[ext_resource type="PackedScene" uid="uid://bmtvo6hyxtje3" path="res://worlds/stages/stage_multiplayer_spawner.tscn" id="9_5srl3"]
+[ext_resource type="Script" uid="uid://cyml0vf70ft55" path="res://scripts/stage.gd" id="1_nquvt"]
+[ext_resource type="Texture2D" uid="uid://cvhupd2lymate" path="res://sprites/stage_select_icons/watah.png" id="2_e1reo"]
+[ext_resource type="Script" uid="uid://bhswxxc0c6mo2" path="res://scripts/camera.gd" id="3_4q2wi"]
+[ext_resource type="Shader" uid="uid://dbkn6o43jq55t" path="res://shaders/scrollingbackground.gdshader" id="4_ny05t"]
+[ext_resource type="Texture2D" uid="uid://b5fge0doo7ylh" path="res://sprites/background.png" id="5_dra70"]
+[ext_resource type="Shader" uid="uid://8xk0qvfh6lm7" path="res://shaders/chroma_key.gdshader" id="6_h8klq"]
+[ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="7_jydws"]
+[ext_resource type="Texture2D" uid="uid://dwueblka6exea" path="res://sprites/tilemap.png" id="8_1g3cl"]
+[ext_resource type="PackedScene" uid="uid://bmtvo6hyxtje3" path="res://worlds/stages/stage_multiplayer_spawner.tscn" id="9_ujm35"]
+[ext_resource type="PackedScene" uid="uid://ce4qbkdc06v4m" path="res://stuff/water.tscn" id="10_tebnq"]
 
 [sub_resource type="Gradient" id="Gradient_vrwy1"]
 offsets = PackedFloat32Array(0, 0.510417, 1)
@@ -19,7 +19,7 @@ colors = PackedColorArray(1, 0.505882, 0.67451, 1, 1, 0.631373, 0, 1, 1, 0.50588
 gradient = SubResource("Gradient_vrwy1")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vbh3f"]
-shader = ExtResource("3_x4anr")
+shader = ExtResource("4_ny05t")
 shader_parameter/snes_transparency = false
 shader_parameter/gba_transparency = false
 shader_parameter/horizontal_scan_line = false
@@ -48,20 +48,20 @@ shader_parameter/palette_cycling_speed = 0.1
 shader_parameter/palette = SubResource("GradientTexture1D_x4anr")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_okiaf"]
-shader = ExtResource("4_vbh3f")
+shader = ExtResource("6_h8klq")
 shader_parameter/key_color = Color(0, 1, 0, 1)
 shader_parameter/similarity = 0.0
 shader_parameter/smoothness = 0.0
 shader_parameter/spill = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fg3hj"]
-shader = ExtResource("5_5srl3")
+shader = ExtResource("7_jydws")
 shader_parameter/background_color = Color(0, 1, 0, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/offset_in_pixels = Vector2(1, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4k7gv"]
-texture = ExtResource("6_7roak")
+texture = ExtResource("8_1g3cl")
 texture_region_size = Vector2i(4, 4)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2, -2, 2, 2, -2, 2)
@@ -347,9 +347,9 @@ metadata/_better_terrain = {
 size = Vector2(37, 37)
 
 [node name="stage" type="Node2D" unique_id=787620766]
-script = ExtResource("1_f8vux")
-thumb_nail = ExtResource("2_5srl3")
-stage_name = "watah!"
+script = ExtResource("1_nquvt")
+thumb_nail = ExtResource("2_e1reo")
+stage_name = "Water"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=763167403]
 position = Vector2(48, 48)
@@ -358,7 +358,7 @@ limit_top = 3
 limit_right = 93
 limit_bottom = 93
 editor_draw_limits = true
-script = ExtResource("2_vrwy1")
+script = ExtResource("3_4q2wi")
 
 [node name="p1_spawn" type="Node2D" parent="." unique_id=1836019964]
 position = Vector2(12, 83)
@@ -391,7 +391,7 @@ texture_repeat = 3
 material = SubResource("ShaderMaterial_vbh3f")
 offset_right = 96.0
 offset_bottom = 96.0
-texture = ExtResource("3_f8vux")
+texture = ExtResource("5_dra70")
 stretch_mode = 1
 metadata/_edit_lock_ = true
 
@@ -439,7 +439,7 @@ tile_map_data = PackedByteArray("AAD/////AQAAAAAAAAAAAP//AQABAAAAAAABAP//AQABAAA
 tile_set = SubResource("TileSet_aprxe")
 physics_quadrant_size = 1
 
-[node name="MultiplayerSpawner" parent="SubViewportContainer/game" unique_id=975265012 instance=ExtResource("9_5srl3")]
+[node name="MultiplayerSpawner" parent="SubViewportContainer/game" unique_id=975265012 instance=ExtResource("9_ujm35")]
 
 [node name="water" type="ColorRect" parent="SubViewportContainer/game" unique_id=1909767503]
 offset_left = 28.0
@@ -456,7 +456,7 @@ collision_mask = 6
 position = Vector2(20.5, 20.5)
 shape = SubResource("RectangleShape2D_x4anr")
 
-[node name="water" parent="." unique_id=687049346 node_paths=PackedStringArray("water_rect", "water_area") instance=ExtResource("8_x4anr")]
+[node name="water" parent="." unique_id=687049346 node_paths=PackedStringArray("water_rect", "water_area") instance=ExtResource("10_tebnq")]
 active_sides = Array[Vector2i]([Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)])
 spring_counts = Array[int]([6])
 water_rect = NodePath("../SubViewportContainer/game/water")

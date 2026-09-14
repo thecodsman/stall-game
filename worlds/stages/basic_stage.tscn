@@ -338,7 +338,7 @@ metadata/_better_terrain = {
 [node name="stage" type="Node2D" unique_id=1550322868 node_paths=PackedStringArray("walls")]
 script = ExtResource("1_whqxm")
 thumb_nail = ExtResource("2_u5dd5")
-stage_name = "Basic"
+stage_name = "Tall"
 stage_size = Vector2(96, 348)
 walls = NodePath("SubViewportContainer/game/TileMapLayer")
 default_wall_shader = ExtResource("8_4k7gv")
