@@ -40,6 +40,41 @@ func update_scores(_scores : Array[int]) -> void:
 			tween.tween_property(point, "position:y", 0, anim_duration).set_delay(0.1)
 
 
+@rpc("authority", "call_remote", "reliable", 1)
+func update_combo_counter(player : int, combo : int, color : Color) -> void:
+	if player % 2 == 0: 
+		combo_counter.position = (
+				Vector2(
+					96 - combo_counter.size.x,
+					48 - (combo_counter.size.y / 2)
+					)
+				+ Vector2(
+					randf_range(0,-4),
+					randf_range(-4,4)
+					)
+			)
+	else: 
+		combo_counter.position = (
+				Vector2(
+					0,
+					48 - (combo_counter.size.y/2)
+					)
+				+ Vector2(
+					randf_range(0,8),
+					randf_range(-4,4)
+					)
+			)
+	combo_counter.pivot_offset = combo_counter.size/2
+	combo_counter.show()
+	combo_counter.text = "%sx\n\nCOMBO" % combo
+	combo_counter.material.set_shader_parameter("outline_color", color)
+	var tween : Tween = create_tween().set_parallel(true)
+	tween.tween_property(combo_counter, "scale", Vector2(1,1), 0.2).from(Vector2(0.5,0.5))
+	tween.tween_property(combo_counter, "rotation", randf_range(-PI/10,PI/10), 0.2).from(0)
+	if multiplayer.get_remote_sender_id() != 0: return
+	update_combo_counter.rpc(combo, color)
+
+
 func _on_bal_percent_change(percent : float) -> void:
 	bal_percent.text = str("%1.1f%%" % (percent * 100 - 100))
 

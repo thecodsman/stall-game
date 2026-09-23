@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dkjlt5gulpyk4" path="res://sprites/background6.png" id="5_e6u38"]
 [ext_resource type="Shader" uid="uid://cnmmbffq7sy4t" path="res://shaders/shadow.gdshader" id="5_l51q2"]
 [ext_resource type="TileSet" uid="uid://b3hod6rec8s2t" path="res://stuff/tile_set.tres" id="7_l51q2"]
-[ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/player.tscn" id="8_owvx3"]
+[ext_resource type="PackedScene" uid="uid://brh0j5uih2n1d" path="res://stuff/characters/stall/player.tscn" id="8_owvx3"]
 
 [sub_resource type="Gradient" id="Gradient_l51q2"]
 offsets = PackedFloat32Array(0.58566976)

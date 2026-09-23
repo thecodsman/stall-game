@@ -8,6 +8,9 @@
 [ext_resource type="Shader" uid="uid://bcp0g2gxx30p7" path="res://shaders/outline.gdshader" id="3_ua1ae"]
 [ext_resource type="PackedScene" uid="uid://ddfslqlgeoypg" path="res://particles/trail_fx.tscn" id="5_nfkoc"]
 [ext_resource type="PackedScene" uid="uid://dxly1vyrpvnlg" path="res://stuff/water_detector.tscn" id="6_bue2t"]
+[ext_resource type="Script" uid="uid://b4yq6amnog6xr" path="res://scripts/components/hurtbox.gd" id="9_wmg27"]
+[ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/hitbox.gd" id="10_n6oq4"]
+[ext_resource type="PackedScene" uid="uid://cg4flosl1w4qt" path="res://stuff/hit_fx.tscn" id="11_gvtqv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ua1ae"]
 shader = ExtResource("3_ua1ae")
@@ -84,7 +87,7 @@ properties/16/path = NodePath(".:server")
 properties/16/spawn = false
 properties/16/replication_mode = 0
 
-[sub_resource type="Gradient" id="Gradient_ua1ae"]
+[sub_resource type="Gradient" id="Gradient_gvtqv"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -92,6 +95,9 @@ colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_poe26"]
 radius = 2.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_txhq6"]
+radius = 8.0
 
 [node name="bal" type="CharacterBody2D" unique_id=1524886153]
 collision_layer = 4
@@ -139,7 +145,7 @@ replication_config = SubResource("SceneReplicationConfig_gssss")
 
 [node name="trail_fx" parent="." unique_id=286122402 node_paths=PackedStringArray("target") instance=ExtResource("5_nfkoc")]
 z_index = -1
-gradient = SubResource("Gradient_ua1ae")
+gradient = SubResource("Gradient_gvtqv")
 trail_lifetime = 0.8
 target = NodePath("..")
 
@@ -149,5 +155,28 @@ visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="water_detector" unique_id=1158068608]
 shape = SubResource("CircleShape2D_poe26")
 
+[node name="HurtBox" type="Area2D" parent="." unique_id=2140933966]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("9_wmg27")
+apply_knockback = false
+metadata/_custom_type_script = "uid://b4yq6amnog6xr"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=360304526]
+shape = SubResource("CircleShape2D_txhq6")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1720725699]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("10_n6oq4")
+no_direction = true
+knockback = Vector2(10, 0)
+hit_fx_scene = ExtResource("11_gvtqv")
+metadata/_custom_type_script = "uid://wex10hck3ngd"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1225964097]
+shape = SubResource("CircleShape2D_txhq6")
+
 [connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
 [connection signal="water_exited" from="water_detector" to="." method="_on_water_detector_water_exited"]
+[connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]

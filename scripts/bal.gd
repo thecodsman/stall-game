@@ -6,7 +6,7 @@ const MAX_OWNER_LEVEL : float = 1
 @export var BASE_GRAVITY          : float = 75
 @export var AIR_FRICTION          : float = 0
 @export var AIR_SPEED             : float = 0 # no air friction so nothing happens
-@export var COMBO_SPEED_MULT      : float = 0.5
+@export var COMBO_SPEED_MULT      : float = 0.35
 @export_subgroup("water")
 @export var WATER_GRAVITY         : float = 20
 @export var WATER_FRICTION        : float = 5
@@ -15,6 +15,7 @@ const MAX_OWNER_LEVEL : float = 1
 @export_category("spin")
 @export var ROLL_RATIO_THRESHOLD  : float	## ratio of (spin * 100) to velocity needed to initiate a wall roll
 @export var MIN_SPIN_FOR_ROLL     : float
+@export var VISIBLE_SPIN_MULT	  : float = 20
 @export_category("score")
 @export var SCORRABLE             : bool  = true
 @export var SCORE_LINE_HEIGHT     : float = 20
@@ -28,6 +29,7 @@ const MAX_OWNER_LEVEL : float = 1
 @onready var collision_shape       : CollisionShape2D  = $CollisionShape2D
 @onready var trail                 : TrailFX           = $trail_fx
 @onready var visibility_detector   : VisibleOnScreenNotifier2D = $rotate_node/scale_node/Sprite2D/visibility_detector
+@onready var hitbox				   : HitBox = $HitBox
 var gravity                : float   = BASE_GRAVITY
 var air_friction           : float   = AIR_FRICTION
 var air_speed              : float   = AIR_SPEED
@@ -93,6 +95,7 @@ func _physics_process(delta : float) -> void:
 	if highest_spin < spin: highest_spin = velocity.length()
 	delta    *= time_scale
 	velocity *= time_scale
+	hitbox.knockback = Vector2(velocity.length(), 0)
 	_update_state(delta)
 	if time_scale == 0:
 		velocity = true_velocity
@@ -244,7 +247,7 @@ func _update_state(delta : float) -> void:
 				if owner_level >= OWNER_SCORE_THRESHOLD:
 					scorrable = true
 					Globals.score_line.activate.rpc()
-			sprite.rotation += (spin * delta) * 20
+			sprite.rotation += (spin * delta) * VISIBLE_SPIN_MULT
 			spin = lerpf(spin, 0, 0.5*delta)
 			velocity = velocity.rotated((spin * 0.5 * delta * spin_mult))
 			if velocity.length() > air_speed:
@@ -345,3 +348,55 @@ func _on_water_detector_water_exited() -> void:
 	air_friction = AIR_FRICTION
 	air_speed = AIR_SPEED
 	spin_mult = 1
+
+
+func _on_hurt_box_hurt(hit : HitBox) -> void:
+	var knockback : Vector2 = hit.knockback
+	var player : Player = hit.player
+	if Globals.stats.get("hits"): Globals.stats["hits"] += 1
+	else: Globals.stats["hits"] = 1
+	set_state(State.NORMAL)
+	apply_ball_ownership(player, hit)
+	if combo_owner != player.player_index and owner_level < OWNER_COMBO_THRESHOLD:
+		combo = 1
+		combo_owner = player.player_index
+		UI.combo_counter.hide()
+	elif combo_owner == player.player_index:
+		combo += 1
+		if combo >= 4: UI.update_combo_counter(player.player_index, combo, player.self_modulate)
+	var angle_diff : float = angle_difference(velocity.angle(), knockback.angle())
+	if velocity.length() > 0:
+		const vel_to_spin_mult : float = 0.0145
+		const min_vel_to_spin : float = 0.5
+		const max_vel_to_spin : float = 3
+		spin = (
+				(abs(spin) * sign(angle_diff)) +
+				angle_diff *
+				clampf(
+						velocity.length() * vel_to_spin_mult,
+						min_vel_to_spin,
+						max_vel_to_spin
+				)
+		)
+	var combo_mult : float = ((combo * COMBO_SPEED_MULT) ** 2) + 1
+	if combo_owner != player.player_index: combo_mult = 1
+	velocity = Vector2((velocity.length() * 0.55), 0).rotated(knockback.angle()) + (knockback * combo_mult)
+	UI._on_bal_percent_change(damage)
+
+
+func apply_ball_ownership(player : Player, hit : HitBox) -> void :
+	if Globals.round_ending: return
+	if owner_index != player.player_index:
+		owner_level -= hit.ownership_damage
+		if owner_level < 0:
+			owner_index = player.player_index
+			owner_level = abs(owner_level)
+	else:
+		owner_level += hit.ownership_damage
+	if owner_level > MAX_OWNER_LEVEL:
+		owner_level = MAX_OWNER_LEVEL
+	if owner_level < OWNER_SCORE_THRESHOLD:
+		scorrable = false
+		Globals.score_line.deactivate()
+	update_color(player.self_modulate, player.player_index)
+

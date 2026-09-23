@@ -1,6 +1,9 @@
 extends PlayerState
 
+@export var di_power : float
 var prev_state : String
+var direction : Vector2
+var power : float
 
 func enter(previous_state : String, _data : Dictionary = {}) -> void:
 	var input_dir : float = (player.input.direction * Vector2(player.sprite.scale.x, 1)).angle()
@@ -9,63 +12,62 @@ func enter(previous_state : String, _data : Dictionary = {}) -> void:
 	player.kick_box.ownership_damage = 0.25
 	if prev_state == "Run" || prev_state == "InitialSprint" || prev_state == "SuperRun":
 		player.attack = player.Attack.DASH
-		player.kick_box.direction = Vector2(0.6,-0.4)
-		player.kick_box.power = 30
+		direction = Vector2(0.6,-0.4)
+		power = 30
 	elif player.is_on_floor():
 		if player.input.direction.length() <= player.input.NeutralZone:
 			player.attack = player.Attack.NEUTRAL
-			player.kick_box.direction = Vector2.from_angle(-0.261)
-			player.kick_box.power = 50
+			direction = Vector2.from_angle(-0.261)
+			power = 50
 			player.kick_box.ownership_damage = 0.45
 
 		elif input_dir > PI * 0.25 && input_dir < PI * 0.75: # slide kick
 			player.attack = player.Attack.DOWN
-			player.kick_box.direction = Vector2.UP
-			player.kick_box.power = 50
+			direction = Vector2.UP
+			power = 50
 			player.kick_box.ownership_damage = 0.25
 
 		elif input_dir < -PI * 0.25 && input_dir > -PI * 0.75:
 			player.attack = player.Attack.UP
-			player.kick_box.direction = Vector2.UP
-			player.kick_box.power = 50
+			direction = Vector2.UP
+			power = 50
 			player.kick_box.ownership_damage = 0.15
 
 		else:
 			player.attack = player.Attack.SIDE
-			player.kick_box.direction = Vector2(0.8,-0.2)
-			player.kick_box.power = 75
+			direction = Vector2(0.8,-0.2)
+			power = 75
 			player.kick_box.ownership_damage = 0.45
 
 
 	else: ## aerial attacks
 		if player.input.direction.length() <= player.input.NeutralZone:
 			player.attack = player.Attack.NAIR
-			player.kick_box.direction = Vector2.UP
 			player.kick_box.ownership_damage = 0.05
-			#player.kick_box.power = 48 ## set in anim
+			# knockback is set in animation
 
 		elif input_dir > PI * 0.25 && input_dir < PI * 0.75:
 			player.attack = player.Attack.DAIR
-			player.kick_box.direction = Vector2.DOWN
-			player.kick_box.power = 45
+			direction = Vector2.DOWN
+			power = 45
 			player.kick_box.ownership_damage = 0.3
 
 		elif input_dir < PI * -0.25 && input_dir > PI * -0.75:
 			player.attack = player.Attack.UPAIR
-			player.kick_box.direction = Vector2.UP
-			player.kick_box.power = 30
+			direction = Vector2.UP
+			power = 30
 			player.kick_box.ownership_damage = 0.25
 
 		elif input_dir >= PI * -0.25 && input_dir <= PI * 0.25:
 			player.attack = player.Attack.FAIR
-			player.kick_box.power = 40
-			player.kick_box.direction = Vector2(0.9,-0.1)
+			direction = Vector2(0.9, -0.1)
+			power = 40
 			player.kick_box.ownership_damage = 0.35
 
 		elif input_dir >= PI * 0.75 || input_dir <= PI * -0.75:
 			player.attack = player.Attack.BAIR
-			player.kick_box.power = 65
-			player.kick_box.direction = Vector2(-0.8,0.2)
+			direction = Vector2(-0.8, 0.2)
+			power = 65
 			player.kick_box.ownership_damage = 0.5
 	# -----
 	match player.attack:
@@ -77,13 +79,14 @@ func enter(previous_state : String, _data : Dictionary = {}) -> void:
 			player.anim.play("side_attack")
 		player.Attack.DOWN:
 			player.anim.play("down_attack")
-			player.kick_box.direction = Vector2.UP
-			player.kick_collider.set_deferred("disabled", false)
+			direction = Vector2.UP
 			if player.slide_boost_strength > 0:
 				player.velocity.x += player.MAX_SLIDE_BOOST_SPEED * player.slide_boost_strength * player.sprite.scale.x
 				player.slide_boost_strength = 0
 			else:
 				player.velocity.x += player.SLIDE_SPEED * player.sprite.scale.x
+			await get_tree().physics_frame
+			player.kick_collider.set_deferred("disabled", false)
 		player.Attack.DASH:
 			const DASH_ATTACK_SPEED_BOOST : float = 120
 			player.anim.play("dash_attack")
@@ -101,6 +104,8 @@ func enter(previous_state : String, _data : Dictionary = {}) -> void:
 
 
 func physics_update(delta : float) -> void:
+	var relative_direction : Vector2 = Vector2(direction.x * player.sprite.scale.x, direction.y)
+	player.kick_box.knockback = (relative_direction * power) + (power * di_power * player.input.direction)
 	match player.attack:
 		player.Attack.UP:
 			check_for_jump()

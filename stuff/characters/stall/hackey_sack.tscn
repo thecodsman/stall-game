@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cqojl1g04vwsm"]
+
+[ext_resource type="Script" uid="uid://ctq33tgoyv4ny" path="res://stuff/characters/stall/hackey_sack.gd" id="1_0oi8w"]
+[ext_resource type="Texture2D" uid="uid://bbx8je5i5xiiq" path="res://sprites/characters/stall/MISC/hackey-sack.png" id="1_x8vxm"]
+[ext_resource type="Script" uid="uid://b4yq6amnog6xr" path="res://scripts/components/hurtbox.gd" id="3_3wmey"]
+[ext_resource type="Script" uid="uid://wex10hck3ngd" path="res://scripts/hitbox.gd" id="4_w8apn"]
+[ext_resource type="PackedScene" uid="uid://cg4flosl1w4qt" path="res://stuff/hit_fx.tscn" id="5_w8apn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w8apn"]
+radius = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x8vxm"]
+radius = 3.0
+
+[node name="hackey-sack" type="CharacterBody2D" unique_id=1555356079]
+collision_layer = 0
+script = ExtResource("1_0oi8w")
+inactive_gravity = 90.0
+air_drag = 2.0
+inactive_spin_drag = 4.0
+
+[node name="rotate_node" type="Node2D" parent="." unique_id=1777168461]
+
+[node name="scale_node" type="Node2D" parent="rotate_node" unique_id=663394001]
+
+[node name="Sprite2D" type="Sprite2D" parent="rotate_node/scale_node" unique_id=1091993868]
+texture = ExtResource("1_x8vxm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1574708558]
+shape = SubResource("CircleShape2D_w8apn")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1499859532]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_3wmey")
+knockback_mult = 1.5
+metadata/_custom_type_script = "uid://b4yq6amnog6xr"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=492073701]
+shape = SubResource("CircleShape2D_x8vxm")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=846234389]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("4_w8apn")
+no_direction = true
+knockback = Vector2(25, 0)
+hit_fx_scene = ExtResource("5_w8apn")
+metadata/_custom_type_script = "uid://wex10hck3ngd"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=163148532]
+shape = SubResource("CircleShape2D_x8vxm")
+
+[connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]

@@ -9,7 +9,7 @@ signal new_ball_spawned()
 @export  var default_wall_shader : Material = Globals.default_wall_shader
 @onready var player_spawns       : Array[Node2D] = [$p1_spawn, $p2_spawn, $p3_spawn, $p4_spawn]
 @onready var ball_spawn          : Node2D        = $ball_spawn
-var player_scene      : PackedScene = preload("res://stuff/player.tscn")
+var player_scene      : PackedScene = preload("res://stuff/characters/stall/player.tscn")
 var ball_scene        : PackedScene = preload("res://stuff/bal.tscn")
 var score_line_scene  : PackedScene = preload("res://stuff/score_line.tscn")
 var score_line_height : float

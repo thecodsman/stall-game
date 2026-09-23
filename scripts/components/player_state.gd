@@ -6,7 +6,7 @@ var player : Player
 func check_for_special() -> bool:
 	var is_special_pressed : bool = player.input.is_joy_button_pressed(JOY_BUTTON_B)
 	if is_special_pressed || player.ball:
-		finished.emit("Stall")
+		finished.emit("SpecialServe")
 		return true
 	return false
 

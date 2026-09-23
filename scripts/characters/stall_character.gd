@@ -2,12 +2,15 @@ class_name StallCharacter extends Player
 
 @export var SLIDE_SPEED : float = 100.0
 @export var MAX_SLIDE_BOOST_SPEED : float = 300.0
+@export var MAX_HACKEYS : int = 2
 var slide_boost_strength : float = 0
 var is_ball_stalled : bool = false
 var ball : Ball
+var hackeys_out : int = 0
 @onready var ball_holder : Node2D = $Sprite2D/ball_holder
 @onready var stall_box : Area2D = $Sprite2D/stall_box
 @onready var state_machine : StateMachineComponent = $StateMachine
+@onready var kick_sfx : AudioStreamPlayer = $kick_sfx
 
 enum Attack {
 	NAIR,
@@ -114,7 +117,12 @@ func apply_ball_ownership(ball_path : NodePath) -> void:
 	ball.update_color(self_modulate, player_index)
 
 
-func _on_hit(obj : Node2D) -> void:
+func _on_hit(hurt : HurtBox) -> void:
+	var obj : Node2D = hurt.owner
+	kick_sfx.pitch_scale = randf_range(0.8, 1.2)
+	kick_sfx.play()
+	dashes = max(1,dashes)
+	jumps = max(1,jumps)
 	if obj is Ball:
 		handle_ball_hit(obj)
 	elif obj is Player:
@@ -125,10 +133,8 @@ func handle_ball_hit(_ball : Ball) -> void:
 	const freeze_frame_duration_mult : float = 0.005
 	time_scale = 0
 	_ball.time_scale = 0
-	dashes = max(1,dashes)
-	jumps = max(1,jumps)
 	var combo_mult : float = ((_ball.combo * _ball.COMBO_SPEED_MULT) ** 2) + 1
-	var duration : float = freeze_frame_duration_mult * kick_box.power * combo_mult
+	var duration : float = freeze_frame_duration_mult * kick_box.knockback.length() * combo_mult
 	sprite.shake(1, duration, 1)
 	_ball.sprite.shake(2, duration, 2)
 	await get_tree().create_timer(duration).timeout
@@ -141,8 +147,6 @@ func handle_player_hit(_player : Player) -> void:
 	const freeze_frame_duration_mult : float = 0.001
 	time_scale = 0
 	_player.time_scale = 0
-	dashes = max(1,dashes)
-	jumps = max(1,jumps)
 	var duration : float = freeze_frame_duration_mult * kick_box.power
 	sprite.shake(1, duration, 1)
 	_player.sprite.shake(2, duration, 2)
@@ -222,4 +226,3 @@ func _on_water_detector_water_exited() -> void:
 func _on_hurtbox_hurt(hit_stun: int, knockback: Vector2) -> void:
 	velocity += knockback
 	state_machine.state.finished.emit("HitStun", {"hit_stun_time" : hit_stun})
-

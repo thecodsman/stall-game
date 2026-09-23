@@ -35,6 +35,8 @@
 [ext_resource type="Script" uid="uid://g2sdufx7cu6n" path="res://scripts/states/stall/stall_kick.gd" id="22_pvedf"]
 [ext_resource type="Texture2D" uid="uid://bl55lrfkw1gl4" path="res://sprites/characters/stall/MOVEMENT/STALL-IDLE.png" id="26_ofi12"]
 [ext_resource type="Script" uid="uid://d0b2tuem82x6p" path="res://scripts/states/stall/hit_stun.gd" id="26_ptdy0"]
+[ext_resource type="Script" uid="uid://dx2eiikkredv7" path="res://scripts/states/stall/special_serve.gd" id="27_hvu3b"]
+[ext_resource type="PackedScene" uid="uid://cqojl1g04vwsm" path="res://stuff/characters/stall/hackey_sack.tscn" id="28_poxvi"]
 [ext_resource type="Texture2D" uid="uid://b4s5bcrjoj3md" path="res://sprites/characters/stall/MOVEMENT/STALL-BACKFLIP.png" id="31_dkcv3"]
 [ext_resource type="Texture2D" uid="uid://d3ihahftvoqx5" path="res://sprites/characters/stall/block.png" id="32_amlaw"]
 [ext_resource type="Texture2D" uid="uid://cv0i7g7cs87y0" path="res://sprites/characters/stall/MOVES/STALL-BAIR.png" id="32_n5mfw"]
@@ -62,10 +64,16 @@
 [ext_resource type="Texture2D" uid="uid://cqjdjwedf1l34" path="res://sprites/characters/stall/MOVES/STALL-UAIR.png" id="49_kw564"]
 [ext_resource type="Texture2D" uid="uid://cywhpo2fo8wjp" path="res://sprites/characters/stall/MOVEMENT/STALL-WALK.png" id="50_qyudg"]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tnfj0"]
+playback_mode = 1
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("4_pbn0x")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
 
-[sub_resource type="Gradient" id="Gradient_4u6wc"]
+[sub_resource type="Gradient" id="Gradient_poxvi"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -74,12 +82,6 @@ colors = PackedColorArray(1, 1, 1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pbn0x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tnfj0"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tnfj0"]
-playback_mode = 1
-random_pitch = 1.2
-streams_count = 1
-stream_0/stream = ExtResource("4_pbn0x")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b0gpc"]
 radius = 6.0
@@ -200,6 +202,18 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [1.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Sprite2D/kick_box:knockback")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -30)]
 }
 
 [sub_resource type="Animation" id="Animation_0w8vm"]
@@ -1100,7 +1114,7 @@ tracks/5/keys = {
 }
 tracks/6/type = "value"
 tracks/6/imported = false
-tracks/6/enabled = true
+tracks/6/enabled = false
 tracks/6/path = NodePath("Sprite2D/kick_box:power")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
@@ -1109,6 +1123,18 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [30.0, 1.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprite2D/kick_box:knockback")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.083333336, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -30), Vector2(0, -1)]
 }
 
 [sub_resource type="Animation" id="Animation_xoaqs"]
@@ -2021,6 +2047,9 @@ vertical_alignment = 1
 script = ExtResource("3_pvedf")
 state_machine = NodePath("../StateMachine")
 
+[node name="kick_sfx" type="AudioStreamPlayer" parent="." unique_id=75147931]
+stream = SubResource("AudioStreamRandomizer_tnfj0")
+
 [node name="Input" type="Node" parent="." unique_id=1796739218]
 script = ExtResource("9_xoaqs")
 ABuffer = 12
@@ -2130,6 +2159,12 @@ metadata/_custom_type_script = "uid://cfeckji55nvtw"
 script = ExtResource("26_ptdy0")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
+[node name="SpecialServe" type="Node" parent="StateMachine" unique_id=1133732992]
+script = ExtResource("27_hvu3b")
+hackey_scene = ExtResource("28_poxvi")
+serve_power = 65.0
+metadata/_custom_type_script = "uid://cfeckji55nvtw"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335067069]
 visible = false
 position = Vector2(0, 2)
@@ -2137,7 +2172,7 @@ shape = SubResource("CircleShape2D_7defb")
 
 [node name="trail_fx" parent="." unique_id=1543670750 node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
 z_index = -1
-gradient = SubResource("Gradient_4u6wc")
+gradient = SubResource("Gradient_poxvi")
 target = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=207018791]
@@ -2152,22 +2187,18 @@ position = Vector2(5, 0)
 
 [node name="kick_box" type="Area2D" parent="Sprite2D" unique_id=144707842 node_paths=PackedStringArray("input", "player")]
 position = Vector2(2, 0)
-collision_layer = 256
+collision_layer = 0
 collision_mask = 6
 script = ExtResource("3_xc1ee")
 input = NodePath("../../Input")
 player = NodePath("../..")
-direction = Vector2(0.9, 0.1)
-power = 1.0
+knockback = Vector2(0, -30)
 hit_stun = 60
 hit_fx_scene = ExtResource("4_wvly4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/kick_box" unique_id=1257386779]
 shape = SubResource("CircleShape2D_tnfj0")
 disabled = true
-
-[node name="kick_sfx" type="AudioStreamPlayer" parent="Sprite2D/kick_box" unique_id=75147931]
-stream = SubResource("AudioStreamRandomizer_tnfj0")
 
 [node name="stall_box" type="Area2D" parent="Sprite2D" unique_id=871966774]
 visible = false
@@ -2239,8 +2270,6 @@ replication_config = SubResource("SceneReplicationConfig_b0gpc")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_j1eso")
 
-[connection signal="area_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_area_entered"]
-[connection signal="body_entered" from="Sprite2D/kick_box" to="Sprite2D/kick_box" method="_on_body_entered"]
 [connection signal="body_entered" from="Sprite2D/stall_box" to="StateMachine/Stall" method="_on_stall_box_body_entered"]
 [connection signal="hurt" from="Sprite2D/hurtbox" to="." method="_on_hurtbox_hurt"]
 [connection signal="visibility_changed" from="block" to="block" method="_on_visibility_changed"]
