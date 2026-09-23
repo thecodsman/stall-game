@@ -2163,6 +2163,9 @@ metadata/_custom_type_script = "uid://cfeckji55nvtw"
 script = ExtResource("27_hvu3b")
 hackey_scene = ExtResource("28_poxvi")
 serve_power = 65.0
+side_serve_vel = Vector2(50, -15)
+up_serve_vel = Vector2(0, -55)
+down_serve_vel = Vector2(0, 45)
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335067069]

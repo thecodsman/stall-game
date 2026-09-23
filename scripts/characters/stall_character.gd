@@ -147,7 +147,7 @@ func handle_player_hit(_player : Player) -> void:
 	const freeze_frame_duration_mult : float = 0.001
 	time_scale = 0
 	_player.time_scale = 0
-	var duration : float = freeze_frame_duration_mult * kick_box.power
+	var duration : float = freeze_frame_duration_mult * kick_box.knockback.length()
 	sprite.shake(1, duration, 1)
 	_player.sprite.shake(2, duration, 2)
 	await get_tree().create_timer(duration).timeout

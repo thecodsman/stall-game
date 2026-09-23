@@ -2,12 +2,28 @@ extends PlayerState
 
 @export var hackey_scene : PackedScene
 @export var serve_power : float
+@export_group("serves")
+@export var side_serve_vel : Vector2
+@export var up_serve_vel : Vector2
+@export var down_serve_vel : Vector2
 
 
 func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 	player.anim.play("stall_kick")
+	var input_dir : float = (player.input.direction * Vector2(player.sprite.scale.x, 1)).angle()
+	var serve_vel : Vector2
+	if player.input.direction.length() <= player.input.NeutralZone:
+		await player.anim.animation_finished
+		finished.emit("Idle")
+		return
+	elif abs(angle_difference(input_dir, 0)) < PI/4:
+		serve_vel = side_serve_vel * Vector2(player.sprite.scale.x, 1)
+	elif absf(angle_difference(input_dir, PI/2)) < PI/4:
+		serve_vel = down_serve_vel
+	elif absf(angle_difference(input_dir, -PI/2)) < PI/4:
+		serve_vel = up_serve_vel
 	var hackey_sack : CharacterBody2D = hackey_scene.instantiate()
-	hackey_sack.velocity = Vector2(0, -serve_power)
+	hackey_sack.velocity = serve_vel
 	hackey_sack.global_position = player.global_position
 	hackey_sack.modulate = Globals.current_player_colors[player.player_index - 1]
 	if player.hackeys_out < player.MAX_HACKEYS:

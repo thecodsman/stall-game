@@ -110,7 +110,7 @@ func _on_hurt_box_hurt(hit: HitBox) -> void:
 	if hit.owner is Ball and is_active:
 		await get_tree().physics_frame
 		is_active = false
-	elif hit.owner is Player and not is_active:
+	elif hit.owner is Player and not is_active and hit.owner == player:
 		hurtbox.apply_knockback = true
 		hurtbox.hit_fx = true
 		await get_tree().physics_frame
