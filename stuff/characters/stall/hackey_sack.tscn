@@ -13,7 +13,7 @@ radius = 1.0
 radius = 3.0
 
 [node name="hackey-sack" type="CharacterBody2D" unique_id=1555356079]
-collision_layer = 0
+collision_layer = 4
 script = ExtResource("1_0oi8w")
 inactive_gravity = 90.0
 air_drag = 2.0

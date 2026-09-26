@@ -399,4 +399,3 @@ func apply_ball_ownership(player : Player, hit : HitBox) -> void :
 		scorrable = false
 		Globals.score_line.deactivate()
 	update_color(player.self_modulate, player.player_index)
-

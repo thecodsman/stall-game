@@ -2,6 +2,7 @@ extends PlayerState
 
 @export var hackey_scene : PackedScene
 @export var serve_power : float
+@export var hackey_catch_collider : CollisionShape2D 
 @export_group("serves")
 @export var side_serve_vel : Vector2
 @export var up_serve_vel : Vector2
@@ -13,6 +14,7 @@ func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 	var input_dir : float = (player.input.direction * Vector2(player.sprite.scale.x, 1)).angle()
 	var serve_vel : Vector2
 	if player.input.direction.length() <= player.input.NeutralZone:
+		hackey_catch_collider.set_deferred("disabled", false)
 		await player.anim.animation_finished
 		finished.emit("Idle")
 		return
@@ -37,3 +39,6 @@ func enter(_previous_state : String, _data : Dictionary = {}) -> void:
 func physics_update(delta : float) -> void:
 	if player.is_on_floor(): player.velocity.x = lerpf(player.velocity.x, 0, player.FRICTION*delta)
 	player.apply_gravity(delta)
+
+func exit() -> void:
+	hackey_catch_collider.set_deferred("disabled", true)

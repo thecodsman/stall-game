@@ -14,7 +14,7 @@ func _on_body_entered(obj:Node2D) -> void:
 
 
 func handle_ball_collision(ball : Ball) -> void:
-	if ball.server != null: return ## if the ball is not in play dont do anything
+	if ball.state == ball.State.INACTIVE: return
 	blocked.emit(ball)
 	if not is_multiplayer_authority(): return
 	block_ball.rpc(ball.get_path())

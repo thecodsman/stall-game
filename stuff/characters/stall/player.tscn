@@ -63,6 +63,7 @@
 [ext_resource type="Texture2D" uid="uid://bkk3ishvkkes8" path="res://sprites/characters/stall/MOVES/STALL-UTILT.png" id="48_fvoql"]
 [ext_resource type="Texture2D" uid="uid://cqjdjwedf1l34" path="res://sprites/characters/stall/MOVES/STALL-UAIR.png" id="49_kw564"]
 [ext_resource type="Texture2D" uid="uid://cywhpo2fo8wjp" path="res://sprites/characters/stall/MOVEMENT/STALL-WALK.png" id="50_qyudg"]
+[ext_resource type="Script" uid="uid://doieb8d6r2k3q" path="res://stuff/characters/stall/hackey_catcher.gd" id="64_bpbr6"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tnfj0"]
 playback_mode = 1
@@ -2000,6 +2001,9 @@ properties/11/replication_mode = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_j1eso"]
 radius = 1.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_rhff8"]
+radius = 6.0
+
 [node name="player" type="CharacterBody2D" unique_id=1489954870 node_paths=PackedStringArray("input", "anim", "sprite", "trail", "kick_collider", "kick_box", "jump_sfx")]
 collision_layer = 2
 collision_mask = 9
@@ -2159,13 +2163,14 @@ metadata/_custom_type_script = "uid://cfeckji55nvtw"
 script = ExtResource("26_ptdy0")
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
-[node name="SpecialServe" type="Node" parent="StateMachine" unique_id=1133732992]
+[node name="SpecialServe" type="Node" parent="StateMachine" unique_id=1133732992 node_paths=PackedStringArray("hackey_catch_collider")]
 script = ExtResource("27_hvu3b")
 hackey_scene = ExtResource("28_poxvi")
 serve_power = 65.0
-side_serve_vel = Vector2(50, -15)
-up_serve_vel = Vector2(0, -55)
-down_serve_vel = Vector2(0, 45)
+hackey_catch_collider = NodePath("../../hackey_catcher/CollisionShape2D")
+side_serve_vel = Vector2(80, -20)
+up_serve_vel = Vector2(0, -80)
+down_serve_vel = Vector2(0, 90)
 metadata/_custom_type_script = "uid://cfeckji55nvtw"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=335067069]
@@ -2273,9 +2278,20 @@ replication_config = SubResource("SceneReplicationConfig_b0gpc")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_j1eso")
 
+[node name="hackey_catcher" type="Area2D" parent="." unique_id=568202185]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("64_bpbr6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hackey_catcher" unique_id=730721530]
+position = Vector2(6, 0)
+shape = SubResource("CircleShape2D_rhff8")
+disabled = true
+
 [connection signal="body_entered" from="Sprite2D/stall_box" to="StateMachine/Stall" method="_on_stall_box_body_entered"]
 [connection signal="hurt" from="Sprite2D/hurtbox" to="." method="_on_hurtbox_hurt"]
 [connection signal="visibility_changed" from="block" to="block" method="_on_visibility_changed"]
 [connection signal="body_entered" from="block/block_sprite/Area2D" to="block" method="_on_body_entered"]
 [connection signal="water_entered" from="water_detector" to="." method="_on_water_detector_water_entered"]
 [connection signal="water_exited" from="water_detector" to="." method="_on_water_detector_water_exited"]
+[connection signal="body_entered" from="hackey_catcher" to="hackey_catcher" method="_on_body_entered"]
