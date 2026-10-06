@@ -58,11 +58,15 @@
 [ext_resource type="Texture2D" uid="uid://dqr1h8dj7o0fm" path="res://sprites/characters/stall/MOVEMENT/STALL-INITDASH.png" id="44_eovm7"]
 [ext_resource type="Texture2D" uid="uid://cnu8xk0vd7px4" path="res://sprites/characters/stall/MOVES/STALL-FTILT.png" id="45_xyr3u"]
 [ext_resource type="Texture2D" uid="uid://bnmsawaw5xo0o" path="res://sprites/characters/stall/MOVES/STALL-HITSTUN.png" id="46_3c718"]
+[ext_resource type="Texture2D" uid="uid://b8rrju82pfvjl" path="res://sprites/characters/stall/MOVES/STALL-DOWNSPECIAL.png" id="46_ankqa"]
 [ext_resource type="Texture2D" uid="uid://vfoj6mguxo5l" path="res://sprites/characters/stall/MOVES/STALL-SPECIAL.png" id="46_xyr3u"]
 [ext_resource type="Texture2D" uid="uid://fhvkar7naxoi" path="res://sprites/characters/stall/MOVEMENT/STALL-TURNAROUND.png" id="47_wat77"]
 [ext_resource type="Texture2D" uid="uid://bkk3ishvkkes8" path="res://sprites/characters/stall/MOVES/STALL-UTILT.png" id="48_fvoql"]
 [ext_resource type="Texture2D" uid="uid://cqjdjwedf1l34" path="res://sprites/characters/stall/MOVES/STALL-UAIR.png" id="49_kw564"]
 [ext_resource type="Texture2D" uid="uid://cywhpo2fo8wjp" path="res://sprites/characters/stall/MOVEMENT/STALL-WALK.png" id="50_qyudg"]
+[ext_resource type="Texture2D" uid="uid://c3737eaeonxgh" path="res://sprites/characters/stall/MOVES/STALL-NUETRALSPECIAL.png" id="52_ievok"]
+[ext_resource type="Texture2D" uid="uid://dmjvxyvc6l7k0" path="res://sprites/characters/stall/MOVES/STALL-SIDESPECIAL.png" id="57_w8die"]
+[ext_resource type="Texture2D" uid="uid://di76kcurwqf8r" path="res://sprites/characters/stall/MOVES/STALL-UPSPECIAL.png" id="60_evxff"]
 [ext_resource type="Script" uid="uid://doieb8d6r2k3q" path="res://stuff/characters/stall/hackey_catcher.gd" id="64_bpbr6"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tnfj0"]
@@ -74,7 +78,7 @@ stream_0/stream = ExtResource("4_pbn0x")
 [sub_resource type="CircleShape2D" id="CircleShape2D_7defb"]
 radius = 3.0
 
-[sub_resource type="Gradient" id="Gradient_poxvi"]
+[sub_resource type="Gradient" id="Gradient_ievok"]
 resource_local_to_scene = true
 interpolation_mode = 1
 offsets = PackedFloat32Array(0)
@@ -724,6 +728,47 @@ tracks/4/keys = {
 "values": [1]
 }
 
+[sub_resource type="Animation" id="Animation_evxff"]
+resource_name = "down_special"
+length = 0.26667334724143144
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("46_ankqa")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="Animation" id="Animation_js44p"]
 resource_name = "fair"
 length = 0.416675
@@ -1215,6 +1260,47 @@ tracks/5/keys = {
 "values": [4]
 }
 
+[sub_resource type="Animation" id="Animation_w8die"]
+resource_name = "neutral_special"
+length = 0.26667334724143144
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("52_ievok")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="Animation" id="Animation_rh03w"]
 resource_name = "on_wall"
 length = 0.25000417
@@ -1469,6 +1555,47 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_run0g"]
+resource_name = "side_special"
+length = 0.26667334724143144
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("57_w8die")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
 }
 
 [sub_resource type="Animation" id="Animation_j6qpu"]
@@ -1758,6 +1885,47 @@ tracks/4/keys = {
 "values": [4]
 }
 
+[sub_resource type="Animation" id="Animation_85gwb"]
+resource_name = "up_special"
+length = 0.26667334724143144
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("60_evxff")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="Animation" id="Animation_sh4aw"]
 resource_name = "up_air"
 length = 0.3333417
@@ -1907,6 +2075,7 @@ _data = {
 &"dash": SubResource("Animation_wvly4"),
 &"dash_attack": SubResource("Animation_pi8yy"),
 &"down_attack": SubResource("Animation_2e1h1"),
+&"down_special": SubResource("Animation_evxff"),
 &"fair": SubResource("Animation_js44p"),
 &"fall": SubResource("Animation_pbn0x"),
 &"hitstun": SubResource("Animation_8ejjw"),
@@ -1916,17 +2085,20 @@ _data = {
 &"landing": SubResource("Animation_5yug2"),
 &"nair": SubResource("Animation_1nv4k"),
 &"neutral_attack": SubResource("Animation_xoaqs"),
+&"neutral_special": SubResource("Animation_w8die"),
 &"on_wall": SubResource("Animation_rh03w"),
 &"rise": SubResource("Animation_yi3w4"),
 &"run": SubResource("Animation_b0gpc"),
 &"run_dash": SubResource("Animation_1fg0o"),
 &"side_attack": SubResource("Animation_w7jsf"),
+&"side_special": SubResource("Animation_run0g"),
 &"skid": SubResource("Animation_j6qpu"),
 &"stall": SubResource("Animation_2eir2"),
 &"stall_kick": SubResource("Animation_68hwx"),
 &"super_slide": SubResource("Animation_cw3q5"),
 &"turn_around": SubResource("Animation_uheho"),
 &"up_attack": SubResource("Animation_a2eoa"),
+&"up_special": SubResource("Animation_85gwb"),
 &"upair": SubResource("Animation_sh4aw"),
 &"walk": SubResource("Animation_j1eso")
 }
@@ -2180,7 +2352,7 @@ shape = SubResource("CircleShape2D_7defb")
 
 [node name="trail_fx" parent="." unique_id=1543670750 node_paths=PackedStringArray("target") instance=ExtResource("2_yi3w4")]
 z_index = -1
-gradient = SubResource("Gradient_poxvi")
+gradient = SubResource("Gradient_ievok")
 target = NodePath("..")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=207018791]

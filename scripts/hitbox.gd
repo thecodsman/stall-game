@@ -2,6 +2,11 @@ class_name HitBox extends Area2D
 
 signal hit(hurt : HurtBox)
 
+@export var active : bool = true :
+	set(_active):
+		active = _active
+		if not collider: return
+		collider.set_deferred("disabled", !active)
 @export var data : Dictionary
 @export var input : PlayerInput
 @export var player : Player
@@ -14,7 +19,6 @@ signal hit(hurt : HurtBox)
 @export var use_hit_fx : bool = true
 @export var hit_fx_scene : PackedScene
 @export_group("")
-@export var active : bool = true
 @onready var collider : CollisionShape2D = $CollisionShape2D
 var can_cancel : bool = false
 var ball_damage : float :

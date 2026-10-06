@@ -10,19 +10,23 @@ extends PlayerState
 
 
 func enter(_previous_state : String, _data : Dictionary = {}) -> void:
-	player.anim.play("stall_kick")
+	#player.anim.play("stall_kick")
 	var input_dir : float = (player.input.direction * Vector2(player.sprite.scale.x, 1)).angle()
 	var serve_vel : Vector2
 	if player.input.direction.length() <= player.input.NeutralZone:
 		hackey_catch_collider.set_deferred("disabled", false)
+		player.anim.play("neutral_special")
 		await player.anim.animation_finished
 		finished.emit("Idle")
 		return
 	elif abs(angle_difference(input_dir, 0)) < PI/4:
+		player.anim.play("side_special")
 		serve_vel = side_serve_vel * Vector2(player.sprite.scale.x, 1)
 	elif absf(angle_difference(input_dir, PI/2)) < PI/4:
+		player.anim.play("down_special")
 		serve_vel = down_serve_vel
 	elif absf(angle_difference(input_dir, -PI/2)) < PI/4:
+		player.anim.play("up_special")
 		serve_vel = up_serve_vel
 	var hackey_sack : CharacterBody2D = hackey_scene.instantiate()
 	hackey_sack.velocity = serve_vel

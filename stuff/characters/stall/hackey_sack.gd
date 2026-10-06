@@ -9,8 +9,9 @@ extends CharacterBody2D
 @export var inactive_spin_drag : float = 2
 @export var power : float = 25
 @export var visible_spin_mult : float = 20
-@export var max_active_time : float = 15
-@export var max_inactive_time : float = 2.5
+@export var max_active_time : float
+@export var max_inactive_time : float
+@export var arming_time : float
 @export var active_time_till_blinky : float = 12
 @export var inactive_time_till_blinky : float = 1.5
 @onready var hitbox : HitBox = $HitBox
@@ -19,15 +20,17 @@ extends CharacterBody2D
 @onready var sprite_s : Node2D = $rotate_node/scale_node
 @onready var sprite : Sprite2D = $rotate_node/scale_node/Sprite2D
 var spin : float = 0
+var arming_timer : Timer = Timer.new()
 var active_timer : Timer = Timer.new()
 var destroy_timer : Timer = Timer.new()
 var blinky_timer : Timer = Timer.new()
 var blinky_tween : Tween
-var is_active : bool :
+var is_active : bool = true :
 	set(active):
 		is_active = active
 		if active:
 			hitbox.active = true
+			hurtbox.active = true
 			hurtbox.apply_knockback = true
 			hurtbox.hit_fx = true
 			sprite_r.rotation = 0
@@ -56,7 +59,8 @@ var player : Player :
 
 
 func _ready() -> void:
-	spin = randf_range(-2, 2)
+	modulate = Globals.GRAY
+	spin = randf_range(-1, 1)
 	destroy_timer.one_shot = true
 	destroy_timer.wait_time = max_inactive_time
 	destroy_timer.timeout.connect(_on_destroy_timer_timeout)
@@ -69,6 +73,11 @@ func _ready() -> void:
 	active_timer.wait_time = max_active_time
 	active_timer.timeout.connect(_on_active_timer_timeout)
 	add_child(active_timer)
+	arming_timer.one_shot = true
+	arming_timer.wait_time = arming_time
+	add_child(arming_timer)
+	arming_timer.start()
+	await arming_timer.timeout
 	is_active = true
 
 
@@ -87,7 +96,6 @@ func _physics_process(delta: float) -> void:
 		else:
 			var width  : float = clampf(velocity.length() * 0.035, 1, 2)
 			var height : float = 1/width
-			#var angle  : float = wrapf(velocity.angle(), -PI/2, PI/2)
 			sprite_s.scale = Vector2(width, height)
 			sprite_r.rotation = velocity.angle()
 	velocity = velocity.lerp(Vector2.ZERO, air_drag * delta)
